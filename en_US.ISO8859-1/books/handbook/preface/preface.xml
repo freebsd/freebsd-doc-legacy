@@ -572,12 +572,6 @@
 	&os;.</para>
       </listitem>
     </varlistentry>
-    <varlistentry>
-      <term><emphasis><xref linkend="pgpkeys"/>, PGP Keys</emphasis></term>
-      <listitem>
-	<para>Lists the PGP fingerprints of several &os; Developers.</para>
-      </listitem>
-    </varlistentry>
   </variablelist>
 
   <bridgehead id="preface-conv" renderas="sect1">Conventions used
