@@ -941,6 +941,11 @@
       &pgpkey.laszlof;
     </sect2>
 
+    <sect2 id="pgpkey-dru">
+      <title>&a.dru;</title>
+      &pgpkey.dru;
+    </sect2>
+
     <sect2 id="pgpkey-lawrance">
       <title>&a.lawrance;</title>
       &pgpkey.lawrance;
@@ -986,6 +991,11 @@
       &pgpkey.lesi;
     </sect2>
 
+    <sect2 id="pgpkey-achim">
+      <title>&a.achim;</title>
+      &pgpkey.achim;
+    </sect2>
+
     <sect2 id="pgpkey-cel">
       <title>&a.cel;</title>
       &pgpkey.cel;
@@ -1019,6 +1029,11 @@
     <sect2 id="pgpkey-clive">
       <title>&a.clive;</title>
       &pgpkey.clive;
+    </sect2>
+
+    <sect2 id="pgpkey-pclin"> 
+      <title>&a.pclin;</title>
+      &pgpkey.pclin;
     </sect2>
 
     <sect2 id="pgpkey-yzlin">
@@ -1779,11 +1794,6 @@
     <sect2 id="pgpkey-flz">
       <title>&a.flz;</title>
       &pgpkey.flz;
-    </sect2>
-
-    <sect2 id="pgpkey-yar">
-      <title>&a.yar;</title>
-      &pgpkey.yar;
     </sect2>
 
     <sect2 id="pgpkey-jilles">

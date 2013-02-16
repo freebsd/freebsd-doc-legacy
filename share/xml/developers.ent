@@ -14,6 +14,7 @@ $FreeBSD$
 <!ENTITY a.aaron "Aaron Dalton">
 <!ENTITY a.abial "Andrzej Bialecki">
 <!ENTITY a.ache "Andrey A. Chernov">
+<!ENTITY a.achim "Achim Leubner">
 <!ENTITY a.acm "Jos&eacute; Alonso C&aacute;rdenas M&aacute;rquez">
 <!ENTITY a.adam "Adam David">
 <!ENTITY a.adamw "Adam Weinberger">
@@ -175,6 +176,7 @@ $FreeBSD$
 <!ENTITY a.dirk "Dirk Fr&ouml;mberg">
 <!ENTITY a.dmarion "Damjan Marion">
 <!ENTITY a.dmlb "Duncan Barclay">
+<!ENTITY a.dru "Dru Lavigne">
 <!ENTITY a.dryice "Dryice Liu">
 <!ENTITY a.dt "Dmitrij Tejblum">
 <!ENTITY a.dteske "Devin Teske">
@@ -352,6 +354,7 @@ $FreeBSD$
 <!ENTITY a.kjc "Kenjiro Cho">
 <!ENTITY a.kmacy "Kip Macy">
 <!ENTITY a.kmoore "Kris Moore">
+<!ENTITY a.koobs "Kubilay Kocak">
 <!ENTITY a.knu "Akinori MUSHA">
 <!ENTITY a.koitsu "Jeremy Chadwick">
 <!ENTITY a.krion "Kirill Ponomarew">
@@ -490,6 +493,7 @@ $FreeBSD$
 <!ENTITY a.pav "Pav Lucistnik">
 <!ENTITY a.pawel "Pawel Pekala">
 <!ENTITY a.pb "Pierre Beyssac">
+<!ENTITY a.pclin "Po-Chien Lin">
 <!ENTITY a.pdeuskar "Prafulla S. Deuskar">
 <!ENTITY a.pds "Peter da Silva">
 <!ENTITY a.peadar "Peter Edwards">
