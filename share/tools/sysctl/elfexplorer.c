@@ -65,6 +65,17 @@ elfx_compare_sections_by_addr(const void *ap, const void *bp)
 }
 
 /*
+ * Compare two symbols by their names.
+ */
+static int
+elfx_compare_symbols_by_name(const void *ap, const void *bp)
+{
+	const elfx_symbol *a = ap, *b = bp;
+
+	return (strcmp(a->name, b->name));
+}
+
+/*
  * Free memory that was allocated to store information about sections.
  */
 static void
@@ -99,17 +110,18 @@ static int
 elfx_load_sections(elfx_file *ef)
 {
 	elfx_section *es;
-	size_t sections_size;
+	size_t size;
 
 	/* get translated ELF header */
 	if (gelf_getehdr(ef->elf, &ef->hdr) == NULL)
 		goto elf_error;
 	/* get number of sections in file */
-	if (elf_getshdrnum(ef->elf, &ef->nsections) != ELF_E_NONE)
+	if (elf_getshdrnum(ef->elf, &size) != ELF_E_NONE)
 		goto elf_error;
-	sections_size = ef->nsections * sizeof *ef->sections;
-	if ((ef->sections = calloc(sections_size, 1)) == NULL)
-		goto mem_error;
+	ef->nsections = size;
+	size *= sizeof *ef->sections;
+	if ((ef->sections = calloc(size, 1)) == NULL)
+		return (-1);
 	verbose("%4s %4s %8s %8s %s", "sect", "type", "start", "size", "name");
 	/* iterate over sections */
 	for (unsigned int i = 0; i < ef->nsections; ++i) {
@@ -145,23 +157,50 @@ elfx_load_sections(elfx_file *ef)
 		}
 	}
 	/* create copy of section list, sorted by name */
-	if ((ef->sections_by_name = calloc(sections_size, 1)) == NULL)
-		goto mem_error;
-	memcpy(ef->sections_by_name, ef->sections, sections_size);
+	if ((ef->sections_by_name = calloc(size, 1)) == NULL)
+		return (-1);
+	memcpy(ef->sections_by_name, ef->sections, size);
 	mergesort(ef->sections_by_name, ef->nsections,
 	    sizeof *ef->sections_by_name, elfx_compare_sections_by_name);
 	/* create copy of section list, sorted by address */
-	if ((ef->sections_by_addr = calloc(sections_size, 1)) == NULL)
-		goto mem_error;
-	memcpy(ef->sections_by_addr, ef->sections, sections_size);
+	if ((ef->sections_by_addr = calloc(size, 1)) == NULL)
+		return (-1);
+	memcpy(ef->sections_by_addr, ef->sections, size);
 	mergesort(ef->sections_by_addr, ef->nsections,
 	    sizeof *ef->sections_by_addr, elfx_compare_sections_by_addr);
 	return (ef->nsections);
 elf_error:
 	info("%s: %s", ef->path, elf_errmsg(elf_errno()));
-mem_error:
-	elfx_free_sections(ef);
 	return (-1);
+}
+
+/*
+ * Retrieve and sort the symbol table.
+ */
+static int
+elfx_load_symbols(elfx_file *ef)
+{
+	elfx_section *symtab;
+	GElf_Sym sym;
+	size_t size;
+
+	if ((symtab = elfx_get_section_by_name(ef, ".symtab")) == NULL)
+		return (-1);
+	ef->nsymbols = size = symtab->hdr.sh_size / symtab->hdr.sh_entsize;
+	size *= sizeof *ef->symbols;
+	if ((ef->symbols = calloc(size, 1)) == NULL)
+		return (-1);
+	for (unsigned int i = 0; i < ef->nsymbols; ++i) {
+		gelf_getsym(symtab->data, i, &sym);
+		ef->symbols[i].file = ef;
+		ef->symbols[i].name = elf_strptr(ef->elf, symtab->hdr.sh_link,
+		    sym.st_name);
+		ef->symbols[i].addr = sym.st_value;
+		ef->symbols[i].size = sym.st_size;
+	}
+	mergesort(ef->symbols, ef->nsymbols, sizeof *ef->symbols,
+	    elfx_compare_symbols_by_name);
+	return (0);
 }
 
 /*
@@ -190,6 +229,8 @@ elfx_open(const char *path)
 	if (elf_kind(ef->elf) != ELF_K_ELF)
 		goto fail;
 	if (elfx_load_sections(ef) < 0)
+		goto fail;
+	if (elfx_load_symbols(ef) < 0)
 		goto fail;
 	return (ef);
 fail:
@@ -226,6 +267,9 @@ elfx_get_section_by_name(elfx_file *ef, const char *name)
 	int lo, hi, mid;
 	int cmp;
 
+	if (ef->last_section_by_name != 0 &&
+	    strcmp(name, ef->last_section_by_name->name) == 0)
+		return (ef->last_section_by_name);
 	es = ef->sections_by_name;
 	lo = 0;
 	hi = ef->nsections - 1;
@@ -234,7 +278,7 @@ elfx_get_section_by_name(elfx_file *ef, const char *name)
 //		verbose("(%d, %d, %d) %s == %s",
 //		    lo, hi, mid, es[mid].name, name);
 		if ((cmp = strcmp(name, es[mid].name)) == 0)
-			return (&es[mid]);
+			return (ef->last_section_by_name = &es[mid]);
 		else if (lo == hi)
 			return (NULL);
 		else if (cmp < 0)
@@ -248,13 +292,15 @@ elfx_get_section_by_name(elfx_file *ef, const char *name)
  * Retrieve the section that contains a specified address.
  */
 elfx_section *
-elfx_get_section_by_addr(elfx_file *ef, uintptr_t addr, elfx_section *hint)
+elfx_get_section_by_addr(elfx_file *ef, uintptr_t addr)
 {
 	elfx_section *es;
 	int lo, hi, mid;
 
-	if (hint != NULL && hint->baddr <= addr && addr <= hint->eaddr)
-		return (hint);
+	if (ef->last_section_by_addr != NULL &&
+	    ef->last_section_by_addr->baddr <= addr &&
+	    addr <= ef->last_section_by_addr->eaddr)
+		return (ef->last_section_by_addr);
 	es = ef->sections_by_addr;
 	lo = 0;
 	hi = ef->nsections - 1;
@@ -263,7 +309,7 @@ elfx_get_section_by_addr(elfx_file *ef, uintptr_t addr, elfx_section *hint)
 //		verbose("(%d, %d, %d) %08x <= %08x <= %08x", lo, mid, hi,
 //		    es[mid].baddr, addr, es[mid].eaddr);
 		if (es[mid].baddr <= addr && addr <= es[mid].eaddr)
-			return (&es[mid]);
+			return (ef->last_section_by_addr = &es[mid]);
 		else if (lo == hi)
 			return (NULL);
 		else if (addr < es[mid].baddr)
@@ -274,30 +320,45 @@ elfx_get_section_by_addr(elfx_file *ef, uintptr_t addr, elfx_section *hint)
 }
 
 /*
- * Look up a symbol in the symbol table
+ * Return a pointer to the data at the specified address.
  */
-uintptr_t
-elfx_get_symbol(elfx_file *ef, const char *name)
+void *
+elfx_get_data(elfx_file *ef, uintptr_t addr)
 {
-	elfx_section *symtab;
-	GElf_Sym sym;
-	int nsyms;
-	char *symname;
+	elfx_section *es;
 
-	/* XXX cache symtab */
-	if ((symtab = elfx_get_section_by_name(ef, ".symtab")) == NULL)
-		return (0);
-	nsyms = symtab->hdr.sh_size / symtab->hdr.sh_entsize;
-	for (int i = 0; i < nsyms; ++i) {
-		gelf_getsym(symtab->data, i, &sym);
-		if ((symname = elf_strptr(ef->elf, symtab->hdr.sh_link,
-		    sym.st_name)) != NULL) {
-//			verbose("%08x %s", sym.st_value, symname);
-			if (strcmp(symname, name) == 0) {
-//				verbose("found %s at %08x", name, sym.st_value);
-				return (sym.st_value);
-			}
-		}
+	if ((es = elfx_get_section_by_addr(ef, addr)) == NULL)
+		return (NULL);
+	return ((char *)es->ptr + addr - es->baddr);
+}
+
+/*
+ * Look up a symbol by name.
+ */
+elfx_symbol *
+elfx_get_symbol_by_name(elfx_file *ef, const char *name)
+{
+	elfx_symbol *es;
+	int lo, hi, mid;
+	int cmp;
+
+	if (ef->last_symbol_by_name != 0 &&
+	    strcmp(name, ef->last_symbol_by_name->name) == 0)
+		return (ef->last_symbol_by_name);
+	es = ef->symbols;
+	lo = 0;
+	hi = ef->nsymbols - 1;
+	for (;;) {
+		mid = (lo + hi) / 2;
+//		verbose("(%d, %d, %d) %s == %s",
+//		    lo, hi, mid, es[mid].name, name);
+		if ((cmp = strcmp(name, es[mid].name)) == 0)
+			return (ef->last_symbol_by_name = &es[mid]);
+		else if (lo == hi)
+			return (NULL);
+		else if (cmp < 0)
+			hi = mid - 1;
+		else
+			lo = mid + 1;
 	}
-	return (0);
 }

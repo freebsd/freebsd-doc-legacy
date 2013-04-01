@@ -80,18 +80,13 @@ process_file(const char *path)
 {
 	elfx_file *ef;
 	elfx_section *sect;
+	elfx_symbol *rootsym;
 	unsigned int nsysctls;
 	struct sysctl_oid_list *sysctl_root;
 	struct sysctl_oid *oid, **oids;
-	uintptr_t rootaddr;
 
 	if ((ef = elfx_open(path)) == NULL)
 		return (-1);
-	/* find the root list */
-	rootaddr = elfx_get_symbol(ef, "sysctl__children");
-	sect = elfx_get_section_by_addr(ef, rootaddr, NULL);
-	assert(sect != NULL);
-	sysctl_root = elfx_get_data(sect, rootaddr);
 	/* find the sysctl linker set */
 	if ((sect = elfx_get_section_by_name(ef, "set_sysctl_set")) == NULL) {
 		verbose("no sysctl linker set");
@@ -101,46 +96,31 @@ process_file(const char *path)
 	assert(sect->size % sizeof(uintptr_t) == 0);
 	nsysctls = sect->size / sizeof(uintptr_t);
 	oids = (struct sysctl_oid **)sect->ptr;
-	verbose("%zd sysctls found in section %d", nsysctls, sect->index);
+	verbose("%zd sysctls found in section %d", nsysctls, sect->index);	
+	/* find the root list */
+	rootsym = elfx_get_symbol_by_name(ef, "sysctl__children");
+	assert(rootsym != NULL);
+	sysctl_root = elfx_get_data(ef, rootsym->addr);
 	/* retrieve OIDs and fix up various pointers */
 	for (unsigned int i = 0; i < nsysctls; ++i) {
-		sect = elfx_get_section_by_addr(ef, (uintptr_t)oids[i], sect);
-		assert(sect != NULL);
-		oids[i] = oid = elfx_get_data(sect, oids[i]);
+		oids[i] = oid = elfx_get_data(ef, (uintptr_t)oids[i]);
 		/* name */
-		sect = elfx_get_section_by_addr(ef,
-		    (uintptr_t)oid->oid_name, sect);
-		assert(sect != NULL);
-		oid->oid_name = elfx_get_data(sect, oid->oid_name);
+		oid->oid_name = elfx_get_data(ef, (uintptr_t)oid->oid_name);
 		/* descriptions */
-		if (oid->oid_descr != NULL) {
-			sect = elfx_get_section_by_addr(ef,
-			    (uintptr_t)oid->oid_descr, sect);
-			assert(sect != NULL);
-			oid->oid_descr = elfx_get_data(sect, oid->oid_descr);
-		}
+		if (oid->oid_descr != NULL)
+			oid->oid_descr = elfx_get_data(ef,
+			    (uintptr_t)oid->oid_descr);
 		/* siblings */
-		if (oid->oid_link.sle_next != NULL) {
-			sect = elfx_get_section_by_addr(ef,
-			    (uintptr_t)oid->oid_link.sle_next, sect);
-			assert(sect != NULL);
-			oid->oid_link.sle_next = elfx_get_data(sect,
-			    oid->oid_link.sle_next);
-		}
+		if (oid->oid_link.sle_next != NULL)
+			oid->oid_link.sle_next = elfx_get_data(ef,
+			    (uintptr_t)oid->oid_link.sle_next);
 		/* children */
 		if ((oid->oid_kind & CTLTYPE) == CTLTYPE_NODE &&
-		    oid->oid_arg1 != 0) {
-			sect = elfx_get_section_by_addr(ef,
-			    (uintptr_t)oid->oid_arg1, sect);
-			assert(sect != NULL);
-			oid->oid_arg1 = elfx_get_data(sect,
+		    oid->oid_arg1 != 0)
+			oid->oid_arg1 = elfx_get_data(ef,
 			    (uintptr_t)oid->oid_arg1);
-		}
 		/* parent */
-		sect = elfx_get_section_by_addr(ef,
-		    (uintptr_t)oid->oid_parent, sect);
-		assert(sect != NULL);
-		oid->oid_parent = elfx_get_data(sect, oid->oid_parent);
+		oid->oid_parent = elfx_get_data(ef, (uintptr_t)oid->oid_parent);
 		SLIST_INSERT_HEAD(oid->oid_parent, oid, oid_link);
 	}
 	/* list all OIDs! */

@@ -39,10 +39,15 @@ typedef struct elfx_file {
 	void			*map;
 	Elf			*elf;
 	GElf_Ehdr		 hdr;
-	size_t			 nsections;
+	unsigned int		 nsections;
 	struct elfx_section	*sections;
 	struct elfx_section	*sections_by_name;
+	struct elfx_section	*last_section_by_name;
 	struct elfx_section	*sections_by_addr;
+	struct elfx_section	*last_section_by_addr;
+	unsigned int		 nsymbols;
+	struct elfx_symbol	*symbols;
+	struct elfx_symbol	*last_symbol_by_name;
 } elfx_file;
 
 typedef struct elfx_section {
@@ -58,15 +63,20 @@ typedef struct elfx_section {
 	void			*ptr;
 } elfx_section;
 
+typedef struct elfx_symbol {
+	struct elfx_file	*file;
+	char			*name;
+	uintptr_t		 addr;
+	size_t			 size;
+} elfx_symbol;
 
 elfx_file *elfx_open(const char *);
 void elfx_close(elfx_file *);
 
 elfx_section *elfx_get_section_by_name(elfx_file *, const char *);
-elfx_section *elfx_get_section_by_addr(elfx_file *, uintptr_t, elfx_section *);
-#define elfx_get_data(s, a) \
-	(void *)((char *)(s)->ptr + (uintptr_t)(a) - (s)->baddr)
-uintptr_t elfx_get_symbol(elfx_file *, const char *);
+elfx_section *elfx_get_section_by_addr(elfx_file *, uintptr_t);
+void *elfx_get_data(elfx_file *, uintptr_t);
+elfx_symbol *elfx_get_symbol_by_name(elfx_file *, const char *);
 
 
 #endif
