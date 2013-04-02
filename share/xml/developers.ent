@@ -31,6 +31,7 @@ $FreeBSD$
 <!ENTITY a.alex "Alexander Langer">
 <!ENTITY a.alexbl "Alexander Botero-Lowry">
 <!ENTITY a.alfred "Alfred Perlstein">
+<!ENTITY a.am "Atul Mukker">
 <!ENTITY a.ambrisko "Doug Ambrisko">
 <!ENTITY a.amdmi3 "Dmitry Marakasov">
 <!ENTITY a.amorita "Akio Morita">
@@ -80,16 +81,16 @@ $FreeBSD$
 <!ENTITY a.benno "Benno Rice">
 <!ENTITY a.bf "Brendan Fabeny">
 <!ENTITY a.bgray "Ben Gray">
-<!ENTITY a.billf "Bill Fumerola">
 <!ENTITY a.bhaga "Ben Haga">
+<!ENTITY a.billf "Bill Fumerola">
 <!ENTITY a.blackend "Marc Fonvieille">
 <!ENTITY a.bland "Alexander Nedotsukov">
 <!ENTITY a.bmah "Bruce A. Mah">
 <!ENTITY a.bmilekic "Bosko Milekic">
 <!ENTITY a.bms "Bruce M. Simpson">
 <!ENTITY a.bp "Boris Popov">
-<!ENTITY a.brd "Brad Davis">
 <!ENTITY a.brandon "Brandon Gillespie">
+<!ENTITY a.brd "Brad Davis">
 <!ENTITY a.brian "Brian Somers">
 <!ENTITY a.brix "Henrik Brix Andersen">
 <!ENTITY a.brooks "Brooks Davis">
@@ -103,9 +104,10 @@ $FreeBSD$
 <!ENTITY a.bushman "Michael Bushkov">
 <!ENTITY a.bvs "Vitaly Bogdanov">
 <!ENTITY a.bz "Bjoern A. Zeeb">
-<!ENTITY a.cawimm "Charles A. Wimmer">
 <!ENTITY a.carl "Carl Delsey">
 <!ENTITY a.carvay "J. Vicente Carrasco Vay&aacute;">
+<!ENTITY a.cawimm "Charles A. Wimmer">
+<!ENTITY a.cbzimmer "Chris Zimmermann">
 <!ENTITY a.cel "Chuck Lever">
 <!ENTITY a.ceri "Ceri Davies">
 <!ENTITY a.cg "Cameron Grant">
@@ -145,8 +147,8 @@ $FreeBSD$
 <!ENTITY a.darrenr "Darren Reed">
 <!ENTITY a.das "David Schultz">
 <!ENTITY a.davidc "Chad David">
-<!ENTITY a.davidn "David Nugent">
 <!ENTITY a.davide "Davide Italiano">
+<!ENTITY a.davidn "David Nugent">
 <!ENTITY a.davidxu "David Xu">
 <!ENTITY a.db "Diane Bruce">
 <!ENTITY a.dbaker "Daniel Baker">
@@ -176,6 +178,7 @@ $FreeBSD$
 <!ENTITY a.dirk "Dirk Fr&ouml;mberg">
 <!ENTITY a.dmarion "Damjan Marion">
 <!ENTITY a.dmlb "Duncan Barclay">
+<!ENTITY a.don "Don Wilde">
 <!ENTITY a.dru "Dru Lavigne">
 <!ENTITY a.dryice "Dryice Liu">
 <!ENTITY a.dt "Dmitrij Tejblum">
@@ -303,11 +306,11 @@ $FreeBSD$
 <!ENTITY a.jilles "Jilles Tjoelker">
 <!ENTITY a.jim "Jim Mock">
 <!ENTITY a.jimharris "Jim Harris">
+<!ENTITY a.jinmei "JINMEI Tatuya">
 <!ENTITY a.jkh "Jordan K. Hubbard">
 <!ENTITY a.jkim "Jung-uk Kim">
 <!ENTITY a.jkois "Johann Kois">
 <!ENTITY a.jkoshy "Joseph Koshy">
-<!ENTITY a.jinmei "JINMEI Tatuya">
 <!ENTITY a.jlaffaye "Julien Laffaye">
 <!ENTITY a.jlemon "Jonathan Lemon">
 <!ENTITY a.jlh "Jeremie Le Hen">
@@ -351,12 +354,13 @@ $FreeBSD$
 <!ENTITY a.kib "Konstantin Belousov">
 <!ENTITY a.kientzle "Tim Kientzle">
 <!ENTITY a.kiri "Kazuhiko Kiriyama">
+<!ENTITY a.kishore "Kishore Sampathkumar">
 <!ENTITY a.kjc "Kenjiro Cho">
 <!ENTITY a.kmacy "Kip Macy">
 <!ENTITY a.kmoore "Kris Moore">
-<!ENTITY a.koobs "Kubilay Kocak">
 <!ENTITY a.knu "Akinori MUSHA">
 <!ENTITY a.koitsu "Jeremy Chadwick">
+<!ENTITY a.koobs "Kubilay Kocak">
 <!ENTITY a.krion "Kirill Ponomarew">
 <!ENTITY a.kris "Kris Kennaway">
 <!ENTITY a.kuriyama "Jun Kuriyama">
@@ -592,6 +596,7 @@ $FreeBSD$
 <!ENTITY a.skreuzer "Steven Kreuzer">
 <!ENTITY a.skv "Sergey Skvortsov">
 <!ENTITY a.smace "Scott Mace">
+<!ENTITY a.smh "Steven Hartland">
 <!ENTITY a.smkelly "Sean Kelly">
 <!ENTITY a.smpatel "Sujal Patel">
 <!ENTITY a.snb "Nick Barkas">
@@ -639,6 +644,7 @@ $FreeBSD$
 <!ENTITY a.tjr "Tim J. Robbins">
 <!ENTITY a.tmclaugh "Tom McLaughlin">
 <!ENTITY a.tmm "Thomas M&ouml;stl">
+<!ENTITY a.tmseck "Thomas-Martin Seck">
 <!ENTITY a.tobez "Anton Berezin">
 <!ENTITY a.tom "Tom Hukins">
 <!ENTITY a.tomsoft "Thomas-Henning von Kamptz">
@@ -662,8 +668,8 @@ $FreeBSD$
 <!ENTITY a.ups "Stephan Uphoff">
 <!ENTITY a.uqs "Ulrich Sp&ouml;rlein">
 <!ENTITY a.vanilla "Vanilla I. Shu">
-<!ENTITY a.versus "Konrad Jankowski">
 <!ENTITY a.vd "Vasil Dimov">
+<!ENTITY a.versus "Konrad Jankowski">
 <!ENTITY a.viny "Vincent Tougait">
 <!ENTITY a.vkashyap "Vinod Kashyap">
 <!ENTITY a.vs "Volker Stolz">
@@ -672,7 +678,6 @@ $FreeBSD$
 <!ENTITY a.wen "Wen Heping">
 <!ENTITY a.weongyo "Weongyo Jeong">
 <!ENTITY a.wes "Wes Peters">
-<!ENTITY a.wxs "Wesley Shields">
 <!ENTITY a.whiteside "Don Whiteside">
 <!ENTITY a.wilko "Wilko Bulte">
 <!ENTITY a.will "Will Andrews">
@@ -683,13 +688,14 @@ $FreeBSD$
 <!ENTITY a.wpaul "Bill Paul">
 <!ENTITY a.wsalamon "Wayne Salamon">
 <!ENTITY a.wsanchez "Wilfredo S&aacute;nchez">
+<!ENTITY a.wxs "Wesley Shields">
 <!ENTITY a.wylie "Wylie Stilwell">
+<!ENTITY a.xride "S&oslash;ren Straarup">
 <!ENTITY a.yar "Yar Tikhiy">
 <!ENTITY a.yoichi "Yoichi NAKAYAMA">
 <!ENTITY a.yokota "Kazutaka YOKOTA">
 <!ENTITY a.yongari "Pyun YongHyeon">
 <!ENTITY a.yzlin "Yi-Jheng Lin">
-<!ENTITY a.xride "S&oslash;ren Straarup">
 <!ENTITY a.zack "Zack Kirsch">
 <!ENTITY a.zarzycki "Dave Zarzycki">
 <!ENTITY a.zec "Marko Zec">
@@ -712,7 +718,7 @@ $FreeBSD$
 <!-- Below we list the various hats. -->
 
 <!-- FreeBSD Bugmeister -->
-<!ENTITY a.bugmeister '&a.eadler;, &a.gavin;, &a.gonzo;, &a.linimon;'>
+<!ENTITY a.bugmeister '&a.eadler;, &a.gavin;, &a.gonzo;'>
 
 <!-- FreeBSD Doc Engineering Team -->
 <!ENTITY a.doceng '&a.gjb;, &a.blackend;, &a.gabor;, &a.hrs;'>
@@ -721,7 +727,7 @@ $FreeBSD$
 <!ENTITY a.donations '&a.tabthorpe;, &a.gjb;, &a.gahr;, &a.pgollucci;, &a.skreuzer;, &a.obrien;, &a.trhodes;, Daniel Seuffert, &a.rwatson;'>
 
 <!-- FreeBSD Ports Manager Team -->
-<!ENTITY a.portmgr '&a.tabthorpe;, &a.marcus;, &a.bapt;, &a.decke;, &a.beat;, &a.erwin;, &a.linimon;, &a.itetcu;, &a.miwi;'>
+<!ENTITY a.portmgr '&a.tabthorpe;, &a.marcus;, &a.bapt;, &a.bdrewery;, &a.decke;, &a.erwin;, &a.itetcu;, &a.miwi;'>
 
 <!-- FreeBSD Release Engineering Teams -->
 <!ENTITY a.re.members '&a.kib;, &a.blackend;, &a.jpaetzel;, &a.hrs;, &a.kensmith;'>
