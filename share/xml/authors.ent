@@ -338,7 +338,7 @@
 
 <!ENTITY a.den "Denis Peplin <email>den@FreeBSD.org</email>">
 
-<!ENTITY a.des "Dag-Erling C. Sm&oslash;rgrav <email>des@FreeBSD.org</email>">
+<!ENTITY a.des "Dag-Erling Sm&oslash;rgrav <email>des@FreeBSD.org</email>">
 
 <!ENTITY a.dfr "Doug Rabson <email>dfr@FreeBSD.org</email>">
 
@@ -523,6 +523,8 @@
 <!ENTITY a.harti "Hartmut Brandt <email>harti@FreeBSD.org</email>">
 
 <!ENTITY a.helbig "Wolfgang Helbig <email>helbig@FreeBSD.org</email>">
+
+<!ENTITY a.hiren "Hiren Panchasara <email>hiren@FreeBSD.org</email>">
 
 <!ENTITY a.hm "Hellmuth Michaelis <email>hm@FreeBSD.org</email>">
 
@@ -1395,6 +1397,8 @@
 <!ENTITY a.weongyo "Weongyo Jeong <email>weongyo@FreeBSD.org</email>">
 
 <!ENTITY a.wes "Wes Peters <email>wes@FreeBSD.org</email>">
+
+<!ENTITY a.wg "William Grzybowski <email>wg@FreeBSD.org</email>">
 
 <!ENTITY a.whiteside "Don Whiteside <email>whiteside@acm.org</email>">
 
