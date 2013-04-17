@@ -108,20 +108,20 @@
 
     <itemizedlist>
       <listitem>
-	<para>Properly set up a <link
-	    linkend="advanced-networking">network
-	    connection</link>.</para>
+	<para>Properly set up a network
+	    connection (<xref
+linkend="advanced-networking"/>).</para>
       </listitem>
 
       <listitem>
-	<para>Properly set up the <link
-	    linkend="network-servers"><acronym>DNS</acronym>
-	    information</link> for a mail host.</para>
+	<para>Properly set up the <acronym>DNS</acronym>
+	    information for a mail host (<xref
+linkend="network-servers"/>).</para>
       </listitem>
 
       <listitem>
-	<para>Know how to <link linkend="ports">install additional
-	    third-party software</link>.</para>
+	<para>Know how to install additional
+	    third-party software (<xref linkend="ports"/>).</para>
       </listitem>
     </itemizedlist>
   </sect1>
@@ -376,10 +376,9 @@ both <acronym>POP</acronym> and
 clear-text.
 	    To secure the transmission
 	    of information across these protocols, consider
-	    <link
-	      linkend="security-ssh-tunneling">tunneling sessions over
-&man.ssh.1;</link> or <link
-	      linkend="openssl">using SSL.</link>.</para>
+tunneling sessions over
+&man.ssh.1; (<xref linkend="security-ssh-tunneling"/>) or using
+SSL (<xref linkend="openssl"/>).</link>.</para>
 	</warning>
       </sect3>
 
@@ -1389,9 +1388,10 @@ outgoing mail relay
 server</quote>
       or <quote>SMTP server</quote>).</para>
 
-    <para>Make sure to <link linkend="mail-disable-sendmail">disable
-	<application>Sendmail</application></link>, including the
-      outgoing mail service.</para>
+    <para>Make sure to disable
+	<application>Sendmail</application>, including the
+      outgoing mail service.  See
+<       <xref linkend="mail-disable-sendmail"/> for details.</para>
 
     <para><filename role="package">mail/ssmtp</filename> has some
       other options available.  Refer to the examples
