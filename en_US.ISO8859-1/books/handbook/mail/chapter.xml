@@ -364,7 +364,7 @@ FreeBSD.org mail is handled by 10 mx1.FreeBSD.org</screen>
 	    clear-text.  To secure the transmission of information
 	    across these protocols, consider tunneling sessions over
 	    &man.ssh.1; (<xref linkend="security-ssh-tunneling"/>) or
-	    using SSL (<xref linkend="openssl"/>).</link>.</para>
+	    using SSL (<xref linkend="openssl"/>).</para>
 	</warning>
       </sect3>
 
@@ -1207,7 +1207,7 @@ freefall		MX	20	who.cdrom.com</programlisting>
 	<acronym>ISP</acronym> or <acronym>DNS</acronym>
 	provider.</para>
 
-      <para>he following is an example of virtual email hosting.
+      <para>The following is an example of virtual email hosting.
 	Consider a customer with the domain <hostid
 	  role="domainname">customer1.org</hostid>, where all the mail
 	for <hostid role="domainname">customer1.org</hostid> should be
@@ -1305,8 +1305,8 @@ rewriteDomain=example.com
 hostname=_HOSTNAME_</programlisting>
 
     <para>Use the real email address for <username>root</username>.
-      Enter the 's outgoing mail relay in place of <hostid
-	role="fqdn">mail.example.com</hostid>.  Some
+      Enter the <acronym>ISP</acronym>'s outgoing mail relay in place
+      of <hostid role="fqdn">mail.example.com</hostid>.  Some
       <acronym>ISP</acronym>s call this the <quote>outgoing mail
       server</quote> or <quote>SMTP server</quote>).</para>
 
@@ -1556,7 +1556,7 @@ define(`confAUTH_MECHANISMS', `GSSAPI DIGEST-MD5 CRAM-MD5 LOGIN')dnl</programlis
       to <literal>13</literal> and watch
       <filename>/var/log/maillog</filename> for any errors.</para>
 
-    <para>For more information, refer to refer to <ulink
+    <para>For more information, refer to <ulink
 	url="http://www.sendmail.org/~ca/email/auth.html">
 	<acronym>SMTP</acronym> authentication</ulink>.</para>
   </sect1>
@@ -1627,7 +1627,7 @@ define(`confAUTH_MECHANISMS', `GSSAPI DIGEST-MD5 CRAM-MD5 LOGIN')dnl</programlis
  N  3 root@localhost        Mon Mar  8 14:05  14/509   "sample"</screen>
 
       <para>Messages can now be read by typing <keycap>t</keycap>
-	followed by the message number.  This example read the first
+	followed by the message number.  This example reads the first
 	email:</para>
 
       <screen>&amp; <userinput>t 1</userinput>
@@ -2003,8 +2003,8 @@ user "john", with password "XXXXX", is "myth" here;</programlisting>
     <para><application>fetchmail</application> can be run in daemon
       mode by running it with <option>-d</option>, followed by the
       interval (in seconds) that <application>fetchmail</application>
-      should poll servers listed in <filename>.fetchmailrc</filename>
-      file.  The following example configures
+      should poll servers listed in <filename>.fetchmailrc</filename>.
+      The following example configures
       <application>fetchmail</application> to poll every 600
       seconds:</para>
 
