@@ -242,7 +242,7 @@ daemon
       <para><acronym>DNS</acronym> is responsible for mapping
 	hostnames to IP addresses, as well as for storing information
 	specific to mail delivery, known as Mail eXchanger
-+	<acronym>MX</acronym> records.  The <acronym>MX</acronym>
+	<acronym>MX</acronym> records.  The <acronym>MX</acronym>
 record specifies which host, or hosts, will receive
 	mail for a particular domain.  If there is no
 <acronym>MX</acronym> record
@@ -846,7 +846,7 @@ binaries
       <para>As an example, to run
 	<filename>/usr/local/supermailer/bin/sendmail-compat</filename>
 	instead of <application>Sendmail</application>, specify the
-+	paths to the installed applications in
+	paths to the installed applications in
 <filename>/etc/mail/mailer.conf</filename>:</para>
 
       <programlisting>sendmail /usr/local/supermailer/bin/sendmail-compat
@@ -1032,7 +1032,7 @@ connect to
 	  immediately.</para>
 
 	<para>A further refinement of the situation can be seen from
-+	  this example from the &a.isp;:</para>
+	  this example from the &a.isp;:</para>
 
 	<programlisting>&gt; we provide the secondary MX for a customer. The customer connects to
 &gt; our services several times a day automatically to get the mails to
