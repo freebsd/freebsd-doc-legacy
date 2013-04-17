@@ -1391,7 +1391,7 @@ server</quote>
     <para>Make sure to disable
 	<application>Sendmail</application>, including the
       outgoing mail service.  See
-<       <xref linkend="mail-disable-sendmail"/> for details.</para>
+       <xref linkend="mail-disable-sendmail"/> for details.</para>
 
     <para><filename role="package">mail/ssmtp</filename> has some
       other options available.  Refer to the examples
