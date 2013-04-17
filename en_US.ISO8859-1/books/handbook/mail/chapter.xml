@@ -378,7 +378,7 @@ clear-text.
 	    of information across these protocols, consider
 tunneling sessions over
 &man.ssh.1; (<xref linkend="security-ssh-tunneling"/>) or using
-SSL (<xref linkend="openssl"/>).</link>.</para>
+SSL (<xref linkend="openssl"/>).</para>
 	</warning>
       </sect3>
 
