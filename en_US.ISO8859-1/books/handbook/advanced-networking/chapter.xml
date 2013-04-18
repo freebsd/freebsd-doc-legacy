@@ -4815,10 +4815,9 @@ Received 264951 bytes in 0.1 seconds</screen>
 
       <para>A TA will operate basically the same as a modem except
 	connection and throughput speeds will be much faster than your
-	old modem.  You will need to configure
-	<link linkend="ppp">PPP</link> exactly the same as for a modem
-	setup.  Make sure you set your serial speed as high as
-	possible.</para>
+	old modem.  You will need to configure PPP exactly the same as
+	for a modem setup.  Make sure you set your serial speed as
+	high as possible.</para>
 
       <indexterm><primary>PPP</primary></indexterm>
       <para>The main advantage of using a TA to connect to an Internet
@@ -4834,10 +4833,6 @@ Received 264951 bytes in 0.1 seconds</screen>
 	FreeBSD machine, if you already have PPP set up.  However, at
 	the same time any problems you experienced with the PPP
 	program and are going to persist.</para>
-
-      <para>If you want maximum stability, use the kernel
-	<link linkend="ppp">PPP</link> option, not the
-	<link linkend="userppp">userland PPP</link>.</para>
 
       <para>The following TA's are known to work with FreeBSD:</para>
 
