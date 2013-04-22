@@ -171,7 +171,7 @@
 	      <acronym>ISP</acronym>.  If they have not given you at
 	      least one, use the <command>enable dns</command> command
 	      in <filename>ppp.conf</filename> and
-	      <application>ppp</application> will set the name
+	      <command>ppp</command> will set the name
 	      servers.  This feature depends on the
 	      <acronym>ISP</acronym>'s <acronym>PPP</acronym>
 	      implementation supporting DNS negotiation.</para>
@@ -194,7 +194,7 @@
 
 	    <para>This IP number is referred to as
 	      <literal>HISADDR</literal> by
-	      <application>ppp</application>.</para>
+	      <command>ppp</command>.</para>
 	  </listitem>
 
 	  <listitem>
@@ -296,7 +296,8 @@
 
 	      <listitem>
 		<para>Identifies the default entry.  Commands in this
-		  entry are executed automatically when ppp is
+		  entry are executed automatically when
+		  <command>ppp</command> is
 		  run.</para>
 	      </listitem>
 	    </varlistentry>
@@ -535,8 +536,8 @@ protocol: ppp</screen>
 		  otherwise <literal>HISADDR</literal> will not yet
 		  be initialized.</para>
 
-		<para>If you do not wish to run ppp in
-		  <option>-auto</option>, this line should be moved
+		<para>If you do not wish to run <command>ppp</command>
+		  in <option>-auto</option>, this line should be moved
 		  to the <filename>ppp.linkup</filename> file.</para>
 	      </listitem>
 	    </varlistentry>
@@ -544,11 +545,12 @@ protocol: ppp</screen>
 
 	  <para>It is not necessary to add an entry to
 	    <filename>ppp.linkup</filename> when you have a static
-	    IP address and are running ppp in <option>-auto</option>
-	    mode as your routing table entries are already correct
-	    before you connect.  You may however wish to create an
-	    entry to invoke programs after connection.  This is
-	    explained later with the sendmail example.</para>
+	    IP address and are running <command>ppp</command> in
+	    <option>-auto</option> mode as your routing table entries
+	    are already correct before you connect.  You may however
+	    wish to create an entry to invoke programs after
+	    connection.  This is explained later with the sendmail
+	    example.</para>
 
 	  <para>Example configuration files can be found in the
 	    <filename
@@ -593,9 +595,10 @@ protocol: ppp</screen>
 	      <listitem>
 		<para>The number after the <literal>/</literal>
 		  character is the number of bits of the address that
-		  ppp will insist on.  You may wish to use IP numbers
-		  more appropriate to your circumstances, but the
-		  above example will always work.</para>
+		  <command>ppp</command> will insist on.  You may wish
+		  to use IP numbers more appropriate to your
+		  circumstances, but the above example will always
+		  work.</para>
 
 		<para>The last argument (<literal>0.0.0.0</literal>)
 		  tells <acronym>PPP</acronym> to start negotiations
@@ -668,7 +671,7 @@ protocol: ppp</screen>
 	    <secondary>receiving incoming calls</secondary>
 	  </indexterm>
 
-	  <para>When you configure <application>ppp</application> to
+	  <para>When you configure <command>ppp</command> to
 	    receive incoming calls on a machine connected to a LAN,
 	    you must decide if you wish to forward packets to the LAN.
 	    If you do, you should allocate the peer an IP number from
@@ -869,7 +872,8 @@ mary:
 	      should also contain routing information for each static
 	      IP user if required.  The line below would add a route
 	      for the <hostid role="ipaddr">203.14.101.0/24</hostid>
-	      network via the client's ppp link.</para>
+	      network via the client's <acronym>PPP</acronym>
+	      link.</para>
 
 	    <programlisting>fred:
   add 203.14.101.0 netmask 255.255.255.0 HISADDR
@@ -901,10 +905,10 @@ mary:
 	    comes with the <literal>AUTO_PPP</literal> option enabled
 	    allowing <command>mgetty</command> to detect the LCP
 	    phase of <acronym>PPP</acronym> connections and
-	    automatically spawn off a ppp shell.  However, since the
-	    default login/password sequence does not occur it is
-	    necessary to authenticate users using either PAP or
-	    CHAP.</para>
+	    automatically spawn off a <command>ppp</command> shell.
+	    However, since the default login/password sequence does
+	    not occur it is necessary to authenticate users using
+	    either PAP or CHAP.</para>
 
 	  <para>This section assumes the user has successfully
 	    compiled, and installed the <filename
@@ -1173,10 +1177,11 @@ ifconfig_tun0=</programlisting>
 	  <programlisting>ppp -auto mysystem</programlisting>
 
 	  <para>This script is executed at network configuration time,
-	    starting your ppp daemon in automatic mode.  If you have
-	    a LAN for which this machine is a gateway, you may also
-	    wish to use the <option>-alias</option> switch.  Refer
-	    to the manual page for further details.</para>
+	    starting your <command>ppp</command> daemon in automatic
+	    mode.  If you have a LAN for which this machine is a
+	    gateway, you may also wish to use the
+	    <option>-alias</option> switch.  Refer to the manual page
+	    for further details.</para>
 	</note>
 
 	<para>Make sure that the router program is set to
@@ -1208,7 +1213,8 @@ ifconfig_tun0=</programlisting>
 	</indexterm>
 	<para>The downside of this is that you must force
 	  <command>sendmail</command> to re-examine the mail queue
-	  whenever the ppp link is up by typing:</para>
+	    whenever the <acronym>PPP</acronym> link is up by
+	    typing:</para>
 
 	<screen>&prompt.root; <userinput>/usr/sbin/sendmail -q</userinput></screen>
 
@@ -1247,7 +1253,7 @@ ifconfig_tun0=</programlisting>
 	<title>Summary</title>
 
 	<para>To recap, the following steps are necessary when setting
-	  up ppp for the first time:</para>
+	  up <acronym>PPP</acronym> for the first time:</para>
 
 	<para>Client side:</para>
 
@@ -1544,8 +1550,8 @@ OK
 	  command mode, which is usually a negotiation error where
 	  the <acronym>ISP</acronym> is waiting for your side to start
 	  negotiating.  At this point, using the <command>~p</command>
-	  command will force ppp to start sending the configuration
-	  information.</para>
+	  command will force <command>ppp</command> to start
+	  sending the configuration information.</para>
 
 	<para>If you never obtain a login prompt, then most likely you
 	  need to use <acronym>PAP</acronym> or
@@ -1644,7 +1650,7 @@ nameserver <replaceable>y.y.y.y</replaceable></programlisting>
       <para>No kernel configuration is necessary for
 	<acronym>PPPoE</acronym>.  If the necessary netgraph support
 	is not built into the kernel, it will be dynamically loaded by
-	<application>ppp</application>.</para>
+	<command>ppp</command>.</para>
     </sect2>
 
     <sect2>
@@ -1668,7 +1674,7 @@ name_of_service_provider:
     </sect2>
 
     <sect2>
-      <title>Running <application>ppp</application></title>
+      <title>Running <command>ppp</command></title>
 
       <para>As <username>root</username>, you can run:</para>
 
@@ -1677,7 +1683,7 @@ name_of_service_provider:
     </sect2>
 
     <sect2>
-      <title>Starting <application>ppp</application> at Boot</title>
+      <title>Starting <command>ppp</command> at Boot</title>
 
       <para>Add the following to your
 	<filename>/etc/rc.conf</filename> file:</para>
@@ -1831,7 +1837,7 @@ ppp_profile="name_of_service_provider"</programlisting>
       <programlisting>usbd_enable="YES"</programlisting>
 
       <para>It is also possible to set up
-	<application>ppp</application> to dial up at startup.  To do
+	<command>ppp</command> to dial up at startup.  To do
 	this add the following lines to
 	<filename>/etc/rc.conf</filename>.  Again, for this procedure
 	you will need to be logged in as the <username>root</username>
@@ -1975,8 +1981,8 @@ ng0: flags=88d1&lt;UP,POINTOPOINT,RUNNING,NOARP,SIMPLEX,MULTICAST&gt; mtu 1500
       need to be <username>root</username> to perform both of these
       operations.  An example section of <filename>ppp.conf</filename>
       is given below.  For further information on
-      <filename>ppp.conf</filename> options consult the
-      <application>ppp</application> manual page, &man.ppp.8;.</para>
+      <filename>ppp.conf</filename> options consult
+      &man.ppp.8;.</para>
 
     <programlisting>adsl:
  set log phase chat lcp ipcp ccp tun command
@@ -2033,7 +2039,7 @@ ng0: flags=88d1&lt;UP,POINTOPOINT,RUNNING,NOARP,SIMPLEX,MULTICAST&gt; mtu 1500
       <para>A <devicename>tun</devicename> virtual tunnel device
 	will be created for interaction between the
 	<application>pptp</application> and
-	<application>ppp</application> processes.  Once you have been
+	<command>ppp</command> processes.  Once you have been
 	returned to your prompt, or the
 	<application>pptp</application> process has confirmed a
 	connection you can examine the tunnel like so:</para>
@@ -2048,7 +2054,7 @@ tun0: flags=8051&lt;UP,POINTOPOINT,RUNNING,MULTICAST&gt; mtu 1500
 	<application>telnet</application> or with a web browser.  If
 	you still cannot connect you should examine the output of the
 	<command>pptp</command> command and the contents of the
-	<application>ppp</application> log file,
+	<command>ppp</command> log file,
 	<filename>/var/log/ppp.log</filename> for clues.</para>
     </sect2>
   </sect1>
