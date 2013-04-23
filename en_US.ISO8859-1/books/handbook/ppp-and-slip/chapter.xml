@@ -537,8 +537,9 @@ protocol: ppp</screen>
 		  be initialized.</para>
 
 		<para>If you do not wish to run <command>ppp</command>
-		  in <option>-auto</option>, this line should be moved
-		  to the <filename>ppp.linkup</filename> file.</para>
+		  in <option>-auto</option> mode, this line should be
+		  moved to the <filename>ppp.linkup</filename>
+		  file.</para>
 	      </listitem>
 	    </varlistentry>
 	  </variablelist>
@@ -1177,9 +1178,9 @@ ifconfig_tun0=</programlisting>
 	  <programlisting>ppp -auto mysystem</programlisting>
 
 	  <para>This script is executed at network configuration time,
-	    starting your <command>ppp</command> daemon in automatic
-	    mode.  If you have a LAN for which this machine is a
-	    gateway, you may also wish to use the
+	    starting your <command>ppp</command> daemon in
+	    <option>-auto</option> mode.  If you have a LAN for which
+	    this machine is a gateway, you may also wish to use the
 	    <option>-alias</option> switch.  Refer to the manual page
 	    for further details.</para>
 	</note>
