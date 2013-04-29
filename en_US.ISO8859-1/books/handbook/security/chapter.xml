@@ -24,31 +24,27 @@
   <sect1 id="security-synopsis">
     <title>Synopsis</title>
 
-    <para>This chapter will provide a basic introduction to system
+    <para>This chapter provides a basic introduction to system
       security concepts, some general good rules of thumb, and some
-      advanced topics under &os;.  A lot of the topics covered here
-      can be applied to system and Internet security in general as
-      well.  The Internet is no longer a <quote>friendly</quote> place
-      in which everyone wants to be your kind neighbor.  Securing your
-      system is imperative to protect your data, intellectual
-      property, time, and much more from the hands of hackers and the
-      like.</para>
+      advanced topics under &os;.  Many of the topics covered here
+      can be applied to system and Internet security in general. 
+      Securing a system is imperative to protect data,
+      intellectual property, time, and much more from the hands of
+      hackers and the like.</para>
 
-    <para>&os; provides an array of utilities and mechanisms to ensure
-      the integrity and security of your system and network.</para>
+    <para>&os; provides an array of utilities and mechanisms to
+      protect the integrity and security of the system and
+      network.</para>
 
     <para>After reading this chapter, you will know:</para>
 
     <itemizedlist>
       <listitem>
-	<para>Basic system security concepts, in respect to
-	  &os;.</para>
+	<para>Basic &os; system security concepts.</para>
       </listitem>
 
       <listitem>
-	<para>About the various crypt mechanisms available in &os;,
-	  such as <acronym>DES</acronym> and
-	  <acronym>MD5</acronym>.</para>
+	<para>The various crypt mechanisms available in &os;.</para>
       </listitem>
 
       <listitem>
@@ -61,41 +57,37 @@
       </listitem>
 
       <listitem>
-	<para>How to set up <application>Kerberos5</application> on
+	<para>How to set up <application>Kerberos</application> on
 	  &os;.</para>
       </listitem>
 
       <listitem>
 	<para>How to configure IPsec and create a
-	  <acronym>VPN</acronym> between &os;/&windows;
-	  machines.</para>
+	  <acronym>VPN</acronym>.</para>
       </listitem>
 
       <listitem>
 	<para>How to configure and use
-	  <application>OpenSSH</application>, &os;'s
-	  <acronym>SSH</acronym> implementation.</para>
+	  <application>OpenSSH</application> on &os;.</para>
       </listitem>
 
       <listitem>
-	<para>What file system <acronym>ACL</acronym>s are and how to
-	  use them.</para>
+	<para>How to use filesystem <acronym>ACL</acronym>s.</para>
       </listitem>
 
       <listitem>
-	<para>How to use the <application>Portaudit</application>
-	  utility to audit third party software packages installed
-	  from the Ports Collection.</para>
+	<para>How to use <application>portaudit</application> to
+	  audit third party software packages installed from the
+	  Ports Collection.</para>
       </listitem>
 
       <listitem>
-	<para>How to utilize the &os; security advisories
-	  publications.</para>
+	<para>How to utilize &os; security advisories.</para>
       </listitem>
 
       <listitem>
-	<para>Have an idea of what Process Accounting is and how to
-	  enable it on &os;.</para>
+	<para>What Process Accounting is and how to enable it on
+	  &os;.</para>
       </listitem>
     </itemizedlist>
 
@@ -107,36 +99,26 @@
       </listitem>
     </itemizedlist>
 
-    <para>Additional security topics are covered throughout this book.
-      For example, Mandatory Access Control is discussed in <xref
-	linkend="mac"/> and Internet Firewalls are discussed in <xref
-	linkend="firewalls"/>.</para>
+    <para>Additional security topics are covered elsewhere in this
+      Handbook.  For example, Mandatory Access Control is discussed in
+      <xref linkend="mac"/> and Internet firewalls are discussed in
+      <xref linkend="firewalls"/>.</para>
   </sect1>
 
   <sect1 id="security-intro">
     <title>Introduction</title>
 
     <para>Security is a function that begins and ends with the system
-      administrator.  While all BSD &unix; multi-user systems have
-      some inherent security, the job of building and maintaining
-      additional security mechanisms to keep those users
-      <quote>honest</quote> is probably one of the single largest
-      undertakings of the sysadmin.  Machines are only as secure as
-      you make them, and security concerns are ever competing with the
-      human necessity for convenience.  &unix; systems, in general,
-      are capable of running a huge number of simultaneous processes
-      and many of these processes operate as servers &mdash; meaning
-      that external entities can connect and talk to them.  As
-      yesterday's mini-computers and mainframes become today's
-      desktops, and as computers become networked and inter-networked,
-      security becomes an even bigger issue.</para>
+      administrator.  While &os; provides some inherent security, the
+      job of configuring and maintaining additional security
+      mechanisms is probably one of the single largest undertakings of
+      the sysadmin.</para>
 
     <para>System security also pertains to dealing with various forms
       of attack, including attacks that attempt to crash, or otherwise
       make a system unusable, but do not attempt to compromise the
-      <username>root</username> account (<quote>break root</quote>).
-      Security concerns can be split up into several
-      categories:</para>
+      <username>root</username> account.  Security concerns can be
+      split up into several categories:</para>
 
     <orderedlist>
       <listitem>
@@ -148,7 +130,7 @@
       </listitem>
 
       <listitem>
-	<para>Root compromise through accessible servers.</para>
+	<para>Root compromise through accessible services.</para>
       </listitem>
 
       <listitem>
@@ -171,50 +153,36 @@
     </indexterm>
     <indexterm><primary>Denial of Service (DoS)</primary></indexterm>
 
-    <para>A denial of service attack is an action that deprives the
-      machine of needed resources.  Typically, DoS attacks are
-      brute-force mechanisms that attempt to crash or otherwise make a
-      machine unusable by overwhelming its servers or network stack.
-      Some DoS attacks try to take advantage of bugs in the networking
-      stack to crash a machine with a single packet.  The latter can
-      only be fixed by applying a bug fix to the kernel.  Attacks on
-      servers can often be fixed by properly specifying options to
+    <para>A Denial of Service <acronym>DoS</acronym> attack is an
+      action that deprives the machine of needed resources.
+      Typically, <acronym>DoS</acronym> attacks are brute-force
+      mechanisms that attempt to crash or otherwise make a machine
+      unusable by overwhelming its services or network stack.  Attacks
+      on servers can often be fixed by properly specifying options to
       limit the load the servers incur on the system under adverse
       conditions.  Brute-force network attacks are harder to deal
-      with.  A spoofed-packet attack, for example, is nearly
-      impossible to stop, short of cutting your system off from the
-      Internet.  It may not be able to take your machine down, but it
-      can saturate your Internet connection.</para>
+      with.  This type of attack may not be able to take the machine
+      down, but it can saturate the Internet connection.</para>
 
     <indexterm>
       <primary>security</primary>
       <secondary>account compromises</secondary>
     </indexterm>
 
-    <para>A user account compromise is even more common than a DoS
-      attack.  Many sysadmins still run standard
-      <application>telnetd</application>,
-      <application>rlogind</application>,
-      <application>rshd</application>, and
-      <application>ftpd</application> servers on their machines.
-      These servers, by default, do not operate over encrypted
-      connections.  The result is that if you have any moderate-sized
-      user base, one or more of your users logging into your system
-      from a remote location (which is the most common and convenient
-      way to login to a system) will have his or her password sniffed.
-      The attentive system admin will analyze his remote access logs
-      looking for suspicious source addresses even for successful
-      logins.</para>
+    <para>A user account compromise is more common than a
+      <acronym>DoS</acronym> attack.  Many sysadmins still run
+      unencrypted services, meaning that users logging into the
+      system from a remote location are vulnerable to having their
+      password sniffed.  The attentive sysadmin analyzes the
+      remote access logs looking for suspicious source addresses and
+      suspicious logins.</para>
 
-    <para>One must always assume that once an attacker has access to a
-      user account, the attacker can break <username>root</username>.
-      However, the reality is that in a well secured and maintained
-      system, access to a user account does not necessarily give the
-      attacker access to <username>root</username>.  The distinction
-      is important because without access to <username>root</username>
-      the attacker cannot generally hide his tracks and may, at best,
-      be able to do nothing more than mess with the user's files, or
-      crash the machine.  User account compromises are very common
+    <para>In a well secured and maintained system, access to a user
+      account does not necessarily give the attacker access to
+      <username>root</username>.  Without <username>root</username>
+      access, the attacker cannot generally hide his tracks and may,
+      at best, be able to do nothing more than mess with the user's
+      files or crash the machine.  User account compromises are common
       because users tend not to take the precautions that sysadmins
       take.</para>
 
@@ -223,27 +191,14 @@
       <secondary>backdoors</secondary>
     </indexterm>
 
-    <para>System administrators must keep in mind that there are
-      potentially many ways to break <username>root</username> on a
-      machine.  The attacker may know the <username>root</username>
-      password, the attacker may find a bug in a root-run server and
-      be able to break <username>root</username> over a network
-      connection to that server, or the attacker may know of a bug in
-      a suid-root program that allows the attacker to break
-      <username>root</username> once he has broken into a user's
-      account.  If an attacker has found a way to break
-      <username>root</username> on a machine, the attacker may not
-      have a need to install a backdoor.  Many of the
-      <username>root</username> holes found and closed to date involve
-      a considerable amount of work by the attacker to cleanup after
-      himself, so most attackers install backdoors.  A backdoor
-      provides the attacker with a way to easily regain
-      <username>root</username> access to the system, but it also
-      gives the smart system administrator a convenient way to detect
-      the intrusion.  Making it impossible for an attacker to install
-      a backdoor may actually be detrimental to your security, because
-      it will not close off the hole the attacker found to break in
-      the first place.</para>
+    <para>There are potentially many ways to break
+      <username>root</username>:  the attacker may know the
+      <username>root</username> password, the attacker may exploit a
+      bug in a service which runs as <username>root</username>, or the
+      attacker may know of a bug in a SUID-root program.  An attacker
+      may utilize a program known as a backdoor to search for
+      vulnerable systems, take advantage of unpatched exploits to
+      access a system, and hide traces of illegal activity.</para>
 
     <para>Security remedies should always be implemented with a
       multi-layered <quote>onion peel</quote> approach and can be
@@ -251,26 +206,26 @@
 
     <orderedlist>
       <listitem>
-	<para>Securing <username>root</username> and staff
+	<para>Secure <username>root</username> and staff
 	  accounts.</para>
       </listitem>
 
       <listitem>
-	<para>Securing <username>root</username>&ndash;run servers
-	  and suid/sgid binaries.</para>
+	<para>Secure <username>root</username>&ndash;run servers
+	  and SUID/SGID binaries.</para>
       </listitem>
 
       <listitem>
-	<para>Securing user accounts.</para>
+	<para>Secure user accounts.</para>
       </listitem>
 
       <listitem>
-	<para>Securing the password file.</para>
+	<para>Secure the password file.</para>
       </listitem>
 
       <listitem>
-	<para>Securing the kernel core, raw devices, and
-	  file systems.</para>
+	<para>Secure the kernel core, raw devices, and
+	  filesystems.</para>
       </listitem>
 
       <listitem>
@@ -283,8 +238,7 @@
       </listitem>
     </orderedlist>
 
-    <para>The next section of this chapter will cover the above bullet
-      items in greater depth.</para>
+    <para>The next section covers these items in greater depth.</para>
   </sect1>
 
   <sect1 id="securing-freebsd">
@@ -295,254 +249,141 @@
       <secondary>securing &os;</secondary>
     </indexterm>
 
-    <note>
-      <title>Command Versus Protocol</title>
-
-      <para>Throughout this document, we will use
-	<application>bold</application> text to refer to an
-	application, and a <command>monospaced</command> font to refer
-	to specific commands.  Protocols will use a normal font.  This
-	typographical distinction is useful for instances such as ssh,
-	since it is a protocol as well as command.</para>
-    </note>
-
-    <para>The sections that follow will cover the methods of securing
-      your &os; system that were mentioned in the <link
-	linkend="security-intro">last section</link> of this
-      chapter.</para>
+    <para>This section describes methods for securing a &os; system
+      against the attacks that were mentioned in the <link
+	linkend="security-intro">previous section</link>.</para>
 
     <sect2 id="securing-root-and-staff">
-      <title>Securing the <username>root</username> Account and
-	Staff Accounts</title>
+      <title>Securing the <username>root</username> Account</title>
 
       <indexterm>
 	<primary><command>su</command></primary>
       </indexterm>
 
-      <para>First off, do not bother securing staff accounts if you
-	have not secured the <username>root</username> account.  Most
+      <para>Most
 	systems have a password assigned to the
-	<username>root</username> account.  The first thing you do is
-	assume that the password is <emphasis>always</emphasis>
-	compromised.  This does not mean that you should remove the
-	password.  The password is almost always necessary for console
-	access to the machine.  What it does mean is that you should
-	not make it possible to use the password outside of the
-	console or possibly even with the &man.su.1; command.  For
-	example, make sure that your ptys are specified as being
-	insecure in the <filename>/etc/ttys</filename> file so that
-	direct <username>root</username> logins via
-	<command>telnet</command> or <command>rlogin</command> are
-	disallowed.  If using other login services such as
-	<application>sshd</application>, make sure that direct
-	<username>root</username> logins are disabled there as well.
-	You can do this by editing your
-	<filename>/etc/ssh/sshd_config</filename> file, and making
-	sure that <literal>PermitRootLogin</literal> is set to
-	<literal>no</literal>.  Consider every access method &mdash;
-	services such as FTP often fall through the cracks.  Direct
-	<username>root</username> logins should only be allowed via
-	the system console.</para>
+	<username>root</username> account.  Assume that this password
+	is <emphasis>always</emphasis> at risk of being compromised.
+	This does not mean that the password should be disabled as the
+	password is almost always necessary for console access to the
+	machine.  However, it should not be possible to use this
+	password outside of the console or possibly even with
+	&man.su.1;.  For example, setting the entries in
+	<filename>/etc/ttys</filename> to <literal>insecure</literal>
+	prevents <username>root</username> logins to the specified
+	terminals.  In &os;, <username>root</username> logins using
+	&man.ssh.1; are disabled by default as
+	<literal>PermitRootLogin</literal> is set to
+	<literal>no</literal> in
+	<filename>/etc/ssh/sshd_config</filename>.  Consider every
+	access method as services such as FTP often fall through the
+	cracks.  Direct <username>root</username> logins should only
+	be allowed via the system console.</para>
 
       <indexterm>
 	<primary><groupname>wheel</groupname></primary>
       </indexterm>
 
-      <para>Of course, as a sysadmin you have to be able to get to
-	<username>root</username>, so we open up a few holes.  But we
-	make sure these holes require additional password verification
-	to operate.  One way to make <username>root</username>
-	accessible is to add appropriate staff accounts to the
-	<groupname>wheel</groupname> group (in
-	<filename>/etc/group</filename>).  The staff members placed in
-	the <groupname>wheel</groupname> group are allowed to
-	<command>su</command> to <username>root</username>.  You
-	should never give staff members native
-	<groupname>wheel</groupname> access by putting them in the
-	<groupname>wheel</groupname> group in their password entry.
-	Staff accounts should be placed in a
-	<groupname>staff</groupname> group, and then added to the
-	<groupname>wheel</groupname> group via the
-	<filename>/etc/group</filename> file.  Only those staff
-	members who actually need to have <username>root</username>
-	access should be placed in the <groupname>wheel</groupname>
-	group.  It is also possible, when using an authentication
-	method such as Kerberos, to use Kerberos'
-	<filename>.k5login</filename> file in the
-	<username>root</username> account to allow a &man.ksu.1; to
-	<username>root</username> without having to place anyone at
-	all in the <groupname>wheel</groupname> group.  This may be
-	the better solution since the <groupname>wheel</groupname>
-	mechanism still allows an intruder to break
-	<username>root</username> if the intruder has gotten hold of
-	your password file and can break into a staff account.  While
-	having the <groupname>wheel</groupname> mechanism is better
-	than having nothing at all, it is not necessarily the safest
-	option.</para>
+      <para>Since a sysadmin needs access to
+	<username>root</username>, additional password verification
+	should be configured.  One method is to add appropriate user
+	accounts to <groupname>wheel</groupname> in
+	<filename>/etc/group</filename>.  Members of
+	<groupname>wheel</groupname> are allowed to
+	&man.su.1; to <username>root</username>.  Only
+	those users who actually need to have
+	<username>root</username> access should be placed in
+	<groupname>wheel</groupname>.  When using Kerberos for
+	authentication, create a <filename>.k5login</filename> in
+	the home directory of <username>root</username> to allow
+	&man.ksu.1; to be used without having to place anyone in
+	<groupname>wheel</groupname>.</para>
 
-      <para>To lock an account completely, the &man.pw.8; command
-	should be used:</para>
+      <para>To lock an account completely, use &man.pw.8;:</para>
 
       <screen>&prompt.root; <userinput>pw lock <replaceable>staff</replaceable></userinput></screen>
 
-      <para>This will prevent the user from logging in using any
-	mechanism, including &man.ssh.1;.</para>
+      <para>This will prevent the specified user from logging in using
+	any mechanism, including &man.ssh.1;.</para>
 
       <para>Another method of blocking access to accounts would be to
 	replace the encrypted password with a single
 	<quote><literal>*</literal></quote> character.  This character
-	would never match the encrypted password and thus block user
-	access.  For example, the following staff account:</para>
+	would never match the encrypted password and thus blocks user
+	access.  For example, the entry for the following
+	account:</para>
 
       <programlisting>foobar:R9DT/Fa1/LV9U:1000:1000::0:0:Foo Bar:/home/foobar:/usr/local/bin/tcsh</programlisting>
 
-      <para>Should be changed to this:</para>
+      <para>could be changed to this using &man.vipw.8;:</para>
 
       <programlisting>foobar:*:1000:1000::0:0:Foo Bar:/home/foobar:/usr/local/bin/tcsh</programlisting>
 
-      <para>This will prevent the <username>foobar</username> user
-	from logging in using conventional methods.  This method for
-	access restriction is flawed on sites using
+      <para>This prevents <username>foobar</username> from logging in
+	using conventional methods.  This method for access
+	restriction is flawed on sites using
 	<application>Kerberos</application> or in situations where the
 	user has set up keys with &man.ssh.1;.</para>
 
-      <para>These security mechanisms also assume that you are logging
+      <para>These security mechanisms assume that users are logging
 	in from a more restrictive server to a less restrictive
-	server.  For example, if your main box is running all sorts of
-	servers, your workstation should not be running any.  In order
-	for your workstation to be reasonably secure you should run as
-	few servers as possible, up to and including no servers at
-	all, and you should run a password-protected screen blanker.
-	Of course, given physical access to a workstation an attacker
-	can break any sort of security you put on it.  This is
-	definitely a problem that you should consider, but you should
-	also consider the fact that the vast majority of break-ins
-	occur remotely, over a network, from people who do not have
-	physical access to your workstation or servers.</para>
+	server.  For example, if the server is running network
+	services, the workstation should not be running any.  In
+	order for a workstation to be reasonably secure, run zero or
+	as few services as possible and run a password-protected
+	screensaver.  Of course, given physical access to any system,
+	an attacker can break any sort of security.  Fortunately,
+	many break-ins occur remotely, over a network,
+	from people who do not have physical access to the
+	system.</para>
 
-      <para>Using something like Kerberos also gives you the ability
-	to disable or change the password for a staff account in one
-	place, and have it immediately affect all the machines on
-	which the staff member may have an account.  If a staff
-	member's account gets compromised, the ability to instantly
-	change his password on all machines should not be underrated.
-	With discrete passwords, changing a password on N machines can
-	be a mess.  You can also impose re-passwording restrictions
-	with Kerberos: not only can a Kerberos ticket be made to
-	timeout after a while, but the Kerberos system can require
-	that the user choose a new password after a certain period of
-	time (say, once a month).</para>
+      <para>Using Kerberos provides the ability to disable or change
+	the password for a user in one place, and have it immediately
+	affect all the machines on which the user has an account.  If
+	an account is compromised, the ability to instantly change the
+	associated password on all machines should not be underrated.
+	Additional restrictions can be imposed with Kerberos:  a
+	Kerberos ticket can be configured to timeout and the Kerberos
+	system can require that the user choose a new password after a
+	configurable period of time.</para>
     </sect2>
 
     <sect2>
       <title>Securing Root-run Servers and SUID/SGID Binaries</title>
 
       <indexterm>
-	<primary><command>ntalk</command></primary>
-      </indexterm>
-      <indexterm>
-	<primary><command>comsat</command></primary>
-      </indexterm>
-      <indexterm>
-	<primary><command>finger</command></primary>
-      </indexterm>
-      <indexterm>
 	<primary>sandboxes</primary>
       </indexterm>
       <indexterm>
 	<primary><application>sshd</application></primary>
       </indexterm>
-      <indexterm>
-	<primary><application>telnetd</application></primary>
-      </indexterm>
-      <indexterm>
-	<primary><application>rshd</application></primary>
-      </indexterm>
-      <indexterm>
-	<primary><application>rlogind</application></primary>
-      </indexterm>
 
-      <para>The prudent sysadmin only runs the servers he needs to, no
-	more, no less.  Be aware that third party servers are often
-	the most bug-prone.  For example, running an old version of
-	<application>imapd</application> or
-	<application>popper</application> is like giving a universal
-	<username>root</username> ticket out to the entire world.
-	Never run a server that you have not checked out carefully.
-	Many servers do not need to be run as
-	<username>root</username>.  For example, the
-	<application>ntalk</application>,
-	<application>comsat</application>, and
-	<application>finger</application> daemons can be run in
-	special user <firstterm>sandboxes</firstterm>.  A sandbox is
-	not perfect, unless you go through a large amount of trouble,
-	but the onion approach to security still stands: If someone is
-	able to break in through a server running in a sandbox, they
-	still have to break out of the sandbox.  The more layers the
-	attacker must break through, the lower the likelihood of his
-	success.  Root holes have historically been found in virtually
-	every server ever run as <username>root</username>, including
-	basic system servers.  If you are running a machine through
-	which people only login via <application>sshd</application>
-	and never login via <application>telnetd</application> or
-	<application>rshd</application> or
-	<application>rlogind</application>, then turn off those
-	services!</para>
+      <para>The prudent sysadmin only enables required services
+	and is aware that third party servers are often the most
+	bug-prone.  Never run a server that has not been checked
+	out carefully.  Think twice before running any service as
+	<username>root</username> as many daemons can be run as a
+	separate service account or can be started in a
+	<firstterm>sandbox</firstterm>.  Do not activate insecure
+	services such as <application>telnetd</application> or
+	<application>rlogind</application>.</para>
 
-      <para>&os; now defaults to running
-	<application>ntalkd</application>,
-	<application>comsat</application>, and
-	<application>finger</application> in a sandbox.  Another
-	program which may be a candidate for running in a sandbox is
-	&man.named.8;.  <filename>/etc/defaults/rc.conf</filename>
-	includes the arguments necessary to run
-	<application>named</application> in a sandbox in a
-	commented-out form.  Depending on whether you are installing a
-	new system or upgrading an existing system, the special user
-	accounts used by these sandboxes may not be installed.  The
-	prudent sysadmin would research and implement sandboxes for
-	servers whenever possible.</para>
-
-      <indexterm>
-	<primary><application>sendmail</application></primary>
-      </indexterm>
-
-      <para>There are a number of other servers that typically do not
-	run in sandboxes: <application>sendmail</application>,
-	<application>popper</application>,
-	<application>imapd</application>,
-	<application>ftpd</application>, and others.  There are
-	alternatives to some of these, but installing them may require
-	more work than you are willing to perform (the convenience
-	factor strikes again).  You may have to run these servers as
-	<username>root</username> and rely on other mechanisms to
-	detect break-ins that might occur through them.</para>
-
-      <para>The other big potential <username>root</username> holes in
-	a system are the suid-root and sgid binaries installed on the
-	system.  Most of these binaries, such as
+      <para>Another potential security hole is SUID-root and SGID
+	binaries.  Most of these binaries, such as
 	<application>rlogin</application>, reside in <filename
 	  class="directory">/bin</filename>, <filename
 	  class="directory">/sbin</filename>, <filename
 	  class="directory">/usr/bin</filename>, or <filename
 	  class="directory">/usr/sbin</filename>.  While nothing is
-	100% safe, the system-default suid and sgid binaries can be
-	considered reasonably safe.  Still, <username>root</username>
-	holes are occasionally found in these binaries.  A
-	<username>root</username> hole was found in
-	<literal>Xlib</literal> in 1998 that made
-	<application>xterm</application> (which is typically suid)
-	vulnerable.  It is better to be safe than sorry and the
-	prudent sysadmin will restrict suid binaries, that only staff
-	should run, to a special group that only staff can access, and
-	get rid of (<command>chmod 000</command>) any suid binaries
-	that nobody uses.  A server with no display generally does not
-	need an <application>xterm</application> binary.  Sgid
-	binaries can be almost as dangerous.  If an intruder can break
-	an sgid-kmem binary, the intruder might be able to read
+	100% safe, the system-default SUID and SGID binaries can be
+	considered reasonably safe.  It is recommended to restrict
+	SUID binaries to a special group that only staff can access,
+	and to delete any unused SUID binaries.  SGID binaries can be
+	almost as dangerous.  If an intruder can break an SGID-kmem
+	binary, the intruder might be able to read
 	<filename>/dev/kmem</filename> and thus read the encrypted
-	password file, potentially compromising any passworded
-	account.  Alternatively an intruder who breaks group
+	password file, potentially compromising user accounts.
+	Alternatively, an intruder who breaks group
 	<literal>kmem</literal> can monitor keystrokes sent through
 	ptys, including ptys used by users who login through secure
 	methods.  An intruder that breaks the
@@ -558,226 +399,203 @@
       <title>Securing User Accounts</title>
 
       <para>User accounts are usually the most difficult to secure.
-	While you can impose draconian access restrictions on your
-	staff and <quote>star</quote> out their passwords, you may not
-	be able to do so with any general user accounts you might
-	have.  If you do have sufficient control, then you may win out
-	and be able to secure the user accounts properly.  If not, you
-	simply have to be more vigilant in your monitoring of those
-	accounts.  Use of ssh and Kerberos for user accounts is more
-	problematic, due to the extra administration and technical
-	support required, but still a very good solution compared to a
-	encrypted password file.</para>
+	Be vigilant in the monitoring of user accounts.  Use of
+	&man.ssh.1; and Kerberos for user accounts
+	requires extra administration and technical support, but
+	provides a good solution compared to an encrypted password
+	file.</para>
     </sect2>
 
     <sect2>
       <title>Securing the Password File</title>
 
       <para>The only sure fire way is to star out as many passwords as
-	you can and use ssh or Kerberos for access to those accounts.
-	Even though the encrypted password file
-	(<filename>/etc/spwd.db</filename>) can only be read by
-	<username>root</username>, it may be possible for an intruder
-	to obtain read access to that file even if the attacker cannot
-	obtain root-write access.</para>
+	possible and use &man.ssh.1; or Kerberos
+	for access to those accounts.  Even though the encrypted
+	password file (<filename>/etc/spwd.db</filename>) can only be
+	read by <username>root</username>, it may be possible for an
+	intruder to obtain read access to that file even if the
+	attacker cannot obtain root-write access.</para>
 
-      <para>Your security scripts should always check for and report
-	changes to the password file (see the <link
+      <para>Security scripts should be used to check for and report
+	changes to the password file as described in the <link
 	  linkend="security-integrity">Checking file integrity</link>
-	section below).</para>
+	section.</para>
     </sect2>
 
     <sect2>
       <title>Securing the Kernel Core, Raw Devices, and
-	File Systems</title>
+	Filesystems</title>
 
-      <para>If an attacker breaks <username>root</username> he can do
-	just about anything, but there are certain conveniences.  For
-	example, most modern kernels have a packet sniffing device
-	driver built in.  Under &os; it is called the
-	<devicename>bpf</devicename> device.  An intruder will
-	commonly attempt to run a packet sniffer on a compromised
-	machine.  You do not need to give the intruder the capability
-	and most systems do not have the need for the
-	<devicename>bpf</devicename> device compiled in.</para>
+      <para>Most modern kernels have a packet sniffing device driver
+	built in.  Under &os; it is called
+	<devicename>bpf</devicename>.  This device is needed for DHCP,
+	but can be removed in the custom kernel configuration file of
+	systems that do not provide or use DHCP.</para>
 
       <indexterm>
 	<primary><command>sysctl</command></primary>
       </indexterm>
 
-      <para>But even if you turn off the <devicename>bpf</devicename>
-	device, you still have <filename>/dev/mem</filename> and
-	<filename>/dev/kmem</filename> to worry about.  For that
-	matter, the intruder can still write to raw disk devices.
-	Also, there is another kernel feature called the module
-	loader, &man.kldload.8;.  An enterprising intruder can use a
-	KLD module to install his own <devicename>bpf</devicename>
-	device, or other sniffing device, on a running kernel.  To
-	avoid these problems you have to run the kernel at a higher
-	secure level, at least securelevel 1.</para>
+      <para>Even if <devicename>bpf</devicename> is disabled,
+	<filename>/dev/mem</filename> and
+	<filename>/dev/kmem</filename> are still problematic.  An
+	intruder can still write to raw disk devices.  An enterprising
+	intruder can use &man.kldload.8; to install his own
+	<devicename>bpf</devicename>, or another sniffing device, on a
+	running kernel.  To avoid these problems, run the kernel at a
+	higher security level, at least security level 1.</para>
 
-      <para>The secure level of the kernel can be set in a variety of
-	ways.  The simplest way of raising the secure level of a
-	running kernel is through a <command>sysctl</command> on the
-	<varname>kern.securelevel</varname> kernel variable:</para>
+      <para>The security level of the kernel can be set in a variety
+	of ways.  The simplest way of raising the security level of a
+	running kernel is to set
+	<varname>kern.securelevel</varname>:</para>
 
       <screen>&prompt.root; <userinput>sysctl kern.securelevel=<replaceable>1</replaceable></userinput></screen>
 
-      <para>By default, the &os; kernel boots with a secure level of
-	-1.  The secure level will remain at -1 unless it is altered,
-	either by the administrator or by &man.init.8; because of a
-	setting in the start up scripts.  The secure level may be
-	raised during system startup by setting the
-	<varname>kern_securelevel_enable</varname> variable to
-	<literal>YES</literal> in the
-	<filename>/etc/rc.conf</filename> file, and the value of the
-	<varname>kern_securelevel</varname> variable to the desired
-	secure level.</para>
+      <para>By default, the &os; kernel boots with a security level of
+	-1.  This is called <quote>insecure mode</quote> because
+	immutable file flags may be turned off and all devices may be
+	read from or written to.  The security level will remain at -1
+	unless it is altered, either by the administrator or by
+	&man.init.8;, because of a setting in the startup scripts.
+	The security level may be raised during system startup by
+	setting
+	<varname>kern_securelevel_enable</varname> to
+	<literal>YES</literal> in <filename>/etc/rc.conf</filename>,
+	and the value of <varname>kern_securelevel</varname> to the
+	desired security level.</para>
 
-      <para>The default secure level of a &os; system right after the
-	startup scripts are done is -1.  This is called
-	<quote>insecure mode</quote> because immutable file flags may
-	be turned off, all devices may be read from or written to, and
-	so on.</para>
-
-      <para>Once the secure level is set to 1 or a higher value, the
+      <para>Once the security level is set to 1 or a higher value, the
 	append-only and immutable files are honored, they cannot be
-	turned off, and access to raw devices will be denied.  Higher
+	turned off, and access to raw devices is denied.  Higher
 	levels restrict even more operations.  For a full description
-	of the effect of various secure levels, please read the
-	&man.security.7; manual page.</para>
+	of the effect of various security levels, refer to
+	&man.security.7; and &man.init.8;.</para>
 
       <note>
-	<para>Bumping the secure level to 1 or higher may cause a few
-	  problems to X11 (access to <filename>/dev/io</filename> will
-	  be blocked), or to the installation of &os; built from
-	  source (the <maketarget>installworld</maketarget> part of
-	  the process needs to temporarily reset the append-only and
-	  immutable flags of some files), and in a few other cases.
-	  Sometimes, as in the case of X11, it may be possible to work
-	  around this by starting &man.xdm.1; pretty early in the boot
-	  process, when the securelevel is still low enough.
-	  Workarounds like this may not be possible for all secure
+	<para>Bumping the security level to 1 or higher may cause a
+	  few
+	  problems to <application>&xorg;</application>, as access to
+	  <filename>/dev/io</filename> will be blocked, or to the
+	  installation of &os; built from source as
+	  <maketarget>installworld</maketarget> needs to temporarily
+	  reset the append-only and immutable flags of some files.
+	  In the case of <application>&xorg;</application>, it may be
+	  possible to work around this by starting &man.xdm.1; early
+	  in the boot process, when the security level is still low
+	  enough.  Workarounds may not be possible for all secure
 	  levels or for all the potential restrictions they enforce.
 	  A bit of forward planning is a good idea.  Understanding the
-	  restrictions imposed by each secure level is important as
+	  restrictions imposed by each security level is important as
 	  they severely diminish the ease of system use.  It will also
 	  make choosing a default setting much simpler and prevent any
 	  surprises.</para>
       </note>
 
-      <para>If the kernel's secure level is raised to 1 or a higher
+      <para>If the kernel's security level is raised to 1 or a higher
 	value, it may be useful to set the <literal>schg</literal>
-	flag on critical startup binaries, directories, and script
-	files (i.e., everything that gets run up to the point where
-	the securelevel is set).  This might be overdoing it, and
-	upgrading the system is much more difficult when it operates
-	at a high secure level.  A less strict compromise is to run
-	the system at a higher secure level but skip setting the
-	<literal>schg</literal> flag for every system file and
-	directory under the sun.  Another possibility is to simply
+	flag on critical startup binaries, directories, script
+	files, and  everything that gets run up to the point where
+	the security level is set.  A less strict compromise is to run
+	the system at a higher security level but skip setting the
+	<literal>schg</literal> flag.  Another possibility is to
 	mount <filename class="directory">/</filename> and <filename
 	  class="directory">/usr</filename> read-only.  It should be
 	noted that being too draconian about what is permitted may
-	prevent the all-important detection of an intrusion.</para>
+	prevent detection of an intrusion.</para>
     </sect2>
 
     <sect2 id="security-integrity">
-      <title>Checking File Integrity: Binaries, Configuration Files,
-	Etc.</title>
+      <title>Checking File Integrity</title>
 
-      <para>When it comes right down to it, you can only protect your
-	core system configuration and control files so much before the
-	convenience factor rears its ugly head.  For example, using
-	<command>chflags</command> to set the <literal>schg</literal>
-	bit on most of the files in <filename
-	  class="directory">/</filename> and <filename
+      <para>One can only protect the core system configuration and
+	control files so much before the convenience factor rears its
+	ugly head.  For example, using &man.chflags.1; to
+	set the <literal>schg</literal> bit on most of the files in
+	<filename class="directory">/</filename> and <filename
 	  class="directory">/usr</filename> is probably
 	counterproductive, because while it may protect the files, it
-	also closes a detection window.  The last layer of your
-	security onion is perhaps the most important &mdash;
-	detection.  The rest of your security is pretty much useless
-	(or, worse, presents you with a false sense of security) if
-	you cannot detect potential intrusions.  Half the job of the
-	onion is to slow down the attacker, rather than stop him, in
-	order to be able to catch him in the act.</para>
+	also closes an intrusion detection window.  Security measures
+	are useless or, worse, present a false sense of security, if
+	potential intrusions cannot be detected.  Half the job of
+	security is to slow down, not stop, an attacker, in order to
+	catch him in the act.</para>
 
       <para>The best way to detect an intrusion is to look for
 	modified, missing, or unexpected files.  The best way to look
-	for modified files is from another (often centralized)
+	for modified files is from another, often centralized,
 	limited-access system.  Writing your security scripts on the
-	extra-secure limited-access system makes them mostly invisible
-	to potential attackers, and this is important.  In order to
-	take maximum advantage you generally have to give the
-	limited-access box significant access to the other machines in
-	the business, usually either by doing a read-only NFS export
-	of the other machines to the limited-access box, or by setting
-	up ssh key-pairs to allow the limited-access box to ssh to the
-	other machines.  Except for its network traffic, NFS is the
-	least visible method &mdash; allowing you to monitor the file
-	systems on each client box virtually undetected.  If your
-	limited-access server is connected to the client boxes through
-	a switch, the NFS method is often the better choice.  If your
-	limited-access server is connected to the client boxes through
-	a hub, or through several layers of routing, the NFS method
-	may be too insecure (network-wise) and using ssh may be the
-	better choice even with the audit-trail tracks that ssh
-	lays.</para>
+	extra-security limited-access system makes them mostly
+	invisible
+	to potential attackers.  In order to take maximum advantage,
+	the limited-access box needs significant access to the other
+	machines, usually either through a read-only
+	<acronym>NFS</acronym> export or by setting up
+	&man.ssh.1; key-pairs.  Except for its
+	network traffic, <acronym>NFS</acronym> is the least visible
+	method, allowing the administrator to monitor the filesystems
+	on each client box virtually undetected.  If a limited-access
+	server is connected to the client boxes through
+	a switch, the <acronym>NFS</acronym> method is often the
+	better choice.  If a limited-access server is connected to the
+	client boxes through several layers of routing, the
+	<acronym>NFS</acronym> method may be too insecure and
+	&man.ssh.1; may be the better
+	choice.</para>
 
-      <para>Once you have given a limited-access box at least read
-	access to the client systems it is supposed to monitor, you
-	must write scripts to do the actual monitoring.  Given an NFS
-	mount, you can write scripts out of simple system utilities
-	such as &man.find.1; and &man.md5.1;.  It is best to
-	physically md5 the client-box files at least once a day, and
+      <para>Once a limited-access box has been given at least read
+	access to the client systems it is supposed to monitor, create
+	the monitoring scripts.  Given an <acronym>NFS</acronym>
+	mount, write scripts out of simple system utilities such as
+	&man.find.1; and &man.md5.1;.  It is best to physically
+	&man.md5.1; the client system's files at least once a day, and
 	to test control files such as those found in <filename
 	  class="directory">/etc</filename> and <filename
 	  class="directory">/usr/local/etc</filename> even more often.
 	When mismatches are found, relative to the base md5
 	information the limited-access machine knows is valid, it
-	should scream at a sysadmin to go check it out.  A good
-	security script will also check for inappropriate suid
-	binaries and for new or deleted files on system partitions
-	such as <filename class="directory">/</filename> and <filename
+	should alert the sysadmin.  A good security script will also
+	check for inappropriate SUID binaries and for new or deleted
+	files on system partitions such as <filename
+	  class="directory">/</filename> and <filename
 	  class="directory">/usr</filename>.</para>
 
-      <para>When using ssh rather than NFS, writing the security
-	script is much more difficult.  You essentially have to
-	<command>scp</command> the scripts to the client box in order
-	to run them, making them visible, and for safety you also need
-	to <command>scp</command> the binaries (such as find) that
-	those scripts use.  The <application>ssh</application> client
-	on the client box may already be compromised.  All in all,
-	using ssh may be necessary when running over insecure links,
-	but it is also a lot harder to deal with.</para>
+      <para>When using &man.ssh.1; rather than
+	<acronym>NFS</acronym>, writing the security script is more
+	difficult.  For example, &man.scp.1; is needed to
+	send the scripts to the client box in order to run them.  The
+	&man.ssh.1; client
+	on the client box may already be compromised.  Using
+	&man.ssh.1; may be necessary when running
+	over insecure links, but it is harder to deal with.</para>
 
-      <para>A good security script will also check for changes to user
-	and staff members access configuration files:
-	<filename>.rhosts</filename>, <filename>.shosts</filename>,
-	<filename>.ssh/authorized_keys</filename> and so forth, files
-	that might fall outside the purview of the
+      <para>A good security script will also check for changes to
+	hidden configuration files, such as
+	<filename>.rhosts</filename> and
+	<filename>.ssh/authorized_keys</filename>, as these files
+	might fall outside the purview of the
 	<literal>MD5</literal> check.</para>
 
-      <para>If you have a huge amount of user disk space, it may take
-	too long to run through every file on those partitions.  In
-	this case, setting mount flags to disallow suid binaries is a
-	good idea.  The <literal>nosuid</literal> option (see
-	&man.mount.8;) is what you want to look into.  You should
-	probably scan them anyway, at least once a week, since the
-	object of this layer is to detect a break-in attempt, whether
-	or not the attempt succeeds.</para>
+      <para>For a large amount of user disk space, it may take too
+	long to run through every file on those partitions.  In this
+	case, consider setting mount flags to disallow SUID binaries
+	by using <literal>nosuid</literal> with &man.mount.8;.  Scan
+	these partitions at least once a week, since the objective is
+	to detect a break-in attempt, whether or not the attempt
+	succeeds.</para>
 
       <para>Process accounting (see &man.accton.8;) is a relatively
-	low-overhead feature of the operating system which might help
-	as a post-break-in evaluation mechanism.  It is especially
-	useful in tracking down how an intruder has actually broken
-	into a system, assuming the file is still intact after the
-	break-in has occurred.</para>
+	low-overhead feature of &os; which might help as a
+	post-break-in evaluation mechanism.  It is especially useful
+	in tracking down how an intruder broke into a system, assuming
+	the file is still intact after the break-in has
+	occurred.</para>
 
       <para>Finally, security scripts should process the log files,
 	and the logs themselves should be generated in as secure a
-	manner as possible &mdash; remote syslog can be very useful.
-	An intruder will try to cover his tracks, and log files are
+	manner as possible and sent to a remote syslog server.  An
+	intruder will try to cover his tracks, and log files are
 	critical to the sysadmin trying to track down the time and
 	method of the initial break-in.  One way to keep a permanent
 	record of the log files is to run the system console to a
@@ -789,14 +607,15 @@
       <title>Paranoia</title>
 
       <para>A little paranoia never hurts.  As a rule, a sysadmin can
-	add any number of security features, as long as they do not
-	affect convenience, and can add security features that
+	add any number of security features which do not affect
+	convenience and can add security features that
 	<emphasis>do</emphasis> affect convenience with some added
-	thought.  Even more importantly, a security administrator
-	should mix it up a bit &mdash; if you use recommendations such
-	as those given by this document verbatim, you give away your
-	methodologies to the prospective attacker who also has access
-	to this document.</para>
+	thought.  More importantly, a security administrator should
+	mix it up a bit.  If recommendations, such as those mentioned
+	in this section, are applied verbatim, those methodologies are
+	given to
+	the prospective attacker who also has access to this
+	document.</para>
     </sect2>
 
     <sect2>
@@ -806,11 +625,11 @@
 	<primary>Denial of Service (DoS)</primary>
       </indexterm>
 
-      <para>This section covers Denial of Service attacks.  A DoS
-	attack is typically a packet attack.  While there is not much
-	you can do about modern spoofed packet attacks that saturate
-	your network, you can generally limit the damage by ensuring
-	that the attacks cannot take down your servers by:</para>
+      <para>A <acronym>DoS</acronym> attack is typically a packet
+	attack.  While there is not much one can do about spoofed
+	packet attacks that saturate a network, one can generally
+	limit the damage by ensuring that the attack cannot take down
+	servers by:</para>
 
       <orderedlist>
 	<listitem>
@@ -818,146 +637,118 @@
 	</listitem>
 
 	<listitem>
-	  <para>Limiting springboard attacks (ICMP response attacks,
-	    ping broadcast, etc.).</para>
+	  <para>Limiting springboard attacks such as ICMP response
+	    attacks and ping broadcasts.</para>
 	</listitem>
 
 	<listitem>
-	  <para>Overloading the Kernel Route Cache.</para>
+	  <para>Overloading the kernel route cache.</para>
 	</listitem>
       </orderedlist>
 
-      <para>A common DoS attack scenario is attacking a forking server
-	and making it spawn so many child processes that the host
-	system eventually runs out of memory, file descriptors, etc.
-	and then grinds to a halt.  <application>inetd</application>
-	(see &man.inetd.8;) has several options to limit this sort of
-	attack.  It should be noted that while it is possible to
-	prevent a machine from going down, it is not generally
-	possible to prevent a service from being disrupted by the
-	attack.  Read the <application>inetd</application> manual page
-	carefully and pay specific attention to the
+      <para>A common <acronym>DoS</acronym> attack scenario is to
+	force a forking server to spawn so many child processes that
+	the host system eventually runs out of memory and file
+	descriptors, and then grinds to a halt.  There are several
+	options to &man.inetd.8; to limit this sort of attack.  It
+	should be noted that while it is possible to prevent a machine
+	from going down, it is not generally possible to prevent a
+	service from being disrupted by the attack.  Read
+	&man.inetd.8; carefully and pay specific attention to
 	<option>-c</option>, <option>-C</option>, and
-	<option>-R</option> options.  Note that spoofed-IP attacks
-	will circumvent the <option>-C</option> option to
-	<application>inetd</application>, so typically a combination
-	of options must be used.  Some standalone servers have
-	self-fork-limitation parameters.</para>
+	<option>-R</option>.  Spoofed IP attacks will circumvent
+	<option>-C</option> to <application>inetd</application>, so
+	typically a combination of options must be used.  Some
+	standalone servers have self-fork-limitation
+	parameters.</para>
 
-      <para><application>Sendmail</application> has its
-	<option>-OMaxDaemonChildren</option> option, which tends to
-	work much better than trying to use
+      <para><application>Sendmail</application> provides
+	<option>-OMaxDaemonChildren</option>, which tends to work
+	better than trying to use
 	<application>Sendmail</application>'s load limiting options
-	due to the load lag.  You should specify a
-	<literal>MaxDaemonChildren</literal> parameter, when you start
-	<application>sendmail</application>; high enough to handle
-	your expected load, but not so high that the computer cannot
-	handle that number of <application>Sendmail</application>
-	instances without falling on its face.  It is also prudent to
-	run <application>Sendmail</application> in queued mode
-	(<option>-ODeliveryMode=queued</option>) and to run the daemon
-	(<command>sendmail -bd</command>) separate from the queue-runs
-	(<command>sendmail -q15m</command>).  If you still want
-	real-time delivery you can run the queue at a much lower
-	interval, such as <option>-q1m</option>, but be sure to
-	specify a reasonable <literal>MaxDaemonChildren</literal>
-	option for <emphasis>that</emphasis>
-	<application>Sendmail</application> to prevent cascade
-	failures.</para>
+	due to the load lag.  Specify a
+	<literal>MaxDaemonChildren</literal> when starting
+	<application>Sendmail</application> which is high enough to
+	handle the expected load, but not so high that the computer
+	cannot handle that number of
+	<application>Sendmail</application> instances.  It is prudent
+	to run <application>Sendmail</application> in queued mode
+	using <option>-ODeliveryMode=queued</option> and to run the
+	daemon (<command>sendmail -bd</command>) separate from the
+	queue-runs (<command>sendmail -q15m</command>).  For
+	real-time delivery, run the queue at a much lower interval,
+	such as <option>-q1m</option>, but be sure to specify a
+	reasonable <literal>MaxDaemonChildren</literal> to prevent
+	cascade failures.</para>
 
       <para><application>Syslogd</application> can be attacked
-	directly and it is strongly recommended that you use the
-	<option>-s</option> option whenever possible, and the
-	<option>-a</option> option otherwise.</para>
+	directly and it is strongly recommended to use
+	<option>-s</option> whenever possible, and
+	<option>-a</option> otherwise.</para>
 
-      <para>You should also be fairly careful with connect-back
-	services such as <application>TCP Wrapper</application>'s
-	reverse-identd, which can be attacked directly.  You generally
-	do not want to use the reverse-ident feature of
-	<application>TCP Wrapper</application> for this reason.</para>
+      <para>Be careful with connect-back
+	services such as
+	reverse-identd, which can be attacked directly.  The
+	reverse-ident feature of
+	<application>TCP Wrappers</application> is not recommended for
+	this reason.</para>
 
-      <para>It is a very good idea to protect internal services from
-	external access by firewalling them off at your border
-	routers.  The idea here is to prevent saturation attacks from
-	outside your LAN, not so much to protect internal services
-	from network-based <username>root</username> compromise.
-	Always configure an exclusive firewall, i.e., <quote>firewall
-	everything <emphasis>except</emphasis> ports A, B, C, D, and
-	M-Z</quote>.  This way you can firewall off all of your low
-	ports except for certain specific services such as
-	<application>named</application> (if you are primary for a
-	zone), <application>ntalkd</application>,
-	<application>sendmail</application>, and other
-	Internet-accessible services.  If you try to configure the
-	firewall the other way &mdash; as an inclusive or permissive
-	firewall, there is a good chance that you will forget to
-	<quote>close</quote> a couple of services, or that you will
-	add a new internal service and forget to update the firewall.
-	You can still open up the high-numbered port range on the
-	firewall, to allow permissive-like operation, without
-	compromising your low ports.  Also take note that &os; allows
-	you to control the range of port numbers used for dynamic
-	binding, via the various
-	<varname>net.inet.ip.portrange</varname>
-	<command>sysctl</command>'s (<command>sysctl -a | fgrep
-	portrange</command>), which can also ease the complexity of
-	your firewall's configuration.  For example, you might use a
-	normal first/last range of 4000 to 5000, and a hiport range of
-	49152 to 65535, then block off everything under 4000 in your
-	firewall (except for certain specific Internet-accessible
-	ports, of course).</para>
+      <para>It is recommended to protect internal services from
+	external access by firewalling them at the border routers.
+	This is to prevent saturation attacks from outside the LAN,
+	not so much to protect internal services from network-based
+	<username>root</username> compromise.  Always configure an
+	exclusive firewall which denies everything by default except
+	for traffic which is explicitly allowed.  The range of port
+	numbers used for dynamic binding in &os; is controlled by
+	several	<varname>net.inet.ip.portrange</varname>
+	&man.sysctl.8; variables.</para>
 
-      <para>Another common DoS attack is called a springboard attack
-	&mdash; to attack a server in a manner that causes the server
-	to generate responses which overloads the server, the local
-	network, or some other machine.  The most common attack of
-	this nature is the <emphasis>ICMP ping broadcast
-	attack</emphasis>.  The attacker spoofs ping packets sent to
-	your LAN's broadcast address with the source IP address set to
-	the actual machine they wish to attack.  If your border
-	routers are not configured to stomp on ping packets to
-	broadcast addresses, your LAN winds up generating sufficient
-	responses to the spoofed source address to saturate the
-	victim, especially when the attacker uses the same trick on
-	several dozen broadcast addresses over several dozen different
-	networks at once.  Broadcast attacks of over a hundred and
-	twenty megabits have been measured.  A second common
-	springboard attack is against the ICMP error reporting system.
-	By constructing packets that generate ICMP error responses, an
-	attacker can saturate a server's incoming network and cause
-	the server to saturate its outgoing network with ICMP
-	responses.  This type of attack can also crash the server by
-	running it out of memory, especially if the server cannot
-	drain the ICMP responses it generates fast enough.  Use the
-	<application>sysctl</application> variable
+      <para>Another common <acronym>DoS</acronym> attack, called a
+	springboard attack, causes the server to generate responses
+	which overloads the server, the local network, or some other
+	machine.  The most common attack of this nature is the
+	<emphasis>ICMP ping broadcast attack</emphasis>.  The attacker
+	spoofs ping packets sent to the LAN's broadcast address with
+	the source IP address set to the machine to attack.  If the
+	border routers are not configured to drop ping packets sent to
+	broadcast addresses, the LAN generates sufficient responses to
+	the spoofed source address to saturate the victim, especially
+	when the attack is against several dozen broadcast addresses
+	over several dozen different networks at once.  A second
+	common springboard attack constructs packets that generate
+	ICMP error responses which can saturate a server's incoming
+	network and cause the server to saturate its outgoing network
+	with ICMP responses.  This type of attack can crash the
+	server by running it out of memory, especially if the server
+	cannot drain the ICMP responses it generates fast enough.  Use
+	the <application>sysctl</application> variable
 	<literal>net.inet.icmp.icmplim</literal> to limit these
 	attacks.  The last major class of springboard attacks is
 	related to certain internal <application>inetd</application>
-	services such as the udp echo service.  An attacker simply
-	spoofs a UDP packet with the source address being server A's
-	echo port, and the destination address being server B's echo
-	port, where server A and B are both on your LAN.  The two
-	servers then bounce this one packet back and forth between
-	each other.  The attacker can overload both servers and their
-	LANs simply by injecting a few packets in this manner.
-	Similar problems exist with the internal
-	<application>chargen</application> port.  A competent sysadmin
-	will turn off all of these inetd-internal test
-	services.</para>
+	services such as the UDP echo service.  An attacker spoofs a
+	UDP packet with a source address of server A's echo port
+	and a destination address of server B's echo port, where
+	server A and B on the same LAN.  The two servers bounce this
+	one packet back and forth between each other.  The attacker
+	can overload both servers and the LAN by injecting a few
+	packets in this manner.  Similar problems exist with the
+	<application>chargen</application> port.  These inetd-internal
+	test services should remain disabled.</para>
 
-      <para>Spoofed packet attacks may also be used to overload the
+      <para>Spoofed packet attacks may be used to overload the
 	kernel route cache.  Refer to the
 	<varname>net.inet.ip.rtexpire</varname>,
 	<varname>rtminexpire</varname>, and
-	<varname>rtmaxcache</varname> <command>sysctl</command>
+	<varname>rtmaxcache</varname> &man.sysctl.8;
 	parameters.  A spoofed packet attack that uses a random source
 	IP will cause the kernel to generate a temporary cached route
 	in the route table, viewable with <command>netstat -rna |
 	fgrep W3</command>.  These routes typically timeout in 1600
 	seconds or so.  If the kernel detects that the cached route
-	table has gotten too big it will dynamically reduce the
+	table has gotten too big, it will dynamically reduce the
 	<varname>rtexpire</varname> but will never decrease it to less
-	than <varname>rtminexpire</varname>.  There are two
+	than <varname>rtminexpire</varname>.  This creates two
 	problems:</para>
 
       <orderedlist>
@@ -973,11 +764,11 @@
 	</listitem>
       </orderedlist>
 
-      <para>If your servers are connected to the Internet via a T3 or
+      <para>If the servers are connected to the Internet via a T3 or
 	better, it may be prudent to manually override both
 	<varname>rtexpire</varname> and <varname>rtminexpire</varname>
 	via &man.sysctl.8;.  Never set either parameter to zero
-	(unless you want to crash the machine).  Setting both
+	as this could crash the machine.  Setting both
 	parameters to 2 seconds should be sufficient to protect the
 	route table from attack.</para>
     </sect2>
@@ -988,40 +779,38 @@
       <indexterm><primary><command>ssh</command></primary></indexterm>
 
       <para>There are a few issues with both Kerberos and
-	ssh that need to be addressed if
-	you intend to use them.  Kerberos 5 is an excellent
-	authentication protocol, but there are bugs in the kerberized
-	<application>telnet</application> and
-	<application>rlogin</application> applications that make them
-	unsuitable for dealing with binary streams.  Also, by default
-	Kerberos does not encrypt a session unless you use the
-	<option>-x</option> option.  <application>ssh</application>
-	encrypts everything by default.</para>
+	&man.ssh.1; that need to be addressed if
+	they are used.  Kerberos is an excellent authentication
+	protocol, but there are bugs in the kerberized
+	&man.telnet.1; and &man.rlogin.1; applications that make them
+	unsuitable for dealing with binary streams.  By default,
+	Kerberos does not encrypt a session unless
+	<option>-x</option> is used whereas  &man.ssh.1;
+	encrypts everything.</para>
 
-      <para>Ssh works quite well in every respect except that it
-	forwards encryption keys by default.  What this means is that
-	if you have a secure workstation holding keys that give you
-	access to the rest of the system, and you ssh to an insecure
-	machine, your keys are usable.  The actual keys themselves are
-	not exposed, but ssh installs a forwarding port for the
-	duration of your login, and if an attacker has broken
-	<username>root</username> on the insecure machine he can
-	utilize that port to use your keys to gain access to any other
-	machine that your keys unlock.</para>
+      <para>While &man.ssh.1; works well, it
+	forwards encryption keys by default.  This introduces a
+	security risk to a user who uses
+	&man.ssh.1; to access an insecure
+	machine from a secure workstation.  The keys themselves are
+	not exposed, but &man.ssh.1; installs a
+	forwarding port for the duration of the login.  If an attacker
+	has broken <username>root</username> on the insecure machine,
+	he can utilize that port to gain access to any other machine
+	that those keys unlock.</para>
 
-      <para>We recommend that you use ssh in combination with Kerberos
-	whenever possible for staff logins.
-	<application>Ssh</application> can be compiled with Kerberos
-	support.  This reduces your reliance on potentially exposed
-	ssh keys while at the same time protecting passwords via
-	Kerberos.  Ssh keys should only be used for automated tasks
-	from secure machines (something that Kerberos is unsuited to
-	do).  We also recommend that you either turn off
-	key-forwarding in the ssh configuration, or that you make use
-	of the <literal>from=IP/DOMAIN</literal> option that ssh
-	allows in its <filename>authorized_keys</filename> file to
-	make the key only usable to entities logging in from specific
-	machines.</para>
+      <para>It is recommended that &man.ssh.1; is
+	used in combination with Kerberos whenever possible for staff
+	logins and  &man.ssh.1; can be compiled with
+	Kerberos support.  This reduces reliance on potentially
+	exposed ssh keys while protecting passwords via Kerberos.
+	Keys should only be used for automated tasks from secure
+	machines as this is something that Kerberos is unsuited to.
+	It is recommended to either turn off key-forwarding in the
+	<application>ssh</application> configuration, or to make use
+	of <literal>from=IP/DOMAIN</literal> in
+	<filename>authorized_keys</filename> to make the key only
+	usable to entities logging in from specific machines.</para>
     </sect2>
   </sect1>
 
@@ -1052,56 +841,43 @@
     <indexterm><primary>SHA512</primary></indexterm>
 
     <para>Every user on a &unix; system has a password associated with
-      their account.  It seems obvious that these passwords need to be
-      known only to the user and the actual operating system.  In
-      order to keep these passwords secret, they are encrypted with
-      what is known as a <quote>one-way hash</quote>, that is, they
-      can only be easily encrypted but not decrypted.  In other words,
-      what we told you a moment ago was obvious is not even true: the
-      operating system itself does not <emphasis>really</emphasis>
-      know the password.  It only knows the
+      their account.  In order to keep these passwords secret, they
+      are encrypted with a <quote>one-way hash</quote>, as they can
+      be easily encrypted but not decrypted.  The operating system
+      itself does not know the password.  It only knows the
       <emphasis>encrypted</emphasis> form of the password.  The only
       way to get the <quote>plain-text</quote> password is by a brute
       force search of the space of possible passwords.</para>
 
-    <para>Unfortunately the only secure way to encrypt passwords when
-      &unix; came into being was based on DES, the Data Encryption
-      Standard.  This was not such a problem for users resident in the
-      US, but since the source code for DES could not be exported
+    <para>Originally, the only secure way to encrypt passwords in
+      &unix; was based on the Data Encryption Standard
+      (<acronym>DES</acronym>).  Since the source code for
+      <acronym>DES</acronym> could not be exported
       outside the US, &os; had to find a way to both comply with US
-      law and retain compatibility with all the other &unix; variants
-      that still used DES.</para>
-
-    <para>The solution was to divide up the encryption libraries so
-      that US users could install the DES libraries and use DES but
-      international users still had an encryption method that could be
-      exported abroad.  This is how &os; came to use MD5 as its
-      default encryption method.  MD5 is believed to be more secure
-      than DES, so installing DES is offered primarily for
-      compatibility reasons.</para>
+      law and retain compatibility with other &unix; variants that
+      used <acronym>DES</acronym>.  The solution was MD5 which is
+      believed to be more secure than <acronym>DES</acronym>.</para>
 
     <sect2>
-      <title>Recognizing Your Crypt Mechanism</title>
+      <title>Recognizing the Crypt Mechanism</title>
 
-      <para>Currently the library supports DES, MD5, Blowfish, SHA256,
-	and SHA512 hash functions.  By default &os;&nbsp;9.1 and later
-	uses SHA512 to encrypt passwords.  Older versions use MD5 by
-	default.</para>
-
-      <para>It is pretty easy to identify which encryption method &os;
-	is set up to use.  Examining the encrypted passwords in the
-	<filename>/etc/master.passwd</filename> file is one way.
-	Passwords encrypted with the MD5 hash are longer than those
-	encrypted with the DES hash and also begin with the characters
+      <para>Currently the library supports <acronym>DES</acronym>,
+	MD5, Blowfish, SHA256, and SHA512 hash functions.  To identify
+	which encryption method &os; is set up to use, examine the
+	encrypted passwords in
+	<filename>/etc/master.passwd</filename>.  Passwords encrypted
+	with the MD5 hash are longer than those encrypted with the
+	<acronym>DES</acronym> hash and begin with the characters
 	<literal>&dollar;1&dollar;</literal>.  Passwords starting with
 	<literal>&dollar;2a&dollar;</literal> are encrypted with the
-	Blowfish hash function.  DES password strings do not have any
-	particular identifying characteristics, but they are shorter
-	than MD5 passwords, and are coded in a 64-character alphabet
-	which does not include the <literal>&dollar;</literal>
-	character, so a relatively short string which does not begin
-	with a dollar sign is very likely a DES password.  Both SHA256
-	and SHA512 begin with the characters
+	Blowfish hash function.  <acronym>DES</acronym> password
+	strings do not have any particular identifying
+	characteristics, but they are shorter than MD5 passwords, and
+	are coded in a 64-character alphabet which does not include
+	the <literal>&dollar;</literal> character, so a relatively
+	short string which does not begin with a dollar sign is very
+	likely a <acronym>DES</acronym> password.  Both SHA256 and
+	SHA512 begin with the characters
 	<literal>&dollar;6&dollar;</literal>.</para>
 
       <para>The password format used for new passwords is controlled
@@ -1109,8 +885,8 @@
 	<filename>/etc/login.conf</filename>, which takes values of
 	<literal>des</literal>, <literal>md5</literal>,
 	<literal>blf</literal>, <literal>sha256</literal> or
-	<literal>sha512</literal>.  See the &man.login.conf.5; manual
-	page for more information about login capabilities.</para>
+	<literal>sha512</literal>.  Refer to &man.login.conf.5; for
+	more information about login capabilities.</para>
     </sect2>
   </sect1>
 
@@ -1123,83 +899,79 @@
       <secondary>one-time passwords</secondary>
     </indexterm>
 
-    <para>By default, &os; includes support for OPIE (One-time
-      Passwords In Everything), which uses the MD5 hash by
+    <para>By default, &os; includes support for One-time Passwords In
+      Everything (<acronym>OPIE</acronym>), which uses the MD5 hash by
       default.</para>
 
-    <para>There are three different sorts of passwords which we will
-      discuss below.  The first is your usual &unix; style or Kerberos
-      password; we will call this a <quote>&unix; password</quote>.
-      The second sort is the one-time password which is generated by
-      the OPIE &man.opiekey.1; program and accepted by the
-      &man.opiepasswd.1; program and the login prompt; we will call
-      this a <quote>one-time password</quote>.  The final sort of
-      password is the secret password which you give to the
-      <command>opiekey</command> program (and sometimes the
-      <command>opiepasswd</command> programs) which it uses to
-      generate one-time passwords; we will call it a <quote>secret
-      password</quote> or just unqualified
-      <quote>password</quote>.</para>
+    <para>There are three different types of passwords.  The first is
+      the usual &unix; style or Kerberos password.  The second is the
+      one-time password which is generated by &man.opiekey.1; and
+      accepted by &man.opiepasswd.1; and the login prompt.  The final
+      type of password is the <quote>secret password</quote> used by
+      &man.opiekey.1;, and sometimes &man.opiepasswd.1;, to generate
+      one-time passwords.</para>
 
-    <para>The secret password does not have anything to do with your
-      &unix; password; they can be the same but this is not
-      recommended.  OPIE secret passwords are not limited to 8
+    <para>The secret password has nothing to do with the &unix;
+      password.  They can be the same, but this is not recommended.
+      <acronym>OPIE</acronym> secret passwords are not limited to 8
       characters like old &unix; passwords<footnote><para>Under &os;
 	  the standard login password may be up to 128 characters in
-	  length.</para></footnote>, they can be as long as you like.
-      Passwords of six or seven word long phrases are fairly common.
-      For the most part, the OPIE system operates completely
-      independently of the &unix; password system.</para>
+	  length.</para></footnote>.  Passwords of six or seven word
+      long phrases are fairly common.  For the most part, the
+      <acronym>OPIE</acronym> system operates completely independently
+      of the &unix; password system.</para>
 
     <para>Besides the password, there are two other pieces of data
-      that are important to OPIE.  One is what is known as the
+      that are important to <acronym>OPIE</acronym>.  One is the
       <quote>seed</quote> or <quote>key</quote>, consisting of two
-      letters and five digits.  The other is what is called the
-      <quote>iteration count</quote>, a number between 1 and 100.
-      OPIE creates the one-time password by concatenating the seed and
-      the secret password, then applying the MD5 hash as many times as
-      specified by the iteration count and turning the result into six
-      short English words.  These six English words are your one-time
-      password.  The authentication system (primarily PAM) keeps track
-      of the last one-time password used, and the user is
-      authenticated if the hash of the user-provided password is equal
-      to the previous password.  Because a one-way hash is used it is
-      impossible to generate future one-time passwords if a
-      successfully used password is captured; the iteration count is
-      decremented after each successful login to keep the user and the
-      login program in sync.  When the iteration count gets down to 1,
-      OPIE must be reinitialized.</para>
+      letters and five digits.  The other is the <quote>iteration
+	count</quote>, a number between 1 and 100.
+      <acronym>OPIE</acronym> creates the one-time password by
+      concatenating the seed and the secret password, applying the MD5
+      hash as many times as specified by the iteration count, and
+      turning the result into six short English words.  These six
+      English words are the one-time password.  The authentication
+      system (primarily PAM) keeps track of the last one-time password
+      used, and the user is authenticated if the hash of the
+      user-provided password is equal to the previous password.
+      Because a one-way hash is used, it is impossible to generate
+      future one-time passwords if a successfully used password is
+      captured.  The iteration count is decremented after each
+      successful login to keep the user and the login program in sync.
+      When the iteration count gets down to 1,
+      <acronym>OPIE</acronym> must be reinitialized.</para>
 
-    <para>There are a few programs involved in each system which we
-      will discuss below.  The <command>opiekey</command> program
-      accepts an iteration count, a seed, and a secret password, and
-      generates a one-time password or a consecutive list of one-time
-      passwords.  The <command>opiepasswd</command> program is used to
-      initialize OPIE, and to change passwords, iteration counts, or
-      seeds; it takes either a secret passphrase, or an iteration
-      count, seed, and a one-time password.  The
-      <command>opieinfo</command> program will examine the relevant
-      credentials files (<filename>/etc/opiekeys</filename>) and print
-      out the invoking user's current iteration count and seed.</para>
+    <para>There are a few programs involved in this process.
+      &man.opiekey.1; accepts an iteration count, a seed,
+      and a secret password, and generates a one-time password or a
+      consecutive list of one-time passwords.  In addition to
+      initializing <acronym>OPIE</acronym>,
+      &man.opiepasswd.1; is used to change passwords,
+      iteration counts, or seeds.  It takes either a secret
+      passphrase, or an iteration count, seed, and a one-time
+      password.  The relevant credential files in
+      <filename>/etc/opiekeys</filename> are examined by
+      &man.opieinfo.1; which prints out the invoking user's
+      current iteration count and seed.</para>
 
-    <para>There are four different sorts of operations we will cover.
-      The first is using <command>opiepasswd</command> over a secure
-      connection to set up one-time-passwords for the first time, or
-      to change your password or seed.  The second operation is using
-      <command>opiepasswd</command> over an insecure connection, in
-      conjunction with <command>opiekey</command> over a secure
-      connection, to do the same.  The third is using
-      <command>opiekey</command> to log in over an insecure
-      connection.  The fourth is using <command>opiekey</command> to
+    <para>There are four different sorts of operations.  The first is
+      to use &man.opiepasswd.1; over a secure connection to
+      set up one-time-passwords for the first time, or to change the
+      password or seed.  The second operation is to use
+      &man.opiepasswd.1; over an insecure connection, in
+      conjunction with &man.opiekey.1; over a secure
+      connection, to do the same.  The third is to use
+      &man.opiekey.1; to log in over an insecure
+      connection.  The fourth is to use &man.opiekey.1; to
       generate a number of keys which can be written down or printed
-      out to carry with you when going to some location without secure
-      connections to anywhere.</para>
+      out to carry to insecure locations in order to make a connection
+      to anywhere.</para>
 
     <sect2>
       <title>Secure Connection Initialization</title>
 
-      <para>To initialize OPIE for the first time, execute the
-	<command>opiepasswd</command> command:</para>
+      <para>To initialize <acronym>OPIE</acronym> for the first time,
+	execute <command>opiepasswd</command>:</para>
 
       <screen>&prompt.user; <userinput>opiepasswd -c</userinput>
 [grimreaper] ~ $ opiepasswd -f -c
@@ -1215,32 +987,29 @@ ID unfurl OTP key is 499 to4268
 MOS MALL GOAT ARM AVID COED</screen>
 
       <para>At the <prompt>Enter new secret pass phrase:</prompt> or
-	<prompt>Enter secret password:</prompt> prompts, you should
-	enter a password or phrase.  Remember, this is not the
-	password that you will use to login with, this is used to
-	generate your one-time login keys.  The <quote>ID</quote> line
-	gives the parameters of your particular instance: your login
-	name, the iteration count, and seed.  When logging in the
-	system will remember these parameters and present them back to
-	you so you do not have to remember them.  The last line gives
-	the particular one-time password which corresponds to those
-	parameters and your secret password; if you were to re-login
-	immediately, this one-time password is the one you would
-	use.</para>
+	<prompt>Enter secret password:</prompt> prompt, enter a
+	password or phrase.  This is not the login password as this
+	password is used to generate the one-time login keys.  The
+	<quote>ID</quote> line gives the parameters of the instance:
+	the login name, iteration count, and seed.  When logging in,
+	the system will remember these parameters and display them,
+	meaning that they do not have to be memorized.  The last line
+	gives the particular one-time password which corresponds to
+	those parameters and the secret password.  At the next login,
+	this one-time password is the one to use.</para>
     </sect2>
 
     <sect2>
       <title>Insecure Connection Initialization</title>
 
-      <para>To initialize or change your secret password over an
-	insecure connection, you will need to already have a secure
-	connection to some place where you can run
-	<command>opiekey</command>; this might be in the form of a
-	shell prompt on a machine you trust.  You will also need to
-	make up an iteration count (100 is probably a good value), and
-	you may make up your own seed or use a randomly-generated one.
-	Over on the insecure connection (to the machine you are
-	initializing), use <command>opiepasswd</command>:</para>
+      <para>To initialize or change the secret password over an
+	insecure connection, a secure connection is needed to some
+	place where &man.opiekey.1; can be run.  This might
+	be a shell prompt on a trusted machine.  An iteration count
+	is needed, where 100 is probably a good value, and the seed
+	can either be specified or the randomly-generated one used.
+	On the insecure connection, the machine being initialized, use
+	&man.opiepasswd.1;:</para>
 
       <screen>&prompt.user; <userinput>opiepasswd</userinput>
 
@@ -1256,9 +1025,9 @@ New secret pass phrase:
 ID mark OTP key is 499 gr4269
 LINE PAP MILK NELL BUOY TROY</screen>
 
-      <para>To accept the default seed press <keycap>Return</keycap>.
-	Then before entering an access password, move over to your
-	secure connection and give it the same parameters:</para>
+      <para>To accept the default seed, press <keycap>Return</keycap>.
+	Before entering an access password, move over to the secure
+	connection and give it the same parameters:</para>
 
       <screen>&prompt.user; <userinput>opiekey 498 to4268</userinput>
 Using the MD5 algorithm to compute response.
@@ -1266,16 +1035,16 @@ Reminder: Don't use opiekey from telnet or dial-in sessions.
 Enter secret pass phrase:
 GAME GAG WELT OUT DOWN CHAT</screen>
 
-      <para>Now switch back over to the insecure connection, and copy
-	the one-time password generated over to the relevant
+      <para>Switch back over to the insecure connection, and copy
+	the generated one-time password over to the relevant
 	program.</para>
     </sect2>
 
     <sect2>
       <title>Generating a Single One-time Password</title>
 
-      <para>Once you have initialized OPIE and login, you will be
-	presented with a prompt like this:</para>
+      <para>After initializing <acronym>OPIE</acronym> and logging in,
+	a prompt like this will be displayed:</para>
 
       <screen>&prompt.user; <userinput>telnet example.com</userinput>
 Trying 10.0.0.1...
@@ -1288,24 +1057,23 @@ login: <userinput>&lt;username&gt;</userinput>
 otp-md5 498 gr4269 ext
 Password: </screen>
 
-      <para>As a side note, the OPIE prompts have a useful feature
-	(not shown here): if you press <keycap>Return</keycap> at the
-	password prompt, the prompter will turn echo on, so you can
-	see what you are typing.  This can be extremely useful if you
-	are attempting to type in a password by hand, such as from a
-	printout.</para>
+      <para>The <acronym>OPIE</acronym> prompts provides a useful
+	feature.  If <keycap>Return</keycap> is pressed at the
+	password prompt, the prompt will turn echo on and display
+	what is typed.  This can be useful when attempting to type in
+	a password by hand from a printout.</para>
 
       <indexterm><primary>MS-DOS</primary></indexterm>
       <indexterm><primary>Windows</primary></indexterm>
       <indexterm><primary>MacOS</primary></indexterm>
 
-      <para>At this point you need to generate your one-time password
-	to answer this login prompt.  This must be done on a trusted
-	system that you can run <command>opiekey</command> on.  (There
-	are versions of these for DOS, &windows; and &macos; as well.)
-	They need the iteration count and the seed as command line
-	options.  You can cut-and-paste these right from the login
-	prompt on the machine that you are logging in to.</para>
+      <para>At this point, generate the one-time password to answer
+	this login prompt.  This must be done on a trusted system
+	where it is safe to run &man.opiekey.1;.  There
+	are versions of this command for &windows;, &macos; and &os;.
+	This command needs the iteration count and the seed as command
+	line options.  Use cut-and-paste from the login prompt on the
+	machine being logged in to.</para>
 
       <para>On the trusted system:</para>
 
@@ -1315,18 +1083,17 @@ Reminder: Don't use opiekey from telnet or dial-in sessions.
 Enter secret pass phrase:
 GAME GAG WELT OUT DOWN CHAT</screen>
 
-      <para>Now that you have your one-time password you can continue
-	logging in.</para>
+      <para>Once the one-time password is generated, continue to log
+	in.</para>
     </sect2>
 
     <sect2>
       <title>Generating Multiple One-time Passwords</title>
 
-      <para>Sometimes you have to go places where you do not have
-	access to a trusted machine or secure connection.  In this
-	case, it is possible to use the <command>opiekey</command>
-	command to generate a number of one-time passwords beforehand
-	to be printed out and taken with you.  For example:</para>
+      <para>Sometimes there is no access to a trusted machine or
+	secure connection.  In this case, it is possible to use
+	&man.opiekey.1; to generate a number of one-time
+	passwords beforehand.  For example:</para>
 
       <screen>&prompt.user; <userinput>opiekey -n 5 30 zz99999</userinput>
 Using the MD5 algorithm to compute response.
@@ -1339,28 +1106,26 @@ Enter secret pass phrase: <userinput>&lt;secret password&gt;</userinput>
 30: GREW JIVE SAN GIRD BOIL PHI</screen>
 
       <para>The <option>-n 5</option> requests five keys in sequence,
-	the <option>30</option> specifies what the last iteration
+	and <option>30</option> specifies what the last iteration
 	number should be.  Note that these are printed out in
-	<emphasis>reverse</emphasis> order of eventual use.  If you
-	are really paranoid, you might want to write the results down
-	by hand; otherwise you can cut-and-paste into
-	<command>lpr</command>.  Note that each line shows both the
-	iteration count and the one-time password; you may still find
-	it handy to scratch off passwords as you use them.</para>
+	<emphasis>reverse</emphasis> order of use.  The really
+	paranoid might want to write the results down by hand;
+	otherwise, print the list.  Each line shows both the iteration
+	count and the one-time password.  Scratch off the passwords as
+	they are used.</para>
     </sect2>
 
     <sect2>
       <title>Restricting Use of &unix; Passwords</title>
 
-      <para>OPIE can restrict the use of &unix; passwords based on the
-	IP address of a login session.  The relevant file is
-	<filename>/etc/opieaccess</filename>, which is present by
-	default.  Please check &man.opieaccess.5; for more information
-	on this file and which security considerations you should be
-	aware of when using it.</para>
+      <para><acronym>OPIE</acronym> can restrict the use of &unix;
+	passwords based on the IP address of a login session.  The
+	relevant file is <filename>/etc/opieaccess</filename>, which
+	is present by default.  Refer to &man.opieaccess.5; for more
+	information on this file and which security considerations to
+	be aware of when using it.</para>
 
-      <para>Here is a sample <filename>opieaccess</filename>
-	file:</para>
+      <para>Here is a sample <filename>opieaccess</filename>:</para>
 
       <programlisting>permit 192.168.0.0 255.255.0.0</programlisting>
 
@@ -1369,7 +1134,8 @@ Enter secret pass phrase: <userinput>&lt;secret password&gt;</userinput>
 	to use &unix; passwords at any time.</para>
 
       <para>If no rules in <filename>opieaccess</filename> are
-	matched, the default is to deny non-OPIE logins.</para>
+	matched, the default is to deny non-<acronym>OPIE</acronym>
+	logins.</para>
     </sect2>
   </sect1>
 
@@ -1388,59 +1154,29 @@ Enter secret pass phrase: <userinput>&lt;secret password&gt;</userinput>
 
     <indexterm><primary>TCP Wrappers</primary></indexterm>
 
-    <para>Anyone familiar with &man.inetd.8; has probably heard of
-      <acronym>TCP</acronym> Wrappers at some point.  But few
-      individuals seem to fully comprehend its usefulness in a network
-      environment.  It seems that everyone wants to install a firewall
-      to handle network connections.  While a firewall has a wide
-      variety of uses, there are some things that a firewall will not
-      handle, such as sending text back to the connection originator.
-      The <acronym>TCP</acronym> Wrappers software does this and much
-      more.  In the next few sections many of the
-      <acronym>TCP</acronym> Wrappers features will be discussed, and,
-      when applicable, example configuration lines will be
-      provided.</para>
+    <para><acronym>TCP</acronym> Wrappers extends the abilities of
+      <xref linkend="network-inetd"/> to provide support for every
+      server daemon under its control.  It can be configured
+      to provide logging support, return messages to
+      connections, and permit a daemon to only accept internal
+      connections.  While some of these features can be provided
+      by implementing a firewall, <acronym>TCP</acronym> Wrappers adds
+      an extra layer of protection and goes beyond the amount of
+      control a firewall can provide.</para>
 
-    <para>The <acronym>TCP</acronym> Wrappers software extends the
-      abilities of <application>inetd</application> to provide support
-      for every server daemon under its control.  Using this method it
-      is possible to provide logging support, return messages to
-      connections, permit a daemon to only accept internal
-      connections, etc.  While some of these features can be provided
-      by implementing a firewall, this will add not only an extra
-      layer of protection but go beyond the amount of control a
-      firewall can provide.</para>
-
-    <para>The added functionality of <acronym>TCP</acronym> Wrappers
-      should not be considered a replacement for a good firewall.
-      <acronym>TCP</acronym> Wrappers can be used in conjunction
-      with a firewall or other security enhancements though and
-      it can serve nicely as an extra layer of protection
-      for the system.</para>
-
-    <para>Since this is an extension to the configuration of
-      <application>inetd</application>, the reader is expected have
-      read the <link linkend="network-inetd">inetd
-	configuration</link> section.</para>
-
-    <note>
-      <para>While programs run by &man.inetd.8; are not exactly
-	<quote>daemons</quote>, they have traditionally been called
-	daemons.  This is the term we will use in this section
-	too.</para>
-    </note>
+    <para><acronym>TCP</acronym> Wrappers should not be considered a
+      replacement for a properly configured firewall.
+      <acronym>TCP</acronym> Wrappers should be used in conjunction
+      with a firewall and other security enhancements.</para>
 
     <sect2>
       <title>Initial Configuration</title>
 
-      <para>The only requirement of using <acronym>TCP</acronym>
-	Wrappers in &os; is to ensure the
-	<application>inetd</application> server is started from
-	<filename>rc.conf</filename> with the <option>-Ww</option>
-	option; this is the default setting.  Of course, proper
-	configuration of <filename>/etc/hosts.allow</filename> is also
-	expected, but &man.syslogd.8; will throw messages in the
-	system logs in these cases.</para>
+      <para>To enable <acronym>TCP</acronym> Wrappers in &os;, ensure
+	the <application>inetd</application> server is started from
+	<filename>/etc/rc.conf</filename> with
+	<option>-Ww</option>.  Then, properly configure
+	<filename>/etc/hosts.allow</filename>.</para>
 
       <note>
 	<para>Unlike other implementations of <acronym>TCP</acronym>
@@ -1453,27 +1189,22 @@ Enter secret pass phrase: <userinput>&lt;secret password&gt;</userinput>
 	are set to either be permitted or blocked depending on the
 	options in <filename>/etc/hosts.allow</filename>.  The default
 	configuration in &os; is to allow a connection to every daemon
-	started with <application>inetd</application>.  Changing this
-	will be discussed only after the basic configuration is
-	covered.</para>
+	started with <application>inetd</application>.</para>
 
       <para>Basic configuration usually takes the form of
-	<literal>daemon : address : action</literal>.  Where
-	<literal>daemon</literal> is the daemon name which
-	<command>inetd</command> started.  The
-	<literal>address</literal> can be a valid hostname, an
-	<acronym>IP</acronym> address or an IPv6 address enclosed in
-	brackets ([&nbsp;]).  The <literal>action</literal> field can
-	be either <literal>allow</literal> or <literal>deny</literal>
-	to grant or deny access appropriately.  Keep in mind that
-	configuration works off a first rule match semantic, meaning
-	that the configuration file is scanned in ascending order for
-	a matching rule.  When a match is found the rule is applied
-	and the search process will halt.</para>
+	<literal>daemon : address : action</literal>, where
+	<literal>daemon</literal> is the daemon which
+	&man.inetd.8; started,
+	<literal>address</literal> is a valid hostname,
+	<acronym>IP</acronym> address, or an IPv6 address enclosed in
+	brackets ([&nbsp;]), and <literal>action</literal> is
+	either <literal>allow</literal> or <literal>deny</literal>.
+	<acronym>TCP</acronym> Wrappers uses a first rule match
+	semantic, meaning that the configuration file is scanned in
+	ascending order for a matching rule.  When a match is found,
+	the rule is applied and the search process stops.</para>
 
-      <para>Several other options exist but they will be explained
-	in a later section.  A simple configuration line may easily be
-	constructed from that information alone.  For example, to
+      <para>For example, to
 	allow <acronym>POP</acronym>3 connections via the
 	<filename role="package">mail/qpopper</filename> daemon,
 	the following lines should be appended to
@@ -1483,7 +1214,7 @@ Enter secret pass phrase: <userinput>&lt;secret password&gt;</userinput>
 qpopper : ALL : allow</programlisting>
 
       <para>After adding this line, <application>inetd</application>
-	will need to be restarted by using &man.service.8;:</para>
+	needs to be restarted:</para>
 
 	<screen>&prompt.root; <userinput>service inetd restart</userinput></screen>
     </sect2>
@@ -1491,45 +1222,42 @@ qpopper : ALL : allow</programlisting>
     <sect2>
       <title>Advanced Configuration</title>
 
-      <para><acronym>TCP</acronym> Wrappers has advanced options too;
-	they will allow for more control over the way connections are
-	handled.  In some cases it may be a good idea to return a
+      <para><acronym>TCP</acronym> Wrappers provides advanced options
+	to allow more control over the way connections are
+	handled.  In some cases, it may be appropriate to return a
 	comment to certain hosts or daemon connections.  In other
-	cases, perhaps a log file should be recorded or an email sent
+	cases, a log entry should be recorded or an email sent
 	to the administrator.  Other situations may require the use of
 	a service for local connections only.  This is all possible
 	through the use of configuration options known as
 	<literal>wildcards</literal>, expansion characters and
-	external command execution.  The next two sections are written
-	to cover these situations.</para>
+	external command execution.</para>
 
       <sect3>
 	<title>External Commands</title>
 
 	<para>Suppose that a situation occurs where a connection
 	  should be denied yet a reason should be sent to the
-	  individual who attempted to establish that connection.  How
-	  could it be done?  That action can be made possible by using
-	  the <option>twist</option> option.  When a connection
-	  attempt is made, <option>twist</option> will be called to
-	  execute a shell command or script.  An example already
-	  exists in the <filename>hosts.allow</filename> file:</para>
+	  individual who attempted to establish that connection.  That
+	  action is possible with <option>twist</option>.  When a
+	  connection attempt is made, <option>twist</option>
+	  executes a shell command or script.  An example exists in
+	  <filename>hosts.allow</filename>:</para>
 
 	<programlisting># The rest of the daemons are protected.
 ALL : ALL \
 	: severity auth.info \
 	: twist /bin/echo "You are not welcome to use %d from %h."</programlisting>
 
-	<para>This example shows that the message,
+	<para>In this example, the message
 	  <quote>You are not allowed to use <literal>daemon</literal>
 	    from <literal>hostname</literal>.</quote> will be returned
 	  for any daemon not previously configured in the access file.
-	  This is extremely useful for sending a reply back to the
+	  This is useful for sending a reply back to the
 	  connection initiator right after the established connection
-	  is dropped.  Note that any message returned
-	  <emphasis>must</emphasis> be wrapped in quote
-	  <literal>"</literal> characters; there are no exceptions to
-	  this rule.</para>
+	  is dropped.  Any message returned <emphasis>must</emphasis>
+	  be wrapped in quote (<literal>"</literal>)
+	  characters.</para>
 
 	<warning>
 	  <para>It may be possible to launch a denial of service
@@ -1538,13 +1266,13 @@ ALL : ALL \
 	    requests.</para>
 	</warning>
 
-	<para>Another possibility is to use the <option>spawn</option>
-	  option in these cases.  Like <option>twist</option>, the
-	  <option>spawn</option> option implicitly denies the
+	<para>Another possibility is to use <option>spawn</option>.
+	  Like <option>twist</option>,
+	  <option>spawn</option> implicitly denies the
 	  connection and may be used to run external shell commands or
 	  scripts.  Unlike <option>twist</option>,
 	  <option>spawn</option> will not send a reply back to the
-	  individual who established the connection.  For an example,
+	  individual who established the connection.  For example,
 	  consider the following configuration line:</para>
 
 	<programlisting># We do not allow connections from example.com:
@@ -1553,43 +1281,36 @@ ALL : .example.com \
 	  /var/log/connections.log) \
 	: deny</programlisting>
 
-	<para>This will deny all connection attempts from the <hostid
-	    role="fqdn">*.example.com</hostid> domain; simultaneously
-	  logging the hostname, <acronym>IP</acronym> address and the
-	  daemon which they attempted to access in the
-	  <filename>/var/log/connections.log</filename> file.</para>
+	<para>This will deny all connection attempts from <hostid
+	    role="fqdn">*.example.com</hostid> and log
+	  the hostname, <acronym>IP</acronym> address, and the
+	  daemon to which access was attempted to
+	  <filename>/var/log/connections.log</filename>.</para>
 
-	<para>Aside from the already explained substitution characters
-	  above, e.g., <literal>%a</literal>, a few others exist.  See
-	  the &man.hosts.access.5; manual page for the complete
-	  list.</para>
+	<para>This example uses the substitution characters
+	  <literal>%a</literal> and <literal>%h</literal>.  Refer to
+	  &man.hosts.access.5; for the complete list.</para>
       </sect3>
 
       <sect3>
 	<title>Wildcard Options</title>
 
-	<para>Thus far the <literal>ALL</literal> option has been used
-	  continuously throughout the examples.  Other options exist
-	  which could extend the functionality a bit further.  For
-	  instance, <literal>ALL</literal> may be used to match every
-	  instance of either a daemon, domain or an
-	  <acronym>IP</acronym> address.  Another wildcard available
+	<para>The <literal>ALL</literal> option may be used to match
+	  every instance of a daemon, domain, or an
+	  <acronym>IP</acronym> address.  Another wildcard
 	  is <literal>PARANOID</literal> which may be used to match
 	  any host which provides an <acronym>IP</acronym> address
-	  that may be forged.  In other words,
+	  that may be forged.  For example,
 	  <literal>PARANOID</literal> may be used to define an action
 	  to be taken whenever a connection is made from an
 	  <acronym>IP</acronym> address that differs from its
-	  hostname.  The following example may shed some more light on
-	  this discussion:</para>
+	  hostname.  In this example, all connection requests to
+	  &man.sendmail.8; which have an
+	  <acronym>IP</acronym> address that varies from its hostname
+	  will be denied:</para>
 
 	<programlisting># Block possibly spoofed requests to sendmail:
 sendmail : PARANOID : deny</programlisting>
-
-	<para>In that example all connection requests to
-	  <command>sendmail</command> which have an
-	  <acronym>IP</acronym> address that varies from its hostname
-	  will be denied.</para>
 
 	<caution>
 	  <para>Using the <literal>PARANOID</literal> wildcard may
@@ -1599,13 +1320,11 @@ sendmail : PARANOID : deny</programlisting>
 	</caution>
 
 	<para>To learn more about wildcards and their associated
-	  functionality, see the &man.hosts.access.5; manual
-	  page.</para>
+	  functionality, refer to &man.hosts.access.5;.</para>
 
 	<para>Before any of the specific configuration lines above
 	  will work, the first configuration line should be commented
-	  out in <filename>hosts.allow</filename>.  This was noted at
-	  the beginning of this section.</para>
+	  out in <filename>hosts.allow</filename>.</para>
       </sect3>
     </sect2>
   </sect1>
@@ -1632,52 +1351,48 @@ sendmail : PARANOID : deny</programlisting>
 
     <para><application>Kerberos</application> is a network add-on
       system/protocol that allows users to authenticate themselves
-      through the services of a secure server.  Services such as
-      remote login, remote copy, secure inter-system file copying and
-      other high-risk tasks are made considerably safer and more
-      controllable.</para>
-
-    <para><application>Kerberos</application> can be described as an
+      through the services of a secure server.
+      <application>Kerberos</application> can be described as an
       identity-verifying proxy system.  It can also be described as a
-      trusted third-party authentication system.
-      <application>Kerberos</application> provides only one function
-      &mdash; the secure authentication of users on the network.  It
-      does not provide authorization functions (what users are allowed
-      to do) or auditing functions (what those users did).  After a
-      client and server have used <application>Kerberos</application>
-      to prove their identity, they can also encrypt all of their
-      communications to assure privacy and data integrity as they go
-      about their business.</para>
+      trusted third-party authentication system.  After a
+      user authenticates with <application>Kerberos</application>,
+      their communications can be encrypted to assure privacy and data
+      integrity.</para>
 
-    <para>Therefore it is highly recommended that
+    <para>The only function of
+      <application>Kerberos</application> is to provide
+      the secure authentication of users on the network.  It
+      does not provide authorization functions (what users are allowed
+      to do) or auditing functions (what those users did).  It is
+      recommended that
       <application>Kerberos</application> be used with other security
       methods which provide authorization and audit services.</para>
 
-    <para>The following instructions can be used as a guide on how to
+    <para>This section provides a guide on how to
       set up <application>Kerberos</application> as distributed for
-      &os;.  However, you should refer to the relevant manual pages
-      for a complete description.</para>
+      &os;.  Refer to the relevant manual pages for more complete
+      descriptions.</para>
 
     <para>For purposes of demonstrating a
       <application>Kerberos</application> installation, the various
-      name spaces will be handled as follows:</para>
+      name spaces will be as follows:</para>
 
     <itemizedlist>
       <listitem>
 	<para>The <acronym>DNS</acronym> domain (<quote>zone</quote>)
-	  will be example.org.</para>
+	  will be <hostid role="fqdn">example.org</hostid>.</para>
       </listitem>
 
       <listitem>
 	<para>The <application>Kerberos</application> realm will be
-	  EXAMPLE.ORG.</para>
+	  <literal>EXAMPLE.ORG</literal>.</para>
       </listitem>
     </itemizedlist>
 
     <note>
-      <para>Please use real domain names when setting up
-	<application>Kerberos</application> even if you intend to run
-	it internally.  This avoids <acronym>DNS</acronym> problems
+      <para>Use real domain names when setting up
+	<application>Kerberos</application> even if it will run
+	internally.  This avoids <acronym>DNS</acronym> problems
 	and assures inter-operation with other
 	<application>Kerberos</application> realms.</para>
     </note>
@@ -1699,8 +1414,8 @@ sendmail : PARANOID : deny</programlisting>
 
       <para><application>Kerberos</application> is both the name of a
 	network authentication protocol and an adjective to describe
-	programs that implement the program
-	(<application>Kerberos</application> telnet, for example).
+	programs that implement it, such as
+	<application>Kerberos</application> telnet.
 	The current version of the protocol is version 5, described in
 	<acronym>RFC</acronym>&nbsp;1510.</para>
 
@@ -1711,22 +1426,22 @@ sendmail : PARANOID : deny</programlisting>
 	<application>Kerberos</application> was originally developed,
 	continues to develop their <application>Kerberos</application>
 	package.  It is commonly used in the <acronym>US</acronym> as
-	a cryptography product, as such it has historically been
+	a cryptography product, and has historically been
 	affected by <acronym>US</acronym> export regulations.  The
 	<acronym>MIT</acronym> <application>Kerberos</application> is
-	available as a port (<filename
-	  role="package">security/krb5</filename>).  Heimdal
+	available as the <filename
+	  role="package">security/krb5</filename> package or port. 
+	Heimdal
 	<application>Kerberos</application> is another version 5
 	implementation, and was explicitly developed outside of the
-	<acronym>US</acronym> to avoid export regulations (and is thus
-	often included in non-commercial &unix; variants).  The
+	<acronym>US</acronym> to avoid export regulations.  The
 	Heimdal <application>Kerberos</application> distribution is
-	available as a port (<filename
-	  role="package">security/heimdal</filename>), and a minimal
-	installation of it is included in the base &os;
+	available as a the <filename
+	  role="package">security/heimdal</filename> package or port,
+        and a minimal installation is included in the base &os;
 	install.</para>
 
-      <para>In order to reach the widest audience, these instructions
+      <para>These instructions
 	assume the use of the Heimdal distribution included in
 	&os;.</para>
     </sect2>
@@ -1741,30 +1456,29 @@ sendmail : PARANOID : deny</programlisting>
 
       <para>The Key Distribution Center (<acronym>KDC</acronym>) is
 	the centralized authentication service that
-	<application>Kerberos</application> provides &mdash; it is the
+	<application>Kerberos</application> provides.  It is the
 	computer that issues <application>Kerberos</application>
 	tickets.  The <acronym>KDC</acronym> is considered
 	<quote>trusted</quote> by all other computers in the
 	<application>Kerberos</application> realm, and thus has
 	heightened security concerns.</para>
 
-      <para>Note that while running the
+      <para>While running the
 	<application>Kerberos</application> server requires very few
 	computing resources, a dedicated machine acting only as a
 	<acronym>KDC</acronym> is recommended for security
 	reasons.</para>
 
       <para>To begin setting up a <acronym>KDC</acronym>, ensure that
-	your <filename>/etc/rc.conf</filename> file contains the
-	correct settings to act as a <acronym>KDC</acronym> (you may
-	need to adjust paths to reflect your own system):</para>
+	<filename>/etc/rc.conf</filename> contains the correct
+	settings to act as a <acronym>KDC</acronym>.  As required,
+	adjust paths to reflect the system:</para>
 
       <programlisting>kerberos5_server_enable="YES"
 kadmind5_server_enable="YES"</programlisting>
 
-      <para>Next we will set up your
-	<application>Kerberos</application> config file,
-	<filename>/etc/krb5.conf</filename>:</para>
+      <para>Next, edit <filename>/etc/krb5.conf</filename> as
+	follows:</para>
 
       <programlisting>[libdefaults]
     default_realm = EXAMPLE.ORG
@@ -1776,24 +1490,23 @@ kadmind5_server_enable="YES"</programlisting>
 [domain_realm]
     .example.org = EXAMPLE.ORG</programlisting>
 
-      <para>Note that this <filename>/etc/krb5.conf</filename> file
-	implies that your <acronym>KDC</acronym> will have the
-	fully-qualified hostname of <hostid
-	  role="fqdn">kerberos.example.org</hostid>.  You will need to
-	add a CNAME (alias) entry to your zone file to accomplish this
-	if your <acronym>KDC</acronym> has a different
+      <para>This <filename>/etc/krb5.conf</filename> implies that the
+	<acronym>KDC</acronym> will use the fully-qualified hostname
+	<hostid role="fqdn">kerberos.example.org</hostid>.
+	Add a CNAME (alias) entry to the zone file to accomplish this
+	if the <acronym>KDC</acronym> has a different
 	hostname.</para>
 
       <note>
 	<para>For large networks with a properly configured
-	  <acronym>BIND</acronym> <acronym>DNS</acronym> server, the
+	  <acronym>DNS</acronym> server, the
 	  above example could be trimmed to:</para>
 
 	<programlisting>[libdefaults]
       default_realm = EXAMPLE.ORG</programlisting>
 
 	<para>With the following lines being appended to the
-	  <hostid role="fqdn">example.org</hostid> zonefile:</para>
+	  <hostid role="fqdn">example.org</hostid> zone file:</para>
 
 	<programlisting>_kerberos._udp      IN  SRV     01 00 88 kerberos.example.org.
 _kerberos._tcp      IN  SRV     01 00 88 kerberos.example.org.
@@ -1804,7 +1517,7 @@ _kerberos           IN  TXT     EXAMPLE.ORG</programlisting>
 
       <note>
 	<para>For clients to be able to find the
-	  <application>Kerberos</application> services, you
+	  <application>Kerberos</application> services, it
 	  <emphasis>must</emphasis> have either a fully configured
 	  <filename>/etc/krb5.conf</filename> or a minimally
 	  configured <filename>/etc/krb5.conf</filename>
@@ -1812,35 +1525,33 @@ _kerberos           IN  TXT     EXAMPLE.ORG</programlisting>
 	  server.</para>
       </note>
 
-      <para>Next we will create the
-	<application>Kerberos</application> database.  This database
+      <para>Next, create the
+	<application>Kerberos</application> database which
 	contains the keys of all principals encrypted with a master
-	password.  You are not required to remember this password, it
-	will be stored in a file
-	(<filename>/var/heimdal/m-key</filename>).  To create the
-	master key, run <command>kstash</command> and enter a
+	password.  It is not required to remember this password as it
+	will be stored in
+	<filename>/var/heimdal/m-key</filename>.  To create the
+	master key, run &man.kstash.8; and enter a
 	password.</para>
 
-      <para>Once the master key has been created, you can initialize
-	the database using the <command>kadmin</command> program with
-	the <literal>-l</literal> option (standing for
-	<quote>local</quote>).  This option instructs
-	<command>kadmin</command> to modify the database files
+      <para>Once the master key has been created, initialize
+	the database using <command>kadmin -l</command>.
+	This option instructs
+	&man.kadmin.8; to modify the local database files
 	directly rather than going through the
-	<command>kadmind</command> network service.  This handles the
+	&man.kadmind.8; network service.  This handles the
 	chicken-and-egg problem of trying to connect to the database
-	before it is created.  Once you have the
-	<command>kadmin</command> prompt, use the
-	<command>init</command> command to create your realms initial
-	database.</para>
+	before it is created.  At the &man.kadmin.8;
+	prompt, use <command>init</command> to create the realm's
+	initial database.</para>
 
-      <para>Lastly, while still in <command>kadmin</command>, create
-	your first principal using the <command>add</command> command.
-	Stick to the defaults options for the principal for now, you
-	can always change them later with the
-	<command>modify</command> command.  Note that you can use the
-	<literal>?</literal> command at any prompt to see the
-	available options.</para>
+      <para>Lastly, while still in &man.kadmin.8;, create
+	the first principal using <command>add</command>.
+	Stick to the default options for the principal for now, as
+	these can be changed later with <command>modify</command>.
+	Type <literal>?</literal> at the
+	&man.kadmin.8; prompt to see the available
+	options.</para>
 
       <para>A sample database creation session is shown below:</para>
 
@@ -1858,11 +1569,11 @@ Attributes []:
 Password: <userinput>xxxxxxxx</userinput>
 Verifying password - Password: <userinput>xxxxxxxx</userinput></screen>
 
-      <para>Now it is time to start up the <acronym>KDC</acronym>
+      <para>Next, start the <acronym>KDC</acronym>
 	services.  Run <command>service kerberos start</command> and
 	<command>service kadmind start</command> to bring up the
-	services.  Note that you will not have any kerberized daemons
-	running at this point but you should be able to confirm that
+	services.  While there will not be any kerberized daemons
+	running at this point, it is possible to confirm that
 	the <acronym>KDC</acronym> is functioning by obtaining and
 	listing a ticket for the principal (user) that you just
 	created from the command-line of the <acronym>KDC</acronym>
@@ -1878,8 +1589,7 @@ Credentials cache: FILE:<filename>/tmp/krb5cc_500</filename>
   Issued           Expires          Principal
 Aug 27 15:37:58  Aug 28 01:37:58  krbtgt/EXAMPLE.ORG@EXAMPLE.ORG</screen>
 
-      <para>The ticket can then be revoked when you have
-	finished:</para>
+      <para>The ticket can then be revoked when finished:</para>
 
       <screen>&prompt.user; <userinput>kdestroy</userinput></screen>
     </sect2>
@@ -1893,54 +1603,48 @@ Aug 27 15:37:58  Aug 28 01:37:58  krbtgt/EXAMPLE.ORG@EXAMPLE.ORG</screen>
 	<secondary>enabling services</secondary>
       </indexterm>
 
-      <para>First, we need a copy of the
-	<application>Kerberos</application> configuration file,
-	<filename>/etc/krb5.conf</filename>.  To do so, simply copy
-	it over to the client computer from the
-	<acronym>KDC</acronym> in a secure fashion (using network
-	utilities, such as &man.scp.1;, or physically via a floppy
-	disk).</para>
+      <para>First, copy
+	<filename>/etc/krb5.conf</filename> from the
+	<acronym>KDC</acronym> to the client computer in a secure
+	fashion, such as &man.scp.1;, or physically via a removable
+	media.</para>
 
-      <para>Next you need a <filename>/etc/krb5.keytab</filename>
-	file.  This is the major difference between a server
+      <para>Next, create <filename>/etc/krb5.keytab</filename>.
+	This is the major difference between a server
 	providing <application>Kerberos</application> enabled
-	daemons and a workstation &mdash; the server must have a
-	<filename>keytab</filename> file.  This file contains the
+	daemons and a workstation:  the server must have a
+	<filename>keytab</filename>.  This file contains the
 	server's host key, which allows it and the
 	<acronym>KDC</acronym> to verify each others identity.  It
 	must be transmitted to the server in a secure fashion, as
 	the security of the server can be broken if the key is made
-	public.  This explicitly means that transferring it via a
-	clear text channel, such as <acronym>FTP</acronym>, is a
-	very bad idea.</para>
+	public.</para>
 
-      <para>Typically, you transfer the <filename>keytab</filename>
-	to the server using the <command>kadmin</command> program.
-	This is handy because you also need to create the host
-	principal (the <acronym>KDC</acronym> end of the
-	<filename>krb5.keytab</filename>) using
-	<command>kadmin</command>.</para>
+      <para>Typically, the <filename>keytab</filename> is transferred
+	to the server using &man.kadmin.8;.
+	This is handy because the host principal, the
+	<acronym>KDC</acronym> end of the
+	<filename>krb5.keytab</filename>, is also created using
+	&man.kadmin.8;.</para>
 
-      <para>Note that you must have already obtained a ticket and
-	that this ticket must be allowed to use the
-	<command>kadmin</command> interface in the
+      <para>A ticket must already be obtained and
+	this ticket must be allowed to use the
+	&man.kadmin.8; interface in the
 	<filename>kadmind.acl</filename>.  See the section titled
-	<quote>Remote administration</quote> in the Heimdal info
-	pages (<command>info heimdal</command>) for details on
-	designing access control lists.  If you do not want to
-	enable remote <command>kadmin</command> access, you can
-	simply securely connect to the <acronym>KDC</acronym> (via
-	local console, &man.ssh.1; or
-	<application>Kerberos</application> &man.telnet.1;) and
+	<quote>Remote administration</quote> in<command>info
+	  heimdal</command> for details on designing access control
+	lists.  Instead of enabling remote &man.kadmin.8;
+	access, the administrator can
+	securely connect to the <acronym>KDC</acronym> via the
+	local console or &man.ssh.1;, and
 	perform administration locally using
 	<command>kadmin -l</command>.</para>
 
-      <para>After installing the <filename>/etc/krb5.conf</filename>
-	file, you can use <command>kadmin</command> from the
-	<application>Kerberos</application> server.  The
-	<command>add --random-key</command> command will let you add
-	the server's host principal, and the <command>ext</command>
-	command will allow you to extract the server's host
+      <para>After installing <filename>/etc/krb5.conf</filename>,
+	use <command>add --random-key</command> from the
+	<application>Kerberos</application> server.  This adds
+	the server's host principal.  Then, use <command>ext</command>
+	to extract the server's host
 	principal to its own keytab.  For example:</para>
 
       <screen>&prompt.root; <userinput>kadmin</userinput>
@@ -1951,47 +1655,44 @@ Attributes []:
 kadmin><userinput> ext host/myserver.example.org</userinput>
 kadmin><userinput> exit</userinput></screen>
 
-      <para>Note that the <command>ext</command> command (short for
-	<quote>extract</quote>) stores the extracted key in
-	<filename>/etc/krb5.keytab</filename> by default.</para>
+      <para>Note that <command>ext</command> stores the extracted key
+	in <filename>/etc/krb5.keytab</filename> by default.</para>
 
-      <para>If you do not have <command>kadmind</command> running on
-	the <acronym>KDC</acronym> (possibly for security reasons)
-	and thus do not have access to <command>kadmin</command>
-	remotely, you can add the host principal
+      <para>If &man.kadmind.8; is not running on
+	the <acronym>KDC</acronym> and there is no access to
+	&man.kadmin.8; remotely, add the host principal
 	(<username>host/myserver.EXAMPLE.ORG</username>) directly on
 	the <acronym>KDC</acronym> and then extract it to a
-	temporary file (to avoid over-writing the
+	temporary file to avoid overwriting the
 	<filename>/etc/krb5.keytab</filename> on the
-	<acronym>KDC</acronym>) using something like this:</para>
+	<acronym>KDC</acronym>, using something like this:</para>
 
       <screen>&prompt.root; <userinput>kadmin</userinput>
 kadmin><userinput> ext --keytab=/tmp/example.keytab host/myserver.example.org</userinput>
 kadmin><userinput> exit</userinput></screen>
 
-      <para>You can then securely copy the keytab to the server
-	computer (using <command>scp</command> or a floppy, for
-	example).  Be sure to specify a non-default keytab name to
-	avoid over-writing the keytab on the
+      <para>The keytab can then be securely copied to the server
+	using &man.scp.1; or a removable media.
+	Be sure to specify a non-default keytab name to
+	avoid overwriting the keytab on the
 	<acronym>KDC</acronym>.</para>
 
-      <para>At this point your server can communicate with the
-	<acronym>KDC</acronym> (due to its
-	<filename>krb5.conf</filename> file) and it can prove its
-	own identity (due to the <filename>krb5.keytab</filename>
-	file).  It is now ready for you to enable some
-	<application>Kerberos</application> services.  For this
-	example we will enable the <command>telnet</command> service
-	by putting a line like this into your
-	<filename>/etc/inetd.conf</filename> and then restarting the
-	&man.inetd.8; service with <command>service inetd
+      <para>At this point, the server can communicate with the
+	<acronym>KDC</acronym> using
+	<filename>krb5.conf</filename> and it can prove its
+	own identity with <filename>krb5.keytab</filename>.
+	It is now ready for the
+	<application>Kerberos</application> services to be enabled. 
+	For this example, the &man.telnetd.8; service
+	is enabled in <filename>/etc/inetd.conf</filename> and
+	&man.inetd.8; has been restarted with <command>service inetd
 	  restart</command>:</para>
 
       <programlisting>telnet    stream  tcp     nowait  root    /usr/libexec/telnetd  telnetd -a user</programlisting>
 
-      <para>The critical bit is that the <command>-a</command> (for
-	authentication) type is set to user.  Consult the
-	&man.telnetd.8; manual page for more details.</para>
+      <para>The critical change is that the <option>-a</option>
+	authentication type is set to user.  Refer to
+	&man.telnetd.8; for more details.</para>
     </sect2>
 
     <sect2>
@@ -2003,42 +1704,36 @@ kadmin><userinput> exit</userinput></screen>
 	<secondary>configure clients</secondary>
       </indexterm>
 
-      <para>Setting up a client computer is almost trivially easy.
-	As far as <application>Kerberos</application> configuration
-	goes, you only need the <application>Kerberos</application>
-	configuration file, located at
-	<filename>/etc/krb5.conf</filename>.  Simply securely copy
-	it over to the client computer from the
+      <para>Setting up a client computer is easy as only
+	<filename>/etc/krb5.conf</filename> is needed.  Securely copy
+	this file over to the client computer from the
 	<acronym>KDC</acronym>.</para>
 
-      <para>Test your client computer by attempting to use
-	<command>kinit</command>, <command>klist</command>, and
-	<command>kdestroy</command> from the client to obtain, show,
-	and then delete a ticket for the principal you created
-	above.  You should also be able to use
-	<application>Kerberos</application> applications to connect
-	to <application>Kerberos</application> enabled servers,
-	though if that does not work and obtaining a ticket does the
+      <para>Test the client by attempting to use
+	&man.kinit.1;, &man.klist.1;, and
+	&man.kdestroy.1; from the client to obtain, show,
+	and then delete a ticket for the principal created
+	above.  <application>Kerberos</application> applications
+	should also be able to connect
+	to <application>Kerberos</application> enabled servers.
+	If that does not work but obtaining a ticket does, the
 	problem is likely with the server and not with the client or
 	the <acronym>KDC</acronym>.</para>
 
-      <para>When testing an application like
-	<command>telnet</command>, try using a packet sniffer (such
-	as &man.tcpdump.1;) to confirm that your password is not
-	sent in the clear.  Try using <command>telnet</command> with
-	the <literal>-x</literal> option, which encrypts the entire
-	data stream (similar to <command>ssh</command>).</para>
+      <para>When testing a Kerberized application, try using a packet
+	sniffer such as &man.tcpdump.1; to confirm that the password
+	is not sent in the clear.</para>
 
       <para>Various non-core <application>Kerberos</application>
-	client applications are also installed by default.  This is
-	where the <quote>minimal</quote> nature of the base Heimdal
-	installation is felt: <command>telnet</command> is the only
-	<application>Kerberos</application> enabled service.</para>
+	client applications are available.  The <quote>minimal</quote>
+	installation in &os; installs &man.telnetd.8; as the
+	only <application>Kerberos</application> enabled
+	service.</para>
 
-      <para>The Heimdal port adds some of the missing client
-	applications: <application>Kerberos</application> enabled
-	versions of <command>ftp</command>, <command>rsh</command>,
-	<command>rcp</command>, <command>rlogin</command>, and a few
+      <para>The Heimdal port installs
+	<application>Kerberos</application> enabled
+	versions of &man.ftpd.8;, &man.rshd.8;,
+	&man.rcp.1;, &man.rlogind.8;, and a few
 	other less common programs.  The <acronym>MIT</acronym> port
 	also contains a full suite of
 	<application>Kerberos</application> client
@@ -2058,14 +1753,9 @@ kadmin><userinput> exit</userinput></screen>
       </indexterm>
 
       <para>Users within a realm typically have their
-	<application>Kerberos</application> principal (such as
-	<username>tillman@EXAMPLE.ORG</username>) mapped to a local
-	user account (such as a local account named
-	<username>tillman</username>).  Client applications such as
-	<command>telnet</command> usually do not require a user name
-	or a principal.</para>
-
-      <para>Occasionally, however, you want to grant access to a
+	<application>Kerberos</application> principal mapped to a
+	local user account.  Occasionally, one needs to grant
+	access to a
 	local user account to someone who does not have a matching
 	<application>Kerberos</application> principal.  For example,
 	<username>tillman@EXAMPLE.ORG</username> may need access to
@@ -2074,24 +1764,19 @@ kadmin><userinput> exit</userinput></screen>
 	account.</para>
 
       <para>The <filename>.k5login</filename> and
-	<filename>.k5users</filename> files, placed in a users home
-	directory, can be used similar to a powerful combination of
-	<filename>.hosts</filename> and
-	<filename>.rhosts</filename>, solving this problem.  For
-	example, if a <filename>.k5login</filename> with the
-	following contents:</para>
+	<filename>.k5users</filename> files, placed in a user's home
+	directory, can be used to solve this problem.  For
+	example, if <filename>.k5login</filename> with the
+	following contents is placed in the home directory
+	of <username>webdevelopers</username>, both principals
+	listed will have access to that account without requiring a
+	shared password.:</para>
 
       <screen>tillman@example.org
 jdoe@example.org</screen>
 
-      <para>Were to be placed into the home directory of the local
-	user <username>webdevelopers</username> then both principals
-	listed would have access to that account without requiring a
-	shared password.</para>
-
-      <para>Reading the manual pages for these commands is
-	recommended.  Note that the <command>ksu</command> manual
-	page covers <filename>.k5users</filename>.</para>
+      <para>Refer to &man.ksu.1; for more information
+	about <filename>.k5users</filename>.</para>
     </sect2>
 
     <sect2>
@@ -2107,29 +1792,30 @@ jdoe@example.org</screen>
 	<listitem>
 	  <para>When using either the Heimdal or
 	    <acronym>MIT</acronym>
-	    <application>Kerberos</application> ports ensure that
-	    your <envar>PATH</envar> environment variable lists the
+	    <application>Kerberos</application> ports, ensure that
+	    the <envar>PATH</envar> lists the
 	    <application>Kerberos</application> versions of the
 	    client applications before the system versions.</para>
 	</listitem>
 
 	<listitem>
-	  <para>Do all the computers in your realm have synchronized
-	    time settings?  If not, authentication may fail.
+	  <para>If all the computers in the realm do not have
+	    synchronized time settings, authentication may fail.
 	    <xref linkend="network-ntp"/> describes how to synchronize
 	    clocks using <acronym>NTP</acronym>.</para>
 	</listitem>
 
 	<listitem>
-	  <para><acronym>MIT</acronym> and Heimdal inter-operate
-	    nicely.  Except for <command>kadmin</command>, the
-	    protocol for which is not standardized.</para>
+	  <para><acronym>MIT</acronym> and Heimdal interoperate
+	    except for &man.kadmin.8;, which is not
+	    standardized.</para>
 	</listitem>
 
 	<listitem>
-	  <para>If you change your hostname, you also need to change
-	    your <username>host/</username> principal and update
-	    your keytab.  This also applies to special keytab
+	  <para>If the hostname is changed, the
+	    <username>host/</username> principal must be
+	    changed and the keytab updated.  This also applies to
+	    special keytab
 	    entries like the <username>www/</username> principal
 	    used for Apache's
 	    <filename
@@ -2137,69 +1823,67 @@ jdoe@example.org</screen>
 	</listitem>
 
 	<listitem>
-	  <para>All hosts in your realm must be resolvable (both
-	    forwards and reverse) in <acronym>DNS</acronym> (or
-	    <filename>/etc/hosts</filename> as a minimum).  CNAMEs
+	  <para>All hosts in the realm must be both forward and
+	    reverse resolvable in <acronym>DNS</acronym> or, at a
+	    minimum, in <filename>/etc/hosts</filename>.  CNAMEs
 	    will work, but the A and PTR records must be correct and
-	    in place.  The error message is not very intuitive:
+	    in place.  The error message for unresolvable hosts is not
+	    intuitive:
 	    <errorname>Kerberos5 refuses authentication because Read
 	      req failed: Key table entry not
 	      found</errorname>.</para>
 	</listitem>
 
 	<listitem>
-	  <para>Some operating systems that may being acting as
-	    clients to your <acronym>KDC</acronym> do not set the
-	    permissions for <command>ksu</command> to be setuid
+	  <para>Some operating systems that act as
+	    clients to the <acronym>KDC</acronym> do not set the
+	    permissions for &man.ksu.1; to be setuid
 	    <username>root</username>.  This means that
-	    <command>ksu</command> does not work, which is a good
-	    security idea but annoying.  This is not a
+	    &man.ksu.1; does not work.  This is not a
 	    <acronym>KDC</acronym> error.</para>
 	</listitem>
 
 	<listitem>
 	  <para>With <acronym>MIT</acronym>
-	    <application>Kerberos</application>, if you want to
+	    <application>Kerberos</application>, in order to
 	    allow a principal to have a ticket life longer than the
-	    default ten hours, you must use
-	    <command>modify_principal</command> in
-	    <command>kadmin</command> to change the maxlife of both
+	    default ten hours, use
+	    <command>modify_principal</command> at the
+	    &man.kadmin.8; prompt to change the maxlife of both
 	    the principal in question and the
 	    <username>krbtgt</username> principal.  Then the
-	    principal can use the <literal>-l</literal> option with
-	    <command>kinit</command> to request a ticket with a
+	    principal can use
+	    <command>kinit -l</command> to request a ticket with a
 	    longer lifetime.</para>
 	</listitem>
 
 	<listitem>
 	  <note>
-	    <para>If you run a packet sniffer on your
-	      <acronym>KDC</acronym> to add in troubleshooting and
-	      then run <command>kinit</command> from a workstation,
-	      you will notice that your <acronym>TGT</acronym> is
-	      sent immediately upon running <command>kinit</command>
-	      &mdash; even before you type your password!  The
-	      explanation is that the
+	    <para>When running a packet sniffer on the
+	      <acronym>KDC</acronym> to aid in troubleshooting while
+	      running &man.kinit.1; from a workstation,
+	      the Ticket Granting Ticket (<acronym>TGT</acronym>) is
+	      sent immediately upon running &man.kinit.1;,
+	      even before the password is typed.  This is because the
 	      <application>Kerberos</application> server freely
-	      transmits a <acronym>TGT</acronym> (Ticket Granting
-	      Ticket) to any unauthorized request; however, every
+	      transmits a <acronym>TGT</acronym> to any unauthorized
+	      request.  However, every
 	      <acronym>TGT</acronym> is encrypted in a key derived
-	      from the user's password.  Therefore, when a user
-	      types their password it is not being sent to the
-	      <acronym>KDC</acronym>, it is being used to decrypt
+	      from the user's password.  When a user
+	      types their password, it is not sent to the
+	      <acronym>KDC</acronym>, it is instead used to decrypt
 	      the <acronym>TGT</acronym> that
-	      <command>kinit</command> already obtained.  If the
+	      &man.kinit.1; already obtained.  If the
 	      decryption process results in a valid ticket with a
 	      valid time stamp, the user has valid
 	      <application>Kerberos</application> credentials.
 	      These credentials include a session key for
 	      establishing secure communications with the
 	      <application>Kerberos</application> server in the
-	      future, as well as the actual ticket-granting ticket,
-	      which is actually encrypted with the
+	      future, as well as the actual <acronym>TGT</acronym>,
+	      which is encrypted with the
 	      <application>Kerberos</application> server's own key.
-	      This second layer of encryption is unknown to the
-	      user, but it is what allows the
+	      This second layer of encryption allows the
 	      <application>Kerberos</application> server to verify
 	      the authenticity of each
 	      <acronym>TGT</acronym>.</para>
@@ -2207,34 +1891,34 @@ jdoe@example.org</screen>
 	</listitem>
 
 	<listitem>
-	  <para>If you want to use long ticket lifetimes (a week,
-	    for example) and you are using
+	  <para>To use long ticket lifetimes, such as a week,
+	    when using
 	    <application>OpenSSH</application> to connect to the
-	    machine where your ticket is stored, make sure that
+	    machine where the ticket is stored, make sure that
 	    <application>Kerberos</application>
 	    <option>TicketCleanup</option> is set to
-	    <literal>no</literal> in your
-	    <filename>sshd_config</filename> or else your tickets
-	    will be deleted when you log out.</para>
+	    <literal>no</literal> in
+	    <filename>sshd_config</filename> or else tickets
+	    will be deleted at log out.</para>
 	</listitem>
 
 	<listitem>
-	  <para>Remember that host principals can have a longer
-	    ticket lifetime as well.  If your user principal has a
-	    lifetime of a week but the host you are connecting to
-	    has a lifetime of nine hours, you will have an expired
-	    host principal in your cache and the ticket cache will
+	  <para>Host principals can have a longer
+	    ticket lifetime.  If the user principal has a
+	    lifetime of a week but the host being connected to
+	    has a lifetime of nine hours, the user cache will have an
+	    expired host principal and the ticket cache will
 	    not work as expected.</para>
 	</listitem>
 
 	<listitem>
-	  <para>When setting up a <filename>krb5.dict</filename>
-	    file to prevent specific bad passwords from being used
-	    (the manual page for <command>kadmind</command> covers
-	    this briefly), remember that it only applies to
+	  <para>When setting up <filename>krb5.dict</filename>
+	    to prevent specific bad passwords from being used as
+	    described in &man.kadmind.8;, remember that it only
+	    applies to
 	    principals that have a password policy assigned to them.
-	    The <filename>krb5.dict</filename> files format is
-	    simple: one string per line.  Creating a symbolic link
+	    The format used in <filename>krb5.dict</filename> is
+	    one string per line.  Creating a symbolic link
 	    to <filename>/usr/share/dict/words</filename> might be
 	    useful.</para>
 	</listitem>
@@ -2245,46 +1929,45 @@ jdoe@example.org</screen>
       <title>Differences with the <acronym>MIT</acronym>
 	Port</title>
 
-      <para>The major difference between the <acronym>MIT</acronym>
-	and Heimdal installs relates to the
-	<command>kadmin</command> program which has a different (but
-	equivalent) set of commands and uses a different protocol.
-	This has a large implications if your <acronym>KDC</acronym>
-	is <acronym>MIT</acronym> as you will not be able to use the
-	Heimdal <command>kadmin</command> program to administer your
-	<acronym>KDC</acronym> remotely (or vice versa, for that
-	matter).</para>
+      <para>The major difference between <acronym>MIT</acronym>
+	and Heimdal relates to
+	&man.kadmin.8; which has a different, but
+	equivalent, set of commands and uses a different protocol.
+	If the <acronym>KDC</acronym>
+	is <acronym>MIT</acronym>, the Heimdal version of
+	&man.kadmin.8; cannot be used to administer the
+	<acronym>KDC</acronym> remotely, and vice versa.</para>
 
-      <para>The client applications may also take slightly different
+      <para>The client applications may also use slightly different
 	command line options to accomplish the same tasks.
 	Following the instructions on the <acronym>MIT</acronym>
-	<application>Kerberos</application> web site
-	(<ulink url="http://web.mit.edu/Kerberos/www/"></ulink>) is
+	<application>Kerberos</application> <ulink
+	  url="http://web.mit.edu/Kerberos/www/">web site</ulink> is
 	recommended.  Be careful of path issues: the
 	<acronym>MIT</acronym> port installs into
 	<filename class="directory">/usr/local/</filename> by default,
-	and the <quote>normal</quote> system applications may be run
-	instead of <acronym>MIT</acronym> if your
-	<envar>PATH</envar> environment variable lists the system
+	and the <quote>normal</quote> system applications run
+	instead of <acronym>MIT</acronym> versions if
+	<envar>PATH</envar> lists the system
 	directories first.</para>
 
       <note>
-	<para>With the <acronym>MIT</acronym>
-	  <filename role="package">security/krb5</filename> port that
-	  is provided by &os;, be sure to read the
+	<para>With the &os; <acronym>MIT</acronym>
+	  <filename role="package">security/krb5</filename> port,
+	  be sure to read
 	  <filename>/usr/local/share/doc/krb5/README.FreeBSD</filename>
-	  file installed by the port if you want to understand why
-	  logins via <command>telnetd</command> and
-	  <command>klogind</command> behave somewhat oddly.  Most
-	  importantly, correcting the <quote>incorrect permissions on
+	  installed by the port to understand why
+	  logins via &man.telnetd.8; and
+	  <command>klogind</command> behave somewhat oddly.
+	  Correcting the <quote>incorrect permissions on
 	  cache file</quote> behavior requires that the
 	  <command>login.krb5</command> binary be used for
 	  authentication so that it can properly change ownership for
 	  the forwarded credentials.</para>
       </note>
 
-      <para>The <filename>rc.conf</filename> must also be modified
-	to contain the following configuration:</para>
+      <para>The following edits should also be made to
+	<filename>rc.conf</filename>:</para>
 
       <programlisting>kerberos5_server="/usr/local/sbin/krb5kdc"
 kadmind5_server="/usr/local/sbin/kadmind"
@@ -2292,7 +1975,7 @@ kerberos5_server_enable="YES"
 kadmind5_server_enable="YES"</programlisting>
 
       <para>This is done because the applications for
-	<acronym>MIT</acronym> kerberos installs binaries in the
+	<acronym>MIT</acronym> Kerberos installs binaries in the
 	<filename class="directory">/usr/local</filename>
 	hierarchy.</para>
     </sect2>
@@ -2308,15 +1991,14 @@ kadmind5_server_enable="YES"</programlisting>
 
       <sect3>
 	<title><application>Kerberos</application> is an
-	  all-or-nothing approach</title>
+	  All or Nothing Approach</title>
 
 	<para>Every service enabled on the network must be modified
-	  to work with <application>Kerberos</application> (or be
-	  otherwise secured against network attacks) or else the
-	  users credentials could be stolen and re-used.  An example
+	  to work with <application>Kerberos</application>, or be
+	  otherwise secured against network attacks, or else the
+	  user's credentials could be stolen and re-used.  An example
 	  of this would be <application>Kerberos</application>
-	  enabling all remote shells (via <command>rsh</command> and
-	  <command>telnet</command>, for example) but not converting
+	  enabling all remote shells but not converting
 	  the <acronym>POP3</acronym> mail server which sends
 	  passwords in plain text.</para>
       </sect3>
@@ -2327,51 +2009,49 @@ kadmind5_server_enable="YES"</programlisting>
 
 	<para>In a multi-user environment,
 	  <application>Kerberos</application> is less secure.
-	  This is because it stores the tickets in the
-	  <filename class="directory">/tmp</filename> directory, which
+	  This is because it stores the tickets in
+	  <filename class="directory">/tmp</filename>, which
 	  is readable by all users.  If a user is sharing a computer
-	  with several other people simultaneously (i.e.
-	  multi-user), it is possible that the user's tickets can be
-	  stolen (copied) by another user.</para>
+	  with other users, it is possible that the user's tickets can
+	  be stolen or copied by another user.</para>
 
 	<para>This can be overcome with the <literal>-c</literal>
-	  filename command-line option or (preferably) the
-	  <envar>KRB5CCNAME</envar> environment variable, but this
-	  is rarely done.  In principal, storing the ticket in the
-	  users home directory and using simple file permissions can
-	  mitigate this problem.</para>
+	  command-line option or, preferably, the
+	  <envar>KRB5CCNAME</envar> environment variable.  Storing
+	  the ticket in the
+	  user's home directory and using file permissions are
+	  commonly used to mitigate this problem.</para>
       </sect3>
 
       <sect3>
 	<title>The KDC is a Single Point of Failure</title>
 
 	<para>By design, the <acronym>KDC</acronym> must be as
-	  secure as the master password database is contained on it.
+	  secure as its master password database.
 	  The <acronym>KDC</acronym> should have absolutely no other
-	  services running on it and should be physically secured.
+	  services running on it and should be physically secure.
 	  The danger is high because
 	  <application>Kerberos</application> stores all passwords
-	  encrypted with the same key (the <quote>master</quote>
-	  key), which in turn is stored as a file on the
+	  encrypted with the same <quote>master</quote>
+	  key which is stored as a file on the
 	  <acronym>KDC</acronym>.</para>
 
-	<para>As a side note, a compromised master key is not quite
-	  as bad as one might normally fear.  The master key is only
+	<para>A compromised master key is not quite
+	  as bad as one might fear.  The master key is only
 	  used to encrypt the <application>Kerberos</application>
 	  database and as a seed for the random number generator.
-	  As long as access to your <acronym>KDC</acronym> is
+	  As long as access to the <acronym>KDC</acronym> is
 	  secure, an attacker cannot do much with the master
 	  key.</para>
 
 	<para>Additionally, if the <acronym>KDC</acronym> is
-	  unavailable (perhaps due to a denial of service attack or
-	  network problems) the network services are unusable as
-	  authentication can not be performed, a recipe for a
-	  denial-of-service attack.  This can alleviated with
-	  multiple <acronym>KDC</acronym>s (a single master and one
-	  or more slaves) and with careful implementation of
-	  secondary or fall-back authentication
-	  (<acronym>PAM</acronym> is excellent for this).</para>
+	  unavailable, network services are unusable as
+	  authentication cannot be performed.  This can be alleviated
+	  with a single master
+	  <acronym>KDC</acronym> and one
+	  or more slaves, and with careful implementation of
+	  secondary or fall-back authentication using
+	  <acronym>PAM</acronym>.</para>
       </sect3>
 
       <sect3>
@@ -2382,17 +2062,16 @@ kadmind5_server_enable="YES"</programlisting>
 	  hosts and services to authenticate between themselves.  It
 	  does not have a mechanism to authenticate the
 	  <acronym>KDC</acronym> to the users, hosts or services.
-	  This means that a trojanned <command>kinit</command> (for
-	  example) could record all user names and passwords.
-	  Something like
-	  <filename role="package">security/tripwire</filename> or
-	  other file system integrity checking tools can alleviate
-	  this.</para>
+	  This means that a trojanned &man.kinit.1;
+	  could record all user names and passwords.
+	  Filesystem integrity checking tools like
+	  <filename role="package">security/tripwire</filename>
+	  can alleviate this.</para>
       </sect3>
     </sect2>
 
     <sect2>
-      <title>Resources and further information</title>
+      <title>Resources and Further Information</title>
 
       <indexterm>
 	<primary>Kerberos5</primary>
@@ -3628,15 +3307,15 @@ user@unfirewalled-system.example.org's password: <userinput>*******</userinput><
       </authorgroup>
     </sect1info>
 
-    <title>File System Access Control Lists
+    <title>Filesystem Access Control Lists
       (<acronym>ACL</acronym>s)</title>
 
     <indexterm>
       <primary>ACL</primary>
     </indexterm>
 
-    <para>In conjunction with file system enhancements like
-      snapshots, FreeBSD offers the security of File System Access
+    <para>In conjunction with filesystem enhancements like
+      snapshots, FreeBSD offers the security of filesystem Access
       Control Lists (<acronym>ACL</acronym>s).</para>
 
     <para>Access Control Lists extend the standard &unix; permission
@@ -3645,18 +3324,18 @@ user@unfirewalled-system.example.org's password: <userinput>*******</userinput><
       a more sophisticated security model.</para>
 
     <para>To enable <acronym>ACL</acronym> support for
-      <acronym>UFS</acronym> file systems, the following:</para>
+      <acronym>UFS</acronym> filesystems, the following:</para>
 
     <programlisting>options UFS_ACL</programlisting>
 
     <para>must be compiled into the kernel.  If this option has not
       been compiled in, a warning message will be displayed when
-      attempting to mount a file system supporting
+      attempting to mount a filesystem supporting
       <acronym>ACL</acronym>s.  This option is included in the
       <filename>GENERIC</filename> kernel.  <acronym>ACL</acronym>s
-      rely on extended attributes being enabled on the file system.
+      rely on extended attributes being enabled on the filesystem.
       Extended attributes are natively supported in the next
-      generation &unix; file system, <acronym>UFS2</acronym>.</para>
+      generation &unix; filesystem, <acronym>UFS2</acronym>.</para>
 
     <note>
       <para>A higher level of administrative overhead is required to
@@ -3674,7 +3353,7 @@ user@unfirewalled-system.example.org's password: <userinput>*******</userinput><
       to <filename>/etc/fstab</filename>.  The mount-time flag can
       also be automatically set in a persistent manner using
       &man.tunefs.8; to modify a superblock <acronym>ACL</acronym>s
-      flag in the file system header.  In general, it is preferred
+      flag in the filesystem header.  In general, it is preferred
       to use the superblock flag for several reasons:</para>
 
     <itemizedlist>
@@ -3683,17 +3362,17 @@ user@unfirewalled-system.example.org's password: <userinput>*******</userinput><
 	  changed by a remount (&man.mount.8; <option>-u</option>),
 	  only by means of a complete &man.umount.8; and fresh
 	  &man.mount.8;.  This means that <acronym>ACL</acronym>s
-	  cannot be enabled on the root file system after boot.  It
+	  cannot be enabled on the root filesystem after boot.  It
 	  also means that you cannot change the disposition of a
-	  file system once it is in use.</para>
+	  filesystem once it is in use.</para>
       </listitem>
 
       <listitem>
-	<para>Setting the superblock flag will cause the file system
+	<para>Setting the superblock flag will cause the filesystem
 	  to always be mounted with <acronym>ACL</acronym>s enabled
 	  even if there is not an <filename>fstab</filename> entry
 	  or if the devices re-order.  This prevents accidental
-	  mounting of the file system without
+	  mounting of the filesystem without
 	  <acronym>ACL</acronym>s enabled, which can result in
 	  <acronym>ACL</acronym>s being improperly enforced, and
 	  hence security problems.</para>
@@ -3717,7 +3396,7 @@ user@unfirewalled-system.example.org's password: <userinput>*******</userinput><
 	other unpredictable behavior.</para>
     </note>
 
-    <para>File systems with <acronym>ACL</acronym>s enabled will
+    <para>Filesystems with <acronym>ACL</acronym>s enabled will
       show a <literal>+</literal> (plus) sign in their permission
       settings when viewed.  For example:</para>
 
@@ -3738,7 +3417,7 @@ drwxr-xr-x  2 robert  robert  512 Nov 10 11:54 public_html</programlisting>
     <sect2>
       <title>Making Use of <acronym>ACL</acronym>s</title>
 
-      <para>The file system <acronym>ACL</acronym>s can be viewed by
+      <para>The filesystem <acronym>ACL</acronym>s can be viewed by
 	the &man.getfacl.1; utility.  For instance, to view the
 	<acronym>ACL</acronym> settings on the
 	<filename>test</filename> file, one would use the
@@ -3759,7 +3438,7 @@ drwxr-xr-x  2 robert  robert  512 Nov 10 11:54 public_html</programlisting>
 
       <para>The <option>-k</option> flag will remove all of the
 	currently defined <acronym>ACL</acronym>s from a file or
-	file system.  The more preferable method would be to use
+	filesystem.  The more preferable method would be to use
 	<option>-b</option> as it leaves the basic fields required
 	for <acronym>ACL</acronym>s to work.</para>
 
