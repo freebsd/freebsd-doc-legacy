@@ -122,7 +122,7 @@
 	  </indexterm>
 	  <listitem>
 	    <para>An account with an Internet Service Provider
-	    (<acronym>ISP</acronym>) for connecting using
+	      (<acronym>ISP</acronym>) for connecting using
 	      <acronym>PPP</acronym>.</para>
 	  </listitem>
 
@@ -166,16 +166,14 @@
 	    </indexterm>
 
 	    <para>The <acronym>IP</acronym> address of one or more
-	      name servers.
-	      Normally, the <acronym>ISP</acronym> will provide the
-	      addresses for two 
+	      name servers.  Normally, the <acronym>ISP</acronym>
+	      will provide the addresses for two
 	      <acronym>DNS</acronym> servers.  If it has not,
 	      include <command>enable dns</command> in
-	      <filename>ppp.conf</filename> and
-	      &man.ppp.8; will set the name servers.  This
-	      feature requires the <acronym>ISP</acronym>'s
-	      <acronym>PPP</acronym> implementation to support DNS
-	      negotiation.</para>
+	      <filename>ppp.conf</filename> and &man.ppp.8; will set
+	      the name servers.  This feature requires the
+	      <acronym>ISP</acronym>'s <acronym>PPP</acronym>
+	      implementation to support DNS negotiation.</para>
 	  </listitem>
 	</itemizedlist>
 
@@ -186,17 +184,15 @@
 	<itemizedlist>
 	  <listitem>
 	    <para>The <acronym>IP</acronym> address of the
-	      <acronym>ISP</acronym>'s
-	      gateway.  The gateway is the machine to connect to
-	      and will be set up as the <emphasis>default
-		route</emphasis>.  When in doubt, make one up and the
-	      <acronym>ISP</acronym>'s <acronym>PPP</acronym> server
-	      will set the correct value during connection
-	      setup.</para>
+	      <acronym>ISP</acronym>'s gateway.  The gateway is the
+	      machine to connect to and will be set up as the
+	      <emphasis>default route</emphasis>.  When in doubt,
+	      make one up and the <acronym>ISP</acronym>'s
+	      <acronym>PPP</acronym> server will set the correct
+	      value during connection setup.</para>
 
 	    <para>This <acronym>IP</acronym> number is referred to as
-	      <literal>HISADDR</literal> by
-	      &man.ppp.8;.</para>
+	      <literal>HISADDR</literal> by &man.ppp.8;.</para>
 	  </listitem>
 
 	  <listitem>
@@ -211,9 +207,9 @@
 	    </indexterm>
 
 	    <para>If the <acronym>ISP</acronym> provides a static
-	      <acronym>IP</acronym>
-	      address and hostname, enter it.  Otherwise, let the peer
-	      assign the <acronym>IP</acronym> address.</para>
+	      <acronym>IP</acronym> address and hostname, enter it.
+	      Otherwise, let the peer assign the <acronym>IP</acronym>
+	      address.</para>
 	  </listitem>
 	</itemizedlist>
 
@@ -242,15 +238,13 @@
 
 	<para>Several files located in <filename
 	    class="directory">/etc/ppp</filename> are used to
-	  configure &man.ppp.8;.
-	  Examples can be found in <filename
+	  configure &man.ppp.8;.  Examples can be found in <filename
 	    class="directory">/usr/share/examples/ppp/</filename>.</para>
 
-	<para>Configuring &man.ppp.8; requires a number of
-	  files to be edited, depending on the requirements and
-	  whether the <acronym>ISP</acronym> allocates
-	  <acronym>IP</acronym> addresses
-	  statically or dynamically.</para>
+	<para>Configuring &man.ppp.8; requires a number of files to
+	  be edited, depending on the requirements and whether the
+	  <acronym>ISP</acronym> allocates <acronym>IP</acronym>
+	  addresses statically or dynamically.</para>
 
 	<sect4 id="userppp-staticIP">
 	  <title><acronym>PPP</acronym> and Static
@@ -297,9 +291,8 @@
 
 	      <listitem>
 		<para>Identifies the default entry.  Commands in this
-		  entry are executed automatically when
-		  &man.ppp.8; is
-		  run.</para>
+		  entry are executed automatically when &man.ppp.8;
+		  is run.</para>
 	      </listitem>
 	    </varlistentry>
 
@@ -337,9 +330,7 @@
 		<para>Identifies the device to which the modem is
 		  connected.  <devicename>COM1</devicename> is
 		  <filename class="devicefile">/dev/cuau0</filename>
-		  and
-		  <devicename>COM2</devicename> is
-		  <filename
+		  and <devicename>COM2</devicename> is <filename
 		    class="devicefile">/dev/cuau1</filename>.</para>
 	      </listitem>
 	    </varlistentry>
@@ -451,9 +442,9 @@
 		  values are referred to by the <command>set
 		    login</command> command using the \U and \P
 		  variables.  When connecting using
-		  <acronym>PAP</acronym>
-		  or <acronym>CHAP</acronym>, these
-		  values are used at authentication time.</para>
+		  <acronym>PAP</acronym> or
+		  <acronym>CHAP</acronym>, these values are used at
+		  authentication time.</para>
 	      </listitem>
 	    </varlistentry>
 
@@ -464,8 +455,7 @@
 		<indexterm><primary>PAP</primary></indexterm>
 		<indexterm><primary>CHAP</primary></indexterm>
 		<para>When using <acronym>PAP</acronym> or
-		  <acronym>CHAP</acronym>,
-		  there will be no login
+		  <acronym>CHAP</acronym>, there will be no login
 		  and this line should be commented out or removed.
 		  See <xref linkend="userppp-PAPnCHAP"/> for further
 		  details.</para>
@@ -511,19 +501,17 @@ protocol: ppp</screen>
 		<para>Sets the interface addresses.  The string
 		  <replaceable>x.x.x.x</replaceable> should be
 		  replaced by the <acronym>IP</acronym> address the
-		  provider has
-		  allocated.  The string
+		  provider has allocated.  The string
 		  <replaceable>y.y.y.y</replaceable> should be
 		  replaced by the <acronym>IP</acronym> address of the
 		  <acronym>ISP</acronym>'s gateway.  If the ISP has
 		  not provided a gateway address, use <hostid
-		  role="netmask">10.0.0.2/0</hostid>.  When using a
+		    role="netmask">10.0.0.2/0</hostid>.  When using a
 		  <quote>guessed</quote> address, make sure to create
 		  an entry in
 		  <filename>/etc/ppp/ppp.linkup</filename> as per the
 		  instructions in <xref linkend="userppp-dynamicIP"/>.
-		  If this line is
-		  omitted, &man.ppp.8; cannot run in
+		  If this line is omitted, &man.ppp.8; cannot run in
 		  <option>-auto</option> mode.</para>
 	      </listitem>
 	    </varlistentry>
@@ -551,7 +539,7 @@ protocol: ppp</screen>
 	    <filename>ppp.linkup</filename> when using a static
 	    <acronym>IP</acronym> address with &man.ppp.8; in
 	    <option>-auto</option> mode as the routing table entries
-	    are already correct before a connection is established. 
+	    are already correct before a connection is established.
 	    However, an entry can be created to invoke programs after
 	    connection.  This is explained later with the sendmail
 	    example.</para>
@@ -577,18 +565,16 @@ protocol: ppp</screen>
 	  </indexterm>
 
 	  <para>If the service provider does not assign static
-	    <acronym>IP</acronym>
-	    addresses, &man.ppp.8; can be configured to
-	    negotiate the local and remote addresses.  This is done by
-	    <quote>guessing</quote> an <acronym>IP</acronym> address
-	    and allowing
-	    &man.ppp.8; to set it up correctly using the
+	    <acronym>IP</acronym> addresses, &man.ppp.8; can be
+	    configured to negotiate the local and remote addresses.
+	    This is done by <quote>guessing</quote> an
+	    <acronym>IP</acronym> address and allowing &man.ppp.8;
+	    to set it up correctly using the
 	    <acronym>IP</acronym>
 	    Configuration Protocol (<acronym>IPCP</acronym>) after
-	    connecting.  The
-	    <filename>ppp.conf</filename> configuration is the same as
-	    that described in <xref linkend="userppp-staticIP"/>, with
-	    the following
+	    connecting.  The <filename>ppp.conf</filename>
+	    configuration is the same as that described in <xref
+	      linkend="userppp-staticIP"/>, with the following
 	    change:</para>
 
 	  <programlisting>17      set ifaddr 10.0.0.1/0 10.0.0.2/0 255.255.255.255 0.0.0.0</programlisting>
@@ -606,8 +592,7 @@ protocol: ppp</screen>
 		  character is the number of bits of the address that
 		  &man.ppp.8; will insist on.  These
 		  <acronym>IP</acronym> numbers can be replaced, but
-		  the above example
-		  will always work.</para>
+		  the above example will always work.</para>
 
 		<para>The last argument (<literal>0.0.0.0</literal>)
 		  tells <acronym>PPP</acronym> to start negotiations
@@ -626,10 +611,9 @@ protocol: ppp</screen>
 	    create an entry in
 	    <filename>/etc/ppp/ppp.linkup</filename>.
 	    <filename>ppp.linkup</filename> is used after a connection
-	    has been established.  At this point,
-	    &man.ppp.8; will have assigned the interface
-	    addresses and it will now be possible to add the routing
-	    table entries:</para>
+	    has been established.  At this point, &man.ppp.8; will
+	    have assigned the interface addresses and it will now be
+	    possible to add the routing table entries:</para>
 
 	  <programlisting>1     provider:
 2      add default HISADDR</programlisting>
@@ -639,15 +623,15 @@ protocol: ppp</screen>
 	      <term>Line 1:</term>
 
 	      <listitem>
-		<para>On establishing a connection,
-		  &man.ppp.8; will look for an entry in
-		  <filename>ppp.linkup</filename> according to the
-		  following rules. First, try to match the same label
-		  used in <filename>ppp.conf</filename>.  If
-		  that fails, look for an entry for the four-octet
-		  <acronym>IP</acronym> address of
-		  the gateway.  If an entry is still not found, look
-		  for the <literal>MYADDR</literal> entry.</para>
+		<para>On establishing a connection, &man.ppp.8; will
+		  look for an entry in <filename>ppp.linkup</filename>
+		  according to the following rules.  First, try to
+		  match the same label used in
+		  <filename>ppp.conf</filename>.  If that fails, look
+		  for an entry for the four-octet
+		  <acronym>IP</acronym> address of the gateway.  If
+		  an entry is still not found, look for the
+		  <literal>MYADDR</literal> entry.</para>
 	      </listitem>
 	    </varlistentry>
 
@@ -655,13 +639,11 @@ protocol: ppp</screen>
 	      <term>Line 2:</term>
 
 	      <listitem>
-		<para>This line tells &man.ppp.8; to add a
-		  default route that points to
-		  <literal>HISADDR</literal>.
+		<para>This line tells &man.ppp.8; to add a default
+		  route that points to <literal>HISADDR</literal>.
 		  <literal>HISADDR</literal> will be replaced with the
 		  <acronym>IP</acronym> number of the gateway as
-		  negotiated by
-		  <acronym>IPCP</acronym>.</para>
+		  negotiated by <acronym>IPCP</acronym>.</para>
 	      </listitem>
 	    </varlistentry>
 	  </variablelist>
@@ -681,14 +663,12 @@ protocol: ppp</screen>
 	    <secondary>receiving incoming calls</secondary>
 	  </indexterm>
 
-	  <para>When configuring &man.ppp.8; to receive
-	    incoming calls on a machine connected to a
-	    <acronym>LAN</acronym>, decide if
-	    packets should be forwarded to the local network.
-	    If so, allocate
+	  <para>When configuring &man.ppp.8; to receive incoming
+	    calls on a machine connected to a
+	    <acronym>LAN</acronym>, decide if packets should be
+	    forwarded to the local network.  If so, allocate
 	    the peer an <acronym>IP</acronym> number from the local
-	    subnet and use
-	    <command>enable proxy</command> in
+	    subnet and use <command>enable proxy</command> in
 	    <filename>/etc/ppp/ppp.conf</filename>.  Also, confirm
 	    that <filename>/etc/rc.conf</filename> contains the
 	    following:</para>
@@ -704,36 +684,32 @@ protocol: ppp</screen>
 
 	  <para>An alternative to &man.getty.8; is <ulink
 	      url="http://mgetty.greenie.net/">mgetty</ulink>, a
-	    smarter version of &man.getty.8;
-	    designed with dialup lines in mind.  It can be installed
-	    from the <filename
+	    smarter version of &man.getty.8; designed with dialup
+	    lines in mind.  It can be installed from the <filename
 	      role="package">comms/mgetty+sendfax</filename> package
 	    or port.</para>
 
-	  <para>The advantages of using &man.getty.8; is
-	    that it actively <emphasis>talks</emphasis> to modems.
-	    If the port is turned off in
+	  <para>The advantages of using &man.getty.8; is that it
+	    actively <emphasis>talks</emphasis> to modems.  If the
+	    port is turned off in
 	    <filename>/etc/ttys</filename>, the modem will not answer
 	    the phone.</para>
 
-	  <para>The &os; version of &man.getty.8;
-	    supports the automatic detection of
-	    <acronym>PPP</acronym> streams, allowing clients
-	    scriptless access to the server.</para>
+	  <para>The &os; version of &man.getty.8; supports the
+	    automatic detection of <acronym>PPP</acronym> streams,
+	    allowing clients scriptless access to the server.</para>
 
-	  <para>Refer to <xref linkend="userppp-mgetty"/>
-	      for more information on
-	    &man.getty.8;.</para>
+	  <para>Refer to <xref linkend="userppp-mgetty"/> for more
+	    information on &man.getty.8;.</para>
 	</sect4>
 
 	<sect4>
 	  <title><acronym>PPP</acronym> Permissions</title>
 
-	  <para>Typically, &man.ppp.8; is
-	    run as the <username>root</username> user.  To give a
-	    user permission to run &man.ppp.8; in server
-	    mode, add their user account to the
-	    <groupname>network</groupname> group in
+	  <para>Typically, &man.ppp.8; is run as the
+	    <username>root</username> user.  To give a user permission
+	    to run &man.ppp.8; in server mode, add their user account
+	    to the <groupname>network</groupname> group in
 	    <filename>/etc/group</filename>.</para>
 
 	  <para>Then, give the account access to one or more sections
@@ -749,8 +725,7 @@ protocol: ppp</screen>
 
 	<sect4>
 	  <title><acronym>PPP</acronym> Shells for
-	    Dynamic-<acronym>IP</acronym>
-	    Users</title>
+	    Dynamic-<acronym>IP</acronym> Users</title>
 
 	  <indexterm>
 	    <primary>PPP shells</primary>
@@ -803,8 +778,7 @@ exec /usr/sbin/ppp -direct $IDENT</programlisting>
 
 	  <sect4>
 	    <title><acronym>PPP</acronym> Shells for
-	      Static-<acronym>IP</acronym>
-	      Users</title>
+	      Static-<acronym>IP</acronym> Users</title>
 
 	    <indexterm>
 	      <primary>PPP shells</primary>
@@ -858,8 +832,8 @@ ttyu1:
 	      <filename>/etc/ttys</filename> create an entry similar
 	      to the one for <literal>ttyu0:</literal> above.  Each
 	      line should get a unique <acronym>IP</acronym> address
-	      from the pool of
-	      <acronym>IP</acronym> addresses for dynamic users.</para>
+	      from the pool of <acronym>IP</acronym> addresses for
+	      dynamic users.</para>
 	  </sect4>
 
 	  <sect4>
@@ -883,10 +857,9 @@ mary:
 	    <para>The file <filename>/etc/ppp/ppp.linkup</filename>
 	      should also contain routing information for each static
 	      <acronym>IP</acronym> user if required.  The line below
-	      would add a route
-	      for the <hostid role="ipaddr">203.14.101.0/24</hostid>
-	      network via the client's <acronym>PPP</acronym>
-	      link.</para>
+	      would add a route for the <hostid
+		role="ipaddr">203.14.101.0/24</hostid> network via
+	      the client's <acronym>PPP</acronym> link.</para>
 
 	    <programlisting>fred:
   add 203.14.101.0 netmask 255.255.255.0 HISADDR
@@ -916,13 +889,12 @@ mary:
 	  <para>By default the <filename
 	      role="package">comms/mgetty+sendfax</filename> port
 	    comes with the <literal>AUTO_PPP</literal> option enabled
-	    allowing &man.getty.8; to detect the LCP
-	    phase of <acronym>PPP</acronym> connections and
-	    automatically spawn off a &man.ppp.8; shell.
-	    However, since the default login/password sequence does
-	    not occur it is necessary to authenticate users using
-	    either <acronym>PAP</acronym> or
-	    <acronym>CHAP</acronym>.</para>
+	    allowing &man.getty.8; to detect the LCP phase of
+	    <acronym>PPP</acronym> connections and automatically
+	    spawn off a &man.ppp.8; shell.  However, since the default
+	    login/password sequence does not occur it is necessary
+	    to authenticate users using either <acronym>PAP</acronym>
+	    or <acronym>CHAP</acronym>.</para>
 
 	  <para>This section assumes the user has successfully
 	    compiled, and installed the <filename
@@ -965,9 +937,9 @@ exec /usr/sbin/ppp -direct pap$IDENT</programlisting>
 	  <programlisting>enable passwdauth</programlisting>
 
 	  <para>To assign some users a static <acronym>IP</acronym>,
-	    specify the <acronym>IP</acronym>
-	    address as the third argument in
-	    <filename>/etc/ppp/ppp.secret</filename>.  See
+	    specify the <acronym>IP</acronym> address as the third
+	    argument in <filename>/etc/ppp/ppp.secret</filename>.
+	    See
 	    <filename>/usr/share/examples/ppp/ppp.secret.sample</filename>
 	    for examples.</para>
 	</sect4>
@@ -1027,18 +999,15 @@ set nbns 203.14.100.5</programlisting>
 	  <para>Some <acronym>ISP</acronym>s set their system up so
 	    that the authentication part of the connection is done
 	    using either the <acronym>PAP</acronym> or
-	    <acronym>CHAP</acronym>
-	    authentication mechanism.  If
+	    <acronym>CHAP</acronym> authentication mechanism.  If
 	    this is the case, the <acronym>ISP</acronym> will not give
 	    a <prompt>login:</prompt> during connection, but will
 	    start talking <acronym>PPP</acronym>
 	    immediately.</para>
 
 	  <para>While <acronym>PAP</acronym> is less secure than
-	    <acronym>CHAP</acronym>,
-	    security is not
-	    normally an issue as the clear text passwords are
-	    transmitted down a
+	    <acronym>CHAP</acronym>, security is not normally an
+	    issue as the clear text passwords are transmitted down a
 	    serial line only.  There is not much room for crackers
 	    to <quote>eavesdrop</quote>.</para>
 
@@ -1057,8 +1026,8 @@ set nbns 203.14.100.5</programlisting>
 
 	      <listitem>
 		<para>This line specifies the
-		  <acronym>PAP/CHAP</acronym> user name.
-		  Insert the correct value for
+		  <acronym>PAP/CHAP</acronym> user name.  Insert the
+		  correct value for
 		  <replaceable>MyUserName</replaceable>.</para>
 	      </listitem>
 	    </varlistentry>
@@ -1069,9 +1038,8 @@ set nbns 203.14.100.5</programlisting>
 		<indexterm><primary>password</primary></indexterm>
 
 		<para>This line specifies the
-		  <acronym>PAP/CHAP</acronym>
-		  password.
-		  Insert the correct value for
+		  <acronym>PAP/CHAP</acronym> password.  Insert the
+		  correct value for
 		  <replaceable>MyPassword</replaceable>.  An
 		  additional line can be added, such as:</para>
 
@@ -1083,9 +1051,7 @@ set nbns 203.14.100.5</programlisting>
 
 		<para>to make it obvious that this is the intention,
 		  but <acronym>PAP</acronym> and
-		  <acronym>CHAP</acronym>
-		  are both accepted
-		  by
+		  <acronym>CHAP</acronym> are both accepted by
 		  default.</para>
 	      </listitem>
 	    </varlistentry>
@@ -1098,8 +1064,7 @@ set nbns 203.14.100.5</programlisting>
 		  require a login into the server when using
 		  <acronym>PAP</acronym> or
 		  <acronym>CHAP</acronym>.  Therefore, disable the
-		  <quote>set
-		    login</quote> string.</para>
+		  <quote>set login</quote> string.</para>
 	      </listitem>
 	    </varlistentry>
 	  </variablelist>
@@ -1109,10 +1074,10 @@ set nbns 203.14.100.5</programlisting>
 	  <title>Changing the &man.ppp.8; Configuration
 	    on the Fly</title>
 
-	  <para>It is possible to talk to &man.ppp.8;
-	    while it is running in the background, but only
-	    if a suitable diagnostic port has been set up.  To do
-	    this, add the following line to the configuration:</para>
+	  <para>It is possible to talk to &man.ppp.8; while it is
+	    running in the background, but only if a suitable
+	    diagnostic port has been set up.  To do this, add the
+	    following line to the configuration:</para>
 
 	  <programlisting>set server /var/run/ppp-tun<replaceable>%d</replaceable> DiagnosticPassword 0177</programlisting>
 
@@ -1169,8 +1134,8 @@ nat port tcp 10.0.0.2:http http</programlisting>
 	  <primary>PPP</primary><secondary>configuration</secondary>
 	</indexterm>
 
-	<para>Now that &man.ppp.8; is configured, there are
-	  a few more things to edit in
+	<para>Now that &man.ppp.8; is configured, there are a few
+	  more things to edit in
 	  <filename>/etc/rc.conf</filename>.</para>
 
 	<para>Working from the top down in this file, make sure the
@@ -1179,9 +1144,8 @@ nat port tcp 10.0.0.2:http http</programlisting>
 	<programlisting>hostname="foo.example.com"</programlisting>
 
 	<para>If the <acronym>ISP</acronym> has supplied a static
-	  <acronym>IP</acronym>
-	  address and name, it is recommended to use this name as the
-	  host name.</para>
+	  <acronym>IP</acronym> address and name, it is recommended
+	  to use this name as the host name.</para>
 
 	<para>Look for the <literal>network_interfaces</literal>
 	  variable.  To configure the system to dial the
@@ -1218,31 +1182,30 @@ ifconfig_tun0=</programlisting>
 	  <primary><application>routed</application></primary>
 	</indexterm>
 
-	<para>It is important that the &man.routed.8;
-	  daemon is not started, as &man.routed.8; tends
-	  to delete the default routing table entries created by
-	  &man.ppp.8;.</para>
+	<para>It is important that the &man.routed.8; daemon is not
+	  started, as &man.routed.8; tends to delete the default
+	  routing table entries created by &man.ppp.8;.</para>
 
 	<para>It is probably a good idea to ensure that the
 	  <literal>sendmail_flags</literal> line does not include
-	  <option>-q</option>; otherwise,
-	  &man.sendmail.8; will attempt to do a network
-	  lookup every now and then, possibly causing the machine
-	  to dial out.  Try this command instead:</para>
+	  <option>-q</option>; otherwise, &man.sendmail.8; will
+	  attempt to do a network lookup every now and then, possibly
+	  causing the machine to dial out.  Try this command
+	  instead:</para>
 
 	<programlisting>sendmail_flags="-bd"</programlisting>
 
 	<indexterm>
 	  <primary><application>Sendmail</application></primary>
 	</indexterm>
-	<para>The downside is that &man.sendmail.8; must be
-	  forced to re-examine the mail queue whenever the
+	<para>The downside is that &man.sendmail.8; must be forced
+	  to re-examine the mail queue whenever the
 	  <acronym>PPP</acronym> link is up by typing:</para>
 
 	<screen>&prompt.root; <userinput>/usr/sbin/sendmail -q</userinput></screen>
 
-	<para>To automatically use <command>!bg</command>
-	  in <filename>ppp.linkup</filename>:</para>
+	<para>To automatically use <command>!bg</command> in
+	  <filename>ppp.linkup</filename>:</para>
 
 	<programlisting>1     provider:
 2       delete ALL
@@ -1264,8 +1227,8 @@ ifconfig_tun0=</programlisting>
 
 	<para>and then <command>dial provider</command> to start the
 	  <acronym>PPP</acronym> session, or, to configure
-	  &man.ppp.8; to establish sessions automatically
-	  when there is outbound traffic and there is no existing
+	  &man.ppp.8; to establish sessions automatically when there
+	  is outbound traffic and there is no existing
 	  <filename>start_if.tun0</filename> script, type:</para>
 
 	<screen>&prompt.root; <userinput>ppp -auto provider</userinput></screen>
@@ -1324,8 +1287,7 @@ ifconfig_tun0=</programlisting>
 	  </step>
 
 	  <step>
-	    <para>Ensure that the
-	      <filename
+	    <para>Ensure that the <filename
 		class="devicefile">tun<replaceable>N</replaceable></filename>
 	      device file is available in the <filename
 		class="directory">/dev</filename> directory.</para>
@@ -1384,12 +1346,11 @@ ifconfig_tun0=</programlisting>
       using <acronym>PPP</acronym> over a modem connection.  Some
       <acronym>ISP</acronym>s present the
       <literal>ssword</literal> prompt, and others will present
-      <literal>password</literal>; if the &man.ppp.8;
-      script is not written accordingly, the login attempt will
-      fail.  The most common way to debug &man.ppp.8;
-      connections is by connecting manually.  The following
-      information walks through a manual connection step by
-      step.</para>
+      <literal>password</literal>; if the &man.ppp.8; script is not
+      written accordingly, the login attempt will fail.  The most
+      common way to debug &man.ppp.8; connections is by connecting
+      manually.  The following information walks through a manual
+      connection step by step.</para>
 
     <sect2>
       <title>Check the Device Nodes</title>
@@ -1401,9 +1362,8 @@ ifconfig_tun0=</programlisting>
 
       <para>The <devicename>uart</devicename> device is already
 	included in the <literal>GENERIC</literal> kernel, so no
-	additional steps are necessary in this case.  Just
-	check the &man.dmesg.8; output for the modem
-	device with:</para>
+	additional steps are necessary in this case.  Just check the
+	&man.dmesg.8; output for the modem device with:</para>
 
       <screen>&prompt.root; <userinput>dmesg | grep uart</userinput></screen>
 
@@ -1420,19 +1380,18 @@ ifconfig_tun0=</programlisting>
       <title>Connecting Manually</title>
 
       <para>Connecting to the Internet by manually controlling
-	&man.ppp.8; is quick, easy, and a great way to
-	debug a connection or just get information on how the
+	&man.ppp.8; is quick, easy, and a great way to debug a
+	connection or just get information on how the
 	<acronym>ISP</acronym> treats &man.ppp.8; client
 	connections.  The following examples use
 	<emphasis>example</emphasis> as the hostname of the
-	machine running &man.ppp.8;.  To start
-	&man.ppp.8;:</para>
+	machine running &man.ppp.8;.  To start &man.ppp.8;:</para>
 
       <screen>&prompt.root; <userinput>ppp</userinput></screen>
 
       <para>This sets the modem device to
 	<devicename>cuau1</devicename>:</para>
-	
+
       <screen>ppp ON example&gt; <userinput>set device <filename class="devicefile">/dev/cuau1</filename></userinput></screen>
 
       <para>This sets the connection speed to 115,200
@@ -1440,16 +1399,15 @@ ifconfig_tun0=</programlisting>
 
       <screen>ppp ON example&gt; <userinput>set speed 115200</userinput></screen>
 
-      <para>This tells &man.ppp.8; to configure the
-	resolver and add the nameserver lines to
-	<filename>/etc/resolv.conf</filename>.  If
-	&man.ppp.8; cannot determine the hostname, it can
-	manually be set later.</para>
+      <para>This tells &man.ppp.8; to configure the resolver and add
+	the nameserver lines to
+	<filename>/etc/resolv.conf</filename>.  If &man.ppp.8; cannot
+	determine the hostname, it can manually be set later.</para>
 
       <screen>ppp ON example&gt; <userinput>enable dns</userinput></screen>
 
-      <para>Switch to <quote>terminal</quote> mode to
-	manually control the modem.</para>
+      <para>Switch to <quote>terminal</quote> mode to manually
+	control the modem.</para>
 
       <screen>ppp ON example&gt; <userinput>term</userinput></screen>
 
@@ -1460,16 +1418,15 @@ type '~h' for help</programlisting>
 OK
 <userinput>atdt<replaceable>123456789</replaceable></userinput></screen>
 
-      <para>Use &man.at.1; to initialize the modem,
-	then type <command>atdt</command> and the number for the
+      <para>Use &man.at.1; to initialize the modem, then type
+	<command>atdt</command> and the number for the
 	<acronym>ISP</acronym> to begin the dial in process.</para>
 
       <screen>CONNECT</screen>
 
       <para>This message confirms the connection.  If there are
 	any connection problems, unrelated to hardware, this is the
-	time to
-	attempt to resolve them.</para>
+	time to attempt to resolve them.</para>
 
       <screen>ISP Login:<userinput>myusername</userinput></screen>
 
@@ -1479,25 +1436,23 @@ OK
 
       <screen>ISP Pass:<userinput>mypassword</userinput></screen>
 
-      <para>At this password prompt,
-	enter the password that was provided by the
-	<acronym>ISP</acronym>.  Just like logging into
-	&os;, the password will not echo.</para>
+      <para>At this password prompt, enter the password that was
+	provided by the <acronym>ISP</acronym>.  Just like logging
+	into &os;, the password will not echo.</para>
 
       <screen>Shell or PPP:<userinput>ppp</userinput></screen>
 
       <para>Depending on the <acronym>ISP</acronym>, this prompt
 	may never appear.  If it does, it provides a choice to
-	use a shell on the provider or to start
-	&man.ppp.8;.  This example chooses
-	to use &man.ppp.8; in order to create an Internet
-	connection.</para>
+	use a shell on the provider or to start &man.ppp.8;.  This
+	example chooses to use &man.ppp.8; in order to create an
+	Internet connection.</para>
 
       <screen>Ppp ON example&gt;</screen>
 
-      <para>In this example, the first <option>p</option>
-	has been capitalized.  This indicates a successful
-	connection to the <acronym>ISP</acronym>.</para>
+      <para>In this example, the first <option>p</option> has been
+	capitalized.  This indicates a successful connection to the
+	<acronym>ISP</acronym>.</para>
 
       <screen>PPp ON example&gt;</screen>
 
@@ -1508,15 +1463,14 @@ OK
 
       <screen>PPP ON example&gt;</screen>
 
-      <para>This indicates an <acronym>IP</acronym>
-	address has been assigned and the
-	connection has successfully completed.</para>
+      <para>This indicates an <acronym>IP</acronym> address has been
+	assigned and the connection has successfully completed.</para>
 
       <screen>PPP ON example&gt;<userinput>add default HISADDR</userinput></screen>
 
       <para>This adds a default route which is needed for successful
-	communication.  Until this is added, the only
-	established connection is with the peer.  If this fails due to
+	communication.  Until this is added, the only established
+	connection is with the peer.  If this fails due to
 	existing routes, put a bang character
 	(<literal>!</literal>) in front of the <option>add</option>.
 	Alternatively, set this before making the actual connection
@@ -1529,8 +1483,8 @@ OK
 	<keycap>z</keycap></keycombo>.  If
 	<literal>PPP</literal> instead returns to
 	<literal>ppp</literal>, the connection has been lost.  An
-	uppercase <literal>P</literal> indicates a
-	connection to the <acronym>ISP</acronym> and a lowercase
+	uppercase <literal>P</literal> indicates a connection to the
+	<acronym>ISP</acronym> and a lowercase
 	<literal>p</literal> indicates that the connection has been
 	lost.  &man.ppp.8; only has these 2 states.</para>
 
@@ -1541,12 +1495,12 @@ OK
 	  turn hardware flow <acronym>CTS/RTS</acronym> to off with
 	  <option>set ctsrts off</option>.  This can occur when
 	  connected to some <acronym>PPP</acronym> capable
-	  terminal servers as &man.ppp.8; hangs
-	  when it tries to write data to the communication link and
-	  then waits for a Clear To Send (<acronym>CTS</acronym>)
-	  signal which may never come.  When using this option,
-	  include <option>set accmap</option>, which may be required
-	  to defeat hardware which is dependent on passing certain
+	  terminal servers as &man.ppp.8; hangs when it tries to
+	  write data to the communication link and then waits for a
+	  Clear To Send (<acronym>CTS</acronym>) signal which may
+	  never come.  When using this option, include
+	  <option>set accmap</option>, which may be required to
+	  defeat hardware which is dependent on passing certain
 	  characters from end to end, such as XON/XOFF.  See
 	  &man.ppp.8; for more information on how this option is
 	  used.</para>
@@ -1558,20 +1512,19 @@ OK
 	  <acronym>ISP</acronym>s.  This option may be needed for
 	  the Compuserve <acronym>ISP</acronym>.</para>
 
-	<para>&man.ppp.8; may not return to the
-	  command mode, which is usually a negotiation error where
-	  the <acronym>ISP</acronym> is waiting for your side to start
+	<para>&man.ppp.8; may not return to the command mode, which
+	  is usually a negotiation error where the
+	  <acronym>ISP</acronym> is waiting for your side to start
 	  negotiating.  At this point, using <command>~p</command>
-	  will force &man.ppp.8; to start
-	  sending the configuration information.</para>
+	  will force &man.ppp.8; to start sending the configuration
+	  information.</para>
 
 	<para>If a login prompt never appears, try using
 	  <acronym>PAP</acronym> or <acronym>CHAP</acronym>
 	  authentication instead of the &unix; style in the example
 	  above.  To use <acronym>PAP</acronym> or
 	  <acronym>CHAP</acronym>, add the following options to
-	  &man.ppp.8; before going into terminal
-	  mode:</para>
+	  &man.ppp.8; before going into terminal mode:</para>
 
 	<screen>ppp ON example&gt; <userinput>set authname <replaceable>myusername</replaceable></userinput></screen>
 
@@ -1605,8 +1558,8 @@ nameserver <replaceable>y.y.y.y</replaceable></programlisting>
 	  the <acronym>IP</acronym> address of the
 	  <acronym>ISP</acronym>'s DNS servers.</para>
 
-	<para>To configure &man.syslog.3; to log
-	  &man.ppp.8; connections, add:</para>
+	<para>To configure &man.syslog.3; to log &man.ppp.8;
+	  connections, add:</para>
 
 	<programlisting>!ppp
 *.*     /var/log/ppp.log</programlisting>
@@ -1726,34 +1679,33 @@ ppp_profile="name_of_service_provider"</programlisting>
 	<acronym>PPPoE</acronym> configuration entry in
 	<filename>ppp.conf</filename> as the provider part of
 	<command>set device</command>, as described in &man.ppp.8;.
-	It should look like
-	this:</para>
+	It should look like this:</para>
 
       <programlisting>set device PPPoE:<replaceable>xl1</replaceable>:<replaceable>ISP</replaceable></programlisting>
 
       <para>Do not forget to change <replaceable>xl1</replaceable>
 	to the proper device for the Ethernet card.</para>
+
       <para>Do not forget to change <replaceable>ISP</replaceable>
 	to the profile found above.</para>
 
       <para>For additional information, see <ulink
-	      url="http://renaud.waldura.com/doc/freebsd/pppoe/">Cheaper
-	      Broadband with &os; on
-	      <acronym>DSL</acronym></ulink>.</para>
+	  url="http://renaud.waldura.com/doc/freebsd/pppoe/">Cheaper
+	  Broadband with &os; on
+	  <acronym>DSL</acronym></ulink>.</para>
     </sect2>
 
     <sect2 id="ppp-3com">
 
       <title><acronym>PPPoE</acronym> with a &tm.3com;
 	<trademark class="registered">HomeConnect</trademark>
-	<acronym>ADSL</acronym>
-	Modem Dual Link</title>
+	<acronym>ADSL</acronym> Modem Dual Link</title>
 
       <para>This modem does not follow <ulink
 	  url="http://www.faqs.org/rfcs/rfc2516.html">RFC
 	  2516</ulink>.
-	Instead, different packet type codes have been
-	used for the Ethernet frames.  Please complain to <ulink
+	Instead, different packet type codes have been used for the
+	Ethernet frames.  Please complain to <ulink
 	  url="http://www.3com.com/">3Com</ulink> if you think it
 	should comply with the <acronym>PPPoE</acronym>
 	specification.</para>
@@ -1773,8 +1725,7 @@ ppp_profile="name_of_service_provider"</programlisting>
 	it is not possible to talk to a normal
 	<acronym>PPPoE</acronym> client or server and a &tm.3com;
 	<trademark class="registered">HomeConnect</trademark>
-	<acronym>ADSL</acronym>
-	modem at the same time.</para>
+	<acronym>ADSL</acronym> modem at the same time.</para>
 
     </sect2>
   </sect1>
@@ -1807,9 +1758,9 @@ ppp_profile="name_of_service_provider"</programlisting>
 	properly.  It is possible to automate this process in &os;
 	so that this transfer takes place whenever the device is
 	plugged into a USB port.  The following information can be
-	added to <filename>/etc/usbd.conf</filename> to
-	enable this automatic firmware transfer.  This file must be
-	edited as the <username>root</username> user.</para>
+	added to <filename>/etc/usbd.conf</filename> to enable this
+	automatic firmware transfer.  This file must be edited as
+	the <username>root</username> user.</para>
 
       <programlisting>device "Alcatel SpeedTouch USB"
     devname "ugen[0-9]+"
@@ -1823,9 +1774,8 @@ ppp_profile="name_of_service_provider"</programlisting>
 
       <programlisting>usbd_enable="YES"</programlisting>
 
-      <para>It is also possible to set up
-	&man.ppp.8; to dial up at startup.  To do
-	this add the following lines to
+      <para>It is also possible to set up &man.ppp.8; to dial up at
+	startup.  To do this add the following lines to
 	<filename>/etc/rc.conf</filename>:</para>
 
       <programlisting>ppp_enable="YES"
@@ -1843,19 +1793,14 @@ ppp_profile="adsl"</programlisting>
 
       <para><application>mpd</application> can be used to connect to a
 	variety of services, in particular <acronym>passwd</acronym>
-	services.
-	<application>mpd</application> can be installed from the
-	<filename role="package">net/mpd5</filename> package or port.
-	Many
-	<acronym>ADSL</acronym> modems require a
-	<acronym>PPTP</acronym> tunnel between the
-	modem and computer.  One such modem is the Alcatel
-	&speedtouch;
-	Home.</para>
+	services.  <application>mpd</application> can be installed
+	from the <filename role="package">net/mpd5</filename> package
+	or port.  Many <acronym>ADSL</acronym> modems require a
+	<acronym>PPTP</acronym> tunnel between the modem and computer.
+	One such modem is the Alcatel &speedtouch; Home.</para>
 
       <para>The installation of the port places a set of well
-	commented, sample
-	configuration files in <filename
+	commented, sample configuration files in <filename
 	  class="directory">/usr/local/etc/mpd5/</filename>.  Copy
 	<filename>mpd.conf.sample</filename>, removing the
 	<literal>.sample</literal> extension, and edit it to suit the
@@ -1863,8 +1808,7 @@ ppp_profile="adsl"</programlisting>
 	guide in HTML format is installed to <filename
 	  class="directory">/usr/local/share/doc/mpd5/</filename>.</para>
 
-    <para>After saving the edits,
-      initialize the connection as
+    <para>After saving the edits, initialize the connection as
       <username>root</username>:</para>
 
     <screen>&prompt.root; <userinput>service mpd5 start</userinput></screen>
@@ -1909,8 +1853,7 @@ ng0: flags=88d1&lt;UP,POINTOPOINT,RUNNING,NOARP,SIMPLEX,MULTICAST&gt; mtu 1500
     <calloutlist>
       <callout arearefs="co-pptp-ex-user">
 	<para>The username of the account with the
-	  <acronym>DSL</acronym>
-	  provider.</para>
+	  <acronym>DSL</acronym> provider.</para>
       </callout>
 
       <callout arearefs="co-pptp-ex-pass">
@@ -1932,15 +1875,14 @@ ng0: flags=88d1&lt;UP,POINTOPOINT,RUNNING,NOARP,SIMPLEX,MULTICAST&gt; mtu 1500
 
       <para>This will open a tunnel for a <acronym>PPP</acronym>
 	session to the <acronym>DSL</acronym> router.  Ethernet
-	<acronym>DSL</acronym> modems have a
-	preconfigured <acronym>LAN</acronym> <acronym>IP</acronym>
-	address to connect to.
-	In the case of
-	the Alcatel &speedtouch; Home, this address is <hostid
-	  role="ipaddr">10.0.0.138</hostid>.  The router
-	documentation should indicate which address the device
-	uses.  To open the tunnel and start a <acronym>PPP</acronym>
-	session execute the following command:</para>
+	<acronym>DSL</acronym> modems have a preconfigured
+	<acronym>LAN</acronym> <acronym>IP</acronym> address to
+	connect to.  In the case of the Alcatel &speedtouch; Home,
+	this address is <hostid role="ipaddr">10.0.0.138</hostid>.
+	The router documentation should indicate which address the
+	device uses.  To open the tunnel and start a
+	<acronym>PPP</acronym> session execute the following
+	command:</para>
 
       <screen>&prompt.root; <userinput>pptp <replaceable>address</replaceable> <replaceable>adsl</replaceable></userinput></screen>
 
@@ -1953,10 +1895,10 @@ ng0: flags=88d1&lt;UP,POINTOPOINT,RUNNING,NOARP,SIMPLEX,MULTICAST&gt; mtu 1500
 
       <para>A <devicename>tun</devicename> virtual tunnel device
 	will be created for interaction between the
-	<application>pptp</application> and
-	&man.ppp.8; processes.  Once the prompt is
-	returned, or the <application>pptp</application> process has
-	confirmed a connection, examine the tunnel:</para>
+	<application>pptp</application> and &man.ppp.8; processes.
+	Once the prompt is returned, or the
+	<application>pptp</application> process has confirmed a
+	connection, examine the tunnel:</para>
 
       <screen>&prompt.user; <userinput>ifconfig <replaceable>tun0</replaceable></userinput>
 tun0: flags=8051&lt;UP,POINTOPOINT,RUNNING,MULTICAST&gt; mtu 1500
@@ -1964,10 +1906,10 @@ tun0: flags=8051&lt;UP,POINTOPOINT,RUNNING,MULTICAST&gt; mtu 1500
 	Opened by PID 918</screen>
 
       <para>If unable to connect, check the router configuration,
-	which is usually accessible via
-	&man.telnet.1; or a web browser.  Examine
-	the output of <command>pptp</command> and the contents of
-	<filename>/var/log/ppp.log</filename> for clues.</para>
+	which is usually accessible via &man.telnet.1; or a web
+	browser.  Examine the output of <command>pptp</command> and
+	the contents of <filename>/var/log/ppp.log</filename> for
+	clues.</para>
     </sect2>
   </sect1>
 </chapter>
