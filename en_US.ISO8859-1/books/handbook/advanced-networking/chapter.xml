@@ -11,7 +11,7 @@
   <sect1 id="advanced-networking-synopsis">
     <title>Synopsis</title>
 
-    <para>This chapter will cover a number of advanced networking
+    <para>This chapter covers a number of advanced networking
       topics.</para>
 
     <para>After reading this chapter, you will know:</para>
@@ -27,7 +27,7 @@
       </listitem>
 
       <listitem>
-	<para>How to make FreeBSD act as a bridge.</para>
+	<para>How to make &os; act as a bridge.</para>
       </listitem>
 
       <listitem>
@@ -36,8 +36,9 @@
       </listitem>
 
       <listitem>
-	<para>How to set up network PXE booting with an NFS root file
-	  system.</para>
+	<para>How to set up network <acronym>PXE</acronym> booting
+	  with an
+	  <acronym>NFS</acronym> root filesystem.</para>
       </listitem>
 
       <listitem>
@@ -45,16 +46,17 @@
       </listitem>
 
       <listitem>
-	<para>How to set up IPv6 on a FreeBSD machine.</para>
+	<para>How to set up IPv6 on a &os; machine.</para>
       </listitem>
 
       <listitem>
-	<para>How to configure ATM.</para>
+	<para>How to configure <acronym>ATM</acronym>.</para>
       </listitem>
 
       <listitem>
-	<para>How to enable and utilize the features of CARP, the
-	  Common Address Redundancy Protocol in &os;</para>
+	<para>How to enable and utilize the features of the
+	  Common Address Redundancy Protocol
+	  (<acronym>CARP</acronym>) in &os;.</para>
       </listitem>
     </itemizedlist>
 
@@ -71,7 +73,7 @@
       </listitem>
 
       <listitem>
-	<para>Know how to configure and install a new FreeBSD kernel
+	<para>Know how to configure and install a new &os; kernel
 	  (<xref linkend="kernelconfig"/>).</para>
       </listitem>
 
@@ -105,22 +107,21 @@
       one to the other.  This is called
       <firstterm>routing</firstterm>.  A <quote>route</quote> is a
       defined pair of addresses: a <quote>destination</quote> and a
-      <quote>gateway</quote>.  The pair indicates that if you are
+      <quote>gateway</quote>.  The pair indicates that when
       trying to get to this <emphasis>destination</emphasis>,
       communicate through this <emphasis>gateway</emphasis>.  There
       are three types of destinations: individual hosts, subnets, and
       <quote>default</quote>.  The <quote>default route</quote> is
-      used if none of the other routes apply.  We will talk a little
-      bit more about default routes later on.  There are also three
+      used if none of the other routes apply.  There are also three
       types of gateways: individual hosts, interfaces (also called
-      <quote>links</quote>), and Ethernet hardware addresses (MAC
-      addresses).</para>
+      <quote>links</quote>), and Ethernet hardware
+      (<acronym>MAC</acronym>) addresses.</para>
 
     <sect2>
       <title>An Example</title>
 
-      <para>To illustrate different aspects of routing, we will use
-	the following example from <command>netstat</command>:</para>
+      <para>This example &man.netstat.1; output illustrates several
+	aspects of routing:</para>
 
       <screen>&prompt.user; <userinput>netstat -r</userinput>
 Routing tables
@@ -138,9 +139,9 @@ host2.example.com link#1             UC          0        0
 224              link#1             UC          0        0</screen>
 
       <indexterm><primary>default route</primary></indexterm>
-      <para>The first two lines specify the default route (which we
-	will cover in the
-	<link linkend="network-routing-default">next section</link>)
+      <para>The first two lines specify the default route,
+	described in more detail in 
+	<xref linkend="network-routing-default"/>,
 	and the <hostid>localhost</hostid> route.</para>
 
       <indexterm><primary>loopback device</primary></indexterm>
@@ -149,66 +150,65 @@ host2.example.com link#1             UC          0        0
 	<literal>localhost</literal> is <devicename>lo0</devicename>,
 	also known as the loopback device.  This says to keep all
 	traffic for this destination internal, rather than sending it
-	out over the LAN, since it will only end up back where it
-	started.</para>
+	out over the network.</para>
 
       <indexterm>
 	<primary>Ethernet</primary>
 	<secondary>MAC address</secondary>
       </indexterm>
-      <para>The next thing that stands out are the addresses beginning
-	with <hostid role="mac">0:e0:</hostid>.  These are Ethernet
-	hardware addresses, which are also known as MAC addresses.
-	FreeBSD will automatically identify any hosts
-	(<hostid>test0</hostid> in the example) on the local Ethernet
-	and add a route for that host, directly to it over the
-	Ethernet interface, <devicename>ed0</devicename>.  There is
-	also a timeout (<literal>Expire</literal> column) associated
-	with this type of route, which is used if we fail to hear from
-	the host in a specific amount of time.  When this happens, the
+      <para>The addresses beginning
+	with <hostid role="mac">0:e0:</hostid> are Ethernet
+	hardware addresses, also known as <acronym>MAC</acronym>
+	addresses.
+	&os; will automatically identify any hosts,
+	<hostid>test0</hostid> in the example, on the local Ethernet
+	and add a route for that host over the
+	Ethernet interface, <devicename>ed0</devicename>.  This type
+	of route has a timeout, seen in the <literal>Expire</literal>
+	column, which is used if
+	the host does not respond in a specific amount of time.  When
+	this happens, the
 	route to this host will be automatically deleted.  These hosts
-	are identified using a mechanism known as RIP (Routing
-	Information Protocol), which figures out routes to local hosts
+	are identified using the Routing
+	Information Protocol (<acronym>RIP</acronym>), which
+	calculates routes to local hosts
 	based upon a shortest path determination.</para>
 
       <indexterm><primary>subnet</primary></indexterm>
 
-      <para>FreeBSD will also add subnet routes for the local subnet
-	(<hostid role="ipaddr">10.20.30.255</hostid> is the broadcast
+      <para>&os; will add subnet routes for the local subnet.
+	<hostid role="ipaddr">10.20.30.255</hostid> is the broadcast
 	address for the subnet
-	<hostid role="ipaddr">10.20.30</hostid>, and
+	<hostid role="ipaddr">10.20.30</hostid> and
 	<hostid role="domainname">example.com</hostid> is the domain
-	name associated with that subnet).  The designation
+	name associated with that subnet.  The designation
 	<literal>link#1</literal> refers to the first Ethernet card in
-	the machine.  You will notice no additional interface is
-	specified for those.</para>
+	the machine.</para>
 
-      <para>Both of these groups (local network hosts and local
-	subnets) have their routes automatically configured by a
-	daemon called <application>routed</application>.  If this is
-	not run, then only routes which are statically defined (i.e.,
-	entered explicitly) will exist.</para>
+      <para>Local network hosts and local
+	subnets have their routes automatically configured by a
+	daemon called &man.routed.8;.  If it is
+	not running, only routes which are statically defined
+	by the administrator will exist.</para>
 
-      <para>The <literal>host1</literal> line refers to our host,
-	which it knows by Ethernet address.  Since we are the sending
-	host, FreeBSD knows to use the loopback interface
-	(<devicename>lo0</devicename>) rather than sending it out over
+      <para>The <literal>host1</literal> line refers to the host
+	by its Ethernet address.  Since it is the sending
+	host, &os; knows to use the loopback interface
+	(<devicename>lo0</devicename>) rather than
 	the Ethernet interface.</para>
 
-      <para>The two <literal>host2</literal> lines are an example of
-	what happens when we use an &man.ifconfig.8; alias (see the
-	section on Ethernet for reasons why we would do this).  The
+      <para>The two <literal>host2</literal> lines represent aliases
+	which were created using &man.ifconfig.8;.  The
 	<literal>=&gt;</literal> symbol after the
-	<devicename>lo0</devicename> interface says that not only are
-	we using the loopback (since this address also refers to the
-	local host), but specifically it is an alias.  Such routes
+	<devicename>lo0</devicename> interface says that an alias
+	has been set in addition to the loopback address.  Such routes
 	only show up on the host that supports the alias; all other
-	hosts on the local network will simply have a
+	hosts on the local network will have a
 	<literal>link#1</literal> line for such routes.</para>
 
       <para>The final line (destination subnet
-	<hostid role="ipaddr">224</hostid>) deals with multicasting,
-	which will be covered in another section.</para>
+	<hostid role="ipaddr">224</hostid>) deals with
+	multicasting.</para>
 
       <para>Finally, various attributes of each route can be seen in
 	the <literal>Flags</literal> column.  Below is a short table
@@ -247,7 +247,7 @@ host2.example.com link#1             UC          0        0
 	    <row>
 	      <entry>C</entry>
 	      <entry>Clone: Generates a new route based upon this
-		route for machines we connect to.  This type of route
+		route for machines to connect to.  This type of route
 		is normally used for local networks.</entry>
 	    </row>
 
@@ -276,25 +276,24 @@ host2.example.com link#1             UC          0        0
       <para>When the local system needs to make a connection to a
 	remote host, it checks the routing table to determine if a
 	known path exists.  If the remote host falls into a subnet
-	that we know how to reach (Cloned routes), then the system
-	checks to see if it can connect along that interface.</para>
+	that it knows how to reach, the system
+	checks to see if it can connect using that interface.</para>
 
       <para>If all known paths fail, the system has one last option:
 	the <quote>default</quote> route.  This route is a special
 	type of gateway route (usually the only one present in the
 	system), and is always marked with a <literal>c</literal> in
 	the flags field.  For hosts on a local area network, this
-	gateway is set to whatever machine has a direct connection to
-	the outside world (whether via PPP link, DSL, cable modem, T1,
-	or another network interface).</para>
+	gateway is set to the system which has a direct connection to
+	the Internet.</para>
 
-      <para>If you are configuring the default route for a machine
+      <para>The default route for a machine
 	which itself is functioning as the gateway to the outside
-	world, then the default route will be the gateway machine at
-	your Internet Service Provider's (ISP) site.</para>
+	world, will be the gateway machine at
+	the Internet Service Provider (<acronym>ISP</acronym>).</para>
 
-      <para>Let us look at an example of default routes.  This is a
-	common configuration:</para>
+      <para>This example is a
+	common configuration for a default route:</para>
 
       <mediaobject>
 	<imageobject>
@@ -308,13 +307,15 @@ host2.example.com link#1             UC          0        0
       </mediaobject>
 
       <para>The hosts <hostid>Local1</hostid> and
-	<hostid>Local2</hostid> are at your site.
-	<hostid>Local1</hostid> is connected to an ISP via a dial up
-	PPP connection.  This PPP server computer is connected through
+	<hostid>Local2</hostid> are on the local network.
+	<hostid>Local1</hostid> is connected to an
+	<acronym>ISP</acronym> using a
+	<acronym>PPP</acronym> connection.  This
+	<acronym>PPP</acronym> server is connected through
 	a local area network to another gateway computer through an
-	external interface to the ISPs Internet feed.</para>
+	external interface to the <acronym>ISP</acronym>.</para>
 
-      <para>The default routes for each of your machines will
+      <para>The default routes for each machine will
 	be:</para>
 
       <informaltable frame="none" pgwide="1">
@@ -343,25 +344,31 @@ host2.example.com link#1             UC          0        0
 	</tgroup>
       </informaltable>
 
-      <para>A common question is <quote>Why (or how) would we set
-	  the <hostid>T1-GW</hostid> to be the default gateway for
-	  <hostid>Local1</hostid>, rather than the ISP server it is
+      <para>A common question is <quote>Why is
+	  <hostid>T1-GW</hostid> configured as the default gateway for
+	  <hostid>Local1</hostid>, rather than the
+	  <acronym>ISP</acronym> server it is
 	  connected to?</quote>.</para>
 
-      <para>Remember, since the PPP interface is using an address on
-	the ISP's local network for your side of the connection,
-	routes for any other machines on the ISP's local network will
-	be automatically generated.  Hence, you will already know how
+      <para>Since the <acronym>PPP</acronym> interface is using an
+	address on
+	the <acronym>ISP</acronym>'s local network for the local side
+	of the connection,
+	routes for any other machines on the <acronym>ISP</acronym>'s
+	local network will
+	be automatically generated.  The system already knows how
 	to reach the <hostid>T1-GW</hostid> machine, so there is no
-	need for the intermediate step of sending traffic to the ISP
+	need for the intermediate step of sending traffic to the
+	<acronym>ISP</acronym>'s
 	server.</para>
 
       <para>It is common to use the address
 	<hostid role="ipaddr">X.X.X.1</hostid> as the gateway address
-	for your local network.  So (using the same example), if your
-	local class-C address space was
-	<hostid role="ipaddr">10.20.30</hostid> and your ISP was using
-	<hostid role="ipaddr">10.9.9</hostid> then the default routes
+	for the local network.  So, if the
+	local class C address space is
+	<hostid role="ipaddr">10.20.30</hostid> and the
+	<acronym>ISP</acronym> is using
+	<hostid role="ipaddr">10.9.9</hostid>, the default routes
 	would be:</para>
 
       <informaltable frame="none" pgwide="1">
@@ -387,19 +394,19 @@ host2.example.com link#1             UC          0        0
       </informaltable>
 
       <para>The default route can be easily defined in
-	<filename>/etc/rc.conf</filename>.  In our example, on
-	the <hostid>Local2</hostid> machine, we added the following
-	line in <filename>/etc/rc.conf</filename>:</para>
+	<filename>/etc/rc.conf</filename>.  In this example, on
+	<hostid>Local2</hostid>, add the following
+	line to <filename>/etc/rc.conf</filename>:</para>
 
       <programlisting>defaultrouter="10.20.30.1"</programlisting>
 
-      <para>It is also possible to do it directly from the command
-	line with the &man.route.8; command:</para>
+      <para>It is also possible to add the route directly using
+	&man.route.8;:</para>
 
       <screen>&prompt.root; <userinput>route add default 10.20.30.1</userinput></screen>
 
       <para>For more information on manual manipulation of network
-	routing tables, consult the &man.route.8; manual page.</para>
+	routing tables, refer to &man.route.8;.</para>
     </sect2>
 
     <sect2 id="network-dual-homed-hosts">
@@ -407,32 +414,28 @@ host2.example.com link#1             UC          0        0
 
       <indexterm><primary>dual homed hosts</primary></indexterm>
 
-      <para>There is one other type of configuration that we should
-	cover, and that is a host that sits on two different networks.
-	Technically, any machine functioning as a gateway (in the
-	example above, using a PPP connection) counts as a dual-homed
-	host.  But the term is really only used to refer to a machine
-	that sits on two local-area networks.</para>
+      <para>A a dual-homed system
+	is a host which resides on two different networks.</para>
 
-      <para>In one case, the machine has two Ethernet cards, each
-	having an address on the separate subnets.  Alternately, the
-	machine may only have one Ethernet card, and be using
+      <para>The dual-homed machine might have two Ethernet cards, each
+	having an address on a separate subnet.  Alternately, the
+	machine can have one Ethernet card and uses
 	&man.ifconfig.8; aliasing.  The former is used if two
-	physically separate Ethernet networks are in use, the latter
+	physically separate Ethernet networks are in use and the
+	latter
 	if there is one physical network segment, but two logically
 	separate subnets.</para>
 
       <para>Either way, routing tables are set up so that each subnet
 	knows that this machine is the defined gateway (inbound route)
 	to the other subnet.  This configuration, with the machine
-	acting as a router between the two subnets, is often used when
-	we need to implement packet filtering or firewall security in
+	acting as a router between the two subnets, is often used
+	to implement packet filtering or firewall security in
 	either or both directions.</para>
 
-      <para>If you want this machine to actually forward packets
-	between the two interfaces, you need to tell FreeBSD to enable
-	this ability.  See the next section for more details on how
-	to do this.</para>
+      <para>For this machine to forward packets
+	between the two interfaces, &os; must be configured as a
+	router, as demonstrated in the next section.</para>
     </sect2>
 
     <sect2 id="network-dedicated-router">
@@ -440,10 +443,10 @@ host2.example.com link#1             UC          0        0
 
       <indexterm><primary>router</primary></indexterm>
 
-      <para>A network router is simply a system that forwards packets
+      <para>A network router is a system that forwards packets
 	from one interface to another.  Internet standards and good
-	engineering practice prevent the FreeBSD Project from enabling
-	this by default in FreeBSD.  You can enable this feature by
+	engineering practice prevent the &os; Project from enabling
+	this by default in &os;.  This feature can be enabled by
 	changing the following variable to <literal>YES</literal> in
 	&man.rc.conf.5;:</para>
 
@@ -451,23 +454,21 @@ host2.example.com link#1             UC          0        0
 
       <para>This option will set the &man.sysctl.8; variable
 	<varname>net.inet.ip.forwarding</varname> to
-	<literal>1</literal>.  If you should need to stop routing
-	temporarily, you can reset this to <literal>0</literal>
-	temporarily.</para>
+	<literal>1</literal>.  To stop routing,
+	reset this to <literal>0</literal>.</para>
 
       <indexterm><primary>BGP</primary></indexterm>
       <indexterm><primary>RIP</primary></indexterm>
       <indexterm><primary>OSPF</primary></indexterm>
-      <para>Your new router will need routes to know where to send the
-	traffic.  If your network is simple enough you can use static
-	routes.  FreeBSD also comes with the standard BSD routing
-	daemon &man.routed.8;, which speaks RIP (both version 1 and
-	version 2) and IRDP.  Support for BGP v4, OSPF v2, and other
+      <para>The new router will need routes to know where to send the
+	traffic.  If the network is simple enough, static
+	routes can be used.  &os; comes with the standard BSD routing
+	daemon &man.routed.8;, which speaks <acronym>RIP</acronym>
+	versions 1 and 2, and <acronym>IRDP</acronym>.  Support for
+	<acronym>BGP</acronym>v4, <acronym>OSPF</acronym>v2, and other
 	sophisticated routing protocols is available with the
-	<filename role="package">net/zebra</filename> package.
-	Commercial products such as <application>&gated;</application>
-	are also available for more complex network routing
-	solutions.</para>
+	<filename role="package">net/zebra</filename> package or
+	port.</para>
     </sect2>
 
     <sect2 id="network-static-routes">
@@ -486,7 +487,7 @@ host2.example.com link#1             UC          0        0
       <sect3>
 	<title>Manual Configuration</title>
 
-	<para>Let us assume we have a network as follows:</para>
+	<para>Consider the following network:</para>
 
 	<mediaobject>
 	  <imageobject>
@@ -520,21 +521,18 @@ host2.example.com link#1             UC          0        0
 	  </textobject>
 	</mediaobject>
 
-	<para>In this scenario, <hostid>RouterA</hostid> is our &os;
+	<para>In this scenario, <hostid>RouterA</hostid> is a &os;
 	  machine that is acting as a router to the rest of the
 	  Internet.  It has a default route set to
 	  <hostid role="ipaddr">10.0.0.1</hostid> which allows it to
-	  connect with the outside world.  We will assume that
-	  <hostid>RouterB</hostid> is already configured properly and
-	  knows how to get wherever it needs to go.  (This is simple
-	  in this picture.  Just add a default route on
-	  <hostid>RouterB</hostid> using
+	  connect with the outside world.  <hostid>RouterB</hostid> is
+	  already configured properly as it
+	  uses
 	  <hostid role="ipaddr">192.168.1.1</hostid> as the
-	  gateway.)</para>
+	  gateway.</para>
 
-	<para>If we look at the routing table for
-	  <hostid>RouterA</hostid> we would see something like the
-	  following:</para>
+	<para>The routing table on
+	  <hostid>RouterA</hostid> looks something like this:</para>
 
 	<screen>&prompt.user; <userinput>netstat -nr</userinput>
 Routing tables
@@ -546,12 +544,12 @@ default            10.0.0.1           UGS         0    49378    xl0
 10.0.0.0/24        link#1             UC          0        0    xl0
 192.168.1.0/24     link#2             UC          0        0    xl1</screen>
 
-	<para>With the current routing table  <hostid>RouterA</hostid>
-	  will not be able to reach our Internal Net 2.  It does not
+	<para>With the current routing table, <hostid>RouterA</hostid>
+	  cannot reach Internal Net 2 as it does not
 	  have a route for
-	  <hostid role="ipaddr">192.168.2.0/24</hostid>.  One way to
-	  alleviate this is to manually add the route.  The following
-	  command would add the Internal Net 2 network to
+	  <hostid role="ipaddr">192.168.2.0/24</hostid>.  The
+	  following
+	  command adds the Internal Net 2 network to
 	  <hostid>RouterA</hostid>'s routing table using
 	  <hostid role="ipaddr">192.168.1.2</hostid> as the next
 	  hop:</para>
@@ -566,10 +564,10 @@ default            10.0.0.1           UGS         0    49378    xl0
       <sect3>
 	<title>Persistent Configuration</title>
 
-	<para>The above example is perfect for configuring a static
-	  route on a running system.  However, one problem is that the
-	  routing information will not persist if you reboot your &os;
-	  machine.  Additional static routes can be
+	<para>The above example configures a static
+	  route on a running system.  However, the
+	  routing information will not persist if the &os; system
+	  reboots.  Persistent static routes can be
 	  entered in <filename>/etc/rc.conf</filename>:</para>
 
 	<programlisting># Add Internal Net 2 as a static route
@@ -577,28 +575,25 @@ static_routes="internalnet2"
 route_internalnet2="-net 192.168.2.0/24 192.168.1.2"</programlisting>
 
 	<para>The <literal>static_routes</literal> configuration
-	  variable is a list of strings separated by a space.  Each
-	  string references to a route name.  In our above example we
-	  only have one string in <literal>static_routes</literal>.
-	  This string is <replaceable>internalnet2</replaceable>.  We
-	  then add a configuration variable called
+	  variable is a list of strings separated by a space, where
+	  each
+	  string references a route name.  This example
+	  only has one string in <literal>static_routes</literal>,
+	  <replaceable>internalnet2</replaceable>.  The variable
 	  <literal>route_<replaceable>internalnet2</replaceable></literal>
-	  where we put all of the configuration parameters we would
-	  give to the &man.route.8; command.  For our example above we
-	  would have used the command:</para>
+	  contains all of the configuration parameters
+	  to &man.route.8;.  This example is equivalent
+	  to the command:</para>
 
 	  <screen>&prompt.root; <userinput>route add -net 192.168.2.0/24 192.168.1.2</userinput></screen>
 
-	<para>so we need <literal>"-net 192.168.2.0/24
-	    192.168.1.2"</literal>.</para>
-
-	<para>As said above, we can have more than one string in
-	  <literal>static_routes</literal>.  This allows us to create
-	  multiple static routes.  The following lines shows an
+	<para>Using more than one string in
+	  <literal>static_routes</literal> creates
+	  multiple static routes.  The following shows an
 	  example of adding static routes for the
 	  <hostid role="ipaddr">192.168.0.0/24</hostid> and
-	  <hostid role="ipaddr">192.168.1.0/24</hostid> networks on an
-	  imaginary router:</para>
+	  <hostid role="ipaddr">192.168.1.0/24</hostid>
+	  networks:</para>
 
 	<programlisting>static_routes="net1 net2"
 route_net1="-net 192.168.0.0/24 192.168.0.1"
@@ -609,36 +604,26 @@ route_net2="-net 192.168.1.0/24 192.168.1.1"</programlisting>
     <sect2 id="network-routing-propagation">
       <title>Routing Propagation</title>
 
-      <indexterm><primary>routing propagation</primary></indexterm>
-      <para>We have already talked about how we define our routes to
-	the outside world, but not about how the outside world finds
-	us.</para>
+      <para>When an address space is assigned to a network, the
+	service provider configures their routing tables so that all
+	traffic for the network will be sent to the link for the
+	site.  But how do external sites know to send their packets
+	to the network's <acronym>ISP</acronym>?</para>
 
-      <para>We already know that routing tables can be set up so that
-	all traffic for a particular address space (in our examples, a
-	class-C subnet) can be sent to a particular host on that
-	network, which will forward the packets inbound.</para>
-
-      <para>When you get an address space assigned to your site, your
-	service provider will set up their routing tables so that all
-	traffic for your subnet will be sent down your PPP link to
-	your site.  But how do sites across the country know to send
-	to your ISP?</para>
-
-      <para>There is a system (much like the distributed DNS
-	information) that keeps track of all assigned address-spaces,
+      <para>There is a system
+	that keeps track of all assigned address spaces
 	and defines their point of connection to the Internet
-	Backbone.  The <quote>Backbone</quote> are the main trunk
-	lines that carry Internet traffic across the country, and
+	backbone, or the main trunk
+	lines that carry Internet traffic across the country and
 	around the world.  Each backbone machine has a copy of a
 	master set of tables, which direct traffic for a particular
 	network to a specific backbone carrier, and from there down
 	the chain of service providers until it reaches your
 	network.</para>
 
-      <para>It is the task of your service provider to advertise to
-	the backbone sites that they are the point of connection (and
-	thus the path inward) for your site.  This is known as route
+      <para>It is the task of the service provider to advertise to
+	the backbone sites that they are the point of connection, and
+	thus the path inward, for a site.  This is known as route
 	propagation.</para>
     </sect2>
 
@@ -646,23 +631,22 @@ route_net2="-net 192.168.1.0/24 192.168.1.1"</programlisting>
       <title>Troubleshooting</title>
 
       <indexterm>
-	<primary><command>traceroute</command></primary>
+	<primary>&man.traceroute.8;</primary>
       </indexterm>
 
-      <para>Sometimes, there is a problem with routing propagation,
-	and some sites are unable to connect to you.  Perhaps the most
+      <para>Sometimes, there is a problem with routing propagation
+	and some sites are unable to connect.  Perhaps the most
 	useful command for trying to figure out where routing is
-	breaking down is the &man.traceroute.8; command.  It is
-	equally useful if you cannot seem to make a connection to a
-	remote machine (i.e., &man.ping.8; fails).</para>
+	breaking down is &man.traceroute.8;.  It is
+	useful when &man.ping.8; fails.</para>
 
-      <para>The &man.traceroute.8; command is run with the name of the
-	remote host you are trying to connect to.  It will show the
+      <para>When using &man.traceroute.8;, include the name of the
+	remote host to connect to.  The output will show the
 	gateway hosts along the path of the attempt, eventually either
 	reaching the target host, or terminating because of a lack of
 	connection.</para>
 
-      <para>For more information, see the manual page for
+      <para>For more information, refer to
 	&man.traceroute.8;.</para>
     </sect2>
 
@@ -676,19 +660,20 @@ route_net2="-net 192.168.1.0/24 192.168.1.1"</programlisting>
 	<primary>kernel options</primary>
 	<secondary>MROUTING</secondary>
       </indexterm>
-      <para>FreeBSD supports both multicast applications and multicast
-	routing natively.  Multicast applications do not require any
-	special configuration of FreeBSD; applications will generally
+      <para>&os; natively supports both multicast applications and
+	multicast
+	routing.  Multicast applications do not require any
+	special configuration of &os;; as applications will generally
 	run out of the box.  Multicast routing
-	requires that support be compiled into the kernel:</para>
+	requires that support be compiled into a custom kernel:</para>
 
       <programlisting>options MROUTING</programlisting>
 
-      <para>In addition, the multicast routing daemon, &man.mrouted.8;
+      <para>The multicast routing daemon, &man.mrouted.8;,
 	must be configured to set up tunnels and
 	<acronym>DVMRP</acronym> via
 	<filename>/etc/mrouted.conf</filename>.  More details on
-	multicast configuration may be found in the manual page for
+	multicast configuration may be found in
 	&man.mrouted.8;.</para>
 
       <note>
@@ -735,38 +720,46 @@ route_net2="-net 192.168.1.0/24 192.168.1.1"</programlisting>
       <para>Most wireless networks are based on the &ieee; 802.11
 	standards.  A basic wireless network consists of multiple
 	stations communicating with radios that broadcast in either
-	the 2.4GHz or 5GHz band (though this varies according to the
+	the 2.4GHz or 5GHz band, though this varies according to the
 	locale and is also changing to enable communication in the
-	2.3GHz and 4.9GHz ranges).</para>
+	2.3GHz and 4.9GHz ranges.</para>
 
-      <para>802.11 networks are organized in two ways: in
-	<emphasis>infrastructure mode</emphasis> one station acts as a
-	master with all the other stations associating to it; the
-	network is known as a BSS and the master station is termed an
-	access point (AP).  In a BSS all communication passes through
-	the AP; even when one station wants to communicate with
-	another wireless station messages must go through the AP.  In
-	the second form of network there is no master and stations
-	communicate directly.  This form of network is termed an IBSS
+      <para>802.11 networks are organized in two ways.  In
+	<emphasis>infrastructure mode</emphasis>, one station acts as
+	a
+	master with all the other stations associating to it, the
+	network is known as a <acronym>BSS</acronym>, and the master
+	station is termed an
+	access point (<acronym>AP</acronym>).  In a
+	<acronym>BSS</acronym>, all communication passes through
+	the <acronym>AP</acronym>; even when one station wants to
+	communicate with
+	another wireless station, messages must go through the
+	<acronym>AP</acronym>.  In
+	the second form of network, there is no master and stations
+	communicate directly.  This form of network is termed an
+	<acronym>IBSS</acronym>
 	and is commonly known as an
 	<emphasis>ad-hoc network</emphasis>.</para>
 
       <para>802.11 networks were first deployed in the 2.4GHz band
 	using protocols defined by the &ieee; 802.11 and 802.11b
 	standard.  These specifications include the operating
-	frequencies, MAC layer characteristics including framing and
-	transmission rates (communication can be done at various
-	rates).  Later the 802.11a standard defined operation in the
-	5GHz band, including different signalling mechanisms and
-	higher transmission rates.  Still later the 802.11g standard
-	was defined to enable use of 802.11a signalling and
+	frequencies and the <acronym>MAC</acronym> layer
+	characteristics, including framing and
+	transmission rates, as communication can occur at various
+	rates.  Later, the 802.11a standard defined operation in the
+	5GHz band, including different signaling mechanisms and
+	higher transmission rates.  Still later, the 802.11g standard
+	defined the use of 802.11a signaling and
 	transmission mechanisms in the 2.4GHz band in such a way as to
 	be backwards compatible with 802.11b networks.</para>
 
-      <para>Separate from the underlying transmission techniques
+      <para>Separate from the underlying transmission techniques,
 	802.11 networks have a variety of security mechanisms.  The
 	original 802.11 specifications defined a simple security
-	protocol called WEP. This protocol uses a fixed pre-shared key
+	protocol called <acronym>WEP</acronym>.  This protocol uses a
+	fixed pre-shared key
 	and the RC4 cryptographic cipher to encode data transmitted on
 	a network.  Stations must all agree on the fixed key in order
 	to communicate.  This scheme was shown to be easily broken and
@@ -774,43 +767,57 @@ route_net2="-net 192.168.1.0/24 192.168.1.1"</programlisting>
 	joining networks.  Current security practice is given by the
 	&ieee; 802.11i specification that defines new cryptographic
 	ciphers and an additional protocol to authenticate stations to
-	an access point and exchange keys for doing data
-	communication.  Further, cryptographic keys are periodically
-	refreshed and there are mechanisms for detecting intrusion
-	attempts (and for countering intrusion attempts).  Another
+	an access point and exchange keys for data
+	communication.  Cryptographic keys are periodically
+	refreshed and there are mechanisms for detecting
+	and countering intrusion attempts.  Another
 	security protocol specification commonly used in wireless
-	networks is termed WPA.  This was a precursor to 802.11i
-	defined by an industry group as an interim measure while
-	waiting for 802.11i to be ratified.  WPA specifies a subset of
+	networks is termed <acronym>WPA</acronym>, which was a
+	precursor to 802.11i.  <acronym>WPA</acronym>
+	specifies a subset of
 	the requirements found in 802.11i and is designed for
-	implementation on legacy hardware.  Specifically WPA requires
-	only the TKIP cipher that is derived from the original WEP
-	cipher.  802.11i permits use of TKIP but also requires support
-	for a stronger cipher, AES-CCM, for encrypting data.  (The AES
-	cipher was not required in WPA because it was deemed too
+	implementation on legacy hardware.  Specifically,
+	<acronym>WPA</acronym> requires
+	only the <acronym>TKIP</acronym> cipher that is derived from
+	the original <acronym>WEP</acronym>
+	cipher.  802.11i permits use of <acronym>TKIP</acronym> but
+	also requires support
+	for a stronger cipher, AES-CCM, for encrypting data.  The
+	<acronym>AES</acronym>
+	cipher was not required in <acronym>WPA</acronym> because it
+	was deemed too
 	computationally costly to be implemented on legacy
-	hardware.)</para>
+	hardware.</para>
 
-      <para>Other than the above protocol standards the other
-	important standard to be aware of is 802.11e.  This defines
-	protocols for deploying multi-media applications such as
-	streaming video and voice over IP (VoIP) in an 802.11 network.
+      <para>The other
+	standard to be aware of is 802.11e.  It defines
+	protocols for deploying multimedia applications, such as
+	streaming video and voice over IP (<acronym>VoIP</acronym>),
+	in
+	an 802.11 network.
 	Like 802.11i, 802.11e also has a precursor specification
-	termed WME (later renamed WMM) that has been defined by an
+	termed <acronym>WME</acronym> (later renamed
+	<acronym>WMM</acronym>) that has been defined by an
 	industry group as a subset of 802.11e that can be deployed now
-	to enable multi-media applications while waiting for the final
+	to enable multimedia applications while waiting for the final
 	ratification of 802.11e.  The most important thing to know
-	about 802.11e and WME/WMM is that it enables prioritized
-	traffic use of a wireless network through Quality of Service
-	(QoS) protocols and enhanced media access protocols.  Proper
-	implementation of these protocols enable high speed bursting
+	about 802.11e and
+	<acronym>WME</acronym>/<acronym>WMM</acronym> is that it
+	enables prioritized
+	traffic over a wireless network through Quality of Service
+	(<acronym>QoS</acronym>) protocols and enhanced media access
+	protocols.  Proper
+	implementation of these protocols enables high speed bursting
 	of data and prioritized traffic flow.</para>
 
       <para>&os; supports networks that operate
-	using 802.11a, 802.11b, and 802.11g.  The WPA and 802.11i
+	using 802.11a, 802.11b, and 802.11g.  The
+	<acronym>WPA</acronym> and 802.11i
 	security protocols are likewise supported (in conjunction with
-	any of 11a, 11b, and 11g) and QoS and traffic prioritization
-	required by the WME/WMM protocols are supported for a limited
+	any of 11a, 11b, and 11g) and <acronym>QoS</acronym> and
+	traffic prioritization
+	required by the <acronym>WME</acronym>/<acronym>WMM</acronym>
+	protocols are supported for a limited
 	set of wireless devices.</para>
     </sect2>
 
@@ -820,63 +827,66 @@ route_net2="-net 192.168.1.0/24 192.168.1.1"</programlisting>
       <sect3>
 	<title>Kernel Configuration</title>
 
-	<para>To use wireless networking, you need a wireless
-	  networking card and to configure the kernel with the
-	  appropriate wireless networking support.  The latter is
-	  separated into multiple modules so that you only need to
-	  configure the software you are actually going to use.</para>
+	<para>To use wireless networking, a wireless
+	  networking card is needed and the kernel needs to be
+	  configured with the
+	  appropriate wireless networking support.  The kernel is
+	  separated into multiple modules so that only the required
+	  support needs to be
+	  configured.</para>
 
-	<para>The first thing you need is a wireless device.  The most
-	  commonly used devices are those that use parts made by
-	  Atheros.  These devices are supported by the &man.ath.4;
-	  driver and require the following line to be added to
+	<para>The most
+	  commonly used wireless devices are those that use parts made
+	  by
+	  Atheros.  These devices are supported by &man.ath.4;
+	  and require the following line to be added to
 	  <filename>/boot/loader.conf</filename>:</para>
 
 	<programlisting>if_ath_load="YES"</programlisting>
 
 	<para>The Atheros driver is split up into three separate
-	  pieces: the proper driver (&man.ath.4;), the hardware
+	  pieces: the driver (&man.ath.4;), the hardware
 	  support layer that handles chip-specific functions
-	  (&man.ath.hal.4;), and an algorithm for selecting which of
-	  several possible rates for transmitting frames
-	  (ath_rate_sample here).  When this support is loaded as
-	  kernel modules, these dependencies are automatically handled
-	  for you.  If, instead of an Atheros device, you had another
-	  device you would select the module for that device;
-	  e.g.:</para>
+	  (&man.ath.hal.4;), and an algorithm for selecting the
+	  rate for transmitting frames.
+	  When this support is loaded as
+	  kernel modules, any dependencies are automatically handled.
+	  To load support for a different type of wireless device,
+	  specify the module for that device.  This example is for
+	  devices based on the Intersil Prism parts (&man.wi.4;)
+	  driver:</para>
 
 	<programlisting>if_wi_load="YES"</programlisting>
 
-	<para>for devices based on the Intersil Prism parts
-	  (&man.wi.4; driver).</para>
-
 	<note>
-	  <para>In the rest of this document, we will use an
-	    &man.ath.4; device, the device name in the examples must
-	    be changed according to your configuration.  A list of
+	  <para>The examples in this section use an
+	    &man.ath.4; device and the device name in the examples
+	    must
+	    be changed according to the configuration.  A list of
 	    available wireless drivers and supported adapters can be
-	    found in the &os; Hardware Notes.  Copies of these notes
-	    for various releases and architectures are available on
+	    found in the &os; Hardware Notes, available on
 	    the <ulink
 	      url="http://www.FreeBSD.org/releases/index.html">Release
-	      Information</ulink> page of the &os; Web site.  If a
-	    native &os; driver for your wireless device does not
-	    exist, it may be possible to directly use the &windows;
+	      Information</ulink> page of the &os; website.  If a
+	    native &os; driver for the wireless device does not
+	    exist, it may be possible to use the &windows;
 	    driver with the help of the
 	    <link linkend="config-network-ndis">NDIS</link> driver
 	    wrapper.</para>
 	</note>
 
-	<para>With that, you will need the modules that implement
-	  cryptographic support for the security protocols you intend
-	  to use.  These are intended to be dynamically loaded on
-	  demand by the &man.wlan.4; module but for now they must be
+	<para>In addition, the modules that implement
+	  cryptographic support for the security protocols
+	  to use must be loaded.  These are intended to be dynamically
+	  loaded on
+	  demand by the &man.wlan.4; module, but for now they must be
 	  manually configured.  The following modules are available:
-	  &man.wlan.wep.4;, &man.wlan.ccmp.4; and &man.wlan.tkip.4;.
-	  Both &man.wlan.ccmp.4; and &man.wlan.tkip.4; drivers are
-	  only needed if you intend to use the WPA and/or 802.11i
-	  security protocols.  If your network does not use
-	  encryption, you will not need &man.wlan.wep.4; support.  To
+	  &man.wlan.wep.4;, &man.wlan.ccmp.4;, and &man.wlan.tkip.4;.
+	  The &man.wlan.ccmp.4; and &man.wlan.tkip.4; drivers are
+	  only needed when using the <acronym>WPA</acronym> or
+	  802.11i
+	  security protocols.  If the network does not use
+	  encryption, &man.wlan.wep.4; support is not needed.  To
 	  load these modules at boot time, add the following lines to
 	  <filename>/boot/loader.conf</filename>:</para>
 
@@ -884,17 +894,18 @@ route_net2="-net 192.168.1.0/24 192.168.1.1"</programlisting>
 wlan_ccmp_load="YES"
 wlan_tkip_load="YES"</programlisting>
 
-	<para>With this information in the system bootstrap
-	  configuration file (i.e.,
-	  <filename>/boot/loader.conf</filename>), you have to reboot
-	  your &os; box.  If you do not want to reboot your machine
-	  for the moment, you can load the modules by hand using
+	<para>Once this information has been added to
+	  <filename>/boot/loader.conf</filename>, reboot
+	  the &os; box.  Alternately,
+	  load the modules by hand using
 	  &man.kldload.8;.</para>
 
 	<note>
-	  <para>If you do not want to use modules, it is possible to
+	  <para>For users who do not want to use modules, it is
+	    possible to
 	    compile these drivers into the kernel by adding the
-	    following lines to your kernel configuration file:</para>
+	    following lines to a custom kernel configuration
+	    file:</para>
 
 	  <programlisting>device wlan              # 802.11 support
 device wlan_wep          # 802.11 WEP support
@@ -907,12 +918,13 @@ options AH_SUPPORT_AR5416 # enable AR5416 tx/rx descriptors
 device ath_rate_sample   # SampleRate tx rate control for ath</programlisting>
 
 	  <para>With this information in the kernel configuration
-	    file, recompile the kernel and reboot your &os;
+	    file, recompile the kernel and reboot the &os;
 	    machine.</para>
 	</note>
 
-	<para>When the system is up, we could find some information
-	  about the wireless device in the boot messages, like
+	<para>Information
+	  about the wireless device should appear in the boot
+	  messages, like
 	  this:</para>
 
 	<screen>ath0: &lt;Atheros 5212&gt; mem 0x88000000-0x8800ffff irq 11 at device 0.0 on cardbus1
@@ -924,11 +936,12 @@ ath0: AR2413 mac 7.9 RF2413 phy 4.5</screen>
     <sect2>
       <title>Infrastructure Mode</title>
 
-      <para>The infrastructure mode or BSS mode is the mode that is
+      <para>Infrastructure (<acronym>BSS</acronym>) mode is the
+	mode that is
 	typically used.  In this mode, a number of wireless access
 	points are connected to a wired network.  Each wireless
-	network has its own name, this name is called the SSID of the
-	network.  Wireless clients connect to the wireless access
+	network has its own name, called the <acronym>SSID</acronym>.
+	Wireless clients connect to the wireless access
 	points.</para>
 
       <sect3>
@@ -937,12 +950,12 @@ ath0: AR2413 mac 7.9 RF2413 phy 4.5</screen>
 	<sect4>
 	  <title>How to Find Access Points</title>
 
-	  <para>To scan for networks, use the
-	    <command>ifconfig</command> command.  This request may
-	    take a few moments to complete as it requires that the
-	    system switches to each available wireless frequency and
-	    probes for available access points.  Only the super-user
-	    can initiate such a scan:</para>
+	  <para>To scan for available networks, use
+	    &man.ifconfig.8;.  This request may
+	    take a few moments to complete as it requires the
+	    system to switch to each available wireless frequency and
+	    probe for available access points.  Only the superuser
+	    can initiate a scan:</para>
 
 	  <screen>&prompt.root; <userinput>ifconfig <replaceable>wlan0</replaceable> create wlandev <replaceable>ath0</replaceable></userinput>
 &prompt.root; <userinput>ifconfig <replaceable>wlan0</replaceable> up scan</userinput>
@@ -951,15 +964,17 @@ dlinkap         00:13:46:49:41:76   11   54M -90:96   100 EPS  WPA WME
 freebsdap       00:11:95:c3:0d:ac    1   54M -83:96   100 EPS  WPA</screen>
 
 	  <note>
-	    <para>You must mark the interface <option>up</option>
-	      before you can scan.  Subsequent scan requests do not
-	      require you to mark the interface up again.</para>
+	    <para>The interface must be <option>up</option>
+	      before it can scan.  Subsequent scan requests do not
+	      require the interface to be marked as up again.</para>
 	  </note>
 
-	  <para>The output of a scan request lists each BSS/IBSS
-	    network found.  Beside the name of the network,
-	    <literal>SSID</literal>, we find the
-	    <literal>BSSID</literal> which is the MAC address of the
+	  <para>The output of a scan request lists each
+	    <acronym>BSS</acronym>/<acronym>IBSS</acronym>
+	    network found.  Besides listing the name of the network,
+	    the <literal>SSID</literal>, the output also shows the
+	    <literal>BSSID</literal>, which is the
+	    <acronym>MAC</acronym> address of the
 	    access point.  The <literal>CAPS</literal> field
 	    identifies the type of each network and the capabilities
 	    of the stations operating there:</para>
@@ -978,35 +993,39 @@ freebsdap       00:11:95:c3:0d:ac    1   54M -83:96   100 EPS  WPA</screen>
 	      <tbody>
 		<row>
 		  <entry><literal>E</literal></entry>
-		  <entry>Extended Service Set (ESS).  Indicates that
+		  <entry>Extended Service Set
+		    (<acronym>ESS</acronym>).  Indicates that
 		    the station is part of an infrastructure network
-		    (in contrast to an IBSS/ad-hoc network).</entry>
+		    rather than an <acronym>IBSS</acronym>/ad-hoc
+		    network.</entry>
 		</row>
 
 		<row>
 		  <entry><literal>I</literal></entry>
-		  <entry>IBSS/ad-hoc network.  Indicates that the
-		    station is part of an ad-hoc network (in contrast
-		    to an ESS network).</entry>
+		  <entry><acronym>IBSS</acronym>/ad-hoc network.
+		    Indicates that the
+		    station is part of an ad-hoc network rather than
+		    an <acronym>ESS</acronym> network.</entry>
 		</row>
 
 		<row>
 		  <entry><literal>P</literal></entry>
-		  <entry>Privacy.  Data confidentiality is required
-		    for all data frames exchanged within the BSS.
-		    This means that this BSS requires the station to
-		    use cryptographic means such as WEP, TKIP or
-		    AES-CCMP to encrypt/decrypt data frames being
-		    exchanged with others.</entry>
+		  <entry>Privacy.  Encryption is required
+		    for all data frames exchanged within the
+		    <acronym>BSS</acronym>
+		    using cryptographic means such as
+		    <acronym>WEP</acronym>, <acronym>TKIP</acronym> or
+		    <acronym>AES</acronym>-<acronym>CCMP</acronym>.</entry>
 		</row>
 
 		<row>
 		  <entry><literal>S</literal></entry>
 		  <entry>Short Preamble.  Indicates that the network
-		    is using short preambles (defined in 802.11b High
-		    Rate/DSSS PHY, short preamble utilizes a 56 bit
-		    sync field in contrast to a 128 bit field used in
-		    long preamble mode).</entry>
+		    is using short preambles, defined in 802.11b High
+		    Rate/DSSS PHY, and utilizes a 56 bit
+		    sync field rather than the 128 bit
+		    field used in
+		    long preamble mode.</entry>
 		</row>
 
 		<row>
@@ -1036,131 +1055,150 @@ freebsdap       00:11:95:c3:0d:ac    1   54M -83:96   100 EPS  WPA</screen>
 
 	  <para>This section provides a simple example of how to make
 	    the wireless network adapter work in &os; without
-	    encryption.  After you are familiar with these concepts,
-	    we strongly recommend using
+	    encryption.  Once familiar with these concepts, it is
+	    strongly recommend to use
 	    <link linkend="network-wireless-wpa">WPA</link> to set up
-	    your wireless network.</para>
+	    the wireless network.</para>
 
 	  <para>There are three basic steps to configure a wireless
-	    network: selecting an access point, authenticating your
-	    station, and configuring an IP address.  The following
+	    network: select an access point, authenticate the
+	    station, and configure an <acronym>IP</acronym> address.
+	    The following
 	    sections discuss each step.</para>
 
 	  <sect5>
 	    <title>Selecting an Access Point</title>
 
-	    <para>Most of time it is sufficient to let the system
+	    <para>Most of the time, it is sufficient to let the system
 	      choose an access point using the builtin heuristics.
-	      This is the default behaviour when you mark an interface
-	      up or otherwise configure an interface by listing it in
-	      <filename>/etc/rc.conf</filename>, e.g.:</para>
+	      This is the default behaviour when an interface is
+	      marked as
+	      up or it is listed in
+	      <filename>/etc/rc.conf</filename>:</para>
 
 	    <programlisting>wlans_ath0="wlan0"
 ifconfig_wlan0="DHCP"</programlisting>
 
-	    <para>If there are multiple access points and you want to
-	      select a specific one, you can select it by its
-	      SSID:</para>
+	    <para>If there are multiple access points,
+	      a specific one can be selected by its
+	      <acronym>SSID</acronym>:</para>
 
 	    <programlisting>wlans_ath0="wlan0"
 ifconfig_wlan0="ssid <replaceable>your_ssid_here</replaceable> DHCP"</programlisting>
 
 	    <para>In an environment where there are multiple access
-	      points with the same SSID (often done to simplify
-	      roaming) it may be necessary to associate to one
-	      specific device.  In this case you can also specify the
-	      BSSID of the access point (you can also leave off the
-	      SSID):</para>
+	      points with the same <acronym>SSID</acronym>, which
+	      is often done to simplify
+	      roaming, it may be necessary to associate to one
+	      specific device.  In this case, the
+	      <acronym>BSSID</acronym> of the access point can
+	      be specified, with or without the
+	      <acronym>SSID</acronym>:</para>
 
 	    <programlisting>wlans_ath0="wlan0"
 ifconfig_wlan0="ssid <replaceable>your_ssid_here</replaceable> bssid <replaceable>xx:xx:xx:xx:xx:xx</replaceable> DHCP"</programlisting>
 
 	    <para>There are other ways to constrain the choice of an
-	      access point such as limiting the set of frequencies the
-	      system will scan on.  This may be useful if you have a
+	      access point, such as limiting the set of frequencies
+	      the
+	      system will scan on.  This may be useful for a
 	      multi-band wireless card as scanning all the possible
 	      channels can be time-consuming.  To limit operation to a
-	      specific band you can use the <option>mode</option>
-	      parameter; e.g.:</para>
+	      specific band, use the <option>mode</option>
+	      parameter:</para>
 
 	    <programlisting>wlans_ath0="wlan0"
 ifconfig_wlan0="mode <replaceable>11g</replaceable> ssid <replaceable>your_ssid_here</replaceable> DHCP"</programlisting>
 
-	    <para>will force the card to operate in 802.11g which is
+	    <para>This example will force the card to operate in
+	      802.11g, which is
 	      defined only for 2.4GHz frequencies so any 5GHz channels
-	      will not be considered.  Other ways to do this are the
-	      <option>channel</option> parameter, to lock operation to
+	      will not be considered.  This can also be achieved with
+	      the
+	      <option>channel</option> parameter, which locks
+	      operation to
 	      one specific frequency, and the
 	      <option>chanlist</option> parameter, to specify a list
 	      of channels for scanning.  More information about these
-	      parameters can be found in the &man.ifconfig.8; manual
-	      page.</para>
+	      parameters can be found in &man.ifconfig.8;.</para>
 	  </sect5>
 
 	  <sect5>
 	    <title>Authentication</title>
 
-	    <para>Once you have selected an access point your station
+	    <para>Once an access point is selected, the station
 	      needs to authenticate before it can pass data.
 	      Authentication can happen in several ways.  The most
-	      common scheme used is termed open authentication and
+	      common scheme, open authentication,
 	      allows any station to join the network and communicate.
-	      This is the authentication you should use for test
-	      purpose the first time you set up a wireless network.
-	      Other schemes require cryptographic handshakes be
-	      completed before data traffic can flow; either using
+	      This is the authentication to use for test
+	      purposes the first time a wireless network is setup.
+	      Other schemes require cryptographic handshakes to be
+	      completed before data traffic can flow, either using
 	      pre-shared keys or secrets, or more complex schemes that
-	      involve backend services such as RADIUS.  Most users
-	      will use open authentication which is the default
-	      setting.  Next most common setup is WPA-PSK, also known
-	      as WPA Personal, which is described <link
-		linkend="network-wireless-wpa-wpa-psk">below</link>.</para>
+	      involve backend services such as
+	      <acronym>RADIUS</acronym>.
+	      Open authentication is the default
+	      setting.  The next most common setup is
+	      <acronym>WPA-PSK</acronym>, also
+	      known
+	      as <acronym>WPA</acronym> Personal, which is described
+	      in <xref
+		linkend="network-wireless-wpa-wpa-psk"/>.</para>
 
 	    <note>
-	      <para>If you have an &apple; &airport; Extreme base
-		station for an access point you may need to configure
-		shared-key authentication together with a WEP key.
-		This can be done in the
-		<filename>/etc/rc.conf</filename> file or using the
-		&man.wpa.supplicant.8; program.  If you have a single
-		&airport; base station you can setup access with
-		something like:</para>
+	      <para>If using an &apple; &airport; Extreme base
+		station for an access point,
+		shared-key authentication together with a
+		<acronym>WEP</acronym> key needs to be configured.
+		This can be configured in
+		<filename>/etc/rc.conf</filename> or by using
+		&man.wpa.supplicant.8;.  For a single
+		&airport; base station, access can be configured
+		with:</para>
 
 	      <programlisting>wlans_ath0="wlan0"
 ifconfig_wlan0="authmode shared wepmode on weptxkey <replaceable>1</replaceable> wepkey <replaceable>01234567</replaceable> DHCP"</programlisting>
 
-	      <para>In general shared key authentication is to be
-		avoided because it uses the WEP key material in a
-		highly-constrained manner making it even easier to
-		crack the key.  If WEP must be used (e.g., for
-		compatibility with legacy devices) it is better to use
-		WEP with <literal>open</literal> authentication.  More
-		information regarding WEP can be found in the
+	      <para>In general, shared key authentication should be
+		avoided because it uses the <acronym>WEP</acronym> key
+		material in a
+		highly-constrained manner, making it even easier to
+		crack the key.  If <acronym>WEP</acronym> must be used
+		for
+		compatibility with legacy devices, it is better to use
+		<acronym>WEP</acronym> with <literal>open</literal>
+		authentication.  More
+		information regarding <acronym>WEP</acronym> can be
+		found in
 		<xref linkend="network-wireless-wep"/>.</para>
 	    </note>
 	  </sect5>
 
 	  <sect5>
-	    <title>Getting an IP Address with DHCP</title>
+	    <title>Getting an <acronym>IP</acronym> Address with
+	      <acronym>DHCP</acronym></title>
 
-	    <para>Once you have selected an access point and set the
-	      authentication parameters, you will have to get an IP
-	      address to communicate.  Most of time you will obtain
-	      your wireless IP address via DHCP.  To achieve that,
+	    <para>Once an access point is selected and the
+	      authentication parameters are set,
+	      an <acronym>IP</acronym> address must be obtained
+	      in order to communicate.  Most of the time, the
+	      <acronym>IP</acronym> address is obtained via
+	      <acronym>DHCP</acronym>.  To achieve that,
 	      edit <filename>/etc/rc.conf</filename> and add
-	      <literal>DHCP</literal> to the configuration for your
-	      device as shown in various examples above:</para>
+	      <literal>DHCP</literal> to the configuration for the
+	      device:</para>
 
 	    <programlisting>wlans_ath0="wlan0"
 ifconfig_wlan0="DHCP"</programlisting>
 
-	    <para>At this point, you are ready to bring up the
-	      wireless interface:</para>
+	    <para>The
+	      wireless interface is now ready to bring up:</para>
 
 	    <screen>&prompt.root; <userinput>service netif start</userinput></screen>
 
 	    <para>Once the interface is running, use
-	      <command>ifconfig</command> to see the status of the
+	      &man.ifconfig.8; to see the status of the
 	      interface <devicename>ath0</devicename>:</para>
 
 	    <screen>&prompt.root; <userinput>ifconfig <replaceable>wlan0</replaceable></userinput>
@@ -1174,23 +1212,25 @@ wlan0: flags=8843&lt;UP,BROADCAST,RUNNING,SIMPLEX,MULTICAST&gt; mtu 1500
         scanvalid 60 bgscan bgscanintvl 300 bgscanidle 250 roam:rssi 7
         roam:rate 5 protmode CTS wme burst</screen>
 
-	    <para>The <literal>status: associated</literal> means you
-	      are connected to the wireless network (to the
-	      <literal>dlinkap</literal> network in our case).  The
-	      <literal>bssid 00:13:46:49:41:76</literal> part is the
-	      MAC address of your access point; the
-	      <literal>authmode OPEN</literal> part informs you that
+	    <para>The <literal>status: associated</literal> line means
+	      that it is
+	      connected to the wireless network.  The
+	      <literal>bssid 00:13:46:49:41:76</literal> is the
+	      <acronym>MAC</acronym> address of the access point and
+	      <literal>authmode OPEN</literal> indicates that
 	      the communication is not encrypted.</para>
 	  </sect5>
 
 	  <sect5>
-	    <title>Static IP Address</title>
+	    <title>Static <acronym>IP</acronym> Address</title>
 
-	    <para>In the case you cannot obtain an IP address from a
-	      DHCP server, you can set a fixed IP address.  Replace
+	    <para>In an <acronym>IP</acronym> address cannot be
+	      obtained from a
+	      <acronym>DHCP</acronym> server, set a fixed
+	      <acronym>IP</acronym> address.  Replace
 	      the <literal>DHCP</literal> keyword shown above with the
 	      address information.  Be sure to retain any other
-	      parameters you have set up for selecting an access
+	      parameters for selecting the access
 	      point:</para>
 
 	    <programlisting>wlans_ath0="wlan0"
@@ -1199,80 +1239,101 @@ ifconfig_wlan0="inet <replaceable>192.168.1.100</replaceable> netmask <replaceab
 	</sect4>
 
 	<sect4 id="network-wireless-wpa">
-	  <title>WPA</title>
+	  <title><acronym>WPA</acronym></title>
 
-	  <para>WPA (Wi-Fi Protected Access) is a security protocol
+	  <para>Wi-Fi Protected Access (<acronym>WPA</acronym>) is a
+	    security protocol
 	    used together with 802.11 networks to address the lack of
 	    proper authentication and the weakness of
-	    <link linkend="network-wireless-wep">WEP</link>.  WPA
+	    <acronym>WEP</acronym>.  WPA
 	    leverages the 802.1X authentication protocol and uses one
-	    of several ciphers instead of WEP for data integrity.  The
-	    only cipher required by WPA is TKIP (Temporary Key
-	    Integrity Protocol).  TKIP is a cipher that extends the
-	    basic RC4 cipher used by WEP by adding integrity checking,
-	    tamper detection, and measures for responding to any
-	    detected intrusions.  TKIP is designed to work on legacy
-	    hardware with only software modification; it represents a
+	    of several ciphers instead of <acronym>WEP</acronym> for
+	    data integrity.  The
+	    only cipher required by <acronym>WPA</acronym> is the
+	    Temporary Key Integrity Protocol
+	    (<acronym>TKIP</acronym>).  <acronym>TKIP</acronym> is a
+	    cipher that extends the
+	    basic RC4 cipher used by <acronym>WEP</acronym> by adding
+	    integrity checking,
+	    tamper detection, and measures for responding to
+	    detected intrusions.  <acronym>TKIP</acronym> is designed
+	    to work on legacy
+	    hardware with only software modification.  It represents a
 	    compromise that improves security but is still not
-	    entirely immune to attack.  WPA also specifies the
-	    AES-CCMP cipher as an alternative to TKIP and that is
-	    preferred when possible; for this specification the term
-	    WPA2 (or RSN) is commonly used.</para>
+	    entirely immune to attack.  <acronym>WPA</acronym> also
+	    specifies the
+	    <acronym>AES-CCMP</acronym> cipher as
+	    an alternative to <acronym>TKIP</acronym>, and that is
+	    preferred when possible.  For this specification, the term
+	    <acronym>WPA2</acronym> or <acronym>RSN</acronym> is
+	    commonly used.</para>
 
-	  <para>WPA defines authentication and encryption protocols.
+	  <para><acronym>WPA</acronym> defines authentication and
+	    encryption protocols.
 	    Authentication is most commonly done using one of two
 	    techniques: by 802.1X and a backend authentication service
-	    such as RADIUS, or by a minimal handshake between the
+	    such as <acronym>RADIUS</acronym>, or by a minimal
+	    handshake between the
 	    station and the access point using a pre-shared secret.
-	    The former is commonly termed WPA Enterprise with the
-	    latter known as WPA Personal.  Since most people will not
-	    set up a RADIUS backend server for their wireless network,
-	    WPA-PSK is by far the most commonly encountered
-	    configuration for WPA.</para>
+	    The former is commonly termed <acronym>WPA</acronym>
+	    Enterprise and the
+	    latter is known as <acronym>WPA</acronym> Personal.  Since
+	    most people will not
+	    set up a <acronym>RADIUS</acronym> backend server for
+	    their wireless network,
+	    <acronym>WPA-PSK</acronym> is by far
+	    the most commonly encountered
+	    configuration for <acronym>WPA</acronym>.</para>
 
 	  <para>The control of the wireless connection and the
-	    authentication (key negotiation or authentication with a
-	    server) is done with the &man.wpa.supplicant.8; utility.
+	    key negotiation or authentication with a
+	    server is done using &man.wpa.supplicant.8;.
 	    This program requires a configuration file,
 	    <filename>/etc/wpa_supplicant.conf</filename>, to run.
-	    More information regarding this file can be found in the
-	    &man.wpa.supplicant.conf.5; manual page.</para>
+	    More information regarding this file can be found in
+	    &man.wpa.supplicant.conf.5;.</para>
 
 	  <sect5 id="network-wireless-wpa-wpa-psk">
-	    <title>WPA-PSK</title>
+	    <title><acronym>WPA-PSK</acronym></title>
 
-	    <para>WPA-PSK, also known as WPA-Personal, is based on a
-	      pre-shared key (PSK) generated from a given password and
-	      that will be used as the master key in the wireless
+	    <para><acronym>WPA-PSK</acronym>, also
+	      known as <acronym>WPA</acronym> Personal, is based on a
+	      pre-shared key (<acronym>PSK</acronym>) which
+	      is generated from a given password and
+	      used as the master key in the wireless
 	      network.  This means every wireless user will share the
-	      same key.  WPA-PSK is intended for small networks where
+	      same key.  <acronym>WPA-PSK</acronym>
+	      is intended for small networks where
 	      the use of an authentication server is not possible or
 	      desired.</para>
 
 	    <warning>
 	      <para>Always use strong passwords that are
 		sufficiently long and made from a rich alphabet so
-		they will not be guessed and/or attacked.</para>
+		that they will not be easily guessed or
+		attacked.</para>
 	    </warning>
 
-	    <para>The first step is the configuration of the
-	      <filename>/etc/wpa_supplicant.conf</filename> file with
-	      the SSID and the pre-shared key of your network:</para>
+	    <para>The first step is the configuration of
+	      <filename>/etc/wpa_supplicant.conf</filename> with
+	      the <acronym>SSID</acronym> and the pre-shared key of
+	      the network:</para>
 
 	    <programlisting>network={
   ssid="freebsdap"
   psk="freebsdmall"
 }</programlisting>
 
-	    <para>Then, in <filename>/etc/rc.conf</filename>, we
+	    <para>Then, in <filename>/etc/rc.conf</filename>,
 	      indicate that the wireless device configuration will be
-	      done with WPA and the IP address will be obtained with
-	      DHCP:</para>
+	      done with <acronym>WPA</acronym> and the
+	      <acronym>IP</acronym> address will be obtained with
+	      <acronym>DHCP</acronym>:</para>
 
 	    <programlisting>wlans_ath0="wlan0"
 ifconfig_wlan0="WPA DHCP"</programlisting>
 
-	    <para>Then we can bring up the interface:</para>
+	    <para>Then, bring up the interface:</para>
 
 	    <screen>&prompt.root; <userinput>service netif start</userinput>
 Starting wpa_supplicant.
@@ -1293,10 +1354,9 @@ wlan0: flags=8843&lt;UP,BROADCAST,RUNNING,SIMPLEX,MULTICAST&gt; mtu 1500
       bgscanintvl 300 bgscanidle 250 roam:rssi 7 roam:rate 5 protmode CTS
       wme burst roaming MANUAL</screen>
 
-	    <para>Or you can try to configure it manually using the
-	      same <filename>/etc/wpa_supplicant.conf</filename> <link
-	      linkend="network-wireless-wpa-wpa-psk">above</link>, and
-	      run:</para>
+	    <para>Or, try to configure the interface manually using
+	      the information in
+	      <filename>/etc/wpa_supplicant.conf</filename>:</para>
 
 	    <screen>&prompt.root; <userinput>wpa_supplicant -i <replaceable>wlan0</replaceable> -c /etc/wpa_supplicant.conf</userinput>
 Trying to associate with 00:11:95:c3:0d:ac (SSID='freebsdap' freq=2412 MHz)
@@ -1304,9 +1364,9 @@ Associated with 00:11:95:c3:0d:ac
 WPA: Key negotiation completed with 00:11:95:c3:0d:ac [PTK=CCMP GTK=CCMP]
 CTRL-EVENT-CONNECTED - Connection to 00:11:95:c3:0d:ac completed (auth) [id=0 id_str=]</screen>
 
-	    <para>The next operation is the launch of the
-	      <command>dhclient</command> command to get the IP
-	      address from the DHCP server:</para>
+	    <para>The next operation is to launch
+	      &man.dhclient.8; to get the <acronym>IP</acronym>
+	      address from the <acronym>DHCP</acronym> server:</para>
 
 	    <screen>&prompt.root; <userinput>dhclient <replaceable>wlan0</replaceable></userinput>
 DHCPREQUEST on wlan0 to 255.255.255.255 port 67
@@ -1326,17 +1386,16 @@ wlan0: flags=8843&lt;UP,BROADCAST,RUNNING,SIMPLEX,MULTICAST&gt; mtu 1500
 
 	    <note>
 	      <para>If <filename>/etc/rc.conf</filename> has an
-		<literal>ifconfig_wlan0</literal> entry with the
-		<literal>DHCP</literal> string (like
-		<literal>ifconfig_wlan0="DHCP"</literal>),
-		<command>dhclient</command> will be launched
-		automatically after <command>wpa_supplicant</command>
+		<literal>ifconfig_wlan0="DHCP"</literal> entry,
+		&man.dhclient.8; will be launched
+		automatically after &man.wpa.supplicant.8;
 		associates with the access point.</para>
 	    </note>
 
-	    <para>If DHCP is not possible or desired,
-	      you can set a static IP address after
-	      <command>wpa_supplicant</command> has authenticated the
+	    <para>If <acronym>DHCP</acronym> is not possible or
+	      desired,
+	      set a static <acronym>IP</acronym> address after
+	      &man.wpa.supplicant.8; has authenticated the
 	      station:</para>
 
 	    <screen>&prompt.root; <userinput>ifconfig <replaceable>wlan0</replaceable> inet <replaceable>192.168.0.100</replaceable> netmask <replaceable>255.255.255.0</replaceable></userinput>
@@ -1352,43 +1411,61 @@ wlan0: flags=8843&lt;UP,BROADCAST,RUNNING,SIMPLEX,MULTICAST&gt; mtu 1500
       bgscanintvl 300 bgscanidle 250 roam:rssi 7 roam:rate 5 protmode CTS
       wme burst roaming MANUAL</screen>
 
-	    <para>When DHCP is not used, you also have to manually set
-	      the default gateway and the nameserver:</para>
+	    <para>When <acronym>DHCP</acronym> is not used,
+	      the default gateway and the nameserver also have
+	      to be manually set:</para>
 
 	    <screen>&prompt.root; <userinput>route add default <replaceable>your_default_router</replaceable></userinput>
 &prompt.root; <userinput>echo "nameserver <replaceable>your_DNS_server</replaceable>" &gt;&gt; /etc/resolv.conf</userinput></screen>
 	  </sect5>
 
 	  <sect5 id="network-wireless-wpa-eap-tls">
-	    <title>WPA with EAP-TLS</title>
+	    <title><acronym>WPA</acronym> with
+	      <acronym>EAP-TLS</acronym></title>
 
-	    <para>The second way to use WPA is with an 802.1X backend
-	      authentication server.  In this case WPA is called
-	      WPA-Enterprise to differentiate it from the less secure
-	      WPA-Personal with its pre-shared key.
-	      Authentication in WPA-Enterprise is based on the
-	      Extensible Authentication Protocol (EAP).</para>
+	    <para>The second way to use <acronym>WPA</acronym> is with
+	      an 802.1X backend
+	      authentication server.  In this case,
+	      <acronym>WPA</acronym> is called
+	      <acronym>WPA</acronym> Enterprise to differentiate it
+	      from the less secure
+	      <acronym>WPA</acronym> Personal.
+	      Authentication in <acronym>WPA</acronym> Enterprise is
+	      based on the
+	      Extensible Authentication Protocol
+	      (<acronym>EAP</acronym>).</para>
 
-	    <para>EAP does not come with an encryption method.
-	      Instead, it was decided to embed EAP inside an encrypted
-	      tunnel.  There are many EAP authentication methods, but
-	      EAP-TLS, EAP-TTLS, and EAP-PEAP are the most
+	    <para><acronym>EAP</acronym> does not come with an
+	      encryption method.
+	      Instead, <acronym>EAP</acronym> is embedded
+	      inside an encrypted
+	      tunnel.  There are many <acronym>EAP</acronym>
+	      authentication methods, but
+	      <acronym>EAP-TLS</acronym>,
+	      <acronym>EAP-TTLS</acronym>, and
+	      <acronym>EAP-PEAP</acronym> are the
+	      most
 	      common.</para>
 
-	    <para>EAP-TLS (EAP with Transport Layer Security) is a
-	      very well-supported authentication protocol in the
-	      wireless world since it was the first EAP method to be
+	    <para>EAP with Transport Layer Security
+	      (<acronym>EAP-TLS</acronym>) is a
+	      well-supported wireless authentication protocol
+	      since it was the first <acronym>EAP</acronym> method to
+	      be
 	      certified by the <ulink
 	      url="http://www.wi-fi.org/">Wi-Fi alliance</ulink>.
-	      EAP-TLS will require three certificates to run: the CA
-	      certificate (installed on all machines), the server
-	      certificate for your authentication server, and one
+	      <acronym>EAP-TLS</acronym> requires
+	      three certificates to run: the certificate of the
+	      Certificate Authority (<acronym>CA</acronym>)
+	      installed on all machines, the server
+	      certificate for the authentication server, and one
 	      client certificate for each wireless client.  In this
-	      EAP method, both authentication server and wireless
-	      client authenticate each other in presenting their
-	      respective certificates, and they verify that these
-	      certificates were signed by your organization's
-	      certificate authority (CA).</para>
+	      <acronym>EAP</acronym> method, both the authentication
+	      server and wireless
+	      client authenticate each other by presenting their
+	      respective certificates, and then verify that these
+	      certificates were signed by the organization's
+	      <acronym>CA</acronym>.</para>
 
 	    <para>As previously, the configuration is done via
 	      <filename>/etc/wpa_supplicant.conf</filename>:</para>
@@ -1408,34 +1485,39 @@ wlan0: flags=8843&lt;UP,BROADCAST,RUNNING,SIMPLEX,MULTICAST&gt; mtu 1500
 	    <calloutlist>
 	      <callout arearefs="co-tls-ssid">
 		<para>This field indicates the network name
-		  (SSID).</para>
+		  (<acronym>SSID</acronym>).</para>
 	      </callout>
 
 	      <callout arearefs="co-tls-proto">
-		<para>Here, we use RSN (&ieee; 802.11i) protocol,
-		  i.e., WPA2.</para>
+		<para>This example uses the <acronym>RSN</acronym>
+		  &ieee; 802.11i protocol, also known as
+		  <acronym>WPA2</acronym>.</para>
 	      </callout>
 
 	      <callout arearefs="co-tls-kmgmt">
 		<para>The <literal>key_mgmt</literal> line refers to
-		  the key management protocol we use.  In our case it
-		  is WPA using EAP authentication:
-		  <literal>WPA-EAP</literal>.</para>
+		  the key management protocol to use.  In this
+		  example, it
+		  is <acronym>WPA</acronym> using
+		  <acronym>EAP</acronym> authentication.</para>
 	      </callout>
 
 	      <callout arearefs="co-tls-eap">
-		<para>In this field, we mention the EAP method for our
+		<para>This field indicates the <acronym>EAP</acronym>
+		method for the
 		  connection.</para>
 	      </callout>
 
 	      <callout arearefs="co-tls-id">
 		<para>The <literal>identity</literal> field contains
-		  the identity string for EAP.</para>
+		  the identity string for
+		  <acronym>EAP</acronym>.</para>
 	      </callout>
 
 	      <callout arearefs="co-tls-cacert">
 		<para>The <literal>ca_cert</literal> field indicates
-		  the pathname of the CA certificate file.  This file
+		  the pathname of the <acronym>CA</acronym>
+		  certificate file.  This file
 		  is needed to verify the server certificate.</para>
 	      </callout>
 
@@ -1458,7 +1540,7 @@ wlan0: flags=8843&lt;UP,BROADCAST,RUNNING,SIMPLEX,MULTICAST&gt; mtu 1500
 	      </callout>
 	    </calloutlist>
 
-	    <para>Then add the following lines to
+	    <para>Then, add the following lines to
 	      <filename>/etc/rc.conf</filename>:</para>
 
 	    <programlisting>wlans_ath0="wlan0"
@@ -1483,28 +1565,32 @@ wlan0: flags=8843&lt;UP,BROADCAST,RUNNING,SIMPLEX,MULTICAST&gt; mtu 1500
       bgscanintvl 300 bgscanidle 250 roam:rssi 7 roam:rate 5 protmode CTS
       wme burst roaming MANUAL</screen>
 
-	    <para>As previously shown, it is also possible to bring up
-	      the interface manually with both
-	      <command>wpa_supplicant</command> and
-	      <command>ifconfig</command> commands.</para>
+	    <para>It is also possible to bring up
+	      the interface manually using
+	      &man.wpa.supplicant.8; and
+	      &man.ifconfig.8;.</para>
 	  </sect5>
 
 	  <sect5 id="network-wireless-wpa-eap-ttls">
-	    <title>WPA with EAP-TTLS</title>
+	    <title><acronym>WPA</acronym> with
+	      <acronym>EAP-TTLS</acronym></title>
 
-	    <para>With EAP-TLS both the authentication server and the
-	      client need a certificate, with EAP-TTLS (EAP-Tunneled
-	      Transport Layer Security) a client certificate is
-	      optional.  This method is close to what some secure web
-	      sites do , where the web server can create a secure SSL
-	      tunnel even if the visitors do not have client-side
-	      certificates.  EAP-TTLS will use the encrypted TLS
+	    <para>With <acronym>EAP-TTLS</acronym>,
+	      both the authentication server and the
+	      client need a certificate.  With
+	      <acronym>EAP-TTLS</acronym>,
+	      a client certificate is
+	      optional.  This method is similar to a web
+	      server which creates a secure <acronym>SSL</acronym>
+	      tunnel even if visitors do not have client-side
+	      certificates.
+	      <acronym>EAP-TTLS</acronym> uses an
+	      encrypted <acronym>TLS</acronym>
 	      tunnel for safe transport of the authentication
 	      data.</para>
 
-	    <para>The configuration is done via the
-	      <filename>/etc/wpa_supplicant.conf</filename>
-	      file:</para>
+	    <para>The required configuration can be added to
+	      <filename>/etc/wpa_supplicant.conf</filename>:</para>
 
 	    <programlisting>network={
   ssid="freebsdap"
@@ -1519,37 +1605,43 @@ wlan0: flags=8843&lt;UP,BROADCAST,RUNNING,SIMPLEX,MULTICAST&gt; mtu 1500
 
 	    <calloutlist>
 	      <callout arearefs="co-ttls-eap">
-		<para>In this field, we mention the EAP method for our
+		<para>This field specifies the <acronym>EAP</acronym>
+		  method for the
 		  connection.</para>
 	      </callout>
 
 	      <callout arearefs="co-ttls-id">
 		<para>The <literal>identity</literal> field contains
-		  the identity string for EAP authentication inside
-		  the encrypted TLS tunnel.</para>
+		  the identity string for <acronym>EAP</acronym>
+		  authentication inside
+		  the encrypted <acronym>TLS</acronym> tunnel.</para>
 	      </callout>
 
 	      <callout arearefs="co-ttls-passwd">
 		<para>The <literal>password</literal> field contains
-		  the passphrase for the EAP authentication.</para>
+		  the passphrase for the <acronym>EAP</acronym>
+		  authentication.</para>
 	      </callout>
 
 	      <callout arearefs="co-ttls-cacert">
 		<para>The <literal>ca_cert</literal> field indicates
-		  the pathname of the CA certificate file.  This file
+		  the pathname of the <acronym>CA</acronym>
+		  certificate file.  This file
 		  is needed to verify the server certificate.</para>
 	      </callout>
 
 	      <callout arearefs="co-ttls-pha2">
-		<para>In this field, we mention the authentication
-		  method used in the encrypted TLS tunnel.  In our
-		  case, EAP with MD5-Challenge has been used.  The
+		<para>This field specifies the authentication
+		  method used in the encrypted <acronym>TLS</acronym>
+		  tunnel.  In this example,
+		  <acronym>EAP</acronym> with MD5-Challenge is used.
+		  The
 		  <quote>inner authentication</quote> phase is often
 		  called <quote>phase2</quote>.</para>
 	      </callout>
 	    </calloutlist>
 
-	    <para>You also have to add the following lines to
+	    <para>Next, add the following lines to
 	      <filename>/etc/rc.conf</filename>:</para>
 
 	    <programlisting>wlans_ath0="wlan0"
@@ -1577,34 +1669,47 @@ wlan0: flags=8843&lt;UP,BROADCAST,RUNNING,SIMPLEX,MULTICAST&gt; mtu 1500
 	  </sect5>
 
 	  <sect5 id="network-wireless-wpa-eap-peap">
-	    <title>WPA with EAP-PEAP</title>
+	    <title><acronym>WPA</acronym> with
+	      <acronym>EAP-PEAP</acronym></title>
 
 	    <note>
-	      <para>PEAPv0/EAP-MSCHAPv2 is the most common PEAP
-		method.  In the rest of this document, we will use the
-		PEAP term to refer to that method.</para>
+	      <para><acronym>PEAPv0/EAP-MSCHAPv2</acronym> is the most
+		common <acronym>PEAP</acronym>
+		method.  In this chapter, the term
+		<acronym>PEAP</acronym> is used to refer to that
+		method.</para>
 	    </note>
 
-	    <para>PEAP (Protected EAP) has been designed as an
-	      alternative to EAP-TTLS, and is the most used EAP
-	      standard after EAP-TLS.  In other words, if you have a
-	      network with mixed OSes, PEAP should be the most
-	      supported standard after EAP-TLS.</para>
+	    <para>Protected EAP (<acronym>PEAP</acronym>) is designed
+	      as an
+	      alternative to <acronym>EAP-TTLS</acronym> and is the
+	      most used <acronym>EAP</acronym>
+	      standard after <acronym>EAP-TLS</acronym>.  In a
+	      network with mixed operating systems,
+	      <acronym>PEAP</acronym> should be the most
+	      supported standard after
+	      <acronym>EAP-TLS</acronym>.</para>
 
-	    <para>PEAP is similar to EAP-TTLS: it uses a server-side
+	    <para><acronym>PEAP</acronym> is similar to
+	      <acronym>EAP-TTLS</acronym> as it uses a server-side
 	      certificate to authenticate clients by creating an
-	      encrypted TLS tunnel between the client and the
+	      encrypted <acronym>TLS</acronym> tunnel between the
+	      client and the
 	      authentication server, which protects the ensuing
-	      exchange of authentication information.  In terms of
-	      security, the difference between EAP-TTLS and PEAP is
-	      that PEAP authentication broadcasts the username in the
-	      clear, with only the password sent in the encrypted TLS
-	      tunnel.  EAP-TTLS will use the TLS tunnel for both
+	      exchange of authentication information.
+	      <acronym>PEAP</acronym> authentication
+	      differs from <acronym>EAP-TTLS</acronym> as it
+	      broadcasts the username in the
+	      clear and only the password is sent in the encrypted
+	      <acronym>TLS</acronym>
+	      tunnel.  <acronym>EAP-TTLS</acronym> will use the
+	      <acronym>TLS</acronym> tunnel for both the
 	      username and password.</para>
 
-	    <para>We have to edit the
-	      <filename>/etc/wpa_supplicant.conf</filename> file and
-	      add the EAP-PEAP related settings:</para>
+	    <para>Add the following lines to
+	      <filename>/etc/wpa_supplicant.conf</filename> to
+	      configure the <acronym>EAP-PEAP</acronym> related
+	      settings:</para>
 
 	    <programlisting>network={
   ssid="freebsdap"
@@ -1620,54 +1725,61 @@ wlan0: flags=8843&lt;UP,BROADCAST,RUNNING,SIMPLEX,MULTICAST&gt; mtu 1500
 
 	    <calloutlist>
 	      <callout arearefs="co-peap-eap">
-		<para>In this field, we mention the EAP method for our
+		<para>This field specifies the <acronym>EAP</acronym>
+		  method for the
 		  connection.</para>
 	      </callout>
 
 	      <callout arearefs="co-peap-id">
 		<para>The <literal>identity</literal> field contains
-		  the identity string for EAP authentication inside
-		  the encrypted TLS tunnel.</para>
+		  the identity string for <acronym>EAP</acronym>
+		  authentication inside
+		  the encrypted <acronym>TLS</acronym> tunnel.</para>
 	      </callout>
 
 	      <callout arearefs="co-peap-passwd">
 		<para>The <literal>password</literal> field contains
-		  the passphrase for the EAP authentication.</para>
+		  the passphrase for the <acronym>EAP</acronym>
+		  authentication.</para>
 	      </callout>
 
 	      <callout arearefs="co-peap-cacert">
 		<para>The <literal>ca_cert</literal> field indicates
-		  the pathname of the CA certificate file.  This file
+		  the pathname of the <acronym>CA</acronym>
+		  certificate file.  This file
 		  is needed to verify the server certificate.</para>
 	      </callout>
 
 	      <callout arearefs="co-peap-pha1">
 		<para>This field contains the parameters for the
-		  first phase of authentication (the TLS tunnel).
-		  According to the authentication server used, you
-		  will have to specify a specific label for
+		  first phase of authentication, the
+		  <acronym>TLS</acronym> tunnel.
+		  According to the authentication server used,
+		  specify a specific label for
 		  authentication.  Most of the time, the label will be
-		  <quote>client EAP encryption</quote> which is set by
+		  <quote>client <acronym>EAP</acronym>
+		    encryption</quote> which is set by
 		  using <literal>peaplabel=0</literal>.  More
-		  information can be found in the
-		  &man.wpa.supplicant.conf.5; manual page.</para>
+		  information can be found in
+		  &man.wpa.supplicant.conf.5;.</para>
 	      </callout>
 
 	      <callout arearefs="co-peap-pha2">
-		<para>In this field, we mention the authentication
-		  protocol used in the encrypted TLS tunnel.  In the
-		  case of PEAP, it is
+		<para>This field specifies the authentication
+		  protocol used in the encrypted
+		  <acronym>TLS</acronym> tunnel.  In the
+		  case of <acronym>PEAP</acronym>, it is
 		  <literal>auth=MSCHAPV2</literal>.</para>
 	      </callout>
 	    </calloutlist>
 
-	    <para>The following must be added to
+	    <para>Add the following to
 	      <filename>/etc/rc.conf</filename>:</para>
 
 	    <programlisting>wlans_ath0="wlan0"
 ifconfig_wlan0="WPA DHCP"</programlisting>
 
-	    <para>Then we can bring up the interface:</para>
+	    <para>Then, bring up the interface:</para>
 
 	    <screen>&prompt.root; <userinput>service netif start</userinput>
 Starting wpa_supplicant.
@@ -1690,15 +1802,16 @@ wlan0: flags=8843&lt;UP,BROADCAST,RUNNING,SIMPLEX,MULTICAST&gt; mtu 1500
 	</sect4>
 
 	<sect4 id="network-wireless-wep">
-	  <title>WEP</title>
+	  <title><acronym>WEP</acronym></title>
 
-	  <para>WEP (Wired Equivalent Privacy) is part of the original
+	  <para>Wired Equivalent Privacy (<acronym>WEP</acronym>) is
+	    part of the original
 	    802.11 standard.  There is no authentication mechanism,
-	    only a weak form of access control, and it is easily
+	    only a weak form of access control which is easily
 	    cracked.</para>
 
-	  <para>WEP can be set up with
-	    <command>ifconfig</command>:</para>
+	  <para><acronym>WEP</acronym> can be set up using
+	    &man.ifconfig.8;:</para>
 
 	  <screen>&prompt.root; <userinput>ifconfig <replaceable>wlan0</replaceable> create wlandev <replaceable>ath0</replaceable></userinput>
 &prompt.root; <userinput>ifconfig <replaceable>wlan0</replaceable> inet <replaceable>192.168.1.100</replaceable> netmask <replaceable>255.255.255.0</replaceable> \
@@ -1707,36 +1820,40 @@ wlan0: flags=8843&lt;UP,BROADCAST,RUNNING,SIMPLEX,MULTICAST&gt; mtu 1500
 	  <itemizedlist>
 	    <listitem>
 
-	      <para>The <literal>weptxkey</literal> means which WEP
-		key will be used in the transmission.  Here we used
-		the third key.  This must match the setting in the
-		access point.  If you do not have any idea of which
+	      <para>The <literal>weptxkey</literal> specifies which
+		<acronym>WEP</acronym>
+		key will be used in the transmission.  This example
+		uses
+		the third key.  This must match the setting on the
+		access point.  When unsure which
 		key is used by the access point, try
-		<literal>1</literal> (i.e., the first key) for this
+		<literal>1</literal> (the first key) for this
 		value.</para>
 	    </listitem>
 
 	    <listitem>
 	      <para>The <literal>wepkey</literal> selects one of the
-		WEP keys.  It should be in the format
+		<acronym>WEP</acronym> keys.  It should be in the
+		format
 		<replaceable>index:key</replaceable>.  Key
 		<literal>1</literal> is used by default; the index
-		only needs to be set if we use a key other
+		only needs to be set when using a key other
 		than the first key.</para>
 
 	      <note>
-		<para>You must replace the
+		<para>Replace the
 		  <literal>0x3456789012</literal> with the key
 		  configured for use on the access point.</para>
 	      </note>
 	    </listitem>
 	  </itemizedlist>
 
-	  <para>You are encouraged to read the &man.ifconfig.8; manual
-	    page for further information.</para>
+	  <para>Refer to &man.ifconfig.8;
+	    for further information.</para>
 
-	  <para>The <command>wpa_supplicant</command> facility also
-	    can be used to configure your wireless interface with WEP.
+	  <para>The &man.wpa.supplicant.8; facility
+	    can be used to configure a wireless interface with
+	    <acronym>WEP</acronym>.
 	    The example above can be set up by adding the following
 	    lines to
 	    <filename>/etc/wpa_supplicant.conf</filename>:</para>
@@ -1760,13 +1877,14 @@ Associated with 00:13:46:49:41:76</screen>
     <sect2>
       <title>Ad-hoc Mode</title>
 
-      <para>IBSS mode, also called ad-hoc mode, is designed for point
+      <para><acronym>IBSS</acronym> mode, also called ad-hoc mode, is
+	designed for point
 	to point connections.  For example, to establish an ad-hoc
-	network between the machine <hostid>A</hostid> and the machine
-	<hostid>B</hostid>, we will just need to choose two IP
-	addresses and a SSID.</para>
+	network between the machines <hostid>A</hostid> and
+	<hostid>B</hostid>, choose two <acronym>IP</acronym>
+	addresses and a <acronym>SSID</acronym>.</para>
 
-      <para>On the box <hostid>A</hostid>:</para>
+      <para>On <hostid>A</hostid>:</para>
 
       <screen>&prompt.root; <userinput>ifconfig <replaceable>wlan0</replaceable> create wlandev <replaceable>ath0</replaceable> wlanmode adhoc</userinput>
 &prompt.root; <userinput>ifconfig <replaceable>wlan0</replaceable> inet <replaceable>192.168.0.1</replaceable> netmask <replaceable>255.255.255.0</replaceable> ssid <replaceable>freebsdap</replaceable></userinput>
@@ -1780,10 +1898,10 @@ Associated with 00:13:46:49:41:76</screen>
 	  country US ecm authmode OPEN privacy OFF txpower 21.5 scanvalid 60
 	  protmode CTS wme burst</screen>
 
-      <para>The <literal>adhoc</literal> parameter indicates the
-	interface is running in the IBSS mode.</para>
+      <para>The <literal>adhoc</literal> parameter indicates that the
+	interface is running in <acronym>IBSS</acronym> mode.</para>
 
-      <para>On <hostid>B</hostid>, we should be able to detect
+      <para><hostid>B</hostid> should now be able to detect
 	<hostid>A</hostid>:</para>
 
       <screen>&prompt.root; <userinput>ifconfig <replaceable>wlan0</replaceable> create wlandev <replaceable>ath0</replaceable> wlanmode adhoc</userinput>
@@ -1791,9 +1909,10 @@ Associated with 00:13:46:49:41:76</screen>
   SSID/MESH ID    BSSID              CHAN RATE   S:N     INT CAPS
   freebsdap       02:11:95:c3:0d:ac    2   54M -64:-96  100 IS   WME</screen>
 
-      <para>The <literal>I</literal> in the output confirms the
-	machine <hostid>A</hostid> is in ad-hoc mode.  We just have to
-	configure <hostid>B</hostid> with a different IP
+      <para>The <literal>I</literal> in the output confirms that
+	<hostid>A</hostid> is in ad-hoc mode.  Now,
+	configure <hostid>B</hostid> with a different
+        <acronym>IP</acronym>
 	address:</para>
 
       <screen>&prompt.root; <userinput>ifconfig <replaceable>wlan0</replaceable> inet <replaceable>192.168.0.2</replaceable> netmask <replaceable>255.255.255.0</replaceable> ssid <replaceable>freebsdap</replaceable></userinput>
@@ -1814,42 +1933,52 @@ Associated with 00:13:46:49:41:76</screen>
     <sect2 id="network-wireless-ap">
       <title>&os; Host Access Points</title>
 
-      <para>&os; can act as an Access Point (AP) which eliminates the
-	need to buy a hardware AP or run an ad-hoc network.  This can
-	be particularly useful when your &os; machine is acting as a
-	gateway to another network (e.g., the Internet).</para>
+      <para>&os; can act as an Access Point (<acronym>AP</acronym>)
+	which eliminates the
+	need to buy a hardware <acronym>AP</acronym> or run an ad-hoc
+	network.  This can
+	be particularly useful when a &os; machine is acting as a
+	gateway to another network such as the Internet.</para>
 
       <sect3 id="network-wireless-ap-basic">
 	<title>Basic Settings</title>
 
-	<para>Before configuring your &os; machine as an AP, the
-	  kernel must be configured with the appropriate wireless
-	  networking support for your wireless card.  You also have to
-	  add support for the security protocols you intend to
-	  use.  For more details, see
+	<para>Before configuring a &os; machine as an
+	  <acronym>AP</acronym>, the
+	  kernel must be configured with the appropriate
+	  networking support for the wireless card
+	  as well as the security protocols being
+	  used.  For more details, see
 	  <xref linkend="network-wireless-basic"/>.</para>
 
 	<note>
-	  <para>The use of the NDIS driver wrapper and the &windows;
-	    drivers do not currently allow AP operation.  Only native
-	    &os; wireless drivers support AP mode.</para>
+	  <para>The <acronym>NDIS</acronym> driver wrapper
+	    for &windows;
+	    drivers does not currently support <acronym>AP</acronym>
+	    operation.  Only native
+	    &os; wireless drivers support <acronym>AP</acronym>
+	    mode.</para>
 	</note>
 
-	<para>Once wireless networking support is loaded, you can
-	  check if your wireless device supports the host-based access
-	  point mode (also known as hostap mode):</para>
+	<para>Once wireless networking support is loaded,
+	  check if the wireless device supports the host-based access
+	  point mode, also known as hostap mode:</para>
 
 	<screen>&prompt.root; <userinput>ifconfig <replaceable>wlan0</replaceable> create wlandev <replaceable>ath0</replaceable></userinput>
 &prompt.root; <userinput>ifconfig <replaceable>wlan0</replaceable> list caps</userinput>
 drivercaps=6f85edc1&lt;STA,FF,TURBOP,IBSS,HOSTAP,AHDEMO,TXPMGT,SHSLOT,SHPREAMBLE,MONITOR,MBSS,WPA1,WPA2,BURST,WME,WDS,BGSCAN,TXFRAG&gt;
 cryptocaps=1f&lt;WEP,TKIP,AES,AES_CCM,TKIPMIC&gt;</screen>
 
-	<para>This output displays the card capabilities; the
-	  <literal>HOSTAP</literal> word confirms this wireless card
-	  can act as an Access Point.  Various supported ciphers are
-	  also mentioned: WEP, TKIP, AES, etc.  This information
-	  is important to know what security protocols can be used
-	  on the Access Point.</para>
+	<para>This output displays the card's capabilities.  The
+	  <literal>HOSTAP</literal> word confirms that this wireless
+	  card
+	  can act as an <acronym>AP</acronym>.  Various supported
+	  ciphers are
+	  also listed: <acronym>WEP</acronym>,
+	  <acronym>TKIP</acronym>, and <acronym>AES</acronym>.  This
+	  information
+	  indicates which security protocols can be used
+	  on the <acronym>AP</acronym>.</para>
 
 	<para>The wireless device can only be put into hostap mode
 	  during the creation of the network pseudo-device, so a
@@ -1863,7 +1992,7 @@ cryptocaps=1f&lt;WEP,TKIP,AES,AES_CCM,TKIPMIC&gt;</screen>
 	<screen>&prompt.root; <userinput>ifconfig <replaceable>wlan0</replaceable> create wlandev <replaceable>ath0</replaceable> wlanmode hostap</userinput>
 &prompt.root; <userinput>ifconfig <replaceable>wlan0</replaceable> inet <replaceable>192.168.0.1</replaceable> netmask <replaceable>255.255.255.0</replaceable> ssid <replaceable>freebsdap</replaceable> mode 11g channel 1</userinput></screen>
 
-	<para>Use <command>ifconfig</command> again to see the status
+	<para>Use &man.ifconfig.8; again to see the status
 	  of the <devicename>wlan0</devicename> interface:</para>
 
 	<screen>&prompt.root; <userinput>ifconfig <replaceable>wlan0</replaceable></userinput>
@@ -1893,21 +2022,24 @@ ifconfig_wlan0="inet <replaceable>192.168.0.1</replaceable> netmask <replaceable
 	<title>Host-based Access Point Without Authentication or
 	  Encryption</title>
 
-	<para>Although it is not recommended to run an AP without any
+	<para>Although it is not recommended to run an
+	  <acronym>AP</acronym> without any
 	  authentication or encryption, this is a simple way to check
-	  if your AP is working.  This configuration is also important
+	  if the <acronym>AP</acronym> is working.  This configuration
+	  is also important
 	  for debugging client issues.</para>
 
-	<para>Once the AP configured as previously shown, it is
-	  possible from another wireless machine to initiate a scan to
-	  find the AP:</para>
+	<para>Once the <acronym>AP</acronym> is configured,
+	  initiate a scan from another wireless machine to
+	  find the <acronym>AP</acronym>:</para>
 
 	<screen>&prompt.root; <userinput>ifconfig <replaceable>wlan0</replaceable> create wlandev <replaceable>ath0</replaceable></userinput>
 &prompt.root; <userinput>ifconfig <replaceable>wlan0</replaceable> up scan</userinput>
 SSID/MESH ID    BSSID              CHAN RATE   S:N     INT CAPS
 freebsdap       00:11:95:c3:0d:ac    1   54M -66:-96  100 ES   WME</screen>
 
-	<para>The client machine found the Access Point and can be
+	<para>The client machine found the <acronym>AP</acronym> and
+	  can be
 	  associated with it:</para>
 
 	<screen>&prompt.root; <userinput>ifconfig <replaceable>wlan0</replaceable> inet <replaceable>192.168.0.2</replaceable> netmask <replaceable>255.255.255.0</replaceable> ssid <replaceable>freebsdap</replaceable></userinput>
@@ -1924,39 +2056,44 @@ freebsdap       00:11:95:c3:0d:ac    1   54M -66:-96  100 ES   WME</screen>
       </sect3>
 
       <sect3>
-	<title>WPA Host-based Access Point</title>
+	<title><acronym>WPA</acronym> Host-based Access Point</title>
 
-	<para>This section will focus on setting up &os; Access Point
-	  using the WPA security protocol.  More details regarding WPA
-	  and the configuration of WPA-based wireless clients can be
-	  found in the <xref linkend="network-wireless-wpa"/>.</para>
+	<para>This section focuses on setting up a &os;
+	  <acronym>AP</acronym>
+	  using the <acronym>WPA</acronym> security protocol.  More
+	  details regarding <acronym>WPA</acronym>
+	  and the configuration of <acronym>WPA</acronym>-based
+	  wireless clients can be
+	  found in <xref linkend="network-wireless-wpa"/>.</para>
 
-	<para>The <application>hostapd</application> daemon is used to
-	  deal with client authentication and keys management on the
-	  WPA enabled Access Point.</para>
+	<para>The &man.hostapd.8; daemon is used to
+	  deal with client authentication and key management on the
+	  <acronym>WPA</acronym>-enabled <acronym>AP</acronym>.</para>
 
-	<para>In the following, all the configuration operations will
-	  be performed on the &os; machine acting as AP.  Once the
-	  AP is correctly working, <application>hostapd</application>
+	<para>The following configuration operations are
+	  performed on the &os; machine acting as the
+	  <acronym>AP</acronym>.  Once the
+	  <acronym>AP</acronym> is correctly working, &man.hostapd.8;
 	  should be automatically enabled at boot with the following
 	  line in <filename>/etc/rc.conf</filename>:</para>
 
 	<programlisting>hostapd_enable="YES"</programlisting>
 
 	<para>Before trying to configure
-	  <application>hostapd</application>, be sure you have done
-	  the basic settings introduced in the
+	  &man.hostapd.8;, first configure
+	  the basic settings introduced in
 	  <xref linkend="network-wireless-ap-basic"/>.</para>
 
 	<sect4>
-	  <title>WPA-PSK</title>
+	  <title><acronym>WPA-PSK</acronym></title>
 
-	  <para>WPA-PSK is intended for small networks where the use
-	    of an backend authentication server is not possible or
+	  <para><acronym>WPA-PSK</acronym> is intended for small
+	    networks where the use
+	    of a backend authentication server is not possible or
 	    desired.</para>
 
-	  <para>The configuration is done in the
-	    <filename>/etc/hostapd.conf</filename> file:</para>
+	  <para>The configuration is done in
+	    <filename>/etc/hostapd.conf</filename>:</para>
 
 	  <programlisting>interface=wlan0 <co id="co-ap-wpapsk-iface"/>
 debug=1 <co id="co-ap-wpapsk-dbug"/>
@@ -1971,12 +2108,12 @@ wpa_pairwise=CCMP TKIP <co id="co-ap-wpapsk-pwise"/></programlisting>
 	  <calloutlist>
 	    <callout arearefs="co-ap-wpapsk-iface">
 	      <para>This field indicates the wireless interface used
-		for the Access Point.</para>
+		for the <acronym>AP</acronym>.</para>
 	    </callout>
 
 	    <callout arearefs="co-ap-wpapsk-dbug">
 	      <para>This field sets the level of verbosity during the
-		execution of <application>hostapd</application>.  A
+		execution of &man.hostapd.8;.  A
 		value of <literal>1</literal> represents the minimal
 		level.</para>
 	    </callout>
@@ -1984,17 +2121,17 @@ wpa_pairwise=CCMP TKIP <co id="co-ap-wpapsk-pwise"/></programlisting>
 	    <callout arearefs="co-ap-wpapsk-ciface">
 	      <para>The <literal>ctrl_interface</literal> field gives
 		the pathname of the directory used by
-		<application>hostapd</application> to stores its
+		&man.hostapd.8; to store its
 		domain socket files for the communication with
 		external programs such as &man.hostapd.cli.8;.  The
-		default value is used here.</para>
+		default value is used in this example.</para>
 	    </callout>
 
 	    <callout arearefs="co-ap-wpapsk-cifacegrp">
 	      <para>The <literal>ctrl_interface_group</literal> line
-		sets the group (here, it is the
-		<groupname>wheel</groupname> group) allowed to access
-		to the control interface files.</para>
+		sets the group which is
+		allowed to access
+		the control interface files.</para>
 	    </callout>
 
 	    <callout arearefs="co-ap-wpapsk-ssid">
@@ -2002,43 +2139,52 @@ wpa_pairwise=CCMP TKIP <co id="co-ap-wpapsk-pwise"/></programlisting>
 	    </callout>
 
 	    <callout arearefs="co-ap-wpapsk-wpa">
-	      <para>The <literal>wpa</literal> field enables WPA and
-		specifies which WPA authentication protocol will be
+	      <para>The <literal>wpa</literal> field enables
+		<acronym>WPA</acronym> and
+		specifies which <acronym>WPA</acronym> authentication
+		protocol will be
 		required.  A value of <literal>1</literal> configures
-		the AP for WPA-PSK.</para>
+		the <acronym>AP</acronym> for
+		<acronym>WPA-PSK</acronym>.</para>
 	    </callout>
 
 	    <callout arearefs="co-ap-wpapsk-pass">
 	      <para>The <literal>wpa_passphrase</literal> field
-		contains the ASCII passphrase for the WPA
+		contains the ASCII passphrase for
+		<acronym>WPA</acronym>
 		authentication.</para>
 
 	      <warning>
 		<para>Always use strong passwords that are
 		  sufficiently long and made from a rich alphabet so
-		  they will not be guessed and/or attacked.</para>
+		  that they will not be easily guessed or attacked.</para>
 	      </warning>
 	    </callout>
 
 	    <callout arearefs="co-ap-wpapsk-kmgmt">
 	      <para>The <literal>wpa_key_mgmt</literal> line refers to
-		the key management protocol we use.  In our case it is
-		WPA-PSK.</para>
+		the key management protocol to use.  This example sets
+		<acronym>WPA-PSK</acronym>.</para>
 	    </callout>
 
 	    <callout arearefs="co-ap-wpapsk-pwise">
 	      <para>The <literal>wpa_pairwise</literal> field
 		indicates the set of accepted encryption algorithms by
-		the Access Point.  Here both TKIP (WPA) and CCMP
-		(WPA2) ciphers are accepted.  CCMP cipher is an
-		alternative to TKIP and that is strongly preferred
-		when possible; TKIP should be used solely for stations
-		incapable of doing CCMP.</para>
+		the <acronym>AP</acronym>.  In this example, both
+		<acronym>TKIP</acronym> (<acronym>WPA</acronym>) and
+		<acronym>CCMP</acronym>
+		(<acronym>WPA2</acronym>) ciphers are accepted.  The
+		<acronym>CCMP</acronym> cipher is an
+		alternative to <acronym>TKIP</acronym> and is strongly
+		preferred
+		when possible.  <acronym>TKIP</acronym> should be used
+		solely for stations
+		incapable of doing <acronym>CCMP</acronym>.</para>
 	    </callout>
 	  </calloutlist>
 
 	  <para>The next step is to start
-	    <application>hostapd</application>:</para>
+	    &man.hostapd.8;:</para>
 
 	  <screen>&prompt.root; <userinput>service hostapd forcestart</userinput></screen>
 
@@ -2052,28 +2198,35 @@ wpa_pairwise=CCMP TKIP <co id="co-ap-wpapsk-pwise"/></programlisting>
 	  ssid freebsdap channel 1 bssid 00:11:95:c3:0d:ac
 	  authmode WPA2/802.11i privacy MIXED deftxkey 2 TKIP 2:128-bit txpowmax 36 protmode CTS dtimperiod 1 bintval 100</screen>
 
-	  <para>The Access Point is running, the clients can now be
-	    associated with it, see
+	  <para>Once the <acronym>AP</acronym> is running, the
+	    clients can
+	    associate with it.  See
 	    <xref linkend="network-wireless-wpa"/> for more details.
-	    It is possible to see the stations associated with the AP
-	    using the <command>ifconfig
-	      <replaceable>wlan0</replaceable> list sta</command>
-	    command.</para>
+	    It is possible to see the stations associated with the
+	    <acronym>AP</acronym>
+	    using <command>ifconfig
+	      <replaceable>wlan0</replaceable> list
+	      sta</command>.</para>
 	</sect4>
       </sect3>
 
       <sect3>
-	<title>WEP Host-based Access Point</title>
+	<title><acronym>WEP</acronym> Host-based Access Point</title>
 
-	<para>It is not recommended to use WEP for setting up an
-	  Access Point since there is no authentication mechanism and
-	  it is easily to be cracked.  Some legacy wireless cards only
-	  support WEP as security protocol, these cards will only
-	  allow to set up AP without authentication or encryption or
-	  using the WEP protocol.</para>
+	<para>It is not recommended to use <acronym>WEP</acronym> for
+	  setting up an
+	  <acronym>AP</acronym> since there is no authentication
+	  mechanism and
+	  the encryption is easily cracked.  Some legacy wireless
+	  cards only
+	  support <acronym>WEP</acronym> and
+	  these cards will only
+	  support an <acronym>AP</acronym> without authentication
+	  or encryption.</para>
 
 	<para>The wireless device can now be put into hostap mode and
-	  configured with the correct SSID and IP address:</para>
+	  configured with the correct <acronym>SSID</acronym> and
+	  <acronym>IP</acronym> address:</para>
 
 	<screen>&prompt.root; <userinput>ifconfig <replaceable>wlan0</replaceable> create wlandev <replaceable>ath0</replaceable> wlanmode hostap</userinput>
 &prompt.root; <userinput>ifconfig <replaceable>wlan0</replaceable> inet <replaceable>192.168.0.1</replaceable> netmask <replaceable>255.255.255.0</replaceable> \
@@ -2081,24 +2234,27 @@ wpa_pairwise=CCMP TKIP <co id="co-ap-wpapsk-pwise"/></programlisting>
 
 	<itemizedlist>
 	  <listitem>
-	    <para>The <literal>weptxkey</literal> means which WEP
-	      key will be used in the transmission.  Here we used the
-	      third key (note that the key numbering starts with
-	      <literal>1</literal>).  This parameter must be specified
-	      to really encrypt the data.</para>
+	    <para>The <literal>weptxkey</literal> indicates which
+	      <acronym>WEP</acronym>
+	      key will be used in the transmission.  This example uses
+	      the
+	      third key as key numbering starts with
+	      <literal>1</literal>.  This parameter must be specified
+	      in order to encrypt the data.</para>
 	  </listitem>
 
 	  <listitem>
-	    <para>The <literal>wepkey</literal> means setting the
-	      selected WEP key.  It should in the format
-	      <replaceable>index:key</replaceable>, if the index is
-	      not given, key <literal>1</literal> is set.  That is
-	      to say we need to set the index if we use keys other
+	    <para>The <literal>wepkey</literal> sets the
+	      selected <acronym>WEP</acronym> key.  It should be in
+	      the format
+	      <replaceable>index:key</replaceable>.  If the index is
+	      not given, key <literal>1</literal> is set.  The
+	      index needs to be set when using keys other
 	      than the first key.</para>
 	  </listitem>
 	</itemizedlist>
 
-	<para>Use again <command>ifconfig</command> to see the status
+	<para>Use &man.ifconfig.8; to see the status
 	  of the <devicename>wlan0</devicename> interface:</para>
 
 	<screen>&prompt.root; <userinput>ifconfig <replaceable>wlan0</replaceable></userinput>
@@ -2111,107 +2267,114 @@ wpa_pairwise=CCMP TKIP <co id="co-ap-wpapsk-pwise"/></programlisting>
 	  country US ecm authmode OPEN privacy ON deftxkey 3 wepkey 3:40-bit
 	  txpower 21.5 scanvalid 60 protmode CTS wme burst dtimperiod 1 -dfs</screen>
 
-	<para>From another wireless machine, it is possible to
-	  initiate a scan to find the AP:</para>
+	<para>From another wireless machine, it is now possible to
+	  initiate a scan to find the <acronym>AP</acronym>:</para>
 
 	<screen>&prompt.root; <userinput>ifconfig <replaceable>wlan0</replaceable> create wlandev <replaceable>ath0</replaceable></userinput>
 &prompt.root; <userinput>ifconfig <replaceable>wlan0</replaceable> up scan</userinput>
 SSID            BSSID              CHAN RATE  S:N   INT CAPS
 freebsdap       00:11:95:c3:0d:ac    1   54M 22:1   100 EPS</screen>
 
-	<para>The client machine found the Access Point and can be
-	  associated with it using the correct parameters (key, etc.),
-	  see <xref linkend="network-wireless-wep"/> for more
+	<para>In this example, the client machine found the
+	  <acronym>AP</acronym> and can
+	  associate with it using the correct parameters.
+	  See <xref linkend="network-wireless-wep"/> for more
 	  details.</para>
       </sect3>
     </sect2>
 
     <sect2>
-      <title>Using Both Wired and Wireless Connection</title>
+      <title>Using Both Wired and Wireless Connections</title>
 
-      <para>Wired connection provides better performance and
-	reliability, while wireless connection provides flexibility
-	and mobility, users of laptop computers usually want to
-	combine these together and roam seamlessly between the
-	two.</para>
+      <para>A wired connection provides better performance and
+	reliability, while a wireless connection provides flexibility
+	and mobility.  Laptop users typically want to
+	roam seamlessly between the
+	two types of connections.</para>
 
       <para>On &os;, it is possible to combine two or even more
 	network interfaces together in a <quote>failover</quote>
-	fashion, that is, to use the most preferred and available
-	connection from a group of network interfaces, and have the
-	operating system switch automatically when the link state
+	fashion.  This type of configuration uses the most preferred
+	and available
+	connection from a group of network interfaces, and the
+	operating system switches automatically when the link state
 	changes.</para>
 
-      <para>We will cover link aggregation and failover in
-	<xref linkend="network-aggregation"/> where an example for
-	using both wired and wireless connection is also provided at
+      <para>Link aggregation and failover is covered in
+	<xref linkend="network-aggregation"/> and an example for
+	using both wired and wireless connections is provided at
 	<xref linkend="networking-lagg-wired-and-wireless"/>.</para>
     </sect2>
 
     <sect2>
       <title>Troubleshooting</title>
 
-      <para>If you are having trouble with wireless networking, there
-	are a number of steps you can take to help troubleshoot the
-	problem.</para>
+      <para>This section describes
+	a number of steps to help troubleshoot common wireless
+	networking problems.</para>
 
       <itemizedlist>
 	<listitem>
-	  <para>If you do not see the access point listed when
-	    scanning be sure you have not configured your wireless
+	  <para>If the access point is not listed when
+	    scanning, check that the configuration has not limited the
+	    wireless
 	    device to a limited set of channels.</para>
 	</listitem>
 
 	<listitem>
-	  <para>If you cannot associate to an access point verify the
-	    configuration of your station matches the one of the
+	  <para>If the device cannot associate with an access point,
+	    verify that the
+	    configuration matches the settings on the
 	    access point.  This includes the authentication scheme and
-	    any security protocols.  Simplify your configuration as
-	    much as possible.  If you are using a security protocol
-	    such as WPA or WEP configure the access point for open
-	    authentication and no security to see if you can get
-	    traffic to pass.</para>
+	    any security protocols.  Simplify the configuration as
+	    much as possible.  If using a security protocol
+	    such as <acronym>WPA</acronym> or <acronym>WEP</acronym>,
+	    configure the access point for open
+	    authentication and no security to see if
+	    traffic will pass.</para>
 	</listitem>
 
 	<listitem>
-	  <para>Once you can associate to the access point diagnose
-	    any security configuration using simple tools like
+	  <para>Once the system can associate with the access point,
+	    diagnose
+	    the security configuration using tools like
 	    &man.ping.8;.</para>
 
-	  <para>The <command>wpa_supplicant</command> has much
-	    debugging support; try running it manually with the
+	  <para>Debugging support is provided by &man.wpa.supplicant.8;.
+	    Try running this utility manually with the
 	    <option>-dd</option> option and look at the system
 	    logs.</para>
 	</listitem>
 
 	<listitem>
-	  <para>There are also many lower-level debugging tools.  You
-	    can enable debugging messages in the 802.11 protocol
-	    support layer using the <command>wlandebug</command>
-	    program found in
+	  <para>There are many lower-level debugging tools.
+	    Debugging messages can be enabled in the 802.11 protocol
+	    support layer using &man.wlandebug.8;.  On a &os; system
+	    prior to &os;&nbsp;9.1, this
+	    program can be found in
 	    <filename class="directory">/usr/src/tools/tools/net80211</filename>.
-	    For example:</para>
+	    For example, to enable console messages related to
+	    scanning for access points and the 802.11 protocol
+	    handshakes required to arrange communication:</para>
 
 	  <screen>&prompt.root; <userinput>wlandebug -i <replaceable>ath0</replaceable> +scan+auth+debug+assoc</userinput>
   net.wlan.0.debug: 0 =&gt; 0xc80000&lt;assoc,auth,scan&gt;</screen>
 
-	  <para>can be used to enable console messages related to
-	    scanning for access points and doing the 802.11 protocol
-	    handshakes required to arrange communication.</para>
-
-	  <para>There are also many useful statistics maintained by
-	    the 802.11 layer; the <command>wlanstats</command> tool
+	  <para>Many useful statistics are maintained by
+	    the 802.11 layer and <command>wlanstats</command>, found
+	    in <filename
+	      class="directory">/usr/src/tools/tools/net80211</filename>,
 	    will dump this information.  These statistics should
-	    identify all errors identified by the 802.11 layer.
-	    Beware however that some errors are identified in the
+	    display all errors identified by the 802.11 layer.
+	    However, some errors are identified in the
 	    device drivers that lie below the 802.11 layer so they may
-	    not show up.  To diagnose device-specific problems you
-	    need to refer to the drivers' documentation.</para>
+	    not show up.  To diagnose device-specific problems,
+	    refer to the drivers' documentation.</para>
 	</listitem>
       </itemizedlist>
 
       <para>If the above information does not help to clarify the
-	problem, please submit a problem report and include output
+	problem, submit a problem report and include output
 	from the above tools.</para>
     </sect2>
   </sect1>
@@ -2240,28 +2403,31 @@ freebsdap       00:11:95:c3:0d:ac    1   54M 22:1   100 EPS</screen>
 	networks operating in the 2.4 GHz unlicensed band, with a
 	range of 10 meters.  Networks are usually formed ad-hoc from
 	portable devices such as cellular phones, handhelds and
-	laptops.  Unlike the other popular wireless technology, Wi-Fi,
-	Bluetooth offers higher level service profiles, e.g., FTP-like
+	laptops.  Unlike Wi-Fi wireless technology,
+	Bluetooth offers higher level service profiles, such as
+	FTP-like
 	file servers, file pushing, voice transport, serial line
 	emulation, and more.</para>
 
       <para>The Bluetooth stack in &os; is implemented using the
-	Netgraph framework (see &man.netgraph.4;).  A broad variety of
-	Bluetooth USB dongles is supported by the &man.ng.ubt.4;
-	driver.  The Broadcom BCM2033 chip based Bluetooth devices are
-	supported via the &man.ubtbcmfw.4; and &man.ng.ubt.4; drivers.
+	&man.netgraph.4; framework.  A broad variety of
+	Bluetooth <acronym>USB</acronym> dongles is supported by
+	&man.ng.ubt.4;.
+	Broadcom BCM2033 based Bluetooth devices are
+	supported by the &man.ubtbcmfw.4; and &man.ng.ubt.4; drivers.
 	The 3Com Bluetooth PC Card 3CRWB60-A is supported by the
 	&man.ng.bt3c.4; driver.  Serial and UART based Bluetooth
-	devices are supported via &man.sio.4;, &man.ng.h4.4; and
-	&man.hcseriald.8;.  This section describes the use of the USB
+	devices are supported by &man.sio.4;, &man.ng.h4.4; and
+	&man.hcseriald.8;.  This section describes the use of a
+	<acronym>USB</acronym>
 	Bluetooth dongle.</para>
     </sect2>
 
     <sect2>
       <title>Plugging in the Device</title>
 
-      <para>By default Bluetooth device drivers are available as
-	kernel modules.  Before attaching a device, you will need to
+      <para>By default, Bluetooth device drivers are available as
+	kernel modules.  Before attaching a device,
 	load the driver into the kernel:</para>
 
       <screen>&prompt.root; <userinput>kldload ng_ubt</userinput></screen>
@@ -2272,19 +2438,21 @@ freebsdap       00:11:95:c3:0d:ac    1   54M 22:1   100 EPS</screen>
 
       <programlisting>ng_ubt_load="YES"</programlisting>
 
-      <para>Plug in your USB dongle.  The output similar to the
-	following will appear on the console (or in syslog):</para>
+      <para>Plug in the <acronym>USB</acronym> dongle.  Output
+	similar to the
+	following will appear on the console and in the system
+	log:</para>
 
       <screen>ubt0: vendor 0x0a12 product 0x0001, rev 1.10/5.25, addr 2
 ubt0: Interface 0 endpoints: interrupt=0x81, bulk-in=0x82, bulk-out=0x2
 ubt0: Interface 1 (alt.config 5) endpoints: isoc-in=0x83, isoc-out=0x3,
       wMaxPacketSize=49, nframes=6, buffer size=294</screen>
 
-      <para>&man.service.8;
-	is used to start and stop the Bluetooth stack.  It is a good
-	idea to stop the stack before unplugging the device, but it is
-	not (usually) fatal.  When starting the stack, you will
-	receive output similar to the following:</para>
+      <para>To start and stop the Bluetooth stack, use
+	&man.service.8;.  It is a good
+	idea to stop the stack before unplugging the device.  When
+	starting the stack, 
+	the output should be similar to the following:</para>
 
       <screen>&prompt.root; <userinput>service bluetooth start ubt0</userinput>
 BD_ADDR: 00:02:72:00:d4:1a
@@ -2301,37 +2469,51 @@ Number of SCO packets: 8</screen>
     </sect2>
 
     <sect2>
-      <title>Host Controller Interface (HCI)</title>
+      <title>Host Controller Interface
+	(<acronym>HCI</acronym>)</title>
 
       <indexterm><primary>HCI</primary></indexterm>
 
-      <para>Host Controller Interface (HCI) provides a command
-	interface to the baseband controller and link manager, and
+      <para>The Host Controller Interface (<acronym>HCI</acronym>)
+	provides a command
+	interface to the baseband controller and link manager as well
+	as
 	access to hardware status and control registers.  This
-	interface provides a uniform method of accessing the Bluetooth
-	baseband capabilities.  HCI layer on the Host exchanges data
-	and commands with the HCI firmware on the Bluetooth hardware.
-	The Host Controller Transport Layer (i.e., physical bus)
-	driver provides both HCI layers with the ability to exchange
-	information with each other.</para>
+	interface provides a uniform method for accessing Bluetooth
+	baseband capabilities.  The <acronym>HCI</acronym> layer on
+	the host exchanges data
+	and commands with the <acronym>HCI</acronym> firmware on the
+	Bluetooth hardware.
+	The Host Controller Transport Layer (physical bus)
+	driver provides both <acronym>HCI</acronym> layers with the
+	ability to exchange
+	information.</para>
 
-      <para>A single Netgraph node of type <emphasis>hci</emphasis> is
-	created for a single Bluetooth device.  The HCI node is
-	normally connected to the Bluetooth device driver node
-	(downstream) and the L2CAP node (upstream).  All HCI
-	operations must be performed on the HCI node and not on the
-	device driver node.  Default name for the HCI node is
-	<quote>devicehci</quote>.  For more details refer to the
-	&man.ng.hci.4; manual page.</para>
+      <para>A single netgraph node of type <emphasis>hci</emphasis> is
+	created for a single Bluetooth device.  The
+	<acronym>HCI</acronym> node is
+	normally connected to the downstream Bluetooth device driver
+	node
+	and the upstream <acronym>L2CAP</acronym> node.
+ 	All <acronym>HCI</acronym>
+	operations must be performed on the <acronym>HCI</acronym>
+	node and not on the
+	device driver node.  The default name for the
+	<acronym>HCI</acronym> node is
+	<quote>devicehci</quote>.  For more details, refer to
+	&man.ng.hci.4;.</para>
 
       <para>One of the most common tasks is discovery of Bluetooth
-	devices in RF proximity.  This operation is called
-	<emphasis>inquiry</emphasis>.  Inquiry and other HCI related
-	operations are done with the &man.hccontrol.8; utility.  The
+	devices in <acronym>RF</acronym> proximity.  This operation is
+	called
+	<emphasis>inquiry</emphasis>.  Inquiry and other
+	<acronym>HCI</acronym> related
+	operations are done using &man.hccontrol.8;.  The
 	example below shows how to find out which Bluetooth devices
-	are in range.  You should receive the list of devices in a few
+	are in range.  The list of devices should be displayed in a
+	few
 	seconds.  Note that a remote device will only answer the
-	inquiry if it put into <emphasis>discoverable</emphasis>
+	inquiry if it is set to <emphasis>discoverable</emphasis>
 	mode.</para>
 
       <screen>&prompt.user; <userinput>hccontrol -n ubt0hci inquiry</userinput>
@@ -2345,28 +2527,32 @@ Inquiry result #0
        Clock offset: 0x78ef
 Inquiry complete. Status: No error [00]</screen>
 
-      <para><literal>BD_ADDR</literal> is unique address of a
-	Bluetooth device, similar to MAC addresses of a network card.
+      <para>The <literal>BD_ADDR</literal> is the unique address of a
+	Bluetooth device, similar to the <acronym>MAC</acronym>
+	address of a network card.
 	This address is needed for further communication with a
-	device.  It is possible to assign human readable name to a
-	BD_ADDR.  The <filename>/etc/bluetooth/hosts</filename> file
-	contains information regarding the known Bluetooth hosts.  The
-	following example shows how to obtain human readable name that
+	device.  It is possible to assign a human readable name to a
+	BD_ADDR.  Information regarding the known Bluetooth hosts is
+	contained in <filename>/etc/bluetooth/hosts</filename>.
+	The
+	following example shows how to obtain the human readable name
+	that
 	was assigned to the remote device:</para>
 
       <screen>&prompt.user; <userinput>hccontrol -n ubt0hci remote_name_request 00:80:37:29:19:a4</userinput>
 BD_ADDR: 00:80:37:29:19:a4
 Name: Pav's T39</screen>
 
-      <para>If you perform an inquiry on a remote Bluetooth device, it
-	will find your computer as
+      <para>If an inquiry is performed on a remote Bluetooth device,
+	it
+	will find the computer as
 	<quote>your.host.name (ubt0)</quote>. The name assigned to the
 	local device can be changed at any time.</para>
 
       <para>The Bluetooth system provides a point-to-point connection
-	(only two Bluetooth units involved), or a point-to-multipoint
-	connection.  In the point-to-multipoint connection the
-	connection is shared among several Bluetooth devices.  The
+	between two Bluetooth units, or a point-to-multipoint
+	connection which
+	is shared among several Bluetooth devices.  The
 	following example shows how to obtain the list of active
 	baseband connections for the local device:</para>
 
@@ -2375,8 +2561,8 @@ Remote BD_ADDR    Handle Type Mode Role Encrypt Pending Queue State
 00:80:37:29:19:a4     41  ACL    0 MAST    NONE       0     0 OPEN</screen>
 
       <para>A <emphasis>connection handle</emphasis> is useful when
-	termination of the baseband connection is required.  Note,
-	that it is normally not required to do it by hand.  The stack
+	termination of the baseband connection is required, though
+	it is normally not required to do this by hand.  The stack
 	will automatically terminate inactive baseband
 	connections.</para>
 
@@ -2384,41 +2570,49 @@ Remote BD_ADDR    Handle Type Mode Role Encrypt Pending Queue State
 Connection handle: 41
 Reason: Connection terminated by local host [0x16]</screen>
 
-      <para>Refer to <command>hccontrol help</command> for a complete
-	listing of available HCI commands.  Most of the HCI commands
+      <para>Type <command>hccontrol help</command> for a complete
+	listing of available <acronym>HCI</acronym> commands.  Most
+	of the <acronym>HCI</acronym> commands
 	do not require superuser privileges.</para>
     </sect2>
 
     <sect2>
       <title>Logical Link Control and Adaptation Protocol
-	(L2CAP)</title>
+	(<acronym>L2CAP</acronym>)</title>
 
       <indexterm><primary>L2CAP</primary></indexterm>
 
-      <para>Logical Link Control and Adaptation Protocol (L2CAP)
+      <para>The Logical Link Control and Adaptation Protocol
+	(<acronym>L2CAP</acronym>)
 	provides connection-oriented and connectionless data services
 	to upper layer protocols with protocol multiplexing capability
-	and segmentation and reassembly operation.  L2CAP permits
+	and segmentation and reassembly operation.
+	<acronym>L2CAP</acronym> permits
 	higher level protocols and applications to transmit and
-	receive L2CAP data packets up to 64 kilobytes in
+	receive <acronym>L2CAP</acronym> data packets up to 64
+	kilobytes in
 	length.</para>
 
-      <para>L2CAP is based around the concept of
-	<emphasis>channels</emphasis>.  Channel is a logical
-	connection on top of baseband connection.  Each channel is
+      <para><acronym>L2CAP</acronym> is based around the concept of
+	<emphasis>channels</emphasis>.  A channel is a logical
+	connection on top of a baseband connection.  Each channel is
 	bound to a single protocol in a many-to-one fashion.  Multiple
 	channels can be bound to the same protocol, but a channel
-	cannot be bound to multiple protocols.  Each L2CAP packet
+	cannot be bound to multiple protocols.  Each
+	<acronym>L2CAP</acronym> packet
 	received on a channel is directed to the appropriate higher
 	level protocol.  Multiple channels can share the same baseband
 	connection.</para>
 
-      <para>A single Netgraph node of type <emphasis>l2cap</emphasis>
-	is created for a single Bluetooth device.  The L2CAP node is
-	normally connected to the Bluetooth HCI node (downstream) and
-	Bluetooth sockets nodes (upstream).  Default name for the
-	L2CAP node is <quote>devicel2cap</quote>.  For more details
-	refer to the &man.ng.l2cap.4; manual page.</para>
+      <para>A single netgraph node of type <emphasis>l2cap</emphasis>
+	is created for a single Bluetooth device.  The
+	<acronym>L2CAP</acronym> node is
+	normally connected to the downstream Bluetooth
+	<acronym>HCI</acronym> node and upstream
+	Bluetooth socket nodes.  The default name for the
+	<acronym>L2CAP</acronym> node is <quote>devicel2cap</quote>.
+	For more details
+	refer to &man.ng.l2cap.4;.</para>
 
       <para>A useful command is &man.l2ping.8;, which can be used to
 	ping other devices.  Some Bluetooth implementations might not
@@ -2433,7 +2627,8 @@ Reason: Connection terminated by local host [0x16]</screen>
 0 bytes from 0:80:37:29:19:a4 seq_no=3 time=46.150 ms result=0</screen>
 
       <para>The &man.l2control.8; utility is used to perform various
-	operations on L2CAP nodes.  This example shows how to obtain
+	operations on <acronym>L2CAP</acronym> nodes.  This example
+	shows how to obtain
 	the list of logical connections (channels) and the list of
 	baseband connections for the local device:</para>
 
@@ -2446,8 +2641,8 @@ L2CAP connections:
 Remote BD_ADDR    Handle Flags Pending State
 00:07:e0:00:0b:ca     41 O           0 OPEN</screen>
 
-      <para>Another diagnostic tool is &man.btsockstat.1;.  It does a
-	job similar to as &man.netstat.1; does, but for Bluetooth
+      <para>Another diagnostic tool is &man.btsockstat.1;.  It is
+	similar to &man.netstat.1;, but for Bluetooth
 	network-related data structures.  The example below shows the
 	same logical connection as &man.l2control.8; above.</para>
 
@@ -2464,32 +2659,40 @@ c2e8bc80      0    250 00:02:72:00:d4:1a 00:07:e0:00:0b:ca 3    6    OPEN</scree
     </sect2>
 
     <sect2>
-      <title>RFCOMM Protocol</title>
+      <title><acronym>RFCOMM</acronym> Protocol</title>
 
-      <para>The RFCOMM protocol provides emulation of serial ports
-	over the L2CAP protocol.  The protocol is based on the ETSI
-	standard TS 07.10.  RFCOMM is a simple transport protocol,
+      <para>The <acronym>RFCOMM</acronym> protocol provides emulation
+	of serial ports
+	over the <acronym>L2CAP</acronym> protocol.  The protocol is
+	based on the ETSI
+	standard TS 07.10.  <acronym>RFCOMM</acronym> is a simple
+	transport protocol,
 	with additional provisions for emulating the 9 circuits of
-	RS-232 (EIATIA-232-E) serial ports.  The RFCOMM protocol
-	supports up to 60 simultaneous connections (RFCOMM channels)
+	RS-232 (EIATIA-232-E) serial ports.  <acronym>RFCOMM</acronym>
+	supports up to 60 simultaneous connections
+	(<acronym>RFCOMM</acronym> channels)
 	between two Bluetooth devices.</para>
 
-      <para>For the purposes of RFCOMM, a complete communication path
-	involves two applications running on different devices (the
-	communication endpoints) with a communication segment between
-	them.  RFCOMM is intended to cover applications that make use
+      <para>For the purposes of <acronym>RFCOMM</acronym>, a complete
+	communication path
+	involves two applications running on the
+	communication endpoints with a communication segment between
+	them.  <acronym>RFCOMM</acronym> is intended to cover
+	applications that make use
 	of the serial ports of the devices in which they reside.  The
-	communication segment is a Bluetooth link from one device to
-	another (direct connect).</para>
+	communication segment is a direct connect Bluetooth link from
+	one device to another.</para>
 
-      <para>RFCOMM is only concerned with the connection between the
+      <para><acronym>RFCOMM</acronym> is only concerned with the
+	connection between the
 	devices in the direct connect case, or between the device and
-	a modem in the network case.  RFCOMM can support other
+	a modem in the network case.  <acronym>RFCOMM</acronym> can
+	support other
 	configurations, such as modules that communicate via Bluetooth
 	wireless technology on one side and provide a wired interface
 	on the other side.</para>
 
-      <para>In &os; the RFCOMM protocol is implemented at the
+      <para>In &os;, <acronym>RFCOMM</acronym> is implemented at the
 	Bluetooth sockets layer.</para>
     </sect2>
 
@@ -2498,25 +2701,31 @@ c2e8bc80      0    250 00:02:72:00:d4:1a 00:07:e0:00:0b:ca 3    6    OPEN</scree
 
       <para>By default, Bluetooth communication is not authenticated,
 	and any device can talk to any other device.  A Bluetooth
-	device (for example, cellular phone) may choose to require
-	authentication to provide a particular service (for example,
-	Dial-Up service).  Bluetooth authentication is normally done
-	with <emphasis>PIN codes</emphasis>.  A PIN code is an ASCII
-	string up to 16 characters in length.  User is required to
-	enter the same PIN code on both devices.  Once user has
-	entered the PIN code, both devices will generate a
-	<emphasis>link key</emphasis>.  After that the link key can be
-	stored either in the devices themselves or in a persistent
-	storage.  Next time both devices will use previously generated
-	link key.  The described above procedure is called
+	device, such as a cellular phone, may choose to require
+	authentication to provide a particular service.
+	Bluetooth authentication is normally done
+	with a <emphasis><acronym>PIN</acronym> code</emphasis>, an
+	ASCII
+	string up to 16 characters in length.  The user is required to
+	enter the same <acronym>PIN</acronym> code on both devices.
+	Once the user has
+	entered the <acronym>PIN</acronym> code, both devices will
+	generate a
+	<emphasis>link key</emphasis>.  After that, the link key can
+	be
+	stored either in the devices or in a persistent
+	storage.  Next time, both devices will use the previously
+	generated
+	link key.  This procedure is called
 	<emphasis>pairing</emphasis>.  Note that if the link key is
-	lost by any device then pairing must be repeated.</para>
+	lost by either device, the pairing must be repeated.</para>
 
-      <para>The &man.hcsecd.8; daemon is responsible for handling of
-	all Bluetooth authentication requests.  The default
+      <para>The &man.hcsecd.8; daemon is responsible for handling
+	Bluetooth authentication requests.  The default
 	configuration file is
 	<filename>/etc/bluetooth/hcsecd.conf</filename>.  An example
-	section for a cellular phone with the PIN code arbitrarily set
+	section for a cellular phone with the <acronym>PIN</acronym>
+	code arbitrarily set
 	to <quote>1234</quote> is shown below:</para>
 
       <programlisting>device {
@@ -2526,27 +2735,30 @@ c2e8bc80      0    250 00:02:72:00:d4:1a 00:07:e0:00:0b:ca 3    6    OPEN</scree
         pin     "1234";
       }</programlisting>
 
-      <para>There is no limitation on PIN codes (except length).  Some
-	devices (for example Bluetooth headsets) may have a fixed PIN
-	code built in.  The <option>-d</option> switch forces the
-	&man.hcsecd.8; daemon to stay in the foreground, so it is easy
+      <para>The only limitation on <acronym>PIN</acronym> codes is
+	length.  Some
+	devices, such as Bluetooth headsets, may have a fixed
+	<acronym>PIN</acronym>
+	code built in.  The <option>-d</option> switch forces
+	&man.hcsecd.8; to stay in the foreground, so it is easy
 	to see what is happening.  Set the remote device to receive
 	pairing and initiate the Bluetooth connection to the remote
-	device.  The remote device should say that pairing was
-	accepted, and request the PIN code.  Enter the same PIN code
-	as you have in <filename>hcsecd.conf</filename>.  Now your PC
-	and the remote device are paired.  Alternatively, you can
-	initiate pairing on the remote device.</para>
+	device.  The remote device should indicate that pairing was
+	accepted and request the <acronym>PIN</acronym> code.  Enter
+	the same <acronym>PIN</acronym> code
+	listed in <filename>hcsecd.conf</filename>.  Now the computer
+	and the remote device are paired.  Alternatively, pairing can
+	be initiated on the remote device.</para>
 
-      <para>The following line can be added to the
-	<filename>/etc/rc.conf</filename> file to have
-	<application>hcsecd</application> started automatically on
+      <para>The following line can be added to
+	<filename>/etc/rc.conf</filename> to configure
+	&man.hcsecd.8; to start automatically on
 	system start:</para>
 
       <programlisting>hcsecd_enable="YES"</programlisting>
 
       <para>The following is a sample of the
-	<application>hcsecd</application> daemon output:</para>
+	&man.hcsecd.8; daemon output:</para>
 
       <programlisting>hcsecd[16484]: Got Link_Key_Request event from 'ubt0hci', remote bdaddr 0:80:37:29:19:a4
 hcsecd[16484]: Found matching entry, remote bdaddr 0:80:37:29:19:a4, name 'Pav's T39', link key doesn't exist
@@ -2557,42 +2769,50 @@ hcsecd[16484]: Sending PIN_Code_Reply to 'ubt0hci' for remote bdaddr 0:80:37:29:
     </sect2>
 
     <sect2>
-      <title>Service Discovery Protocol (SDP)</title>
+      <title>Service Discovery Protocol
+	(<acronym>SDP</acronym>)</title>
 
       <indexterm><primary>SDP</primary></indexterm>
 
-      <para>The Service Discovery Protocol (SDP) provides the means
+      <para>The Service Discovery Protocol (<acronym>SDP</acronym>)
+	provides the means
 	for client applications to discover the existence of services
 	provided by server applications as well as the attributes of
 	those services.  The attributes of a service include the type
 	or class of service offered and the mechanism or protocol
 	information needed to utilize the service.</para>
 
-      <para>SDP involves communication between a SDP server and a SDP
+      <para><acronym>SDP</acronym> involves communication between a
+	<acronym>SDP</acronym> server and a <acronym>SDP</acronym>
 	client.  The server maintains a list of service records that
 	describe the characteristics of services associated with the
 	server.  Each service record contains information about a
 	single service.  A client may retrieve information from a
-	service record maintained by the SDP server by issuing a SDP
+	service record maintained by the <acronym>SDP</acronym> server
+	by issuing a <acronym>SDP</acronym>
 	request.  If the client, or an application associated with the
 	client, decides to use a service, it must open a separate
 	connection to the service provider in order to utilize the
-	service.  SDP provides a mechanism for discovering services
+	service.  <acronym>SDP</acronym> provides a mechanism for
+	discovering services
 	and their attributes, but it does not provide a mechanism for
 	utilizing those services.</para>
 
-      <para>Normally, a SDP client searches for services based on some
+      <para>Normally, a <acronym>SDP</acronym> client searches for
+	services based on some
 	desired characteristics of the services.  However, there are
 	times when it is desirable to discover which types of services
-	are described by an SDP server's service records without any a
-	priori information about the services.  This process of
+	are described by an <acronym>SDP</acronym> server's service
+	records without any
+	prior information about the services.  This process of
 	looking for any offered services is called
 	<emphasis>browsing</emphasis>.</para>
 
-      <para>The Bluetooth SDP server &man.sdpd.8; and command line
-	client &man.sdpcontrol.8; are included in the standard &os;
+      <para>The Bluetooth <acronym>SDP</acronym> server, &man.sdpd.8;,
+	and command line
+	client, &man.sdpcontrol.8;, are included in the standard &os;
 	installation.  The following example shows how to perform a
-	SDP browse query.</para>
+	<acronym>SDP</acronym> browse query.</para>
 
       <screen>&prompt.user; <userinput>sdpcontrol -a 00:01:03:fc:6e:ec browse</userinput>
 Record Handle: 00000000
@@ -2617,137 +2837,178 @@ Protocol Descriptor List:
 Bluetooth Profile Descriptor List:
         LAN Access Using PPP (0x1102) ver. 1.0</screen>
 
-      <para>... and so on.  Note that each service has a list of
-	attributes (RFCOMM channel for example).  Depending on the
-	service you might need to make a note of some of the
+      <para>Note that each service has a list of
+	attributes, such as the <acronym>RFCOMM</acronym> channel.
+	Depending on the
+	service, the user might need to make note of some of the
 	attributes.  Some Bluetooth implementations do not support
-	service browsing and may return an empty list.  In this case
+	service browsing and may return an empty list.  In this case,
 	it is possible to search for the specific service.  The
-	example below shows how to search for the OBEX Object Push
-	(OPUSH) service:</para>
+	example below shows how to search for the
+	<acronym>OBEX</acronym> Object Push
+	(<acronym>OPUSH</acronym>) service:</para>
 
       <screen>&prompt.user; <userinput>sdpcontrol -a 00:01:03:fc:6e:ec search OPUSH</userinput></screen>
 
       <para>Offering services on &os; to Bluetooth clients is done
 	with the &man.sdpd.8; server.  The following line can be added
-	to the <filename>/etc/rc.conf</filename> file:</para>
+	to <filename>/etc/rc.conf</filename>:</para>
 
       <programlisting>sdpd_enable="YES"</programlisting>
 
-      <para>Then the <application>sdpd</application> daemon can be
+      <para>Then the &man.sdpd.8; daemon can be
 	started with:</para>
 
       <screen>&prompt.root; <userinput>service sdpd start</userinput></screen>
 
       <para>The local server application that wants to provide
 	Bluetooth service to the remote clients will register service
-	with the local SDP daemon.  The example of such application is
-	&man.rfcomm.pppd.8;.  Once started it will register Bluetooth
-	LAN service with the local SDP daemon.</para>
+	with the local <acronym>SDP</acronym> daemon.  An example of
+	such an application is
+	&man.rfcomm.pppd.8;.  Once started, it will register the
+	Bluetooth
+	LAN service with the local <acronym>SDP</acronym>
+	daemon.</para>
 
-      <para>The list of services registered with the local SDP server
-	can be obtained by issuing SDP browse query via local control
+      <para>The list of services registered with the local
+	<acronym>SDP</acronym> server
+	can be obtained by issuing a <acronym>SDP</acronym> browse
+	query via the local control
 	channel:</para>
 
       <screen>&prompt.root; <userinput>sdpcontrol -l browse</userinput></screen>
     </sect2>
 
     <sect2>
-      <title>Dial-Up Networking (DUN) and Network Access with PPP
-	(LAN) Profiles</title>
+      <title>Dial-Up Networking and Network Access with
+	<acronym>PPP</acronym> Profiles</title>
 
-      <para>The Dial-Up Networking (DUN) profile is mostly used with
+      <para>The Dial-Up Networking (<acronym>DUN</acronym>) profile is
+	mostly used with
 	modems and cellular phones.  The scenarios covered by this
 	profile are the following:</para>
 
       <itemizedlist>
 	<listitem>
-	  <para>use of a cellular phone or modem by a computer as a
+	  <para>Use of a cellular phone or modem by a computer as a
 	    wireless modem for connecting to a dial-up Internet access
-	    server, or using other dial-up services;</para>
+	    server, or for using other dial-up services.</para>
 	</listitem>
 
 	<listitem>
-	  <para>use of a cellular phone or modem by a computer to
+	  <para>Use of a cellular phone or modem by a computer to
 	    receive data calls.</para>
 	</listitem>
       </itemizedlist>
 
-      <para>Network Access with PPP (LAN) profile can be used in the
+      <para>Network access with a <acronym>PPP</acronym> profile can
+	be used in the
 	following situations:</para>
 
       <itemizedlist>
 	<listitem>
-	  <para>LAN access for a single Bluetooth device;</para>
+	  <para><acronym>LAN</acronym> access for a single Bluetooth
+	    device.</para>
 	</listitem>
 
 	<listitem>
-	  <para>LAN access for multiple Bluetooth devices;</para>
+	  <para><acronym>LAN</acronym> access for multiple Bluetooth
+	    devices.</para>
 	</listitem>
 
 	<listitem>
-	  <para>PC to PC (using PPP networking over serial cable
-	    emulation).</para>
+	  <para>PC to PC connection using <acronym>PPP</acronym>
+	    networking over serial cable
+	    emulation.</para>
 	</listitem>
       </itemizedlist>
 
-      <para>In &os; both profiles are implemented with &man.ppp.8; and
-	&man.rfcomm.pppd.8; - a wrapper that converts RFCOMM Bluetooth
-	connection into something PPP can operate with.  Before any
-	profile can be used, a new PPP label in the
-	<filename>/etc/ppp/ppp.conf</filename> must be created.
-	Consult &man.rfcomm.pppd.8; manual page for examples.</para>
+      <para>In &os;, these profiles are implemented with &man.ppp.8;
+	and the
+	&man.rfcomm.pppd.8; wrapper which converts a
+	<acronym>RFCOMM</acronym> Bluetooth
+	connection into something <acronym>PPP</acronym> can use.
+	Before a
+	profile can be used, a new <acronym>PPP</acronym> label
+	must be created in <filename>/etc/ppp/ppp.conf</filename>.
+	Consult &man.rfcomm.pppd.8; for examples.</para>
 
-      <para>In the following example &man.rfcomm.pppd.8; will be used
-	to open RFCOMM connection to remote device with BD_ADDR
-	00:80:37:29:19:a4 on DUN RFCOMM channel.  The actual RFCOMM
+      <para>In the following example, &man.rfcomm.pppd.8; is used
+	to open a <acronym>RFCOMM</acronym> connection to a remote
+	device with a BD_ADDR of
+	<literal>00:80:37:29:19:a4</literal> on a
+	<acronym>DUN</acronym> <acronym>RFCOMM</acronym> channel.  The
+	actual <acronym>RFCOMM</acronym>
 	channel number will be obtained from the remote device via
-	SDP.  It is possible to specify RFCOMM channel by hand, and in
-	this case &man.rfcomm.pppd.8; will not perform SDP query.  Use
-	&man.sdpcontrol.8; to find out RFCOMM channel on the remote
+	<acronym>SDP</acronym>.  It is possible to specify the
+	<acronym>RFCOMM</acronym> channel by hand, and in
+	this case &man.rfcomm.pppd.8; will not perform the
+	<acronym>SDP</acronym> query.  Use
+	&man.sdpcontrol.8; to find out the <acronym>RFCOMM</acronym>
+	channel on the remote
 	device.</para>
 
       <screen>&prompt.root; <userinput>rfcomm_pppd -a 00:80:37:29:19:a4 -c -C dun -l rfcomm-dialup</userinput></screen>
 
-      <para>In order to provide Network Access with PPP (LAN) service
-	the &man.sdpd.8; server must be running.  A new entry for LAN
-	clients must be created in the
-	<filename>/etc/ppp/ppp.conf</filename> file.  Consult
-	&man.rfcomm.pppd.8; manual page for examples.  Finally, start
-	RFCOMM PPP server on valid RFCOMM channel number.  The RFCOMM
-	PPP server will automatically register Bluetooth LAN service
-	with the local SDP daemon.  The example below shows how to
-	start RFCOMM PPP server.</para>
+      <para>In order to provide network access with the
+	<acronym>PPP</acronym> <acronym>LAN</acronym> service,
+	&man.sdpd.8; must be running and a new entry for
+	<acronym>LAN</acronym>
+	clients must be created in
+	<filename>/etc/ppp/ppp.conf</filename>.  Consult
+	&man.rfcomm.pppd.8; for examples.  Finally, start the
+	<acronym>RFCOMM</acronym> <acronym>PPP</acronym> server on a
+	valid <acronym>RFCOMM</acronym> channel number.  The
+	<acronym>RFCOMM</acronym>
+	<acronym>PPP</acronym> server will automatically register
+	the Bluetooth <acronym>LAN</acronym> service
+	with the local <acronym>SDP</acronym> daemon.  The example
+	below shows how to
+	start the <acronym>RFCOMM</acronym> <acronym>PPP</acronym>
+	server.</para>
 
       <screen>&prompt.root; <userinput>rfcomm_pppd -s -C 7 -l rfcomm-server</userinput></screen>
     </sect2>
 
     <sect2>
-      <title>OBEX Object Push (OPUSH) Profile</title>
+      <title><acronym>OBEX</acronym> Object Push
+	(<acronym>OPUSH</acronym>) Profile</title>
 
       <indexterm><primary>OBEX</primary></indexterm>
-      <para>OBEX is a widely used protocol for simple file transfers
+      <para><acronym>OBEX</acronym> is a widely used protocol for
+	simple file transfers
 	between mobile devices.  Its main use is in infrared
 	communication, where it is used for generic file transfers
-	between notebooks or PDAs, and for sending business cards or
+	between notebooks or <acronym>PDA</acronym>s, and for sending
+	business cards or
 	calendar entries between cellular phones and other devices
-	with PIM applications.</para>
+	with <acronym>PIM</acronym> applications.</para>
 
-      <para>The OBEX server and client are implemented as a
-	third-party package <application>obexapp</application>, which
+      <para>The <acronym>OBEX</acronym> server and client are
+	implemented as a
+	third-party package, <application>obexapp</application>, which
 	is available as <filename
-	  role="package">comms/obexapp</filename> port.</para>
+	  role="package">comms/obexapp</filename> package or
+	port.</para>
 
-      <para>OBEX client is used to push and/or pull objects from the
-	OBEX server.  An object can, for example, be a business card
-	or an appointment.  The OBEX client can obtain RFCOMM channel
-	number from the remote device via SDP. This can be done by
-	specifying service name instead of RFCOMM channel number.
-	Supported service names are: IrMC, FTRN and OPUSH.  It is
-	possible to specify RFCOMM channel as a number.  Below is an
-	example of an OBEX session, where device information object is
-	pulled from the cellular phone, and a new object (business
-	card) is pushed into the phone's directory.</para>
+      <para>The <acronym>OBEX</acronym> client is used to push and/or
+	pull objects from the
+	<acronym>OBEX</acronym> server.  An object can, for example,
+	be a business card
+	or an appointment.  The <acronym>OBEX</acronym> client can
+	obtain the <acronym>RFCOMM</acronym> channel
+	number from the remote device via <acronym>SDP</acronym>.
+	This can be done by
+	specifying the service name instead of the
+	<acronym>RFCOMM</acronym> channel number.
+	Supported service names are: <acronym>IrMC</acronym>,
+	<acronym>FTRN</acronym>, and <acronym>OPUSH</acronym>.  It is
+	also possible to specify the <acronym>RFCOMM</acronym> channel
+	as a number.  Below is an
+	example of an <acronym>OBEX</acronym> session where the device
+	information object is
+	pulled from the cellular phone, and a new object, the business
+	card, is pushed into the phone's directory.</para>
 
       <screen>&prompt.user; <userinput>obexapp -a 00:80:37:29:19:a4 -C IrMC</userinput>
 obex&gt; get telecom/devinfo.txt devinfo-t39.txt
@@ -2757,35 +3018,44 @@ Success, response: OK, Success (0x20)
 obex&gt; di
 Success, response: OK, Success (0x20)</screen>
 
-      <para>In order to provide OBEX Object Push service, &man.sdpd.8;
-	server must be running.  A root folder, where all incoming
+      <para>In order to provide the <acronym>OPUSH</acronym> service,
+	&man.sdpd.8;
+	must be running and a root folder, where all incoming
 	objects will be stored, must be created.  The default path to
 	the root folder
 	is <filename class="directory">/var/spool/obex</filename>.
-	Finally, start OBEX server on valid RFCOMM channel number.
-	The OBEX server will automatically register OBEX Object Push
-	service with the local SDP daemon.  The example below shows
-	how to start OBEX server.</para>
+	Finally, start the <acronym>OBEX</acronym> server on a valid
+	<acronym>RFCOMM</acronym> channel number.
+	The <acronym>OBEX</acronym> server will automatically register
+	the <acronym>OPUSH</acronym>
+	service with the local <acronym>SDP</acronym> daemon.  The
+	example below shows
+	how to start the <acronym>OBEX</acronym> server.</para>
 
       <screen>&prompt.root; <userinput>obexapp -s -C 10</userinput></screen>
     </sect2>
 
     <sect2>
-      <title>Serial Port Profile (SPP)</title>
+      <title>Serial Port Profile</title>
 
-      <para>The Serial Port Profile (SPP) allows Bluetooth devices to
-	perform RS232 (or similar) serial cable emulation.  The
-	scenario covered by this profile deals with legacy
-	applications using Bluetooth as a cable replacement, through a
+      <para>The Serial Port Profile (<acronym>SPP</acronym>) allows
+	Bluetooth devices to
+	perform serial cable emulation.  This
+	profile allows legacy
+	applications to use Bluetooth as a cable replacement, through
+	a
 	virtual serial port abstraction.</para>
 
-      <para>The &man.rfcomm.sppd.1; utility implements the Serial Port
-	profile.  A pseudo tty is used as a virtual serial port
+      <para>In &os;, &man.rfcomm.sppd.1; implements
+	<acronym>SPP</acronym> and a
+	pseudo tty is used as a virtual serial port
 	abstraction.  The example below shows how to connect to a
-	remote device Serial Port service.  Note that you do not have
-	to specify a RFCOMM channel - &man.rfcomm.sppd.1; can obtain
-	it from the remote device via SDP.  If you would like to
-	override this, specify a RFCOMM channel on the command
+	remote device serial port service.  A
+	<acronym>RFCOMM</acronym> channel does not have to be
+	specified as &man.rfcomm.sppd.1; can obtain
+	it from the remote device via <acronym>SDP</acronym>.  To
+	override this, specify a <acronym>RFCOMM</acronym> channel on
+	the command
 	line.</para>
 
       <screen>&prompt.root; <userinput>rfcomm_sppd -a 00:07:E0:00:0B:CA -t /dev/ttyp6</userinput>
@@ -2807,25 +3077,26 @@ rfcomm_sppd[94692]: Starting on /dev/ttyp6...</screen>
 	  switching.  By default, when &os; is accepting a new
 	  connection, it tries to perform a role switch and become
 	  master.  Devices, which do not support this will not be able
-	  to connect.  Note that role switching is performed when a
-	  new connection is being established, so it is not possible
-	  to ask the remote device if it does support role switching.
-	  There is a HCI option to disable role switching on the local
+	  to connect.  Since role switching is performed when a
+	  new connection is being established, it is not possible
+	  to ask the remote device if it supports role switching.
+	  There is a <acronym>HCI</acronym> option to disable role
+	  switching on the local
 	  side:</para>
 
 	<screen>&prompt.root; <userinput>hccontrol -n ubt0hci write_node_role_switch 0</userinput></screen>
       </sect3>
 
       <sect3>
-	<title>Something is Going Wrong, Can I See What Exactly is
-	  Happening?</title>
+	<title>Displaying Bluetooth Packets</title>
 
-	<para>Yes, you can.  Use the third-party package
-	  <application>hcidump</application>, which is available as
-	  <filename role="package">comms/hcidump</filename> port.  The
-	  <application>hcidump</application> utility is similar to
-	  &man.tcpdump.1;.  It can be used to display the content of
-	  the Bluetooth packets on the terminal and to dump the
+	<para>Use the third-party package
+	  <application>hcidump</application>, which is available as a
+	  <filename role="package">comms/hcidump</filename> package or
+	  port. This utility
+	  is similar to
+	  &man.tcpdump.1; and can be used to display the contents of
+	  Bluetooth packets on the terminal and to dump the
 	  Bluetooth packets to a file.</para>
       </sect3>
     </sect2>
@@ -2853,7 +3124,7 @@ rfcomm_sppd[94692]: Starting on /dev/ttyp6...</screen>
 	segments without having to create IP subnets and use a router
 	to connect the segments together.  A device that connects two
 	networks together in this fashion is called a
-	<quote>bridge</quote>.  A FreeBSD system with two network
+	<quote>bridge</quote>.  A &os; system with two network
 	interface cards can act as a bridge.</para>
 
       <para>The bridge works by learning the MAC layer addresses
@@ -3648,8 +3919,8 @@ ifconfig_<literal>lagg<replaceable>0</replaceable></literal>="laggproto failover
     <indexterm><primary>diskless workstation</primary></indexterm>
     <indexterm><primary>diskless operation</primary></indexterm>
 
-    <para>A FreeBSD machine can boot over the network and operate
-      without a local disk, using file systems mounted from an
+    <para>A &os; machine can boot over the network and operate
+      without a local disk, using filesystems mounted from an
       <acronym>NFS</acronym> server.  No system modification is
       necessary, beyond standard configuration files.  Such a system
       is relatively easy to set up because all the necessary elements
@@ -3684,7 +3955,7 @@ ifconfig_<literal>lagg<replaceable>0</replaceable></literal>="laggproto failover
 	<para>A sample script
 	  (<filename>/usr/share/examples/diskless/clone_root</filename>)
 	  eases the creation and maintenance of the workstation's root
-	  file system on the server.  The script will probably require
+	  filesystem on the server.  The script will probably require
 	  a little customization but it will get you started very
 	  quickly.</para>
       </listitem>
@@ -3705,23 +3976,23 @@ ifconfig_<literal>lagg<replaceable>0</replaceable></literal>="laggproto failover
       elements are involved, and most can be customized to suit local
       taste.  The following will describe variations on the setup of a
       complete system, emphasizing simplicity and compatibility with
-      the standard FreeBSD startup scripts.  The system described has
+      the standard &os; startup scripts.  The system described has
       the following characteristics:</para>
 
     <itemizedlist>
       <listitem>
 	<para>The diskless workstations use a shared read-only
-	  <filename class="directory">/</filename> file system,
+	  <filename class="directory">/</filename> filesystem,
 	  and a shared read-only
 	  <filename class="directory">/usr</filename>.</para>
 
-	<para>The root file system is a copy of a standard FreeBSD
+	<para>The root filesystem is a copy of a standard &os;
 	  root (typically the server's), with some configuration files
 	  overridden by ones specific to diskless operation or,
 	  possibly, to the workstation they belong to.</para>
 
 	<para>The parts of the root which have to be writable are
-	  overlaid with &man.md.4; file systems.  Any changes will be
+	  overlaid with &man.md.4; filesystems.  Any changes will be
 	  lost when the system reboots.</para>
       </listitem>
 
@@ -3844,7 +4115,7 @@ ifconfig_<literal>lagg<replaceable>0</replaceable></literal>="laggproto failover
 	</listitem>
 
 	<listitem>
-	  <para>Finally, the machine needs to access its file systems.
+	  <para>Finally, the machine needs to access its filesystems.
 	    <acronym>NFS</acronym> is used in all cases.</para>
 	</listitem>
       </itemizedlist>
@@ -3957,7 +4228,7 @@ subnet 192.168.4.0 netmask 255.255.255.0 {
 
 	  <callout arearefs="co-dhcp-root-path">
 	    <para>The <literal>root-path</literal> option defines
-	      the path to the root file system, in usual
+	      the path to the root filesystem, in usual
 	      <acronym>NFS</acronym> notation.  When using
 	      <acronym>PXE</acronym>, it is possible to leave off the
 	      host's IP as long as you do not enable the kernel option
@@ -4015,7 +4286,7 @@ margaux:ha=0123456789ab:tc=.def100</programlisting>
 	    extensive documentation</ulink> mainly intended for Linux
 	  systems, but nonetheless containing useful information.  The
 	  following will just outline how you would use
-	  <application>Etherboot</application> on a FreeBSD
+	  <application>Etherboot</application> on a &os;
 	  system.</para>
 
 	<para>You must first install the
@@ -4145,7 +4416,7 @@ margaux:ha=0123456789ab:tc=.def100</programlisting>
 	  </step>
 
 	  <step>
-	    <para>Export the file system where the diskless root
+	    <para>Export the filesystem where the diskless root
 	      directory is located by adding the following to
 	      <filename>/etc/exports</filename> (adjust the volume
 	      mount point and replace <replaceable>margaux
@@ -4228,11 +4499,11 @@ options     BOOTP_NFSROOT  # NFS mount root file system using BOOTP info</progra
 	<title>Preparing the Root Filesystem</title>
 
 	<indexterm>
-	  <primary>root file system</primary>
+	  <primary>root filesystem</primary>
 	  <secondary>diskless operation</secondary>
 	</indexterm>
 
-	<para>You need to create a root file system for the diskless
+	<para>Create a root filesystem for the diskless
 	  workstations, in the location listed as
 	  <literal>root-path</literal> in
 	  <filename>dhcpd.conf</filename>.</para>
@@ -4242,7 +4513,7 @@ options     BOOTP_NFSROOT  # NFS mount root file system using BOOTP info</progra
 	    Root</title>
 
 	  <para>This method is quick and will install a complete
-	    virgin system (not only the root file system) into
+	    virgin system (not only the root filesystem) into
 	    <envar>DESTDIR</envar>.  All you have to do is simply
 	    execute the following script:</para>
 
@@ -4272,7 +4543,7 @@ cd /usr/src/etc; make distribution</programlisting>
 	  <para>The kernel does not support enabling
 	    <acronym>NFS</acronym> swap at boot time.  Swap must be
 	    enabled by the startup scripts, by mounting a writable
-	    file system and creating and enabling a swap file.  To
+	    filesystem and creating and enabling a swap file.  To
 	    create a swap file of appropriate size, you can do like
 	    this:</para>
 
@@ -4306,11 +4577,11 @@ cd /usr/src/etc; make distribution</programlisting>
 	</sect4>
 
 	<sect4>
-	  <title>Using a Non-FreeBSD Server</title>
+	  <title>Using a Non-&os; Server</title>
 
-	  <para>When the server for the root file system is not
-	    running FreeBSD, you will have to create the root file
-	    system on a FreeBSD machine, then copy it to its
+	  <para>When the server for the root filesystem is not
+	    running &os;, create the root file
+	    system on a &os; machine, then copy it to its
 	    destination, using <command>tar</command> or
 	    <command>cpio</command>.</para>
 
@@ -4318,8 +4589,8 @@ cd /usr/src/etc; make distribution</programlisting>
 	    the special files
 	    in <filename class="directory">/dev</filename>, due to
 	    differing major/minor integer sizes.  A solution to this
-	    problem is to export a directory from the non-FreeBSD
-	    server, mount this directory onto a FreeBSD machine, and
+	    problem is to export a directory from the non-&os;
+	    server, mount this directory onto a &os; machine, and
 	    use &man.devfs.5; to allocate device nodes transparently
 	    for the user.</para>
 	</sect4>
@@ -4449,7 +4720,7 @@ Received 264951 bytes in 0.1 seconds</screen>
 
 	<step>
 	  <para>Edit <filename>${NFSROOTDIR}/etc/fstab</filename> and
-	    create an entry to mount the root file system over
+	    create an entry to mount the root filesystem over
 	    NFS:</para>
 
 	  <programlisting># Device                                         Mountpoint    FSType   Options  Dump Pass
@@ -4458,10 +4729,10 @@ myhost.example.com:/b/tftpboot/FreeBSD/install       /         nfs      ro      
 	  <para>Replace
 	    <replaceable>myhost.example.com</replaceable> with the
 	    hostname or IP address of your <acronym>NFS</acronym>
-	    server.  In this example, the root file system is mounted
+	    server.  In this example, the root filesystem is mounted
 	    "read-only" in order to prevent <acronym>NFS</acronym>
 	    clients from potentially deleting the contents of the root
-	    file system.</para>
+	    filesystem.</para>
 	</step>
 
 	<step>
@@ -4509,7 +4780,7 @@ myhost.example.com:/b/tftpboot/FreeBSD/install       /         nfs      ro      
 	on.  We need to
 	make <filename class="directory">/etc</filename>
 	and <filename class="directory">/var</filename>
-	memory backed file systems because
+	memory backed filesystems because
 	these directories need to be writable, but the NFS root
 	directory is read-only.</para>
 
@@ -4518,7 +4789,7 @@ myhost.example.com:/b/tftpboot/FreeBSD/install       /         nfs      ro      
 &prompt.root; <userinput>tar -c -v -f conf/base/etc.cpio.gz --format cpio --gzip etc</userinput>
 &prompt.root; <userinput>tar -c -v -f conf/base/var.cpio.gz --format cpio --gzip var</userinput></screen>
 
-      <para>When the system boots, memory file systems
+      <para>When the system boots, memory filesystems
         for <filename class="directory">/etc</filename>
 	and <filename class="directory">/var</filename> will
 	be created and mounted, and the contents of the
@@ -4553,7 +4824,7 @@ myhost.example.com:/b/tftpboot/FreeBSD/install       /         nfs      ro      
 	    your <acronym>TFTP</acronym> server IP address, the path
 	    to <filename>/boot/pxeboot</filename> in
 	    <acronym>TFTP</acronym>, and the path to the
-	    <acronym>NFS</acronym> root file system.  Here is a sample
+	    <acronym>NFS</acronym> root filesystem.  Here is a sample
 	    <filename>dhcpd.conf</filename> setup:</para>
 
 	  <programlisting>subnet 192.168.0.0 netmask 255.255.255.0 {
@@ -4674,7 +4945,7 @@ Received 264951 bytes in 0.1 seconds</screen>
 	</step>
 
 	<step>
-	  <para>Make sure that the root file system can be mounted
+	  <para>Make sure that the root filesystem can be mounted
 	    via <acronym>NFS</acronym>.  To test configuration from
 	    <filename>dhcpd.conf</filename> above:</para>
 
@@ -4754,7 +5025,7 @@ Received 264951 bytes in 0.1 seconds</screen>
 	<secondary>cards</secondary>
       </indexterm>
 
-      <para>FreeBSD's ISDN implementation supports only the DSS1/Q.931
+      <para>&os;'s ISDN implementation supports only the DSS1/Q.931
 	(or Euro-ISDN) standard using passive cards.  Some active
 	cards are supported where the firmware also supports other
 	signaling protocols; this also includes the first supported
@@ -4771,7 +5042,7 @@ Received 264951 bytes in 0.1 seconds</screen>
 	Baud modem.</para>
 
       <para>Some growing number of PC ISDN cards are supported under
-	FreeBSD and the reports show that it is successfully used all
+	&os; and the reports show that it is successfully used all
 	over Europe and in many other parts of the world.</para>
 
       <para>The passive ISDN cards supported are mostly the ones with
@@ -4830,11 +5101,11 @@ Received 264951 bytes in 0.1 seconds</screen>
       <para>TA's completely rely on the PPP daemon that you are
 	running for their features and stability of connection.  This
 	allows you to upgrade easily from using a modem to ISDN on a
-	FreeBSD machine, if you already have PPP set up.  However, at
+	&os; machine, if PPP is already set up.  However, at
 	the same time any problems you experienced with the PPP
 	program and are going to persist.</para>
 
-      <para>The following TA's are known to work with FreeBSD:</para>
+      <para>The following TA's are known to work with &os;:</para>
 
       <itemizedlist>
 	<listitem>
@@ -4854,7 +5125,7 @@ Received 264951 bytes in 0.1 seconds</screen>
 	you need a good serial card in your computer.</para>
 
       <para>You should read the <ulink
-	  url="&url.articles.serial-uart;/index.html">FreeBSD Serial
+	  url="&url.articles.serial-uart;/index.html">&os; Serial
 	Hardware</ulink> tutorial for a detailed understanding of
 	serial devices, and the differences between asynchronous and
 	synchronous serial ports.</para>
@@ -4872,7 +5143,7 @@ Received 264951 bytes in 0.1 seconds</screen>
 	serial cable and find another empty electrical socket.</para>
 
       <para>A synchronous card with a TA is at least as fast as a
-	stand-alone router, and with a simple 386 FreeBSD box driving
+	stand-alone router, and with a simple 386 &os; box driving
 	it, probably more flexible.</para>
 
       <para>The choice of synchronous card/TA versus stand-alone
@@ -4890,7 +5161,7 @@ Received 264951 bytes in 0.1 seconds</screen>
 	<primary>ISDN</primary>
 	<secondary>stand-alone bridges/routers</secondary>
       </indexterm>
-      <para>ISDN bridges or routers are not at all specific to FreeBSD
+      <para>ISDN bridges or routers are not at all specific to &os;
 	or any other operating system.  For a more complete
 	description of routing and bridging technology, please refer
 	to a networking reference book.</para>
@@ -5037,7 +5308,7 @@ ISDN BRI line</literallayout>
       <indexterm>
 	<primary><application>natd</application></primary>
       </indexterm>
-      <para>FreeBSD's Network Address Translation daemon, commonly
+      <para>&os;'s Network Address Translation daemon, commonly
 	known as &man.natd.8; is a daemon that accepts incoming raw IP
 	packets, changes the source to the local machine and
 	re-injects these packets back into the outgoing IP packet
@@ -5071,7 +5342,7 @@ ISDN BRI line</literallayout>
 	connected computer to provide Internet access to several more
 	over a LAN.</para>
 
-      <para>To do this, the FreeBSD machine on the Internet must act
+      <para>To do this, the &os; machine on the Internet must act
 	as a gateway.  This gateway machine must have two
 	NICs&mdash;one for connecting to the Internet router, the
 	other connecting to a LAN.  All the machines on the LAN are
@@ -5405,8 +5676,8 @@ redirect_port tcp 192.168.0.3:80 80</programlisting>
     <para>IPv6 (also known as IPng <quote>IP next generation</quote>)
       is the new version of the well known IP protocol (also known as
       <acronym>IPv4</acronym>).  Like the other current *BSD systems,
-      FreeBSD includes the KAME IPv6 reference implementation.  So
-      your FreeBSD system comes with all you will need to experiment
+      &os; includes the KAME IPv6 reference implementation.  So
+      thhe &os; system comes with everything needed to experiment
       with IPv6.  This section focuses on getting IPv6 configured and
       running.</para>
 
