@@ -84,7 +84,7 @@
       (<acronym>BIOS</acronym>) is responsible for loading the
       operating system.  To do this, the <acronym>BIOS</acronym>
       looks on the hard disk for the Master Boot Record
-      (<acronym>MBR</acronym>), which must be located on a specific
+      (<acronym>MBR</acronym>), which must be located in a specific
       place on the disk.  The <acronym>BIOS</acronym> has enough
       knowledge to load and run the <acronym>MBR</acronym>, and
       assumes that the <acronym>MBR</acronym> can then carry out the
