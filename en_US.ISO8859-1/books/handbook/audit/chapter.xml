@@ -488,7 +488,7 @@ filesz:0</programlisting>
 	  will be generated.  The above example sets the minimum free
 	  space to twenty percent.</para>
 
-	<para>The <option>naflags</option> specifies audit classes
+	<para>The <option>naflags</option> entry specifies audit classes
 	  to be audited for non-attributed events, such as the login
 	  process and system daemons.</para>
 
