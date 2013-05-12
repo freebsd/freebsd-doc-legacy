@@ -68,13 +68,12 @@
       </listitem>
 
       <listitem>
-	<para>How to use the various configuration files in
-	  <filename class="directory">/etc</filename>.</para>
+	<para>How to use the various configuration files in <filename
+	    class="directory">/etc</filename>.</para>
       </listitem>
 
       <listitem>
-	<para>How to tune &os; using &man.sysctl.8;
-	  variables.</para>
+	<para>How to tune &os; using &man.sysctl.8; variables.</para>
       </listitem>
 
       <listitem>
@@ -120,8 +119,8 @@
 
 	<para>When laying out file systems with &man.bsdlabel.8; or
 	  &man.sysinstall.8;, remember that hard drives transfer data
-	  faster from the outer tracks to the inner.  Thus, smaller and
-	  heavier-accessed file systems should be closer to the
+	  faster from the outer tracks to the inner.  Thus, smaller
+	  and heavier-accessed file systems should be closer to the
 	  outside of the drive, while larger partitions like
 	  <filename class="directory">/usr</filename> should be placed
 	  toward the inner parts of the disk.  It is a good idea to
@@ -133,26 +132,25 @@
 	<para>The size of the
 	  <filename class="directory">/var</filename> partition
 	  reflects the intended machine's usage.  This partition
-	  is used to hold
-	  mailboxes, log files, and printer spools.  Mailboxes and log
-	  files can grow to unexpected sizes depending on the number of
-	  users and how long log files are kept.  On average, most users
-	  rarely need more than about a gigabyte of free disk space in
-	  <filename class="directory">/var</filename>.</para>
+	  is used to hold mailboxes, log files, and printer spools.
+	  Mailboxes and log files can grow to unexpected sizes
+	  depending on the number of users and how long log files
+	  are kept.  On average, most users rarely need more than
+	  about a gigabyte of free disk space in <filename
+	    class="directory">/var</filename>.</para>
 
 	<note>
-	  <para>Sometimes, a lot of disk space is
-	    required in
-	    <filename class="directory">/var/tmp</filename>.  When new
-	    software is installed with &man.pkg.add.1;, the packaging
-	    tools extract a temporary copy of the packages under
-	    <filename class="directory">/var/tmp</filename>.  Large
-	    software packages, like
+	  <para>Sometimes, a lot of disk space is required in
+	    <filename class="directory">/var/tmp</filename>.  When
+	    new software is installed with &man.pkg.add.1;, the
+	    packaging tools extract a temporary copy of the packages
+	    under <filename class="directory">/var/tmp</filename>.
+	    Large software packages, like
 	    <application>Firefox</application>,
 	    <application>OpenOffice</application> or
 	    <application>LibreOffice</application> may be tricky to
-	    install if there is not enough disk space under
-	    <filename class="directory">/var/tmp</filename>.</para>
+	    install if there is not enough disk space under <filename
+	      class="directory">/var/tmp</filename>.</para>
 	</note>
 
 	<para>The <filename class="directory">/usr</filename>
@@ -162,17 +160,14 @@
 	  partition.</para>
 
 	<para>When selecting partition sizes, keep the space
-	  requirements in mind.  Running out of space in
-	  one partition while barely using another can be a
-	  hassle.</para>
+	  requirements in mind.  Running out of space in one partition
+	  while barely using another can be a hassle.</para>
 
 	<note>
-	  <para>The 
-	    <literal>Auto-defaults</literal> partition sizer used by
-	    &man.sysinstall.8; will
-	    sometimes select smaller than adequate
-	    <filename class="directory">/var</filename> and
-	    <filename class="directory">/</filename> partitions.
+	  <para>The  <literal>Auto-defaults</literal> partition sizer
+	    used by &man.sysinstall.8; will sometimes select smaller
+	    than adequate <filename class="directory">/var</filename>
+	    and <filename class="directory">/</filename> partitions.
 	    Partition wisely and generously.</para>
 	</note>
       </sect3>
@@ -185,30 +180,27 @@
 
 	<para>As a rule of thumb, the swap partition should be about
 	  double the size of physical memory (<acronym>RAM</acronym>)
-	  as the kernel's
-	  virtual memory (<acronym>VM</acronym>) paging algorithms
-	  are tuned to perform
-	  best when the swap partition is at least two times
-	  the size of main memory.  Systems with minimal
-	  <acronym>RAM</acronym> may
-	  perform better with more swap.  Configuring too little swap
-	  can lead to inefficiencies in the <acronym>VM</acronym>
-	  page scanning code and
-	  might create issues later if more memory is added.</para>
+	  as the kernel's virtual memory (<acronym>VM</acronym>)
+	  paging algorithms are tuned to perform best when the swap
+	  partition is at least two times the size of main memory.
+	  Systems with minimal <acronym>RAM</acronym> may perform
+	  better with more swap.  Configuring too little swap can
+	  lead to inefficiencies in the <acronym>VM</acronym> page
+	  scanning code and might create issues later if more memory
+	  is added.</para>
 
 	<para>On larger systems with multiple <acronym>SCSI</acronym>
-	  disks or multiple
-	  <acronym>IDE</acronym> disks operating on different
-	  controllers, it is
-	  recommended that swap be configured on each drive, up to
-	  four drives.  The swap partitions should be approximately
-	  the same size.  The kernel can handle arbitrary sizes but
-	  internal data structures scale to 4 times the largest swap
-	  partition.  Keeping the swap partitions near the same size
-	  will allow the kernel to optimally stripe swap space across
-	  disks.  Large swap sizes are fine, even if swap is not used
-	  much.  It might be easier to recover from a runaway program
-	  before being forced to reboot.</para>
+	  disks or multiple <acronym>IDE</acronym> disks operating
+	  on different controllers, it is recommended that swap be
+	  configured on each drive, up to four drives.  The swap
+	  partitions should be approximately the same size.  The
+	  kernel can handle arbitrary sizes but internal data
+	  structures scale to 4 times the largest swap partition.
+	  Keeping the swap partitions near the same size will allow
+	  the kernel to optimally stripe swap space across disks.
+	  Large swap sizes are fine, even if swap is not used much.
+	  It might be easier to recover from a runaway program before
+	  being forced to reboot.</para>
       </sect3>
 
       <sect3>
@@ -218,24 +210,24 @@
 	  fine, but there are several reasons why this is a bad idea.
 	  First, each partition has different operational
 	  characteristics and separating them allows the file system
-	  to tune accordingly.  For example, the root and
-	  <filename class="directory">/usr</filename> partitions are
+	  to tune accordingly.  For example, the root and <filename
+	    class="directory">/usr</filename> partitions are
 	  read-mostly, with few writes, while a lot of reads and
-	  writes could occur in
-	  <filename class="directory">/var</filename> and
-	  <filename class="directory">/var/tmp</filename>.</para>
+	  writes could occur in <filename
+	    class="directory">/var</filename> and <filename
+	    class="directory">/var/tmp</filename>.</para>
 
 	<para>By properly partitioning a system, fragmentation
 	  introduced in the smaller write heavy partitions will not
 	  bleed over into the mostly read partitions.  Keeping the
 	  write loaded partitions closer to the disk's edge will
 	  increase I/O performance in the partitions where it occurs
-	  the most.  While I/O performance in the larger
-	  partitions may be needed, shifting them more toward the edge
-	  of the disk will not lead to a significant performance
-	  improvement over moving
-	  <filename class="directory">/var</filename> to the edge.
-	  Finally, there are safety concerns.  A smaller, neater root
+	  the most.  While I/O performance in the larger partitions
+	  may be needed, shifting them more toward the edge of the
+	  disk will not lead to a significant performance
+	  improvement over moving <filename
+	    class="directory">/var</filename> to the edge.  Finally,
+	  there are safety concerns.  A smaller, neater root
 	  partition which is mostly read-only has a greater chance of
 	  surviving a bad crash.</para>
       </sect3>
@@ -251,8 +243,8 @@
     </indexterm>
 
     <para>The principal location for system configuration information
-      is <filename>/etc/rc.conf</filename>.  This file contains
-      a wide range of configuration information and it is read at
+      is <filename>/etc/rc.conf</filename>.  This file contains a
+      wide range of configuration information and it is read at
       system startup to configure the system.  It provides the
       configuration information for the <filename>rc*</filename>
       files.</para>
@@ -269,8 +261,7 @@
       system-specific configuration in order to keep administration
       overhead down.  The recommended approach is to place
       system-specific configuration into
-      <filename>/etc/rc.conf.local</filename>.  For
-      example:</para>
+      <filename>/etc/rc.conf.local</filename>.  For example:</para>
 
     <itemizedlist>
       <listitem>
@@ -291,10 +282,10 @@ ifconfig_fxp0="inet 10.1.1.1/8"</programlisting>
       </listitem>
     </itemizedlist>
 
-    <para>Distribute <filename>/etc/rc.conf</filename>
-      to every system using <command>rsync</command> or a
-      similar program, while <filename>/etc/rc.conf.local</filename>
-      remains unique.</para>
+    <para>Distribute <filename>/etc/rc.conf</filename> to every
+      system using <command>rsync</command> or a similar program,
+      while <filename>/etc/rc.conf.local</filename> remains
+      unique.</para>
 
     <para>Upgrading the system using &man.sysinstall.8; or
       <command>make world</command> will not overwrite
@@ -320,18 +311,17 @@ ifconfig_fxp0="inet 10.1.1.1/8"</programlisting>
 
     <indexterm><primary>/usr/local/etc</primary></indexterm>
 
-    <para>Typically, these files are installed in
-      <filename class="directory">/usr/local/etc</filename>.  In the
-      case where an application has a large number of configuration
+    <para>Typically, these files are installed in <filename
+	class="directory">/usr/local/etc</filename>.  In the case
+      where an application has a large number of configuration
       files, a subdirectory will be created to hold them.</para>
 
     <para>Normally, when a port or package is installed, sample
       configuration files are also installed.  These are usually
       identified with a suffix such as <filename>.sample</filename>.
-      If
-      there are no existing configuration files for the application,
-      they can be created by copying the
-      sample files.</para>
+      If there are no existing configuration files for the
+      application, they can be created by copying the sample
+      files.</para>
 
     <para>For example, consider the contents of the directory
       <filename
@@ -348,10 +338,10 @@ ifconfig_fxp0="inet 10.1.1.1/8"</programlisting>
 -rw-r--r--  1 root  wheel   7980 May 20  1998 srm.conf
 -rw-r--r--  1 root  wheel   7933 May 20  1998 srm.conf.default</literallayout>
 
-    <para>The file sizes show that only
-      <filename>srm.conf</filename> has been changed.  A later
-      update of the <application>Apache</application> port would not
-      overwrite this changed file.</para>
+    <para>The file sizes show that only <filename>srm.conf</filename>
+      has been changed.  A later update of the
+      <application>Apache</application> port would not overwrite
+      this changed file.</para>
   </sect1>
 
   <sect1 id="configtuning-starting-services">
@@ -371,10 +361,10 @@ ifconfig_fxp0="inet 10.1.1.1/8"</programlisting>
 
     <para>Many users install third party software on &os; from the
       Ports Collection and require the installed services to be
-      started upon system initialization.  Services,
-      such as <filename role="package">mail/postfix</filename> or
-      <filename role="package">www/apache22</filename> are just two of
-      the many software packages which may be started during system
+      started upon system initialization.  Services, such as
+      <filename role="package">mail/postfix</filename> or
+      <filename role="package">www/apache22</filename> are just two
+      of the many software packages which may be started during system
       initialization.  This section explains the procedures available
       for starting third party software.</para>
 
@@ -386,13 +376,12 @@ ifconfig_fxp0="inet 10.1.1.1/8"</programlisting>
 
       <para>Now that &os; includes <filename>rc.d</filename>,
 	configuration of application startup is easier and provides
-	more features.  Using the key words discussed in
-	<xref linkend="configtuning-rcd"/>,
-	applications can be set to start after certain other services
-	and extra flags can be passed through
-	<filename>/etc/rc.conf</filename> in place of hard coded flags
-	in the start up script.  A basic script may look similar to
-	the following:</para>
+	more features.  Using the key words discussed in <xref
+	  linkend="configtuning-rcd"/>, applications can be set to
+	start after certain other services and extra flags can be
+	passed through <filename>/etc/rc.conf</filename> in place of
+	hard coded flags in the start up script.  A basic script may
+	look similar to the following:</para>
 
       <programlisting>#!/bin/sh
 #
@@ -429,34 +418,32 @@ run_rc_command "$1"</programlisting>
 
       <programlisting>utility_enable="YES"</programlisting>
 
-      <para>This method allows for easier manipulation of
-	command line arguments, inclusion of the default functions
-	provided in <filename>/etc/rc.subr</filename>, compatibility
-	with &man.rcorder.8;, and provides for easier
-	configuration via <filename>rc.conf</filename>.</para>
+      <para>This method allows for easier manipulation of command
+	line arguments, inclusion of the default functions provided
+	in <filename>/etc/rc.subr</filename>, compatibility with
+	&man.rcorder.8;, and provides for easier configuration via
+	<filename>rc.conf</filename>.</para>
     </sect2>
 
     <sect2>
       <title>Using Services to Start Services</title>
 
-      <para>Other services can be started using
-	&man.inetd.8;.  Working
-	with &man.inetd.8; and its configuration is
+      <para>Other services can be started using &man.inetd.8;.
+	Working with &man.inetd.8; and its configuration is
 	described in depth in
 	<xref linkend="network-inetd"/>.</para>
 
       <para>In some cases, it may make more sense to use
 	&man.cron.8; to start system services.  This approach
-	has a number of advantages as &man.cron.8;
-	runs these processes as the owner of the &man.crontab.5;.
-	This allows regular users to start and maintain their own
+	has a number of advantages as &man.cron.8; runs these
+	processes as the owner of the &man.crontab.5;.  This allows
+	regular users to start and maintain their own
 	applications.</para>
 
       <para>The <literal>@reboot</literal> feature of &man.cron.8;,
-	may be used in
-	place of the time specification.  This causes the job to
-	run when &man.cron.8; is started, normally during system
-	initialization.</para>
+	may be used in place of the time specification.  This causes
+	the job to run when &man.cron.8; is started, normally during
+	system initialization.</para>
     </sect2>
   </sect1>
 
@@ -479,20 +466,18 @@ run_rc_command "$1"</programlisting>
     <para>One of the most useful utilities in &os; is &man.cron.8;.
       This utility runs in the background and regularly checks
       <filename>/etc/crontab</filename> for tasks to execute and
-      searches
-      <filename class="directory">/var/cron/tabs</filename> for custom
-      &man.crontab.5; files.  These files store
-      information about specific functions which
-      &man.cron.8; is supposed to perform at certain
-      times.</para>
+      searches <filename class="directory">/var/cron/tabs</filename>
+      for custom &man.crontab.5; files.  These files store
+      information about specific functions which &man.cron.8; is
+      supposed to perform at certain times.</para>
 
     <para>Two different types of configuration files are used by
-      &man.cron.8;: the system crontab and user crontabs.
-      These formats only differ in the sixth field and later.  In the
-      system crontab, &man.cron.8; runs the command as
-      the user specified in the sixth field.  In a user crontab, all
-      commands run as the user who created the crontab, so the sixth
-      field is the last field; this is an important security feature.
+      &man.cron.8;: the system crontab and user crontabs.  These
+      formats only differ in the sixth field and later.  In the
+      system crontab, &man.cron.8; runs the command as the user
+      specified in the sixth field.  In a user crontab, all commands
+      run as the user who created the crontab, so the sixth field
+      is the last field; this is an important security feature.
       The final field is always the command to run.</para>
 
     <note>
@@ -505,14 +490,13 @@ run_rc_command "$1"</programlisting>
 	just like any other user.  The <username>root</username> user
 	crontab is separate from the system crontab,
 	<filename>/etc/crontab</filename>.
-	Because the system crontab
-	invokes the specified commands as <username>root</username>,
-	there is usually no
-	need to create a user crontab for
-	<username>root</username>.</para>
+	Because the system crontab invokes the specified commands as
+	<username>root</username>, there is usually no need to create
+	a user crontab for <username>root</username>.</para>
     </note>
 
-    <para>Here is a sample entry from <filename>/etc/crontab</filename>:</para>
+    <para>Here is a sample entry from
+      <filename>/etc/crontab</filename>:</para>
 
     <programlisting># /etc/crontab - root's crontab for FreeBSD
 #
@@ -538,15 +522,13 @@ PATH=/etc:/bin:/sbin:/usr/bin:/usr/sbin <co id="co-env"/>
       </callout>
 
       <callout arearefs="co-env">
-	<para>The equals
-	  (<literal>=</literal>) character is used to define any
-	  environment settings.  In this example, it is used to define
-	  the <envar>SHELL</envar> and <envar>PATH</envar>.
-	  If the <envar>SHELL</envar> is omitted,
-	  &man.cron.8; will use the default of
-	  &man.sh.1;.  If the <envar>PATH</envar>
-	  is omitted, no default will be used and file locations will
-	  need to be absolute.</para>
+	<para>The equals (<literal>=</literal>) character is used to
+	  define any environment settings.  In this example, it is
+	  used to define the <envar>SHELL</envar> and
+	  <envar>PATH</envar>.  If the <envar>SHELL</envar> is
+	  omitted, &man.cron.8; will use the default of &man.sh.1;.
+	  If the <envar>PATH</envar> is omitted, no default will be
+	  used and file locations will need to be absolute.</para>
       </callout>
 
       <callout arearefs="co-field-descr">
@@ -557,20 +539,18 @@ PATH=/etc:/bin:/sbin:/usr/bin:/usr/sbin <co id="co-env"/>
 	  <literal>who</literal>, and <literal>command</literal>.
 	  These are almost all self explanatory.
 	  <literal>minute</literal> is the time in minutes when the
-	  specified command
-	  will be run.  <literal>hour</literal> is the hour when
-	  the specified command will be run.
+	  specified command will be run.  <literal>hour</literal> is
+	  the hour when the specified command will be run.
 	  <literal>mday</literal> stands for day of the month and
-	  <literal>month</literal>
-	  designates the month.  The <literal>wday</literal> option
-	  stands for day of the week.  These fields must be
-	  numeric values, representing the twenty-four hour clock,
-	  or a <literal>*</literal>, representing all values for that
-	  field.  The
+	  <literal>month</literal> designates the month.  The
+	  <literal>wday</literal> option stands for day of the week.
+	  These fields must be numeric values, representing the
+	  twenty-four hour clock, or a <literal>*</literal>,
+	  representing all values for that field.  The
 	  <literal>who</literal> field only exists in the system
-	  crontab.  This field specifies
-	  which user the command should be run as.  The last field is
-	  the command to be executed.</para>
+	  crontab.  This field specifies which user the command
+	  should be run as.  The last field is the command to be
+	  executed.</para>
       </callout>
 
       <callout arearefs="co-main">
@@ -580,9 +560,8 @@ PATH=/etc:/bin:/sbin:/usr/bin:/usr/sbin <co id="co-env"/>
 	  <literal>*</literal> characters mean
 	  <quote>first-last</quote>, and can be interpreted as
 	  <emphasis>every</emphasis> time.  In this example,
-	  &man.atrun.8; is invoked by
-	  <username>root</username> every five minutes, regardless of
-	  the day or month.</para>
+	  &man.atrun.8; is invoked by <username>root</username>
+	  every five minutes, regardless of the day or month.</para>
 
 	<para>Commands can have any number of flags passed to them;
 	  however, commands which extend to multiple lines need to be
@@ -591,11 +570,10 @@ PATH=/etc:/bin:/sbin:/usr/bin:/usr/sbin <co id="co-env"/>
       </callout>
     </calloutlist>
 
-    <para>This is the basic setup for every
-      &man.crontab.5;.  However, field number six, which specifies
-      the username, only exists in the system
-      &man.crontab.5;.  This field should be omitted for
-      individual user &man.crontab.5; files.</para>
+    <para>This is the basic setup for every &man.crontab.5;.
+      However, field number six, which specifies the username, only
+      exists in the system &man.crontab.5;.  This field should be
+      omitted for individual user &man.crontab.5; files.</para>
 
     <sect2 id="configtuning-installcrontab">
       <title>Installing a Crontab</title>
@@ -604,17 +582,16 @@ PATH=/etc:/bin:/sbin:/usr/bin:/usr/sbin <co id="co-env"/>
 	<para>Do not use the procedure described here to edit and
 	  install the system crontab,
 	  <filename>/etc/crontab</filename>.  Instead, use an
-	  editor and &man.cron.8; will notice that the file
-	  has changed and immediately begin using the updated version.
+	  editor and &man.cron.8; will notice that the file has
+	  changed and immediately begin using the updated version.
 	  See <ulink
 	    url="&url.books.faq;/admin.html#root-not-found-cron-errors">
 	    this FAQ entry</ulink> for more information.</para>
       </important>
 
-      <para>To install a freshly written user
-	&man.crontab.5;, use an editor to create
-	and save a file in the proper format.  Then, specify the file
-	name with &man.crontab.1;:</para>
+      <para>To install a freshly written user &man.crontab.5;, use
+	an editor to create and save a file in the proper format.
+	Then, specify the file name with &man.crontab.1;:</para>
 
       <screen>&prompt.user; <userinput>crontab crontab-file</userinput></screen>
 
@@ -627,13 +604,12 @@ PATH=/etc:/bin:/sbin:/usr/bin:/usr/sbin <co id="co-env"/>
 
       <para>Users who wish to begin their own crontab file from
 	scratch, without the use of a template, can use
-	<command>crontab -e</command>.  This will
-	invoke the default editor with an empty file.  When the file
-	is saved, it will be automatically installed by
-	&man.crontab.1;.</para>
+	<command>crontab -e</command>.  This will invoke the default
+	editor with an empty file.  When the file is saved, it will
+	be automatically installed by &man.crontab.1;.</para>
 
-      <para>In order to remove a user &man.crontab.5;
-	completely, use <command>crontab -r</command>.</para>
+      <para>In order to remove a user &man.crontab.5; completely,
+	use <command>crontab -r</command>.</para>
     </sect2>
   </sect1>
 
@@ -651,46 +627,41 @@ PATH=/etc:/bin:/sbin:/usr/bin:/usr/sbin <co id="co-env"/>
 
     <title>Using &man.rc.8; Under &os;</title>
 
-    <para>In 2002, &os; integrated the NetBSD &man.rc.8;
-      system for system initialization.  The files
-      listed in <filename class="directory">/etc/rc.d</filename>
-      provide basic services which can
-      be controlled with the <option>start</option>,
+    <para>In 2002, &os; integrated the NetBSD &man.rc.8; system for
+      system initialization.  The files listed in <filename
+	class="directory">/etc/rc.d</filename> provide basic services
+      which can be controlled with the <option>start</option>,
       <option>stop</option>, and <option>restart</option> options
-      to &man.service.8;.
-      For instance, &man.sshd.8; can be restarted with the following
-      command:</para>
+      to &man.service.8;.  For instance, &man.sshd.8; can be restarted
+      with the following command:</para>
 
     <screen>&prompt.root; <userinput>service sshd restart</userinput></screen>
 
     <para>This procedure can be used to start services on a running
-      system.
-      Services will be started automatically at boot time as
-      specified in &man.rc.conf.5;.  For example, to enable &man.natd.8;
-      at system startup, add the
-      following line to <filename>/etc/rc.conf</filename>:</para>
+      system.  Services will be started automatically at boot time
+      as specified in &man.rc.conf.5;.  For example, to enable
+      &man.natd.8; at system startup, add the following line to
+      <filename>/etc/rc.conf</filename>:</para>
 
     <programlisting>natd_enable="YES"</programlisting>
 
     <para>If a <option>natd_enable="NO"</option> line is already
       present, change the <literal>NO</literal> to
       <literal>YES</literal>.  The &man.rc.8; scripts will
-      automatically load
-      any dependent services during the next boot, as
-      described below.</para>
+      automatically load any dependent services during the next boot,
+      as described below.</para>
 
-    <para>Since the &man.rc.8; system is primarily
-      intended to start and stop services at system startup and
-      shutdown time,
-      the <option>start</option>, <option>stop</option> and
+    <para>Since the &man.rc.8; system is primarily intended to start
+      and stop services at system startup and shutdown time, the
+      <option>start</option>, <option>stop</option> and
       <option>restart</option> options will only perform their action
       if the appropriate <filename>/etc/rc.conf</filename> variable
       is set.  For instance, <command>sshd restart</command> will
       only work if <varname>sshd_enable</varname> is set to
       <option>YES</option> in <filename>/etc/rc.conf</filename>.
       To <option>start</option>, <option>stop</option> or
-      <option>restart</option> a service regardless of the settings in
-      <filename>/etc/rc.conf</filename>, these commands should be
+      <option>restart</option> a service regardless of the settings
+      in <filename>/etc/rc.conf</filename>, these commands should be
       prefixed with <quote>one</quote>.  For instance, to restart
       &man.sshd.8; regardless of the current
       <filename>/etc/rc.conf</filename> setting, execute the following
@@ -700,9 +671,8 @@ PATH=/etc:/bin:/sbin:/usr/bin:/usr/sbin <co id="co-env"/>
 
     <para>To check if a service is enabled in
       <filename>/etc/rc.conf</filename>, run the appropriate
-      &man.rc.8; script with
-      <option>rcvar</option>.  This example checks to see if
-      &man.sshd.8; is enabled in
+      &man.rc.8; script with <option>rcvar</option>.  This example
+      checks to see if &man.sshd.8; is enabled in
       <filename>/etc/rc.conf</filename>:</para>
 
     <screen>&prompt.root; <userinput>service sshd rcvar</userinput>
@@ -711,9 +681,7 @@ $sshd_enable=YES</screen>
 
     <note>
       <para>The <literal># sshd</literal> line is output from the
-	above command,
-	not a
-	<username>root</username> console.</para>
+	above command, not a <username>root</username> console.</para>
     </note>
 
     <para>To determine whether or not a service is running, use
@@ -723,40 +691,38 @@ $sshd_enable=YES</screen>
     <screen>&prompt.root; <userinput>service sshd status</userinput>
 sshd is running as pid 433.</screen>
 
-    <para>In some cases, it is also possible to <option>reload</option>
-      a service.  This attempts to send a signal to an individual
-      service, forcing the service to reload its configuration files.
-      In most cases, this means sending the service a
-      <literal>SIGHUP</literal> signal.  Support for this feature is
-      not included for every service.</para>
+    <para>In some cases, it is also possible to
+      <option>reload</option> a service.  This attempts to send a
+      signal to an individual service, forcing the service to reload
+      its configuration files.  In most cases, this means sending
+      the service a <literal>SIGHUP</literal> signal.  Support for
+      this feature is not included for every service.</para>
 
-    <para>The &man.rc.8; system is used for
-      network services and it also contributes to most of the system
-      initialization.  For instance, when the
+    <para>The &man.rc.8; system is used for network services and it
+      also contributes to most of the system initialization.  For
+      instance, when the
       <filename>/etc/rc.d/bgfsck</filename> script is executed, it
-      prints
-      out the following message:</para>
+      prints out the following message:</para>
 
     <screen>Starting background file system checks in 60 seconds.</screen>
 
-    <para>This script is used for background file system
-      checks, which occur only during system initialization.</para>
+    <para>This script is used for background file system checks,
+      which occur only during system initialization.</para>
 
     <para>Many system services depend on other services to function
       properly.  For example, &man.yp.8; and other
-      <acronym>RPC</acronym>-based services may
-      fail to start until after the &man.rpcbind.8;
-      service has started.  To resolve this issue,
-      information about dependencies and other meta-data is included
-      in the comments at the top of each startup script.  The
-      &man.rcorder.8; program is used to parse these comments
+      <acronym>RPC</acronym>-based services may fail to start until
+      after the &man.rpcbind.8; service has started.  To resolve this
+      issue, information about dependencies and other meta-data is
+      included in the comments at the top of each startup script.
+      The &man.rcorder.8; program is used to parse these comments
       during system initialization to determine the order in which
       system services should be invoked to satisfy the
       dependencies.</para>
 
-    <para>The following key word must be included in all startup scripts
-      as it is required by &man.rc.subr.8; to <quote>enable</quote>
-      the startup script:</para>
+    <para>The following key word must be included in all startup
+      scripts as it is required by &man.rc.subr.8; to
+      <quote>enable</quote> the startup script:</para>
 
     <itemizedlist>
       <listitem>
@@ -773,15 +739,15 @@ sshd is running as pid 433.</screen>
       <listitem>
 	<para><literal>REQUIRE</literal>: Lists services which are
 	  required for this service.  The script containing this key
-	  word will run
-	  <emphasis>after</emphasis> the specified services.</para>
+	  word will run <emphasis>after</emphasis> the specified
+	  services.</para>
       </listitem>
 
       <listitem>
 	<para><literal>BEFORE</literal>: Lists services which depend
 	  on this service.  The script containing this key word will
-	  run
-	  <emphasis>before</emphasis> the specified services.</para>
+	  run <emphasis>before</emphasis> the specified
+	  services.</para>
       </listitem>
     </itemizedlist>
 
@@ -791,9 +757,9 @@ sshd is running as pid 433.</screen>
       <quote>runlevels</quote> used by some &unix; operating
       systems.</para>
 
-    <para>Additional information
-      can be found in &man.rc.8; and &man.rc.subr.8;.  Refer to
-      <ulink url="&url.articles.rc-scripting">this article</ulink> for
+    <para>Additional information can be found in &man.rc.8; and
+      &man.rc.subr.8;.  Refer to <ulink
+	url="&url.articles.rc-scripting">this article</ulink> for
       instructions on how to create custom &man.rc.8;
       scripts.</para>
   </sect1>
@@ -818,8 +784,8 @@ sshd is running as pid 433.</screen>
     </indexterm>
 
     <para>Adding and configuring a network interface card
-      (<acronym>NIC</acronym>)  is a common task for
-      any &os; administrator.</para>
+      (<acronym>NIC</acronym>)  is a common task for any &os;
+      administrator.</para>
 
     <sect2>
       <title>Locating the Correct Driver</title>
@@ -832,14 +798,12 @@ sshd is running as pid 433.</screen>
       <para>First, determine the model of the <acronym>NIC</acronym>
 	and the chip it uses.  &os; supports a wide variety of
 	<acronym>NIC</acronym>s.  Check the Hardware Compatibility
-	List for
-	the &os; release to see if the <acronym>NIC</acronym> is
-	supported.</para>
+	List for the &os; release to see if the <acronym>NIC</acronym>
+	is supported.</para>
 
       <para>If the <acronym>NIC</acronym> is supported, determine
-	the name of the &os;
-	driver for the <acronym>NIC</acronym>.  Refer to
-	<filename>/usr/src/sys/conf/NOTES</filename> and
+	the name of the &os; driver for the <acronym>NIC</acronym>.
+	Refer to <filename>/usr/src/sys/conf/NOTES</filename> and
 	<filename>/usr/src/sys/<replaceable>arch</replaceable>/conf/NOTES</filename>
 	for the list of <acronym>NIC</acronym> drivers with some
 	information about the supported chipsets.  When in doubt, read
@@ -848,12 +812,10 @@ sshd is running as pid 433.</screen>
 	limitations of the driver.</para>
 
       <para>The drivers for common <acronym>NIC</acronym>s are
-	already present
-	in the <filename>GENERIC</filename> kernel, meaning the
-	<acronym>NIC</acronym>
-	should show up during boot.  In this example, two
-	<acronym>NIC</acronym>s using
-	the &man.dc.4; driver are present on the system:</para>
+	already present in the <filename>GENERIC</filename> kernel,
+	meaning the <acronym>NIC</acronym> should show up during boot.
+	In this example, two <acronym>NIC</acronym>s using the
+	&man.dc.4; driver are present on the system:</para>
 
       <screen>dc0: &lt;82c169 PNIC 10/100BaseTX&gt; port 0xa000-0xa0ff mem 0xd3800000-0xd38
 000ff irq 15 at device 11.0 on pci0
@@ -871,36 +833,33 @@ dc1: Ethernet address: 00:a0:cc:da:da:db
 dc1: [ITHREAD]</screen>
 
       <para>If the driver for the <acronym>NIC</acronym> is not
-	present in
-	<filename>GENERIC</filename>, but a driver is available, the
-	driver will need to be loaded before the
-	<acronym>NIC</acronym> can be
-	configured and used.  This may be accomplished in one of two
-	ways:</para>
+	present in <filename>GENERIC</filename>, but a driver is
+	available, the driver will need to be loaded before the
+	<acronym>NIC</acronym> can be configured and used.  This may
+	be accomplished in one of two ways:</para>
 
       <itemizedlist>
 	<listitem>
 	  <para>The easiest way is to load a kernel module for the
 	    <acronym>NIC</acronym> using &man.kldload.8;.  To also
-	    automatically
-	    load the driver at boot time, add the appropriate line to
+	    automatically load the driver at boot time, add the
+	    appropriate line to
 	    <filename>/boot/loader.conf</filename>.  Not all
-	    <acronym>NIC</acronym>
-	    drivers are available as modules.</para>
+	    <acronym>NIC</acronym> drivers are available as
+	    modules.</para>
 	</listitem>
 
 	<listitem>
 	  <para>Alternatively, statically compile support for the
-	    <acronym>NIC</acronym>
-	    into a custom kernel.  Refer to
+	    <acronym>NIC</acronym> into a custom kernel.  Refer to
 	    <filename>/usr/src/sys/conf/NOTES</filename>,
 	    <filename>/usr/src/sys/<replaceable>arch</replaceable>/conf/NOTES</filename>
 	    and the manual page of the driver to determine which line
 	    to add to the custom kernel configuration file.  For more
-	    information about recompiling the kernel, refer to
-	    <xref linkend="kernelconfig"/>.  If the
-	    <acronym>NIC</acronym> was detected
-	    at boot, the kernel does not need to be recompiled.</para>
+	    information about recompiling the kernel, refer to <xref
+	      linkend="kernelconfig"/>.  If the
+	    <acronym>NIC</acronym> was detected at boot, the kernel
+	    does not need to be recompiled.</para>
 	</listitem>
       </itemizedlist>
 
@@ -914,7 +873,8 @@ dc1: [ITHREAD]</screen>
 	  <secondary>device drivers</secondary>
 	</indexterm>
 	<indexterm>
-	  <primary><acronym>KLD</acronym> (kernel loadable object)</primary>
+	  <primary><acronym>KLD</acronym> (kernel loadable
+	    object)</primary>
 	</indexterm>
 <!-- We should probably omit the expanded name, and add a <see> entry
 for it.  Whatever is done must also be done to the same indexterm in
@@ -925,23 +885,19 @@ linuxemu/chapter.xml -->
 	  community because they regard such information as trade
 	  secrets.  Consequently, the developers of &os; and other
 	  operating systems are left with two choices: develop the
-	  drivers
-	  by a long and pain-staking process of reverse engineering or
-	  using the existing driver binaries available for
-	  &microsoft.windows; platforms.</para>
+	  drivers by a long and pain-staking process of reverse
+	  engineering or using the existing driver binaries available
+	  for &microsoft.windows; platforms.</para>
 
-	<para>&os; provides
-	  <quote>native</quote> support for the Network Driver
-	    Interface Specification (<acronym>NDIS</acronym>).  It
-	  includes
-	  &man.ndisgen.8; which can be used to
-	  convert a &windowsxp; driver
-	  into a format that can be used on &os;.
-	  Because the &man.ndis.4; driver uses a
-	  &windowsxp; binary, it only runs on &i386; and amd64 systems.
-	  <acronym>PCI</acronym>, CardBus, <acronym>PCMCIA</acronym>,
-	  and <acronym>USB</acronym> devices are
-	  supported.</para>
+	<para>&os; provides <quote>native</quote> support for the
+	  Network Driver Interface Specification
+	  (<acronym>NDIS</acronym>).  It includes &man.ndisgen.8;
+	  which can be used to convert a &windowsxp; driver into a
+	  format that can be used on &os;.  Because the &man.ndis.4;
+	  driver uses a &windowsxp; binary, it only runs on &i386;
+	  and amd64 systems.  <acronym>PCI</acronym>, CardBus,
+	  <acronym>PCMCIA</acronym>, and <acronym>USB</acronym>
+	  devices are supported.</para>
 
 	<para>To use &man.ndisgen.8;, three things are needed:</para>
 
@@ -963,11 +919,9 @@ linuxemu/chapter.xml -->
 
 	<para>Download the <filename>.SYS</filename> and
 	  <filename>.INF</filename> files for the specific
-	  <acronym>NIC</acronym>.
-	  Generally,
-	  these can be found on the driver CD or at the vendor's
-	  website.  The following examples use
-	  <filename>W32DRIVER.SYS</filename> and
+	  <acronym>NIC</acronym>.  Generally, these can be found on
+	  the driver CD or at the vendor's website.  The following
+	  examples use <filename>W32DRIVER.SYS</filename> and
 	  <filename>W32DRIVER.INF</filename>.</para>
 
 	<para>The driver bit width must match the version of &os;.
@@ -982,9 +936,8 @@ linuxemu/chapter.xml -->
 
 	<para>This command is interactive and prompts for any extra
 	  information it requires.  A new kernel module will be
-	  generated in
-	  the current directory.  Use &man.kldload.8; to load the new
-	  module:</para>
+	  generated in the current directory.  Use &man.kldload.8;
+	  to load the new module:</para>
 
 	<screen>&prompt.root; <userinput>kldload <replaceable>./W32DRIVER_SYS.ko</replaceable></userinput></screen>
 
@@ -998,13 +951,12 @@ linuxemu/chapter.xml -->
 	<screen>&prompt.root; <userinput>kldload ndis</userinput>
 &prompt.root; <userinput>kldload if_ndis</userinput></screen>
 
-	<para>The first command loads the &man.ndis.4;
-	  miniport driver
-	  wrapper and the second loads the generated <acronym>NIC</acronym>
-	  driver.</para>
+	<para>The first command loads the &man.ndis.4; miniport driver
+	  wrapper and the second loads the generated
+	  <acronym>NIC</acronym> driver.</para>
 
-	<para>Check &man.dmesg.8; to see if there were any load errors.
-	  If all went well, the output should be similar to
+	<para>Check &man.dmesg.8; to see if there were any load
+	  errors.  If all went well, the output should be similar to
 	  the following:</para>
 
 	<screen>ndis0: &lt;Wireless-G PCI Adapter&gt; mem 0xf4100000-0xf4101fff irq 3 at device 8.0 on pci1
@@ -1013,15 +965,14 @@ ndis0: Ethernet address: 0a:b1:2c:d3:4e:f5
 ndis0: 11b rates: 1Mbps 2Mbps 5.5Mbps 11Mbps
 ndis0: 11g rates: 6Mbps 9Mbps 12Mbps 18Mbps 36Mbps 48Mbps 54Mbps</screen>
 
-	<para>From here,
-	  <devicename>ndis0</devicename> can be configured like any other
-	  <acronym>NIC</acronym>.</para>
+	<para>From here, <devicename>ndis0</devicename> can be
+	  configured like any other <acronym>NIC</acronym>.</para>
 
-	<para>To configure the system to load the &man.ndis.4; modules at
-	  boot time, copy the generated module,
+	<para>To configure the system to load the &man.ndis.4; modules
+	  at boot time, copy the generated module,
 	  <filename>W32DRIVER_SYS.ko</filename>, to <filename
-	  class="directory">/boot/modules</filename>.  Then,
-	  add the following line to
+	  class="directory">/boot/modules</filename>.  Then, add the
+	  following line to
 	  <filename>/boot/loader.conf</filename>:</para>
 
 	<programlisting>W32DRIVER_SYS_load="YES"</programlisting>
@@ -1037,8 +988,7 @@ ndis0: 11g rates: 6Mbps 9Mbps 12Mbps 18Mbps 36Mbps 48Mbps 54Mbps</screen>
       </indexterm>
 
       <para>Once the right driver is loaded for the
-	<acronym>NIC</acronym>, the
-	card needs to be configured.  It
+	<acronym>NIC</acronym>, the card needs to be configured.  It
 	may have been configured at installation time by
 	&man.sysinstall.8;.</para>
 
@@ -1088,13 +1038,12 @@ lo0: flags=8049&lt;UP,LOOPBACK,RUNNING,MULTICAST&gt; metric 0 mtu 16384
       <para>&os; uses the driver name followed by the order in which
 	the card is detected at boot to name the
 	<acronym>NIC</acronym>.  For example,
-	<devicename>sis2</devicename> is
-	the third <acronym>NIC</acronym> on the system using the
-	&man.sis.4;
+	<devicename>sis2</devicename> is the third
+	<acronym>NIC</acronym> on the system using the &man.sis.4;
 	driver.</para>
 
-      <para>In this example, <devicename>dc0</devicename>
-	is up and running.  The key indicators are:</para>
+      <para>In this example, <devicename>dc0</devicename> is up and
+	running.  The key indicators are:</para>
 
       <orderedlist>
 	<listitem>
@@ -1104,26 +1053,26 @@ lo0: flags=8049&lt;UP,LOOPBACK,RUNNING,MULTICAST&gt; metric 0 mtu 16384
 
 	<listitem>
 	  <para>The card has an Internet (<literal>inet</literal>)
-	    address,
-	    <hostid role="ipaddr">192.168.1.3</hostid>.</para>
+	    address, <hostid
+	      role="ipaddr">192.168.1.3</hostid>.</para>
 	</listitem>
 
 	<listitem>
 	  <para>It has a valid subnet mask
-	    (<literal>netmask</literal>), where
-	    <hostid role="netmask">0xffffff00</hostid> is the same as
+	    (<literal>netmask</literal>), where <hostid
+	      role="netmask">0xffffff00</hostid> is the same as
 	    <hostid role="netmask">255.255.255.0</hostid>.</para>
 	</listitem>
 
 	<listitem>
-	  <para>It has a valid broadcast address,
-	    <hostid role="ipaddr">192.168.1.255</hostid>.</para>
+	  <para>It has a valid broadcast address, <hostid
+	      role="ipaddr">192.168.1.255</hostid>.</para>
 	</listitem>
 
 	<listitem>
 	  <para>The <acronym>MAC</acronym> address of the card
-	    (<literal>ether</literal>)
-	    is <hostid role="mac">00:a0:cc:da:da:da</hostid>.</para>
+	    (<literal>ether</literal>) is <hostid
+	      role="mac">00:a0:cc:da:da:da</hostid>.</para>
 	</listitem>
 
 	<listitem>
@@ -1157,14 +1106,12 @@ lo0: flags=8049&lt;UP,LOOPBACK,RUNNING,MULTICAST&gt; metric 0 mtu 16384
 
       <para>it would indicate the card has not been configured.</para>
 
-      <para>The card must be configured as
-	<username>root</username>.  The <acronym>NIC</acronym>
-	configuration can be performed from the command line with
-	&man.ifconfig.8; but will not persist after a reboot unless
-	the configuration is also added to
-	<filename>/etc/rc.conf</filename>.  Add a
-	line for each <acronym>NIC</acronym> present on the system,
-	as seen in
+      <para>The card must be configured as <username>root</username>.
+	The <acronym>NIC</acronym> configuration can be performed
+	from the command line with &man.ifconfig.8; but will not
+	persist after a reboot unless the configuration is also added
+	to <filename>/etc/rc.conf</filename>.  Add a line for each
+	<acronym>NIC</acronym> present on the system, as seen in
 	this example:</para>
 
       <programlisting>ifconfig_dc0="inet 192.168.1.3 netmask 255.255.255.0"
@@ -1172,31 +1119,27 @@ ifconfig_dc1="inet 10.0.0.1 netmask 255.255.255.0 media 10baseT/UTP"</programlis
 
       <para>Replace <devicename>dc0</devicename> and
 	<devicename>dc1</devicename> and the <acronym>IP</acronym>
-	address information
-	with the correct values for the system.
+	address information with the correct values for the system.
 	Refer to the man page for the driver, &man.ifconfig.8;, and
 	&man.rc.conf.5; for more details about the allowed options and
 	the syntax of <filename>/etc/rc.conf</filename>.</para>
 
       <para>If the network was configured during installation, some
-	entries for the <acronym>NIC</acronym>(s) may be already present.
-	Double check <filename>/etc/rc.conf</filename> before adding
-	any lines.</para>
+	entries for the <acronym>NIC</acronym>(s) may be already
+	present.  Double check <filename>/etc/rc.conf</filename>
+	before adding any lines.</para>
 
       <para>If the network is not using <acronym>DNS</acronym>, edit
 	<filename>/etc/hosts</filename> to add the names and
-	<acronym>IP</acronym>
-	addresses of of the hosts on the <acronym>LAN</acronym>, if
-	they are not
-	already there.  For more information, refer to &man.hosts.5;
-	and to
+	<acronym>IP</acronym> addresses of of the hosts on the
+	<acronym>LAN</acronym>, if they are not already there.  For
+	more information, refer to &man.hosts.5; and to
 	<filename>/usr/share/examples/etc/hosts</filename>.</para>
 
       <note>
 	<para>If there is no <acronym>DHCP</acronym> server and
-	  access to the Internet is
-	  needed, manually configure the default gateway and the
-	  nameserver:</para>
+	  access to the Internet is needed, manually configure the
+	  default gateway and the nameserver:</para>
 
 	<screen>&prompt.root; <userinput>echo 'defaultrouter="<replaceable>your_default_router</replaceable>"' &gt;&gt; /etc/rc.conf</userinput>
 &prompt.root; <userinput>echo 'nameserver <replaceable>your_DNS_server</replaceable>' &gt;&gt; /etc/resolv.conf</userinput></screen>
@@ -1236,8 +1179,7 @@ ifconfig_dc1="inet 10.0.0.1 netmask 255.255.255.0 media 10baseT/UTP"</programlis
 
 	<para>To verify that an Ethernet card is configured correctly,
 	  &man.ping.8; the interface itself, and then &man.ping.8;
-	  another machine on
-	  the <acronym>LAN</acronym>:</para>
+	  another machine on the <acronym>LAN</acronym>:</para>
 
 	<screen>&prompt.user; <userinput>ping -c5 192.168.1.3</userinput>
 PING 192.168.1.3 (192.168.1.3): 56 data bytes
@@ -1264,8 +1206,8 @@ PING 192.168.1.2 (192.168.1.2): 56 data bytes
 round-trip min/avg/max/stddev = 0.700/0.729/0.766/0.025 ms</screen>
 
 	<para>To test network resolution, use the host name instead
-	  of the <acronym>IP</acronym> address.  If there is
-	  no <acronym>DNS</acronym> server on the network,
+	  of the <acronym>IP</acronym> address.  If there is no
+	  <acronym>DNS</acronym> server on the network,
 	  <filename>/etc/hosts</filename> must first be
 	  configured.</para>
       </sect3>
@@ -1278,20 +1220,19 @@ round-trip min/avg/max/stddev = 0.700/0.729/0.766/0.025 ms</screen>
 	  <secondary>troubleshooting</secondary>
 	</indexterm>
 
-	<para>When troubleshooting hardware and software configurations,
-	  check the simple things first.  Is the network cable
-	  plugged in?  Are the network services properly configured?
-	  Is the firewall configured correctly?  Is the
-	  <acronym>NIC</acronym>
-	  supported by &os;?  Before sending a bug report, always
-	  check the Hardware Notes, update the version of &os; to the
-	  latest STABLE version, check the mailing list archives, and
-	  search the Internet.</para>
+	<para>When troubleshooting hardware and software
+	  configurations, check the simple things first.  Is the
+	  network cable plugged in?  Are the network services properly
+	  configured?  Is the firewall configured correctly?  Is the
+	  <acronym>NIC</acronym> supported by &os;?  Before sending
+	  a bug report, always check the Hardware Notes, update the
+	  version of &os; to the latest STABLE version, check the
+	  mailing list archives, and search the Internet.</para>
 
-	<para>If the card works, yet performance is poor,
-	  read through &man.tuning.7;.
-	  Also, check the network configuration as incorrect network
-	  settings can cause slow connections.</para>
+	<para>If the card works, yet performance is poor, read
+	  through &man.tuning.7;.  Also, check the network
+	  configuration as incorrect network settings can cause slow
+	  connections.</para>
 
 	<para>Some users experience one or two
 	  <errorname>device timeout</errorname> messages, which is
@@ -1300,14 +1241,12 @@ round-trip min/avg/max/stddev = 0.700/0.729/0.766/0.025 ms</screen>
 	  Double check the cable connections.  Consider trying another
 	  card.</para>
 
-	<para>To resolve
-	  <errorname>watchdog timeout</errorname> errors,  first
-	  check the network cable.  Many cards
+	<para>To resolve <errorname>watchdog timeout</errorname>
+	  errors,  first check the network cable.  Many cards
 	  require a <acronym>PCI</acronym> slot which supports bus
-	  mastering.  On some
-	  old motherboards, only one <acronym>PCI</acronym> slot
-	  allows it, usually slot
-	  0.  Check the <acronym>NIC</acronym> and the motherboard
+	  mastering.  On some old motherboards, only one
+	  <acronym>PCI</acronym> slot allows it, usually slot 0.
+	  Check the <acronym>NIC</acronym> and the motherboard
 	  documentation to determine if that may be the
 	  problem.</para>
 
@@ -1316,22 +1255,22 @@ round-trip min/avg/max/stddev = 0.700/0.729/0.766/0.025 ms</screen>
 	  host.  This can happen if no default route is specified or
 	  if a cable is unplugged.  Check the output of
 	  <command>netstat -rn</command> and make sure there is a
-	  valid route to the host.  If there is not, read
-	  <xref linkend="advanced-networking"/>.</para>
+	  valid route to the host.  If there is not, read <xref
+	    linkend="advanced-networking"/>.</para>
 
 	<para><errorname>ping: sendto: Permission denied</errorname>
 	  error messages are often caused by a misconfigured firewall.
-	  If a firewall is enabled on &os; but no
-	  rules have been defined, the default policy is to deny
-	  all traffic, even &man.ping.8;.  Refer to
-	  <xref linkend="firewalls"/> for more information.</para>
+	  If a firewall is enabled on &os; but no rules have been
+	  defined, the default policy is to deny all traffic, even
+	  &man.ping.8;.  Refer to <xref
+	    linkend="firewalls"/> for more information.</para>
 
 	<para>Sometimes performance of the card is poor or below
 	  average.  In these cases, try setting the media
 	  selection mode from <literal>autoselect</literal> to the
 	  correct media selection.  While this works for most
-	  hardware, it may or may not resolve the issue.
-	  Again, check all the network settings, and refer to
+	  hardware, it may or may not resolve the issue.  Again,
+	  check all the network settings, and refer to
 	  &man.tuning.7;.</para>
       </sect3>
     </sect2>
@@ -1341,7 +1280,8 @@ round-trip min/avg/max/stddev = 0.700/0.729/0.766/0.025 ms</screen>
     <title>Virtual Hosts</title>
 
     <indexterm><primary>virtual hosts</primary></indexterm>
-    <indexterm><primary><acronym>IP</acronym> aliases</primary></indexterm>
+    <indexterm><primary><acronym>IP</acronym>
+	aliases</primary></indexterm>
 
     <para>A common use of &os; is virtual site hosting, where one
       server appears to the network as many servers.  This is achieved
@@ -1363,33 +1303,32 @@ round-trip min/avg/max/stddev = 0.700/0.729/0.766/0.025 ms</screen>
       and so on.  The configuration process will stop at the first
       missing number.</para>
 
-    <para>The calculation of alias netmasks is important.
-      For a given interface, there must be
-      one address which correctly represents the network's netmask.
-      Any other addresses which fall within this network must have a
-      netmask of all <literal>1</literal>s, expressed as either
-      <hostid role="netmask">255.255.255.255</hostid> or
-      <hostid role="netmask">0xffffffff</hostid>.</para>
+    <para>The calculation of alias netmasks is important.  For a
+      given interface, there must be one address which correctly
+      represents the network's netmask.  Any other addresses which
+      fall within this network must have a netmask of all
+      <literal>1</literal>s, expressed as either <hostid
+	role="netmask">255.255.255.255</hostid> or <hostid
+	role="netmask">0xffffffff</hostid>.</para>
 
     <para>For example, consider the case where the
       <devicename>fxp0</devicename> interface is connected to two
-      networks:  <hostid role="ipaddr">10.1.1.0</hostid>
-      with a netmask of <hostid role="netmask">255.255.255.0</hostid>
-      and <hostid role="ipaddr">202.0.75.16</hostid> with
-      a netmask of <hostid role="netmask">255.255.255.240</hostid>.
-      The system is to be configured to appear in the
-      ranges
-      <hostid role="ipaddr">10.1.1.1</hostid> through
-      <hostid role="ipaddr">10.1.1.5</hostid> and
-      <hostid role="ipaddr">202.0.75.17</hostid> through
-      <hostid role="ipaddr">202.0.75.20</hostid>.  Only the first
-      address in a given network range should have a real
-      netmask.  All the rest (<hostid role="ipaddr">10.1.1.2</hostid>
-      through <hostid role="ipaddr">10.1.1.5</hostid> and
-      <hostid role="ipaddr">202.0.75.18</hostid> through
-      <hostid role="ipaddr">202.0.75.20</hostid>) must be configured
-      with a netmask of
-      <hostid role="netmask">255.255.255.255</hostid>.</para>
+      networks:  <hostid role="ipaddr">10.1.1.0</hostid> with a
+      netmask of <hostid role="netmask">255.255.255.0</hostid> and
+      <hostid role="ipaddr">202.0.75.16</hostid> with a netmask of
+      <hostid role="netmask">255.255.255.240</hostid>.  The system
+      is to be configured to appear in the ranges <hostid
+	role="ipaddr">10.1.1.1</hostid> through <hostid
+	role="ipaddr">10.1.1.5</hostid> and <hostid
+	role="ipaddr">202.0.75.17</hostid> through <hostid
+	role="ipaddr">202.0.75.20</hostid>.  Only the first address
+      in a given network range should have a real netmask.  All the
+      rest (<hostid role="ipaddr">10.1.1.2</hostid> through <hostid
+	role="ipaddr">10.1.1.5</hostid> and <hostid
+	role="ipaddr">202.0.75.18</hostid> through <hostid
+	role="ipaddr">202.0.75.20</hostid>) must be configured with
+      a netmask of <hostid
+	role="netmask">255.255.255.255</hostid>.</para>
 
     <para>The following <filename>/etc/rc.conf</filename> entries
       configure the adapter correctly for this scenario:</para>
@@ -1426,18 +1365,17 @@ ifconfig_fxp0_alias7="inet 202.0.75.20 netmask 255.255.255.255"</programlisting>
 
     <para>System logging is an important aspect of system
       administration.  It is used to detect hardware and software
-      issues and errors in the system.  It plays an
-      important role in security auditing and incident response.
-      System daemons without a controlling terminal usually log
-      information to a system logging facility or other log
-      file.</para>
+      issues and errors in the system.  It plays an important role
+      in security auditing and incident response.  System daemons
+      without a controlling terminal usually log information to a
+      system logging facility or other log file.</para>
 
     <para>This section describes how to configure and use the &os;
       system logger, &man.syslogd.8;, and how to perform log rotation
-      and log management using &man.newsyslog.8;.  Focus
-      will be on setting up and using &man.syslogd.8; on
-      a local machine.  For more advanced setups using a separate
-      loghost, see <xref linkend="network-syslogd"/>.</para>
+      and log management using &man.newsyslog.8;.  Focus will be on
+      setting up and using &man.syslogd.8; on a local machine.  For
+      more advanced setups using a separate loghost, see <xref
+	linkend="network-syslogd"/>.</para>
 
     <sect2>
       <title>Using &man.syslogd.8;</title>
@@ -1478,21 +1416,20 @@ ifconfig_fxp0_alias7="inet 202.0.75.20 netmask 255.255.255.255"</programlisting>
 	remote logging, the hostname of the machine generating
 	the logging event.</para>
 
-      <para>The configuration file for &man.syslogd.8;
-	contains one line per action,
-	and the syntax for each line is a selector field followed by
-	an action field.  The syntax of the selector field is
-	<replaceable>facility.level</replaceable> which will match
-	log messages from <replaceable>facility</replaceable> at level
-	<replaceable>level</replaceable> or higher.  It is also
-	possible to add an optional comparison flag before the level
-	to specify more precisely what is logged.  Multiple
+      <para>The configuration file for &man.syslogd.8; contains one
+	line per action, and the syntax for each line is a selector
+	field followed by an action field.  The syntax of the selector
+	field is <replaceable>facility.level</replaceable> which will
+	match log messages from <replaceable>facility</replaceable>
+	at level <replaceable>level</replaceable> or higher.  It is
+	also possible to add an optional comparison flag before the
+	level to specify more precisely what is logged.  Multiple
 	selector fields can be used for the same action, and are
 	separated with a semicolon (<literal>;</literal>).  Using
-	<literal>*</literal> will match everything.
-	The action field denotes where to send the log message,
-	such as to a file or remote log host.  As an example, here is
-	the default <filename>syslog.conf</filename> from &os;:</para>
+	<literal>*</literal> will match everything.  The action field
+	denotes where to send the log message, such as to a file or
+	remote log host.  As an example, here is the default
+	<filename>syslog.conf</filename> from &os;:</para>
 
       <programlisting># &dollar;&os;&dollar;
 #
@@ -1533,7 +1470,8 @@ cron.*                                          /var/log/cron
 	    <literal>kern.warning</literal>,
 	    <literal>auth.notice</literal> and
 	    <literal>mail.crit</literal>, and send these log messages
-	    to the console (<devicename>/dev/console</devicename>).</para>
+	    to the console
+	    (<devicename>/dev/console</devicename>).</para>
 	</callout>
 
 	<callout arearefs="co-syslog-one-match">
@@ -1551,12 +1489,12 @@ cron.*                                          /var/log/cron
 	</callout>
 
 	<callout arearefs="co-syslog-prog-spec">
-	  <para>Here is an example usage of a
-	    <emphasis>program specification</emphasis>.  This
-	    makes the rules following it only valid for the program
-	    in the program specification.  In this case,
-	    this and the following lines log all messages from
-	    &man.ppp.8;, but no other programs, to
+	  <para>Here is an example usage of a <emphasis>program
+	      specification</emphasis>.  This makes the rules
+	    following it only valid for the program in the program
+	    specification.  In this case, this and the following
+	    lines log all messages from &man.ppp.8;, but no other
+	    programs, to
 	    <filename>/var/log/ppp.log</filename>.</para>
 	</callout>
       </calloutlist>
@@ -1590,10 +1528,10 @@ cron.*                                          /var/log/cron
 
       <para>For more information about the different levels and
 	facilities, refer to &man.syslog.3; and &man.syslogd.8;.
-	For more information about <filename>/etc/syslog.conf</filename>,
-	its syntax, and more advanced usage examples, see
-	&man.syslog.conf.5; and
-	<xref linkend="network-syslogd"/>.</para>
+	For more information about
+	<filename>/etc/syslog.conf</filename>, its syntax, and more
+	advanced usage examples, see &man.syslog.conf.5; and <xref
+	  linkend="network-syslogd"/>.</para>
     </sect2>
 
     <sect2>
@@ -1613,9 +1551,8 @@ cron.*                                          /var/log/cron
 	compresses log files, and optionally creates missing log files
 	and signals programs when log files are moved.  The log files
 	are not necessarily generated by &man.syslogd.8; as
-	&man.newsyslog.8;
-	works with any logs written from any program.  While
-	&man.newsyslog.8; is normally run from
+	&man.newsyslog.8; works with any logs written from any
+	program.  While &man.newsyslog.8; is normally run from
 	&man.cron.8;, it is not a system daemon.  In the default
 	configuration, it is run every hour.</para>
 
@@ -1673,31 +1610,29 @@ cron.*                                          /var/log/cron
 /var/log/xferlog                        600  7     100  *     JC</programlisting>
 
 	<para>Each line starts with the name of the file to be
-	  rotated, optionally followed by an owner
-	  and group for both rotated and newly created files.
-	  The <literal>mode</literal> field sets the permissions on the
-	  log
-	  file and <literal>count</literal> denotes how many rotated
-	  log files should be kept.  The <literal>size</literal> and
-	  <literal>when</literal> fields tell
-	  &man.newsyslog.8; when to rotate the file.
-	  A log file is rotated when either its size is larger than
-	  the <literal>size</literal> field, or when the time in the
+	  rotated, optionally followed by an owner and group for both
+	  rotated and newly created files.  The
+	  <literal>mode</literal> field sets the permissions on the
+	  log file and <literal>count</literal> denotes how many
+	  rotated log files should be kept.  The
+	  <literal>size</literal> and <literal>when</literal> fields
+	  tell &man.newsyslog.8; when to rotate the file.  A log
+	  file is rotated when either its size is larger than the
+	  <literal>size</literal> field, or when the time in the
 	  <literal>when</literal> filed has passed.
 	  <literal>*</literal> means that this field is ignored.  The
 	  <replaceable>flags</replaceable> field gives
-	  &man.newsyslog.8; further instructions, such as
-	  how to compress the rotated file or to create the log file
-	  if it is missing.  The last two fields are optional, and
+	  &man.newsyslog.8; further instructions, such as how to
+	  compress the rotated file or to create the log file if it
+	  is missing.  The last two fields are optional, and
 	  specify the <acronym
-	  role="Process Identifier">PID</acronym> file of a
-	  process and a signal number to send to that process
-	  when the file is rotated.  For more information on all
-	  fields, valid flags, and how to specify the rotation time,
-	  refer to &man.newsyslog.conf.5;.  Since
-	  &man.newsyslog.8; is run from
-	  &man.cron.8;, it can not rotate files more
-	  often than it is run from &man.cron.8;.</para>
+	  role="Process Identifier">PID</acronym> file of a process
+	  and a signal number to send to that process when the file
+	  is rotated.  For more information on all fields, valid
+	  flags, and how to specify the rotation time, refer to
+	  &man.newsyslog.conf.5;.  Since &man.newsyslog.8; is run
+	  from &man.cron.8;, it can not rotate files more often than
+	  it is run from &man.cron.8;.</para>
       </sect3>
     </sect2>
   </sect1>
@@ -1772,8 +1707,8 @@ cron.*                                          /var/log/cron
 	      <entry><filename
 		  class="directory">/var/db</filename></entry>
 	      <entry>Automatically generated system-specific database
-		files, such as the package database and the &man.locate.1;
-		database.</entry>
+		files, such as the package database and the
+		&man.locate.1; database.</entry>
 	    </row>
 	  </tbody>
 	</tgroup>
@@ -1810,9 +1745,9 @@ cron.*                                          /var/log/cron
 	      <row>
 		<entry><literal>nameserver</literal></entry>
 		<entry>The <acronym>IP</acronym> address of a name
-		  server the resolver
-		  should query.  The servers are queried in the order
-		  listed with a maximum of three.</entry>
+		  server the resolver should query.  The servers are
+		  queried in the order listed with a maximum of
+		  three.</entry>
 	      </row>
 
 	      <row>
@@ -1843,10 +1778,9 @@ nameserver 147.11.100.30</programlisting>
 	</note>
 
 	<para>When using <acronym>DHCP</acronym>, &man.dhclient.8;
-	  usually rewrites
-	  <filename>/etc/resolv.conf</filename> with information
-	  received
-	  from the <acronym>DHCP</acronym> server.</para>
+	  usually rewrites <filename>/etc/resolv.conf</filename>
+	  with information received from the <acronym>DHCP</acronym>
+	  server.</para>
       </sect3>
 
       <sect3>
@@ -1855,14 +1789,13 @@ nameserver 147.11.100.30</programlisting>
 	<indexterm><primary>hosts</primary></indexterm>
 
 	<para><filename>/etc/hosts</filename> is a simple text
-	  database which works in
-	  conjunction with <acronym>DNS</acronym> and
+	  database which works in conjunction with
+	  <acronym>DNS</acronym> and
 	  <acronym>NIS</acronym> to provide host name to
-	  <acronym>IP</acronym> address
-	  mappings.  Entries for local computers connected via a
-	  <acronym>LAN</acronym> can be added to this file
-	  for simplistic naming purposes instead of setting up
-	  a &man.named.8; server.  Additionally,
+	  <acronym>IP</acronym> address mappings.  Entries for local
+	  computers connected via a <acronym>LAN</acronym> can be
+	  added to this file for simplistic naming purposes instead
+	  of setting up a &man.named.8; server.  Additionally,
 	  <filename>/etc/hosts</filename> can be used to provide a
 	  local record of Internet names, reducing the need to query
 	  external <acronym>DNS</acronym> servers for commonly
@@ -1926,11 +1859,10 @@ nameserver 147.11.100.30</programlisting>
 
     <para>&man.sysctl.8; is used to make changes to a running &os;
       system.  This includes many advanced options of the
-      <acronym>TCP/IP</acronym> stack
-      and virtual memory system that can dramatically improve
-      performance for an experienced system administrator.  Over five
-      hundred system variables can be read and set using
-      &man.sysctl.8;.</para>
+      <acronym>TCP/IP</acronym> stack and virtual memory system
+      that can dramatically improve performance for an experienced
+      system administrator.  Over five hundred system variables can
+      be read and set using &man.sysctl.8;.</para>
 
     <para>At its core, &man.sysctl.8; serves two functions: to read
       and to modify system settings.</para>
@@ -1952,8 +1884,8 @@ kern.maxproc: 1044</screen>
 kern.maxfiles: 2088 -&gt; 5000</screen>
 
     <para>Settings of sysctl variables are usually either strings,
-      numbers, or booleans, where a a boolean is <literal>1</literal> for
-      yes or <literal>0</literal> for no.</para>
+      numbers, or booleans, where a a boolean is <literal>1</literal>
+      for yes or <literal>0</literal> for no.</para>
 
     <para>To automatically set some variables each time the machine
       boots, add them to <filename>/etc/sysctl.conf</filename>.  For
@@ -1974,9 +1906,8 @@ kern.maxfiles: 2088 -&gt; 5000</screen>
 	variables are settable in this mode.</para>
 
       <para>For example, to turn off logging of fatal signal exits
-	and prevent
-	users from seeing processes started by other users, the
-	following tunables can be set in
+	and prevent users from seeing processes started by other
+	users, the following tunables can be set in
 	<filename>/etc/sysctl.conf</filename>:</para>
 
       <programlisting># Do not log fatal signal exits (e.g., sig 11)
@@ -2002,8 +1933,8 @@ security.bsd.see_other_uids=0</programlisting>
       <title>&man.sysctl.8; Read-only</title>
 
       <para>In some cases it may be desirable to modify read-only
-	&man.sysctl.8; values, which will require a
-	reboot of the system.</para>
+	&man.sysctl.8; values, which will require a reboot of the
+	system.</para>
 
       <para>For instance, on some laptop models the &man.cardbus.4;
 	device will not probe memory ranges and will fail with errors
@@ -2012,12 +1943,11 @@ security.bsd.see_other_uids=0</programlisting>
       <screen>cbb0: Could not map register memory
 device_probe_and_attach: cbb0 attach returned 12</screen>
 
-      <para>The fix requires the modification
-	of a read-only &man.sysctl.8; setting.  Add
+      <para>The fix requires the modification of a read-only
+	&man.sysctl.8; setting.  Add
 	<option>hw.pci.allow_unsupported_io_range=1</option> to
-	<filename>/boot/loader.conf</filename> and reboot.
-	Now &man.cardbus.4; should work
-	properly.</para>
+	<filename>/boot/loader.conf</filename> and reboot.  Now
+	&man.cardbus.4; should work properly.</para>
     </sect2>
   </sect1>
 
@@ -2038,26 +1968,25 @@ device_probe_and_attach: cbb0 attach returned 12</screen>
 	  variable
 	  may be set to either <literal>0</literal> (off) or
 	  <literal>1</literal> (on).  It is set to
-	  <literal>1</literal> by default.
-	  This variable controls how directories are cached by the
-	  system.  Most directories are small, using just a single
-	  fragment (typically 1&nbsp;K) in the file system and
-	  typically 512&nbsp;bytes in the buffer cache.  With this
-	  variable turned off, the buffer cache will only cache
-	  a fixed number of directories, even if the system has a huge
-	  amount of memory.  When turned on, this &man.sysctl.8; allows
-	  the buffer cache to use the <acronym>VM</acronym> page
-	  cache to cache the
-	  directories, making all the memory available for caching
-	  directories.  However, the minimum in-core memory used to
-	  cache a directory is the physical page size (typically
-	  4&nbsp;K) rather than 512&nbsp; bytes.  Keeping this option
-	  enabled is recommended if the system is running any services
-	  which manipulate large numbers of files.  Such services can
+	  <literal>1</literal> by default.  This variable controls
+	  how directories are cached by the system.  Most directories
+	  are small, using just a single fragment (typically 1&nbsp;K)
+	  in the file system and typically 512&nbsp;bytes in the
+	  buffer cache.  With this variable turned off, the buffer
+	  cache will only cache a fixed number of directories, even
+	  if the system has a huge amount of memory.  When turned on,
+	  this &man.sysctl.8; allows the buffer cache to use the
+	  <acronym>VM</acronym> page cache to cache the directories,
+	  making all the memory available for caching directories.
+	  However, the minimum in-core memory used to cache a
+	  directory is the physical page size (typically 4&nbsp;K)
+	  rather than 512&nbsp; bytes.  Keeping this option enabled
+	  is recommended if the system is running any services which
+	  manipulate large numbers of files.  Such services can
 	  include web caches, large mail systems, and news systems.
-	  Keeping this option on will generally not reduce performance,
-	  even with the wasted memory, but one should experiment to
-	  find out.</para>
+	  Keeping this option on will generally not reduce
+	  performance, even with the wasted memory, but one should
+	  experiment to find out.</para>
       </sect3>
 
       <sect3>
@@ -2072,10 +2001,10 @@ device_probe_and_attach: cbb0 attach returned 12</screen>
 	  defaults to <literal>1</literal> (on).  This tells the file
 	  system to issue media writes as full clusters are collected,
 	  which typically occurs when writing large sequential files.
-	  This avoids saturating the buffer cache with dirty
-	  buffers when it would not benefit I/O performance.  However,
-	  this may stall processes and under certain circumstances
-	  should be turned off.</para>
+	  This avoids saturating the buffer cache with dirty buffers
+	  when it would not benefit I/O performance.  However, this
+	  may stall processes and under certain circumstances should
+	  be turned off.</para>
       </sect3>
 
       <sect3>
@@ -2088,21 +2017,19 @@ device_probe_and_attach: cbb0 attach returned 12</screen>
 	<para>The <varname>vfs.hirunningspace</varname> &man.sysctl.8;
 	  variable determines how much outstanding write I/O may be
 	  queued to disk controllers system-wide at any given
-	  instance.  The default is usually sufficient, but on machines
-	  with many disks, try bumping it up to four or five
-	  <emphasis>megabytes</emphasis>.  Setting too
-	  high a value which exceeds the buffer cache's write threshold
-	  can lead to bad clustering performance.  Do not
-	  set this value arbitrarily high as higher write values may
-	  add latency to reads occurring at the same time.</para>
+	  instance.  The default is usually sufficient, but on
+	  machines with many disks, try bumping it up to four or five
+	  <emphasis>megabytes</emphasis>.  Setting too high a value
+	  which exceeds the buffer cache's write threshold can lead
+	  to bad clustering performance.  Do not set this value
+	  arbitrarily high as higher write values may add latency to
+	  reads occurring at the same time.</para>
 
 	<para>There are various other buffer cache and
-	  <acronym>VM</acronym> page cache
-	  related &man.sysctl.8; values.  Modifying these values is
-	  not recommended
-	  as the <acronym>VM</acronym> system does a good
-	  job of automatically
-	  tuning itself.</para>
+	  <acronym>VM</acronym> page cache related &man.sysctl.8;
+	  values.  Modifying these values is not recommended as the
+	  <acronym>VM</acronym> system does a good job of
+	  automatically tuning itself.</para>
       </sect3>
 
       <sect3>
@@ -2112,14 +2039,13 @@ device_probe_and_attach: cbb0 attach returned 12</screen>
 	  <primary><varname>vm.swap_idle_enabled</varname></primary>
 	</indexterm>
 
-	<para>The <varname>vm.swap_idle_enabled</varname> &man.sysctl.8;
-	  variable is useful in large multi-user systems with many
-	  active login
-	  users and lots of idle
-	  processes.  Such systems tend to generate
-	  continuous pressure on free memory reserves.  Turning this
-	  feature on and tweaking the swapout hysteresis (in idle
-	  seconds) via <varname>vm.swap_idle_threshold1</varname> and
+	<para>The <varname>vm.swap_idle_enabled</varname>
+	  &man.sysctl.8; variable is useful in large multi-user
+	  systems with many active login users and lots of idle
+	  processes.  Such systems tend to generate continuous
+	  pressure on free memory reserves.  Turning this feature on
+	  and tweaking the swapout hysteresis (in idle seconds) via
+	  <varname>vm.swap_idle_threshold1</varname> and
 	  <varname>vm.swap_idle_threshold2</varname> depresses the
 	  priority of memory pages associated with idle processes more
 	  quickly then the normal pageout algorithm.  This gives a
@@ -2129,8 +2055,8 @@ device_probe_and_attach: cbb0 attach returned 12</screen>
 	  disk bandwidth.  In a small system this option will have a
 	  determinable effect, but in a large system that is already
 	  doing moderate paging, this option allows the
-	  <acronym>VM</acronym> system to
-	  stage whole processes into and out of memory easily.</para>
+	  <acronym>VM</acronym> system to stage whole processes into
+	  and out of memory easily.</para>
       </sect3>
 
       <sect3>
@@ -2140,27 +2066,23 @@ device_probe_and_attach: cbb0 attach returned 12</screen>
 	  <primary><varname>hw.ata.wc</varname></primary>
 	</indexterm>
 
-	<para>Turning off
-	  <acronym>IDE</acronym> write
-	  caching reduces write bandwidth to
-	  <acronym>IDE</acronym> disks, but may sometimes be
-	  necessary due to data consistency issues
+	<para>Turning off <acronym>IDE</acronym> write caching reduces
+	  write bandwidth to <acronym>IDE</acronym> disks, but may
+	  sometimes be necessary due to data consistency issues
 	  introduced by hard drive vendors.  The problem is that
-	  some <acronym>IDE</acronym>
-	  drives lie about when a write completes.  With
-	  <acronym>IDE</acronym> write
-	  caching turned on, <acronym>IDE</acronym> hard drives
-	  write data to
-	  disk out of order and will sometimes delay writing some
+	  some <acronym>IDE</acronym> drives lie about when a write
+	  completes.  With <acronym>IDE</acronym> write caching
+	  turned on, <acronym>IDE</acronym> hard drives write data
+	  to disk out of order and will sometimes delay writing some
 	  blocks indefinitely when under heavy disk load.  A crash or
 	  power failure may cause serious file system corruption.
 	  Check the default on the system by observing the
 	  <varname>hw.ata.wc</varname> &man.sysctl.8; variable.  If
-	  <acronym>IDE</acronym> write
-	  caching is turned off, one can set this read-only variable to
-	  <literal>1</literal> in <filename>/boot/loader.conf</filename>
-	  in order to enable it at
-	  boot time.</para>
+	  <acronym>IDE</acronym> write caching is turned off, one can
+	  set this read-only variable to
+	  <literal>1</literal> in
+	  <filename>/boot/loader.conf</filename> in order to enable
+	  it at boot time.</para>
 
 	<para>For more information, refer to &man.ata.4;.</para>
       </sect3>
@@ -2178,15 +2100,15 @@ device_probe_and_attach: cbb0 attach returned 12</screen>
 	  <secondary><literal>SCSI DELAY</literal></secondary>
 	</indexterm>
 
-	<para>The <literal>SCSI_DELAY</literal>
-	  kernel configuration option may be
-	  used to reduce system boot times.  The defaults are fairly
-	  high and can be responsible for <literal>15</literal>
-	  seconds of delay in the boot process.  Reducing it to
-	  <literal>5</literal> seconds usually works with
-	  modern drives.  The <varname>kern.cam.scsi_delay</varname>
-	  boot time tunable should be used.  The tunable and kernel
-	  configuration option accept values in terms of
+	<para>The <literal>SCSI_DELAY</literal> kernel configuration
+	  option may be used to reduce system boot times.  The
+	  defaults are fairly high and can be responsible for
+	  <literal>15</literal> seconds of delay in the boot process.
+	  Reducing it to <literal>5</literal> seconds usually works
+	  with modern drives.  The
+	  <varname>kern.cam.scsi_delay</varname> boot time tunable
+	  should be used.  The tunable and kernel configuration
+	  option accept values in terms of
 	  <emphasis>milliseconds</emphasis> and
 	  <emphasis>not</emphasis>
 	  <emphasis>seconds</emphasis>.</para>
@@ -2199,10 +2121,9 @@ device_probe_and_attach: cbb0 attach returned 12</screen>
       <indexterm><primary>Soft Updates</primary></indexterm>
       <indexterm><primary>&man.tunefs.8;</primary></indexterm>
 
-      <para>To fine-tune a
-	file system, use &man.tunefs.8;.  This program has many
-	different options.  To toggle Soft Updates on and
-	off, use:</para>
+      <para>To fine-tune a file system, use &man.tunefs.8;.  This
+	program has many different options.  To toggle Soft Updates
+	on and off, use:</para>
 
       <screen>&prompt.root; <userinput>tunefs -n enable /filesystem</userinput>
 &prompt.root; <userinput>tunefs -n disable /filesystem</userinput></screen>
@@ -2212,17 +2133,15 @@ device_probe_and_attach: cbb0 attach returned 12</screen>
 	any partitions have been mounted, in single-user mode.</para>
 
       <para>Soft Updates is recommended for <acronym>UFS</acronym>
-	file systems as it
-	drastically improves meta-data performance,
+	file systems as it drastically improves meta-data performance,
 	mainly file creation and deletion, through the use of a memory
-	cache.  There are two downsides to Soft Updates to
-	be aware of.  First, Soft Updates guarantee file system
-	consistency in the case of a crash, but could easily be
-	several seconds or even a minute behind updating the physical
-	disk.  If the system crashes, unwritten data may be lost.
-	Secondly, Soft Updates delay the freeing of
-	file system blocks.  If the root file system
-	is almost full, performing a major update,
+	cache.  There are two downsides to Soft Updates to be aware
+	of.  First, Soft Updates guarantee file system consistency
+	in the case of a crash, but could easily be several seconds
+	or even a minute behind updating the physical disk.  If the
+	system crashes, unwritten data may be lost.  Secondly, Soft
+	Updates delay the freeing of file system blocks.  If the
+	root file system is almost full, performing a major update,
 	such as <command>make installworld</command>, can cause the
 	file system to run out of space and the update to fail.</para>
 
@@ -2234,145 +2153,134 @@ device_probe_and_attach: cbb0 attach returned 12</screen>
 	  <secondary>details</secondary>
 	</indexterm>
 
-	<para>Meta-data updates are
-	  updates to non-content data like inodes or
-	  directories.  There are two traditional approaches to
-	  writing a file
-	  system's meta-data back to disk.</para>
+	<para>Meta-data updates are updates to non-content data like
+	  inodes or directories.  There are two traditional approaches
+	  to writing a file system's meta-data back to disk.</para>
 
 	<para>Historically, the default behavior was to write out
-	  meta-data updates synchronously.  If a directory
-	  changed, the system waited until the change was actually
-	  written to disk.  The file data buffers (file contents) were
-	  passed through the buffer cache and backed up to disk later
-	  on asynchronously.  The advantage of this implementation is
+	  meta-data updates synchronously.  If a directory changed,
+	  the system waited until the change was actually written to
+	  disk.  The file data buffers (file contents) were passed
+	  through the buffer cache and backed up to disk later on
+	  asynchronously.  The advantage of this implementation is
 	  that it operates safely.  If there is a failure during an
 	  update, meta-data is always in a consistent state.  A
 	  file is either created completely or not at all.  If the
 	  data blocks of a file did not find their way out of the
 	  buffer cache onto the disk by the time of the crash,
-	  &man.fsck.8; recognizes this and repairs the
-	  file system by setting the file length to
-	  <literal>0</literal>.  Additionally,
-	  the implementation is clear and simple.  The disadvantage is
-	  that meta-data changes are slow.  For example,
-	  <command>rm -r</command> touches all the
-	  files in a directory sequentially, but each directory change
-	  will be written synchronously to the
-	  disk.  This includes updates to the directory itself, to the
-	  inode table, and possibly to indirect blocks allocated by
-	  the file.  Similar considerations apply for unrolling large
-	  hierarchies using <command>tar -x</command>.</para>
+	  &man.fsck.8; recognizes this and repairs the file system
+	  by setting the file length to
+	  <literal>0</literal>.  Additionally, the implementation is
+	  clear and simple.  The disadvantage is that meta-data
+	  changes are slow.  For example, <command>rm -r</command>
+	  touches all the files in a directory sequentially, but each
+	  directory change will be written synchronously to the
+	  disk.  This includes updates to the directory itself, to
+	  the inode table, and possibly to indirect blocks allocated
+	  by the file.  Similar considerations apply for unrolling
+	  large hierarchies using <command>tar -x</command>.</para>
 
 	<para>The second approach is to use asynchronous meta-data
-	  updates.  This
-	  is the default for a <acronym>UFS</acronym> file system
-	  mounted with
-	  <command>mount -o async</command>.  Since all
-	  meta-data updates are also passed through the buffer
-	  cache, they will be intermixed with the updates
-	  of the file content data.  The advantage of this
+	  updates.  This is the default for a <acronym>UFS</acronym>
+	  file system mounted with <command>mount -o async</command>.
+	  Since all meta-data updates are also passed through the
+	  buffer cache, they will be intermixed with the updates of
+	  the file content data.  The advantage of this
 	  implementation is there is no need to wait until each
 	  meta-data update has been written to disk, so all operations
 	  which cause huge amounts of meta-data updates work much
-	  faster than in the synchronous case.  This
-	  implementation is still clear and simple, so there is a low
-	  risk for bugs creeping into the code.  The disadvantage is
-	  that there is no guarantee for a consistent state of
-	  the file system.  If there is a failure during an operation
-	  that updated large amounts of meta-data, like a power
-	  failure or someone pressing the reset button, the
-	  file system will be left in an unpredictable state.  There is
-	  no opportunity to examine the state of the file system when
-	  the system comes up again as the data blocks of a file could
-	  already have been written to the disk while the updates of
-	  the inode table or the associated directory were not.  It is
-	  impossible to implement a &man.fsck.8;
-	  which is able to clean up the resulting chaos because the
-	  necessary information is not available on the disk.  If the
-	  file system has been damaged beyond repair, the only choice
-	  is to reformat it and restore from
-	  backup.</para>
+	  faster than in the synchronous case.  This implementation
+	  is still clear and simple, so there is a low risk for bugs
+	  creeping into the code.  The disadvantage is that there is
+	  no guarantee for a consistent state of the file system.
+	  If there is a failure during an operation that updated
+	  large amounts of meta-data, like a power failure or someone
+	  pressing the reset button, the file system will be left
+	  in an unpredictable state.  There is no opportunity to
+	  examine the state of the file system when the system comes
+	  up again as the data blocks of a file could already have
+	  been written to the disk while the updates of the inode
+	  table or the associated directory were not.  It is
+	  impossible to implement a &man.fsck.8; which is able to
+	  clean up the resulting chaos because the necessary
+	  information is not available on the disk.  If the file
+	  system has been damaged beyond repair, the only choice
+	  is to reformat it and restore from backup.</para>
 
 	<para>The usual solution for this problem is to implement
 	  <emphasis>dirty region logging</emphasis>, which is also
 	  referred to as <emphasis>journaling</emphasis>.
 	  Meta-data updates are still written synchronously, but only
-	  into a small region of the disk.  Later on, they are
-	  moved to their proper location.  Because the logging area is
-	  a small, contiguous region on the disk, there are no long
+	  into a small region of the disk.  Later on, they are moved
+	  to their proper location.  Because the logging area is a
+	  small, contiguous region on the disk, there are no long
 	  distances for the disk heads to move, even during heavy
 	  operations, so these operations are quicker than synchronous
 	  updates.  Additionally, the complexity of the implementation
-	  is limited, so the risk of bugs being present is low.
-	  A disadvantage is that all meta-data is written twice, once
+	  is limited, so the risk of bugs being present is low.  A
+	  disadvantage is that all meta-data is written twice, once
 	  into the logging region and once to the proper location, so
-	  performance <quote>pessimization</quote>
-	  might result.  On the other hand, in case of a crash, all
-	  pending meta-data operations can be either quickly
-	  rolled back or completed from the logging area after the
-	  system comes up again, resulting in a fast file system
-	  startup.</para>
+	  performance <quote>pessimization</quote> might result.  On
+	  the other hand, in case of a crash, all pending meta-data
+	  operations can be either quickly rolled back or completed
+	  from the logging area after the system comes up again,
+	  resulting in a fast file system startup.</para>
 
 	<para>Kirk McKusick, the developer of Berkeley
-	  <acronym>FFS</acronym>, solved
-	  this problem with Soft Updates.  All pending meta-data
-	  updates are kept in memory and written out to disk in a
-	  sorted sequence (<quote>ordered meta-data updates</quote>).
-	  This has the effect that, in case of heavy meta-data
-	  operations, later updates to an item <quote>catch</quote>
-	  the earlier ones which are still in memory and
-	  have not already been written to disk.  All operations
-	  are generally performed in memory
+	  <acronym>FFS</acronym>, solved this problem with Soft
+	  Updates.  All pending meta-data updates are kept in memory
+	  and written out to disk in a sorted sequence
+	  (<quote>ordered meta-data updates</quote>).  This has the
+	  effect that, in case of heavy meta-data operations, later
+	  updates to an item <quote>catch</quote> the earlier ones
+	  which are still in memory and have not already been written
+	  to disk.  All operations are generally performed in memory
 	  before the update is written to disk and the data blocks are
 	  sorted according to their position so that they will not be
 	  on the disk ahead of their meta-data.  If the system
-	  crashes, an implicit <quote>log rewind</quote> causes
-	  all operations which were not written to the disk
-	  appear as if they never happened.  A consistent
-	  file system state is maintained that appears to be the one of
-	  30 to 60 seconds earlier.  The algorithm used guarantees
-	  that all resources in use are marked as such in their
-	  blocks and inodes.  After a crash, the
-	  only resource allocation error that occurs is that resources
-	  are marked as <quote>used</quote> which are actually
-	  <quote>free</quote>. &man.fsck.8; recognizes this situation,
-	  and frees the resources that are no longer used.  It is safe
-	  to ignore the dirty state of the file system after a crash by
-	  forcibly mounting it with <command>mount -f</command>.  In
-	  order to free resources that may be unused, &man.fsck.8;
-	  needs to be run at a later time.  This is the idea behind
-	  the <emphasis>background &man.fsck.8;</emphasis>: at system
-	  startup
-	  time, only a <emphasis>snapshot</emphasis> of the file system
-	  is recorded and &man.fsck.8; is run afterwards.
+	  crashes, an implicit <quote>log rewind</quote> causes all
+	  operations which were not written to the disk appear as if
+	  they never happened.  A consistent file system state is
+	  maintained that appears to be the one of 30 to 60 seconds
+	  earlier.  The algorithm used guarantees that all resources
+	  in use are marked as such in their blocks and inodes.
+	  After a crash, the only resource allocation error that
+	  occurs is that resources are marked as <quote>used</quote>
+	  which are actually <quote>free</quote>. &man.fsck.8;
+	  recognizes this situation, and frees the resources that
+	  are no longer used.  It is safe to ignore the dirty state
+	  of the file system after a crash by forcibly mounting it
+	  with <command>mount -f</command>.  In order to free
+	  resources that may be unused, &man.fsck.8; needs to be run
+	  at a later time.  This is the idea behind the
+	  <emphasis>background &man.fsck.8;</emphasis>: at system
+	  startup time, only a <emphasis>snapshot</emphasis> of the
+	  file system is recorded and &man.fsck.8; is run afterwards.
 	  All file systems can then be mounted
 	  <quote>dirty</quote>, so the system startup proceeds in
-	  multi-user mode.  Then, background &man.fsck.8;
-	  is scheduled for all file systems where this is
-	  required, to free resources that may be unused.  File
-	  systems that do not use Soft Updates still need the usual
-	  foreground &man.fsck.8;.</para>
+	  multi-user mode.  Then, background &man.fsck.8; is
+	  scheduled for all file systems where this is required, to
+	  free resources that may be unused.  File systems that do
+	  not use Soft Updates still need the usual foreground
+	  &man.fsck.8;.</para>
 
 	<para>The advantage is that meta-data operations are nearly
 	  as fast as asynchronous updates and are faster than
 	  <emphasis>logging</emphasis>, which has to write the
 	  meta-data twice.  The disadvantages are the complexity of
-	  the code, a higher
-	  memory consumption, and some
-	  idiosyncrasies.  After a crash, the
-	  state of the file system appears to be somewhat
-	  <quote>older</quote>.  In situations where the standard
-	  synchronous approach would have caused some zero-length
-	  files to remain after the &man.fsck.8;, these
-	  files do not exist at all with Soft Updates
-	  because neither the meta-data nor the file contents have
-	  been written to disk.  Disk space is not released until
+	  the code, a higher memory consumption, and some
+	  idiosyncrasies.  After a crash, the state of the file
+	  system appears to be somewhat <quote>older</quote>.  In
+	  situations where the standard synchronous approach would
+	  have caused some zero-length files to remain after the
+	  &man.fsck.8;, these files do not exist at all with Soft
+	  Updates because neither the meta-data nor the file contents
+	  have been written to disk.  Disk space is not released until
 	  the updates have been written to disk, which may take place
-	  some time after running &man.rm.1;.  This may
-	  cause problems when installing large amounts of data on a
-	  file system that does not have enough free space to hold all
-	  the files twice.</para>
+	  some time after running &man.rm.1;.  This may cause problems
+	  when installing large amounts of data on a file system
+	  that does not have enough free space to hold all the files
+	  twice.</para>
       </sect3>
     </sect2>
   </sect1>
@@ -2396,13 +2304,12 @@ device_probe_and_attach: cbb0 attach returned 12</screen>
 	</indexterm>
 
 	<para>The <varname>kern.maxfiles</varname> &man.sysctl.8;
-	  variable can be raised or
-	  lowered based upon system requirements.  This variable
-	  indicates the maximum number of file descriptors on the
-	  system.  When the file descriptor table is full,
-	  <errorname>file: table is full</errorname> will show up
-	  repeatedly in the system message buffer, which can be viewed
-	  using &man.dmesg.8;.</para>
+	  variable can be raised or lowered based upon system
+	  requirements.  This variable indicates the maximum number
+	  of file descriptors on the system.  When the file descriptor
+	  table is full, <errorname>file: table is full</errorname>
+	  will show up repeatedly in the system message buffer, which
+	  can be viewed using &man.dmesg.8;.</para>
 
 	<para>Each open file, socket, or fifo uses one file
 	  descriptor.  A large-scale production server may easily
@@ -2422,20 +2329,19 @@ device_probe_and_attach: cbb0 attach returned 12</screen>
 	  server.</para>
 
 	<para>The read-only &man.sysctl.8; variable
-	  <varname>kern.maxusers</varname> is
-	  automatically sized at boot based on the amount of memory
-	  available in the system, and may be determined at run-time
-	  by inspecting the value of 
-	  <varname>kern.maxusers</varname>.  Some systems
-	  require larger or smaller values of
-	  <varname>kern.maxusers</varname> and
-	  values of <literal>64</literal>, <literal>128</literal>,
-	  and <literal>256</literal> are not uncommon.  Going
-	  above <literal>256</literal> is not recommended  unless a
-	  huge number of file
-	  descriptors is needed.  Many of the tunable values set to
-	  their defaults by <varname>kern.maxusers</varname> may be
-	  individually overridden at boot-time or run-time in
+	  <varname>kern.maxusers</varname> is automatically sized at
+	  boot based on the amount of memory available in the system,
+	  and may be determined at run-time by inspecting the value
+	  of <varname>kern.maxusers</varname>.  Some systems require
+	  larger or smaller values of
+	  <varname>kern.maxusers</varname> and values of
+	  <literal>64</literal>, <literal>128</literal>, and
+	  <literal>256</literal> are not uncommon.  Going above
+	  <literal>256</literal> is not recommended  unless a huge
+	  number of file descriptors is needed.  Many of the tunable
+	  values set to their defaults by
+	  <varname>kern.maxusers</varname> may be individually
+	  overridden at boot-time or run-time in
 	  <filename>/boot/loader.conf</filename>.  Refer to
 	  &man.loader.conf.5; and
 	  <filename>/boot/defaults/loader.conf</filename> for more
@@ -2447,13 +2353,11 @@ device_probe_and_attach: cbb0 attach returned 12</screen>
 	  <footnote><para>The auto-tuning algorithm sets
 	      <literal>maxusers</literal> equal to the amount of
 	      memory in the system, with a minimum of
-	      <literal>32</literal>, and a
-	      maximum of <literal>384</literal>.</para></footnote>.
-	      When setting this
-	  option, set <literal>maxusers</literal> to at least
-	  <literal>4</literal>,
-	  especially if the system runs
-	  <application>&xorg;</application> or is used to
+	      <literal>32</literal>, and a maximum of
+	      <literal>384</literal>.</para></footnote>.  When
+	  setting this option, set <literal>maxusers</literal> to
+	  at least <literal>4</literal>, especially if the system
+	  runs <application>&xorg;</application> or is used to
 	  compile software.  The most important table set by
 	  <literal>maxusers</literal> is the maximum number of
 	  processes, which is set to
@@ -2461,21 +2365,18 @@ device_probe_and_attach: cbb0 attach returned 12</screen>
 	  <literal>maxusers</literal> is set to <literal>1</literal>,
 	  there can only be
 	  <literal>36</literal> simultaneous processes, including
-	  the <literal>18</literal> or so that the
-	  system starts up at boot time and the <literal>15</literal>
-	  or so used by
+	  the <literal>18</literal> or so that the system starts up
+	  at boot time and the <literal>15</literal> or so used by
 	  <application>&xorg;</application>.  Even a simple task like
 	  reading a manual page will start up nine processes to
 	  filter, decompress, and view it.  Setting
 	  <literal>maxusers</literal> to <literal>64</literal> allows
-	  up to <literal>1044</literal>
-	  simultaneous processes, which should be enough for nearly
-	  all uses.  If, however, the
+	  up to <literal>1044</literal> simultaneous processes, which
+	  should be enough for nearly all uses.  If, however, the
 	  <errortype>proc table full</errortype> error is displayed
-	  when trying to
-	  start another program, or a server is running with a large
-	  number of simultaneous users, increase the
-	  number and rebuild.</para>
+	  when trying to start another program, or a server is
+	  running with a large number of simultaneous users, increase
+	  the number and rebuild.</para>
 
 	<note>
 	  <para><literal>maxusers</literal> does
@@ -2496,18 +2397,17 @@ device_probe_and_attach: cbb0 attach returned 12</screen>
 
 	<para>The <varname>kern.ipc.somaxconn</varname> &man.sysctl.8;
 	  variable limits the size of the listen queue for accepting
-	  new <literal>TCP</literal> connections.  The default value of
-	  <literal>128</literal> is typically too low for robust
+	  new <literal>TCP</literal> connections.  The default value
+	  of <literal>128</literal> is typically too low for robust
 	  handling of new connections on a heavily loaded web server.
-	  For such environments, it is recommended to
-	  increase this value to <literal>1024</literal> or higher.
-	  A service such as &man.sendmail.8;, or
-	  <application>Apache</application> may itself limit the listen
-	  queue size,
-	  but will often have a
-	  directive in its configuration file to adjust the queue
-	  size.  Large listen queues do a better job of avoiding
-	  Denial of Service (<acronym>DoS</acronym>) attacks.</para>
+	  For such environments, it is recommended to increase this
+	  value to <literal>1024</literal> or higher.  A service
+	  such as &man.sendmail.8;, or
+	  <application>Apache</application> may itself limit the
+	  listen queue size, but will often have a directive in its
+	  configuration file to adjust the queue size.  Large listen
+	  queues do a better job of avoiding Denial of Service
+	  (<acronym>DoS</acronym>) attacks.</para>
       </sect3>
     </sect2>
 
@@ -2519,26 +2419,24 @@ device_probe_and_attach: cbb0 attach returned 12</screen>
 	system.  A heavily-trafficked server with a low number of
 	Mbufs will hinder performance.  Each cluster represents
 	approximately 2&nbsp;K of memory, so a value of
-	<literal>1024</literal>
-	represents <literal>2</literal> megabytes of kernel memory
-	reserved for network
-	buffers.  A simple calculation can be done to figure out how
-	many are needed.  A web server which maxes out at
-	<literal>1000</literal>
-	simultaneous connections where each connection uses a
-	6&nbsp;K receive and 16&nbsp;K send buffer, requires
-	approximately 32&nbsp;MB worth of network buffers to cover the
-	web server.  A good rule of thumb is to multiply by
-	<literal>2</literal>, so
+	<literal>1024</literal> represents <literal>2</literal>
+	megabytes of kernel memory reserved for network buffers.  A
+	simple calculation can be done to figure out how many are
+	needed.  A web server which maxes out at
+	<literal>1000</literal> simultaneous connections where each
+	connection uses a 6&nbsp;K receive and 16&nbsp;K send buffer,
+	requires approximately 32&nbsp;MB worth of network buffers
+	to cover the web server.  A good rule of thumb is to multiply
+	by <literal>2</literal>, so
 	2x32&nbsp;MB&nbsp;/&nbsp;2&nbsp;KB&nbsp;=
-	64&nbsp;MB&nbsp;/&nbsp;2&nbsp;kB&nbsp;= <literal>32768</literal>.
-	Values between
+	64&nbsp;MB&nbsp;/&nbsp;2&nbsp;kB&nbsp;=
+	<literal>32768</literal>.  Values between
 	<literal>4096</literal> and <literal>32768</literal> are
-	recommended for machines with greater
-	amounts of memory.  Never specify
-	an arbitrarily high value for this parameter as it could lead
-	to a boot time crash.  To observe network cluster usage, use
-	<option>-m</option> with &man.netstat.1;.</para>
+	recommended for machines with greater amounts of memory.
+	Never specify an arbitrarily high value for this parameter
+	as it could lead to a boot time crash.  To observe network
+	cluster usage, use <option>-m</option> with
+	&man.netstat.1;.</para>
 
       <para>The <varname>kern.ipc.nmbclusters</varname> loader tunable
 	should be used to tune this at boot time.  Only older versions
@@ -2554,11 +2452,10 @@ device_probe_and_attach: cbb0 attach returned 12</screen>
 	(see &man.loader.8; for details).  A common indicator that
 	this parameter needs to be adjusted is when processes are seen
 	in the <literal>sfbufa</literal> state.  The &man.sysctl.8;
-	variable
-	<varname>kern.ipc.nsfbufs</varname> is read-only.
-	This parameter nominally
-	scales with <varname>kern.maxusers</varname>, however it may
-	be necessary to tune accordingly.</para>
+	variable <varname>kern.ipc.nsfbufs</varname> is read-only.
+	This parameter nominally scales with
+	<varname>kern.maxusers</varname>, however it may be necessary
+	to tune accordingly.</para>
 
       <important>
 	<para>Even though a socket has been marked as non-blocking,
@@ -2578,22 +2475,22 @@ device_probe_and_attach: cbb0 attach returned 12</screen>
 	<para>The <varname>net.inet.ip.portrange.*</varname>
 	  &man.sysctl.8;
 	  variables control the port number ranges automatically bound
-	  to <literal>TCP</literal> and <literal>UDP</literal> sockets.
-	  There are three ranges: a low
-	  range, a default range, and a high range.  Most network
-	  programs use the default range which is controlled by
+	  to <literal>TCP</literal> and <literal>UDP</literal>
+	  sockets.  There are three ranges: a low range, a default
+	  range, and a high range.  Most network programs use the
+	  default range which is controlled by
 	  <varname>net.inet.ip.portrange.first</varname> and
 	  <varname>net.inet.ip.portrange.last</varname>, which default
 	  to <literal>1024</literal> and <literal>5000</literal>,
-	  respectively.  Bound port ranges are used
-	  for outgoing connections and it is possible to run the
-	  system out of ports under certain circumstances.  This most
-	  commonly occurs when running a heavily loaded web proxy.
-	  The port range is not an issue when running a server which
-	  handles mainly incoming connections, such as a web
-	  server, or has a limited number of outgoing connections,
-	  such as a mail relay.  For situations where there is a
-	  shortage of ports, it is recommended to increase
+	  respectively.  Bound port ranges are used for outgoing
+	  connections and it is possible to run the system out of
+	  ports under certain circumstances.  This most commonly
+	  occurs when running a heavily loaded web proxy.  The port
+	  range is not an issue when running a server which handles
+	  mainly incoming connections, such as a web server, or has
+	  a limited number of outgoing connections, such as a mail
+	  relay.  For situations where there is a shortage of ports,
+	  it is recommended to increase
 	  <varname>net.inet.ip.portrange.last</varname> modestly.  A
 	  value of <literal>10000</literal>, <literal>20000</literal>
 	  or <literal>30000</literal> may be reasonable.  Consider
@@ -2610,56 +2507,55 @@ device_probe_and_attach: cbb0 attach returned 12</screen>
 	<title><literal>TCP</literal> Bandwidth Delay Product</title>
 
 	<indexterm>
-	  <primary><literal>TCP</literal> Bandwidth Delay Product Limiting</primary>
+	  <primary><literal>TCP</literal> Bandwidth Delay Product
+	      Limiting</primary>
 	  <secondary><varname>net.inet.tcp.inflight.enable</varname></secondary>
 	</indexterm>
 
 	<para><literal>TCP</literal> bandwidth delay product limiting
 	  can be enabled by setting the
-	  <varname>net.inet.tcp.inflight.enable</varname> &man.sysctl.8;
-	  variable to <literal>1</literal>.  This instructs the
-	  system to attempt
-	  to calculate the bandwidth delay product for each connection
-	  and limit the amount of data queued to the network to just
-	  the amount required to maintain optimum throughput.</para>
+	  <varname>net.inet.tcp.inflight.enable</varname>
+	  &man.sysctl.8; variable to <literal>1</literal>.  This
+	  instructs the system to attempt to calculate the bandwidth
+	  delay product for each connection and limit the amount of
+	  data queued to the network to just the amount required to
+	  maintain optimum throughput.</para>
 
 	<para>This feature is useful when serving data over modems,
 	  Gigabit Ethernet, high speed <literal>WAN</literal> links,
-	  or any other
-	  link with a high bandwidth delay product, especially when
-	  also using window scaling or when a large send window has
-	  been configured.  When enabling this option, also
-	  set <varname>net.inet.tcp.inflight.debug</varname> to
+	  or any other link with a high bandwidth delay product,
+	  especially when also using window scaling or when a large
+	  send window has been configured.  When enabling this option,
+	  also set <varname>net.inet.tcp.inflight.debug</varname> to
 	  <literal>0</literal> to disable debugging.  For production
-	  use, setting <varname>net.inet.tcp.inflight.min</varname> to
-	  at least <literal>6144</literal> may be beneficial.
-	  Setting high minimums may effectively
-	  disable bandwidth limiting, depending on the link.  The
-	  limiting feature reduces the amount of data built up in
-	  intermediate route and switch packet queues and reduces the
-	  amount of data built up in the local host's interface queue.
-	  With fewer queued packets, interactive connections,
-	  especially over slow modems, will operate with lower
+	  use, setting <varname>net.inet.tcp.inflight.min</varname>
+	  to at least <literal>6144</literal> may be beneficial.
+	  Setting high minimums may effectively disable bandwidth
+	  limiting, depending on the link.  The limiting feature
+	  reduces the amount of data built up in intermediate route
+	  and switch packet queues and reduces the amount of data
+	  built up in the local host's interface queue.  With fewer
+	  queued packets, interactive connections, especially over
+	  slow modems, will operate with lower
 	  <emphasis>Round Trip Times</emphasis>.  This feature only
-	  effects server side data transmission such as uploading.  It
-	  has no effect on data reception or downloading.</para>
+	  effects server side data transmission such as uploading.
+	  It has no effect on data reception or downloading.</para>
 
 	<para>Adjusting <varname>net.inet.tcp.inflight.stab</varname>
 	  is <emphasis>not</emphasis> recommended.  This parameter
 	  defaults to <literal>20</literal>, representing 2 maximal
-	  packets added to the
-	  bandwidth delay product window calculation.  The additional
-	  window is required to stabilize the algorithm and improve
-	  responsiveness to changing conditions, but it can also
-	  result in higher &man.ping.8; times over slow links, though
-	  still
-	  much lower than without the inflight algorithm.  In such
-	  cases, try reducing this parameter to <literal>15</literal>,
+	  packets added to the bandwidth delay product window
+	  calculation.  The additional window is required to stabilize
+	  the algorithm and improve responsiveness to changing
+	  conditions, but it can also result in higher &man.ping.8;
+	  times over slow links, though still much lower than without
+	  the inflight algorithm.  In such cases, try reducing this
+	  parameter to <literal>15</literal>,
 	  <literal>10</literal>, or <literal>5</literal> and
 	  reducing <varname>net.inet.tcp.inflight.min</varname>
 	  to a value such as <literal>3500</literal> to get the
-	  desired effect.  Reducing these
-	  parameters should be done as a last resort only.</para>
+	  desired effect.  Reducing these parameters should be done
+	  as a last resort only.</para>
       </sect3>
     </sect2>
 
@@ -2671,13 +2567,13 @@ device_probe_and_attach: cbb0 attach returned 12</screen>
 
 	<para>A vnode is the internal representation of a file or
 	  directory.  Increasing the number of vnodes available to
-	  the operating system reduces disk I/O.  Normally, this
-	  is handled by the operating system and does not need to be
+	  the operating system reduces disk I/O.  Normally, this is
+	  handled by the operating system and does not need to be
 	  changed.  In some cases where disk I/O is a bottleneck and
 	  the system is running out of vnodes, this setting needs
 	  to be increased.  The amount of inactive and free
-	  <acronym>RAM</acronym> will
-	  need to be taken into account.</para>
+	  <acronym>RAM</acronym> will need to be taken into
+	  account.</para>
 
 	<para>To see the current number of vnodes in use:</para>
 
@@ -2689,14 +2585,14 @@ vfs.numvnodes: 91349</screen>
 	<screen>&prompt.root; <userinput>sysctl kern.maxvnodes</userinput>
 kern.maxvnodes: 100000</screen>
 
-	<para>If the current vnode usage is near the maximum,
-	  try increasing <varname>kern.maxvnodes</varname> by a value of
+	<para>If the current vnode usage is near the maximum, try
+	  increasing <varname>kern.maxvnodes</varname> by a value of
 	  <literal>1000</literal>.  Keep an eye on the number of
 	  <varname>vfs.numvnodes</varname>.  If it climbs up to the
 	  maximum again, <varname>kern.maxvnodes</varname> will need
-	  to be increased further.  Otherwise, a shift in memory usage as
-	  reported by &man.top.1; should be visible and more memory
-	  should be active.</para>
+	  to be increased further.  Otherwise, a shift in memory
+	  usage as reported by &man.top.1; should be visible and
+	  more memory should be active.</para>
       </sect3>
     </sect2>
   </sect1>
@@ -2704,25 +2600,23 @@ kern.maxvnodes: 100000</screen>
   <sect1 id="adding-swap-space">
     <title>Adding Swap Space</title>
 
-    <para>Sometimes a system requires
-      more swap space.
-      There are three ways to increase swap space: add a new
-      hard drive, enable swap over <literal>NFS</literal>, or create
-      a swap file on an
-      existing partition.</para>
+    <para>Sometimes a system requires more swap space.  There are
+      three ways to increase swap space: add a new hard drive,
+      enable swap over <literal>NFS</literal>, or create a swap file
+      on an existing partition.</para>
 
     <para>For information on how to encrypt swap space, which options
-      exist, and why it should be done, refer to
-      <xref linkend="swap-encrypting"/>.</para>
+      exist, and why it should be done, refer to <xref
+	linkend="swap-encrypting"/>.</para>
 
     <sect2 id="new-drive-swap">
       <title>Swap on a New or Existing Hard Drive</title>
 
       <para>Adding a new hard drive for swap gives better performance
 	than adding a partition on an existing drive.  Setting up
-	partitions and hard drives is explained in
-	<xref linkend="disks-adding"/> while
-	<xref linkend="configtuning-initial"/> discusses partition
+	partitions and hard drives is explained in <xref
+	  linkend="disks-adding"/> while <xref
+	  linkend="configtuning-initial"/> discusses partition
 	layouts and swap partition size considerations.</para>
 
       <para>Use &man.swapon.8; to add a swap partition to the system.
@@ -2753,18 +2647,17 @@ kern.maxvnodes: 100000</screen>
       <title>Swapping over <literal>NFS</literal></title>
 
       <para>Swapping over <literal>NFS</literal> is only recommended
-        when there is no
-	local hard disk to swap to.  <literal>NFS</literal> swapping
-	will be limited by
-	the available network bandwidth and puts an additional burden
+	when there is no local hard disk to swap to.
+	<literal>NFS</literal> swapping will be limited by the
+	available network bandwidth and puts an additional burden
 	on &man.nfsd.8;.</para>
     </sect2>
 
     <sect2 id="create-swapfile">
       <title>Swapfiles</title>
 
-      <para>To create a swap file, specify its size.
-	The following example creates a 64MB file named
+      <para>To create a swap file, specify its size.  The following
+	example creates a 64MB file named
 	<filename>/usr/swap0</filename>.</para>
 
       <example>
@@ -2775,8 +2668,8 @@ kern.maxvnodes: 100000</screen>
 
 	    <para>The <filename>GENERIC</filename> kernel already
 	      includes the memory disk driver (&man.md.4;) required
-	      for this operation.  When building a custom kernel, make
-	      sure to include the following line in the custom
+	      for this operation.  When building a custom kernel,
+	      make sure to include the following line in the custom
 	      configuration file:</para>
 
 	    <programlisting>device   md</programlisting>
@@ -2843,9 +2736,8 @@ kern.maxvnodes: 100000</screen>
       control and visibility into the power management settings.  Some
       limited configurability was available via <emphasis>Advanced
 	Power Management (<acronym>APM</acronym>)</emphasis>.  Power
-      and resource
-      management allows the operating system to monitor system
-      limits and to possibly provide an alert if the system
+      and resource management allows the operating system to monitor
+      system limits and to possibly provide an alert if the system
       temperature increases unexpectedly.</para>
 
     <para>This section provides comprehensive information about
@@ -2880,50 +2772,43 @@ kern.maxvnodes: 100000</screen>
 
       <para>The <acronym>APM</acronym> facility controls the power
 	usage of a system based on its activity.  The
-	<acronym>APM</acronym> <acronym>BIOS</acronym> is
-	supplied by the vendor and is specific to the
-	hardware platform.  An <acronym>APM</acronym> driver in the
-	operating system
-	mediates access to the <emphasis><acronym>APM</acronym> Software
-	  Interface</emphasis>, which allows management of power
-	levels.  <acronym>APM</acronym> should still be used for
-	systems manufactured at
-	or before the year 2000.</para>
+	<acronym>APM</acronym> <acronym>BIOS</acronym> is supplied
+	by the vendor and is specific to the hardware platform.  An
+	<acronym>APM</acronym> driver in the operating system
+	mediates access to the <emphasis><acronym>APM</acronym>
+	  Software Interface</emphasis>, which allows management of
+	power levels.  <acronym>APM</acronym> should still be used
+	for systems manufactured at or before the year 2000.</para>
 
       <para>There are four major problems in <acronym>APM</acronym>.
-	First, power
-	management is done by the vendor-specific <acronym>BIOS</acronym>,
-	separate from the operating system.
-	For example,
-	the user can set idle-time values for a hard drive in the
-	<acronym>APM</acronym> <acronym>BIOS</acronym> so that, when
-	exceeded, the <acronym>BIOS</acronym> spins down the
-	hard drive without the consent of the operating system.
-	Second, the <acronym>APM</acronym>
-	logic is embedded in the <acronym>BIOS</acronym>, and it
-	operates outside the
+	First, power management is done by the vendor-specific
+	<acronym>BIOS</acronym>, separate from the operating system.
+	For example, the user can set idle-time values for a hard
+	drive in the <acronym>APM</acronym> <acronym>BIOS</acronym>
+	so that, when exceeded, the <acronym>BIOS</acronym> spins
+	down the hard drive without the consent of the operating
+	system.  Second, the <acronym>APM</acronym> logic is embedded
+	in the <acronym>BIOS</acronym>, and it operates outside the
 	scope of the operating system.  This means that users can
-	only fix problems in
-	the <acronym>APM</acronym> <acronym>BIOS</acronym> by
-	flashing a new one into the <acronym>ROM</acronym>, which is a
-	dangerous procedure with the potential to leave the
-	system in an unrecoverable state if it fails.  Third,
-	<acronym>APM</acronym> is
-	a vendor-specific technology, meaning that there is a lot
-	of duplication of efforts and bugs found in one
-	vendor's <acronym>BIOS</acronym> may not be solved in others.
-	Lastly,
-	the <acronym>APM</acronym> <acronym>BIOS</acronym>
-	did not have enough room to implement a
-	sophisticated power policy or one that can adapt well to
-	the purpose of the machine.</para>
+	only fix problems in the <acronym>APM</acronym>
+	<acronym>BIOS</acronym> by flashing a new one into the
+	<acronym>ROM</acronym>, which is a dangerous procedure with
+	the potential to leave the system in an unrecoverable state
+	if it fails.  Third, <acronym>APM</acronym> is a
+	vendor-specific technology, meaning that there is a lot of
+	duplication of efforts and bugs found in one vendor's
+	<acronym>BIOS</acronym> may not be solved in others.  Lastly,
+	the <acronym>APM</acronym> <acronym>BIOS</acronym> did not
+	have enough room to implement a sophisticated power policy
+	or one that can adapt well to the purpose of the
+	machine.</para>
 
       <para>The <emphasis>Plug and Play <acronym>BIOS</acronym>
-	(<acronym>PNPBIOS</acronym>)</emphasis> was
-	unreliable in many situations.  <acronym>PNPBIOS</acronym>
-	is 16-bit technology,
-	so the operating system has to use 16-bit emulation in order to
-	interface with <acronym>PNPBIOS</acronym> methods.</para>
+	  (<acronym>PNPBIOS</acronym>)</emphasis> was unreliable in
+	many situations.  <acronym>PNPBIOS</acronym> is 16-bit
+	technology, so the operating system has to use 16-bit
+	emulation in order to interface with
+	<acronym>PNPBIOS</acronym> methods.</para>
 
       <para>The &os; <acronym>APM</acronym> driver is documented in
 	&man.apm.4;.</para>
@@ -2932,23 +2817,21 @@ kern.maxvnodes: 100000</screen>
     <sect2 id="acpi-config">
       <title>Configuring <acronym>ACPI</acronym></title>
 
-      <para>The &man.acpi.4; driver is loaded by
-	default at start up by &man.loader.8; and should
+      <para>The &man.acpi.4; driver is loaded by default at start
+	up by &man.loader.8; and should
 	<emphasis>not</emphasis> be compiled into the kernel.  The
 	reasoning is that modules are easier to work with and do not
-	require a kernel rebuild.  This has the advantage of
-	making testing easier.  Another reason is that starting
+	require a kernel rebuild.  This has the advantage of making
+	testing easier.  Another reason is that starting
 	<acronym>ACPI</acronym> after a system has been brought up
 	often does not work well.  If experiencing problems,
 	<acronym>ACPI</acronym> can be disabled altogether.  This
 	driver should not and can not be unloaded because the system
 	bus uses it for various hardware interactions.
 	<acronym>ACPI</acronym> can be disabled by rebooting after
-	setting
-	<literal>hint.acpi.0.disabled="1"</literal> in
+	setting <literal>hint.acpi.0.disabled="1"</literal> in
 	<filename>/boot/loader.conf</filename> or by setting this
-	variable at the
-	&man.loader.8; prompt.</para>
+	variable at the &man.loader.8; prompt.</para>
 
       <note>
 	<para><acronym>ACPI</acronym> and <acronym>APM</acronym>
@@ -2961,16 +2844,14 @@ kern.maxvnodes: 100000</screen>
 	a sleep mode with &man.acpiconf.8;, the <option>-s</option>
 	flag, and a <literal>1-5</literal> option.  Most users
 	only need <literal>1</literal> (quick suspend to
-	<acronym>RAM</acronym>) or <literal>3</literal>
-	(suspend to <acronym>RAM</acronym>).  Option
-	<literal>5</literal> performs a
-	soft-off which is the same action as:</para>
+	<acronym>RAM</acronym>) or <literal>3</literal> (suspend to
+	<acronym>RAM</acronym>).  Option <literal>5</literal> performs
+	a soft-off which is the same action as:</para>
 
       <screen>&prompt.root; <userinput>halt -p</userinput></screen>
 
       <para>Other options are available via &man.sysctl.8;.  Refer to
-	&man.acpi.4; and &man.acpiconf.8; for more
-	information.</para>
+	&man.acpi.4; and &man.acpiconf.8; for more information.</para>
     </sect2>
   </sect1>
 
@@ -3023,10 +2904,9 @@ kern.maxvnodes: 100000</screen>
       <title>Submitting Debugging Information</title>
 
       <note>
-	<para>Before submitting a problem, ensure the
-	  latest <acronym>BIOS</acronym> version is installed and,
-	  if available, the
-	  embedded controller firmware version.</para>
+	<para>Before submitting a problem, ensure the latest
+	  <acronym>BIOS</acronym> version is installed and, if
+	  available, the embedded controller firmware version.</para>
       </note>
 
       <para>When submitting a problem, send the following information
@@ -3048,22 +2928,21 @@ kern.maxvnodes: 100000</screen>
 	</listitem>
 
 	<listitem>
-	  <para>The &man.dmesg.8; output from
-	    <command>boot -v</command> with <acronym>ACPI</acronym>
-	    disabled, if disabling it helps to fix the problem.</para>
+	  <para>The &man.dmesg.8; output from <command>boot
+	      -v</command> with <acronym>ACPI</acronym> disabled,
+	    if disabling it helps to fix the problem.</para>
 	</listitem>
 
 	<listitem>
 	  <para>Output from <command>sysctl hw.acpi</command>.  This
-	    lists which features the
-	    system offers.</para>
+	    lists which features the system offers.</para>
 	</listitem>
 
 	<listitem>
 	  <para>The <acronym>URL</acronym> to a pasted version of the
 	    <firstterm><acronym>ACPI</acronym> Source
-	      Language</firstterm> (<acronym>ASL</acronym>).
-	    Do <emphasis>not</emphasis> send the
+	      Language</firstterm> (<acronym>ASL</acronym>).  Do
+	    <emphasis>not</emphasis> send the
 	    <acronym>ASL</acronym> directly to the list as it can be
 	    very large.  Generate a copy of the
 	    <acronym>ASL</acronym> by running this command:</para>
@@ -3078,9 +2957,9 @@ kern.maxvnodes: 100000</screen>
       </itemizedlist>
 
       <para>Most &os; developers watch &a.current;, but one should
-	submit problems to &a.acpi.name; to be sure it is
-	seen.  Be patient when waiting for a response.  If the bug is
-	not immediately apparent, submit a
+	submit problems to &a.acpi.name; to be sure it is seen.  Be
+	patient when waiting for a response.  If the bug is not
+	immediately apparent, submit a
 	<acronym>PR</acronym> using &man.send-pr.1;.  When entering a
 	<acronym>PR</acronym>, include the same information as
 	requested above.  This helps developers to track the problem
@@ -3115,9 +2994,8 @@ kern.maxvnodes: 100000</screen>
 	map (used for <acronym>SMP</acronym>), config registers, and
 	simple configuration values.  Additionally, a bytecode table,
 	the <firstterm>Differentiated System Description
-	  Table</firstterm> <acronym>DSDT</acronym>,
-	specifies a tree-like name space of devices and
-	methods.</para>
+	  Table</firstterm> <acronym>DSDT</acronym>, specifies a
+	tree-like name space of devices and methods.</para>
 
       <para>The <acronym>ACPI</acronym> driver must parse the fixed
 	tables, implement an interpreter for the bytecode, and modify
@@ -3128,8 +3006,8 @@ kern.maxvnodes: 100000</screen>
 	<acronym>ACPI-CA</acronym> source code is <filename
 	  class="directory">src/sys/contrib/dev/acpica</filename>.
 	The glue code that allows <acronym>ACPI-CA</acronym> to work
-	on &os; is in
-	<filename class="directory">src/sys/dev/acpica/Osd</filename>.
+	on &os; is in <filename
+	  class="directory">src/sys/dev/acpica/Osd</filename>.
 	Finally, drivers that implement various
 	<acronym>ACPI</acronym> devices are found in <filename
 	  class="directory">src/sys/dev/acpica</filename>.</para>
@@ -3154,8 +3032,8 @@ kern.maxvnodes: 100000</screen>
 	<para>In some cases, resuming from a suspend operation will
 	  cause the mouse to fail.  A known work around is to add
 	  <literal>hint.psm.0.flags="0x3000"</literal> to
-	  <filename>/boot/loader.conf</filename>.  If this does
-	  not work, consider sending a bug report using
+	  <filename>/boot/loader.conf</filename>.  If this does not
+	  work, consider sending a bug report using
 	  &man.send-pr.1;.</para>
       </sect3>
 
@@ -3169,9 +3047,9 @@ kern.maxvnodes: 100000</screen>
 	  <literal>S4</literal>.  <literal>S5</literal> is
 	  <quote>soft off</quote> and is the normal state the system
 	  is in when plugged in but not powered up.
-	  <literal>S4</literal> can be implemented in two
-	  separate ways.  <literal>S4</literal><acronym>BIOS</acronym>
-	  is a <acronym>BIOS</acronym>-assisted suspend to disk.
+	  <literal>S4</literal> can be implemented in two separate
+	  ways.  <literal>S4</literal><acronym>BIOS</acronym> is a
+	  <acronym>BIOS</acronym>-assisted suspend to disk.
 	  <literal>S4</literal><acronym>OS</acronym> is implemented
 	  entirely by the operating system.</para>
 
@@ -3193,8 +3071,8 @@ hw.acpi.s4bios: 0</screen>
 	<para>When testing suspend/resume, start with
 	  <literal>S1</literal>, if supported.  This state is most
 	  likely to work since it does not require much driver
-	  support.  No one has implemented <literal>S2</literal>, which
-	  is similar to <literal>S1</literal>.  Next, try
+	  support.  No one has implemented <literal>S2</literal>,
+	  which is similar to <literal>S1</literal>.  Next, try
 	  <literal>S3</literal>.  This is the deepest
 	  <acronym>STR</acronym> state and requires a lot of driver
 	  support to properly reinitialize the hardware.  If there are
@@ -3212,31 +3090,29 @@ hw.acpi.s4bios: 0</screen>
 &prompt.root; <userinput>sysctl debug.acpi.suspend_bounce=1</userinput>
 &prompt.root; <userinput>acpiconf -s 3</userinput></screen>
 
-	<para>This test emulates the suspend/resume cycle of all device
-	  drivers without actually going into <literal>S3</literal>
-	  state.  In some cases, problems such as losing firmware
-	  state, device watchdog time out, and retrying forever, can
-	  be captured with this method.  Note that the system will
-	  not really enter <literal>S3</literal> state, which means
-	  devices may not lose power, and many will work fine even if
-	  suspend/resume methods are totally missing, unlike real
-	  <literal>S3</literal> state.</para>
+	<para>This test emulates the suspend/resume cycle of all
+	  device drivers without actually going into
+	  <literal>S3</literal> state.  In some cases, problems such
+	  as losing firmware state, device watchdog time out, and
+	  retrying forever, can be captured with this method.  Note
+	  that the system will not really enter <literal>S3</literal>
+	  state, which means devices may not lose power, and many
+	  will work fine even if suspend/resume methods are totally
+	  missing, unlike real <literal>S3</literal> state.</para>
 
 	<para>Harder cases require additional hardware, such as a
-	  serial port and cable for debugging through a serial console,
-	  a Firewire
-	  port and cable for using &man.dcons.4;, and kernel debugging
-	  skills.</para>
+	  serial port and cable for debugging through a serial
+	  console, a Firewire port and cable for using &man.dcons.4;,
+	  and kernel debugging skills.</para>
 
-	<para>To help isolate the problem, remove as many drivers from
-	  the kernel as possible.  If it works, narrow down which
+	<para>To help isolate the problem, remove as many drivers
+	  from the kernel as possible.  If it works, narrow down which
 	  driver is the problem by loading drivers until it fails
 	  again.  Typically, binary drivers like
 	  <filename>nvidia.ko</filename>, display drivers, and
 	  <acronym>USB</acronym> will have the most problems while
-	  Ethernet interfaces usually work fine.  If
-	  drivers can be properly loaded and unloaded, automate this
-	  by putting the
+	  Ethernet interfaces usually work fine.  If drivers can be
+	  properly loaded and unloaded, automate this by putting the
 	  appropriate commands in
 	  <filename>/etc/rc.suspend</filename> and
 	  <filename>/etc/rc.resume</filename>.
@@ -3246,26 +3122,23 @@ hw.acpi.s4bios: 0</screen>
 	  <option>hw.acpi.sleep_delay</option> to see if that
 	  helps.</para>
 
-	<para>Try loading a recent &linux; distribution
-	  to see if
+	<para>Try loading a recent &linux; distribution to see if
 	  suspend/resume works on the same hardware.  If it works on
 	  &linux;, it is likely a &os; driver problem.  Narrowing down
 	  which driver causes the problem will assist developers in
-	  fixing the
-	  problem.  Since the <acronym>ACPI</acronym> maintainers
-	  rarely maintain other drivers, such as sound or
-	  <acronym>ATA</acronym>, any
-	  driver problems should also be posted
-	  to the &a.current.name; list and mailed to the driver
-	  maintainer.  Advanced users can include
-	  debugging &man.printf.3;s in a problematic driver to track
-	  down where in its resume function it hangs.</para>
+	  fixing the problem.  Since the <acronym>ACPI</acronym>
+	  maintainers rarely maintain other drivers, such as sound
+	  or <acronym>ATA</acronym>, any driver problems should also
+	  be posted to the &a.current.name; list and mailed to the
+	  driver maintainer.  Advanced users can include debugging
+	  &man.printf.3;s in a problematic driver to track down where
+	  in its resume function it hangs.</para>
 
 	<para>Finally, try disabling <acronym>ACPI</acronym> and
 	  enabling <acronym>APM</acronym> instead.  If suspend/resume
-	  works with <acronym>APM</acronym>,
-	  stick with <acronym>APM</acronym>, especially on older
-	  hardware (pre-2000).  It took vendors a while to get
+	  works with <acronym>APM</acronym>, stick with
+	  <acronym>APM</acronym>, especially on older hardware
+	  (pre-2000).  It took vendors a while to get
 	  <acronym>ACPI</acronym> support correct and older hardware
 	  is more likely to have <acronym>BIOS</acronym> problems with
 	  <acronym>ACPI</acronym>.</para>
@@ -3275,9 +3148,9 @@ hw.acpi.s4bios: 0</screen>
 	<title>System Hangs</title>
 
 	<para>Most system hangs are a result of lost interrupts or an
-	  interrupt storm.  Chipsets may have problems based on
+	  interrupt storm.  Chipsets may have problems based on boot,
 	  how the <acronym>BIOS</acronym> configures interrupts before
-	  boot, correctness of the <acronym>APIC</acronym>
+	  correctness of the <acronym>APIC</acronym>
 	  (<acronym>MADT</acronym>) table, and routing of the
 	  <firstterm>System Control Interrupt</firstterm>
 	  (<acronym>SCI</acronym>).</para>
@@ -3335,8 +3208,8 @@ hw.acpi.s4bios: 0</screen>
 	<title>System Powers Up After Suspend or Shutdown</title>
 
 	<para>First, try setting
-	  <literal>hw.acpi.disable_on_poweroff="0"</literal>
-	  in &man.loader.conf.5;.  This keeps <acronym>ACPI</acronym>
+	  <literal>hw.acpi.disable_on_poweroff="0"</literal> in
+	  &man.loader.conf.5;.  This keeps <acronym>ACPI</acronym>
 	  from disabling various events during the shutdown process.
 	  Some systems need this value set to <literal>1</literal>
 	  (the default) for the same reason.  This usually fixes the
@@ -3366,27 +3239,25 @@ hw.acpi.s4bios: 0</screen>
 	<secondary><acronym>ASL</acronym></secondary>
       </indexterm>
 
-      <para>Some <acronym>BIOS</acronym>
-	vendors provide incorrect or buggy bytecode.
-	This is usually manifested by kernel console messages like
-	this:</para>
+      <para>Some <acronym>BIOS</acronym> vendors provide incorrect
+	or buggy bytecode.  This is usually manifested by kernel
+	console messages like this:</para>
 
       <screen>ACPI-1287: *** Error: Method execution failed [\\_SB_.PCI0.LPC0.FIGD._STA] \\
 (Node 0xc3f6d160), AE_NOT_FOUND</screen>
 
       <para>Often, these problems may be resolved by updating the
 	<acronym>BIOS</acronym> to the latest revision.  Most console
-	messages are harmless, but if there are other problems
-	like the battery status is not working, these messages are a
+	messages are harmless, but if there are other problems like
+	the battery status is not working, these messages are a
 	good place to start looking for problems.  The bytecode,
-	known as
-	<acronym>AML</acronym>, is compiled from a source language
-	called <acronym>ASL</acronym>.  The <acronym>AML</acronym> is
-	found in the table known as the <acronym>DSDT</acronym>.  To
-	get a copy of the system's <acronym>ASL</acronym>, use
-	&man.acpidump.8;.  Include both <option>-t</option>, to
-	show the contents of the fixed tables, and
-	<option>-d</option>, to disassemble the
+	known as <acronym>AML</acronym>, is compiled from a source
+	language called <acronym>ASL</acronym>.  The
+	<acronym>AML</acronym> is found in the table known as the
+	<acronym>DSDT</acronym>.  To get a copy of the system's
+	<acronym>ASL</acronym>, use &man.acpidump.8;.  Include both
+	<option>-t</option>, to show the contents of the fixed tables,
+	and <option>-d</option>, to disassemble the
 	<acronym>AML</acronym>. Refer to <xref
 	  linkend="ACPI-submitdebug"/> for an example syntax.</para>
 
@@ -3408,21 +3279,20 @@ hw.acpi.s4bios: 0</screen>
 	<secondary><acronym>ASL</acronym></secondary>
       </indexterm>
 
-      <para>The goal of &os; is for everyone
-	to have working <acronym>ACPI</acronym> without any user
-	intervention.  At this point, workarounds are still being
-	developed for common mistakes made by
-	<acronym>BIOS</acronym>  vendors.  The &microsoft; interpreter
-	(<filename>acpi.sys</filename> and
+      <para>The goal of &os; is for everyone to have working
+	<acronym>ACPI</acronym> without any user intervention.  At
+	this point, workarounds are still being developed for common
+	mistakes made by <acronym>BIOS</acronym>  vendors.  The
+	&microsoft; interpreter (<filename>acpi.sys</filename> and
 	<filename>acpiec.sys</filename>) does not strictly check for
 	adherence to the standard, and thus many
 	<acronym>BIOS</acronym> vendors who only test
 	<acronym>ACPI</acronym> under &windows; never fix their
 	<acronym>ASL</acronym>.  &os; developers continue to identify
 	and document which non-standard behavior is allowed by
-	&microsoft;'s interpreter and replicate it so that &os; can work
-	without forcing users to fix the <acronym>ASL</acronym>.  As a
-	workaround, and to help identify behavior, fix the
+	&microsoft;'s interpreter and replicate it so that &os; can
+	work without forcing users to fix the <acronym>ASL</acronym>.
+	As a workaround, and to help identify behavior, fix the
 	<acronym>ASL</acronym> manually.  If this works, send a
 	&man.diff.1; of the old and new <acronym>ASL</acronym> so
 	developers can possibly work around the buggy behavior in
@@ -3441,10 +3311,10 @@ hw.acpi.s4bios: 0</screen>
 
 	<para>Some <acronym>AML</acronym> versions assume the user is
 	  running &windows;.  To override this, set
-	  <literal>hw.acpi.osname=<replaceable>"Windows 2001"</replaceable></literal>
-	  in
-	  <filename>/boot/loader.conf</filename>, using the
-	  strings in the <acronym>ASL</acronym>.</para>
+	  <literal>hw.acpi.osname=<replaceable>"Windows
+	    2001"</replaceable></literal> in
+	  <filename>/boot/loader.conf</filename>, using the strings
+	  in the <acronym>ASL</acronym>.</para>
       </sect3>
 
       <sect3>
@@ -3474,13 +3344,11 @@ hw.acpi.s4bios: 0</screen>
 	  statements, are automatically worked around by the
 	  interpreter.</para>
 
-	<para>The default output
-	  filename for &man.iasl.8; is <filename>DSDT.aml</filename>.
-	  Load this file
-	  instead of the <acronym>BIOS</acronym>'s buggy copy, which
-	  is still present in flash memory, by editing
-	  <filename>/boot/loader.conf</filename> as
-	  follows:</para>
+	<para>The default output filename for &man.iasl.8; is
+	  <filename>DSDT.aml</filename>.  Load this file instead of
+	  the <acronym>BIOS</acronym>'s buggy copy, which is still
+	  present in flash memory, by editing
+	  <filename>/boot/loader.conf</filename> as follows:</para>
 
 	<programlisting>acpi_dsdt_load="YES"
 acpi_dsdt_name="/boot/DSDT.aml"</programlisting>
@@ -3517,29 +3385,27 @@ acpi_dsdt_name="/boot/DSDT.aml"</programlisting>
 	multiple options can be set at once, separated by spaces.  In
 	practice, a serial console should be used to log the output
 	so it is not lost as the console message buffer flushes.
-	A full
-	list of the individual layers and levels is found in
+	A full list of the individual layers and levels is found in
 	&man.acpi.4;.</para>
 
       <para>Debugging output is not enabled by default.  To enable it,
 	add <literal>options ACPI_DEBUG</literal> to the kernel
 	configuration file if <acronym>ACPI</acronym> is compiled into
 	the kernel.  Add <literal>ACPI_DEBUG=1</literal> to
-	<filename>/etc/make.conf</filename> to enable it
-	globally.  If it is a module, recompile just the
+	<filename>/etc/make.conf</filename> to enable it globally.
+	If it is a module, recompile just the
 	<filename>acpi.ko</filename> module as follows:</para>
 
       <screen>&prompt.root; <userinput>cd /sys/modules/acpi/acpi
 &amp;&amp; make clean &amp;&amp;
 make ACPI_DEBUG=1</userinput></screen>
 
-      <para>Install <filename>acpi.ko</filename> in
-	<filename class="directory">/boot/kernel</filename> and add
-	the desired level and layer to
+      <para>Install <filename>acpi.ko</filename> in <filename
+	  class="directory">/boot/kernel</filename> and add the
+	desired level and layer to
 	<filename>/boot/loader.conf</filename>.  This example enables
-	debug
-	messages for all <acronym>ACPI-CA</acronym> components and all
-	<acronym>ACPI</acronym> hardware drivers such as
+	debug messages for all <acronym>ACPI-CA</acronym> components
+	and all <acronym>ACPI</acronym> hardware drivers such as
 	(<acronym>CPU</acronym> and <acronym>LID</acronym>.  It only
 	outputs error messages at the least verbose level.</para>
 
@@ -3549,11 +3415,11 @@ debug.acpi.level="ACPI_LV_ERROR"</programlisting>
       <para>If the required information is triggered by a specific
 	event, such as a suspend and then resume, leave out changes to
 	<filename>/boot/loader.conf</filename> and instead use
-	&man.sysctl.8; to specify the layer and level after
-	booting and preparing the system for the specific event.  The
+	&man.sysctl.8; to specify the layer and level after booting
+	and preparing the system for the specific event.  The
 	variables which can be set using &man.sysctl.8; are named
-	the same as the tunables
-	in <filename>/boot/loader.conf</filename>.</para>
+	the same as the tunables in
+	<filename>/boot/loader.conf</filename>.</para>
     </sect2>
 
     <sect2 id="ACPI-References">
@@ -3593,7 +3459,8 @@ debug.acpi.level="ACPI_LV_ERROR"</programlisting>
 	<listitem>
 	  <para><ulink
 	      url="http://www.cpqlinux.com/acpi-howto.html#fix_broken_dsdt">
-	    <acronym>DSDT</acronym> debugging resource</ulink>.</para>
+	      <acronym>DSDT</acronym> debugging
+	      resource</ulink>.</para>
 	</listitem>
       </itemizedlist>
     </sect2>
