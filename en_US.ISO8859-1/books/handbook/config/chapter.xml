@@ -911,7 +911,7 @@ dc1: [ITHREAD]</screen>
 	<indexterm><primary>NDISulator</primary></indexterm>
 	<indexterm><primary>&windows; drivers</primary></indexterm>
 	<indexterm><primary>&microsoft.windows;</primary>
-	<secondary>device drivers</secondary>
+	  <secondary>device drivers</secondary>
 	</indexterm>
 	<indexterm>
 	  <primary><acronym>KLD</acronym> (kernel loadable object)</primary>
