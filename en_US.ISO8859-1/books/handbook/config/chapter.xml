@@ -472,11 +472,13 @@ run_rc_command "$1"</programlisting>
       supposed to perform at certain times.</para>
 
     <para>Two different types of configuration files are used by
-      &man.cron.8;: the system crontab and user crontabs.  These
-      formats only differ in the sixth field and later.  In the
-      system crontab, &man.cron.8; runs the command as the user
-      specified in the sixth field.  In a user crontab, all commands
-      run as the user who created the crontab, so the sixth field
+      &man.cron.8;: the system <filename>crontab</filename> and user
+      <filename>crontab</filename>s.  These formats only differ in
+      the sixth field and later.  In the system
+      <filename>crontab</filename>, &man.cron.8; runs the command as
+      the user specified in the sixth field.  In a user
+      <filename>crontab</filename>, all commands run as the user who
+      created the <filename>crontab</filename>, so the sixth field
       is the last field; this is an important security feature.
       The final field is always the command to run.</para>
 
@@ -486,13 +488,15 @@ run_rc_command "$1"</programlisting>
 	Commands in a user's crontab run with the permissions of the
 	user who owns the crontab.</para>
 
-      <para>The <username>root</username> user can have a user crontab
-	just like any other user.  The <username>root</username> user
-	crontab is separate from the system crontab,
-	<filename>/etc/crontab</filename>.
-	Because the system crontab invokes the specified commands as
+      <para>The <username>root</username> user can have a user
+	<filename>crontab</filename> just like any other user.  The
+	<username>root</username> user <filename>crontab</filename>
+	is separate from the system <filename>crontab</filename>,
+	<filename>/etc/crontab</filename>.  Because the system
+	<filename>crontab</filename> invokes the specified commands as
 	<username>root</username>, there is usually no need to create
-	a user crontab for <username>root</username>.</para>
+	a user <filename>crontab</filename> for
+	<username>root</username>.</para>
     </note>
 
     <para>Here is a sample entry from
@@ -580,7 +584,7 @@ PATH=/etc:/bin:/sbin:/usr/bin:/usr/sbin <co id="co-env"/>
 
       <important>
 	<para>Do not use the procedure described here to edit and
-	  install the system crontab,
+	  install the system <filename>crontab</filename>,
 	  <filename>/etc/crontab</filename>.  Instead, use an
 	  editor and &man.cron.8; will notice that the file has
 	  changed and immediately begin using the updated version.
@@ -602,11 +606,12 @@ PATH=/etc:/bin:/sbin:/usr/bin:/usr/sbin <co id="co-env"/>
       <para>To list installed &man.crontab.5; files, pass
 	<option>-l</option> to &man.crontab.1;.</para>
 
-      <para>Users who wish to begin their own crontab file from
-	scratch, without the use of a template, can use
-	<command>crontab -e</command>.  This will invoke the default
-	editor with an empty file.  When the file is saved, it will
-	be automatically installed by &man.crontab.1;.</para>
+      <para>Users who wish to begin their own
+	<filename>crontab</filename> file from scratch, without the
+	use of a template, can use <command>crontab -e</command>.  This
+	will invoke the default editor with an empty file.  When this
+	file is saved, it will be automatically installed by
+	&man.crontab.1;.</para>
 
       <para>In order to remove a user &man.crontab.5; completely,
 	use <command>crontab -r</command>.</para>
