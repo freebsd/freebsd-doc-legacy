@@ -3845,22 +3845,18 @@ geli_da2_flags="-p -k /root/da2.key"</programlisting>
       <filename>encswap</filename>
       <link linkend="configtuning-rcd">rc.d</link> script.</para>
 
-    <sect2>
-      <title>Preparation</title>
+    <note>
+      <para>For the remainder of this section,
+	<devicename>ad0s1b</devicename> will be the swap
+	partition.</para>
+    </note>
 
-      <note>
-	<para>For the remainder of this section,
-	  <devicename>ad0s1b</devicename> will be the swap
-	  partition.</para>
-      </note>
+    <para>Swap partitions are not encrypted by default and should
+      be cleared of any sensitive data before continuing.  To
+      overwrite the current swap parition with random garbage,
+      execute the following command:</para>
 
-      <para>By default, swap is unencrypted.  It is possible that it
-	contains passwords or other sensitive data in cleartext.  To
-	rectify this, the data on the swap partition should be
-	overwritten with random garbage:</para>
-
-      <screen>&prompt.root; <userinput>dd if=/dev/random of=/dev/ad0s1b bs=1m</userinput></screen>
-    </sect2>
+    <screen>&prompt.root; <userinput>dd if=/dev/random of=/dev/<replaceable>ad0s1b</replaceable> bs=1m</userinput></screen>
 
     <sect2>
       <title>Swap Encryption with &man.gbde.8;</title>
