@@ -1529,24 +1529,20 @@ bktr0: Pinnacle/Miro TV, Philips SECAM tuner.</programlisting>
       <primary>image scanners</primary>
     </indexterm>
 
-    <sect2>
-      <title>Introduction</title>
+    <para>In &os;, access to image scanners is provided by the
+      <application>SANE</application> (Scanner Access Now Easy)
+      <acronym role="Application Programming
+      Interface">API</acronym> available through the &os; Ports
+      Collection.  <application>SANE</application> will also use
+      some &os; device drivers to provide access to the scanner
+      hardware.</para>
 
-      <para>In &os;, access to image scanners is provided by the
-	<application>SANE</application> (Scanner Access Now Easy)
-	<acronym role="Application Programming
-	Interface">API</acronym> available through the &os; Ports
-	Collection.  <application>SANE</application> will also use
-	some &os; device drivers to provide access to the scanner
-	hardware.</para>
-
-      <para>&os; supports both SCSI and USB scanners.  Be sure the
-	scanner is supported by <application>SANE</application> prior
-	to performing any configuration.  Refer to the <ulink
-	  url="http://www.sane-project.org/sane-supported-devices.html">supported
-	devices list</ulink> for more information about supported
-	scanners.</para>
-    </sect2>
+    <para>&os; supports both SCSI and USB scanners.  Be sure the
+      scanner is supported by <application>SANE</application> prior
+      to performing any configuration.  Refer to the <ulink
+        url="http://www.sane-project.org/sane-supported-devices.html">
+      supported devices list</ulink> for more information about supported
+      scanners.</para>
 
     <sect2>
       <title>Kernel Configuration</title>
