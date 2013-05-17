@@ -1807,13 +1807,10 @@ setpmac biba/10\(10-10\) /usr/local/etc/rc.d/nagios.sh forcestart</userinput></s
 
     <para>This section discusses common configuration issues.</para>
 
-    <sect2>
-      <title><option>multilabel</option> cannot be enabled on
-	<filename>/</filename></title>
-
-      <para>The<option>multilabel</option> flag does not stay
+    <itemizedlist>
+      <listitem>
+      <para>The <option>multilabel</option> flag does not stay
 	enabled on my root (<filename>/</filename>) partition!</para>
-
 
       <para>The following steps may resolve this transient
 	error:</para>
@@ -1853,12 +1850,9 @@ setpmac biba/10\(10-10\) /usr/local/etc/rc.d/nagios.sh forcestart</userinput></s
 	    root file system.</para>
 	</step>
       </procedure>
-    </sect2>
+    </listitem>
 
-    <sect2>
-      <title>Xorg Server Will Not Start After
-	<acronym>MAC</acronym></title>
-
+    <listitem>
       <para>After establishing a secure environment with
 	<acronym>MAC</acronym>, I am no longer able to start
 	Xorg!</para>
@@ -1892,15 +1886,14 @@ setpmac biba/10\(10-10\) /usr/local/etc/rc.d/nagios.sh forcestart</userinput></s
 	    the &a.questions; mailing list.</para>
 	</step>
       </procedure>
-    </sect2>
+    </listitem>
 
-    <sect2>
-      <title>Error: &man..secure.path.3; cannot stat
-	<filename>.login_conf</filename></title>
+    <listitem>
+      <para>The error: <errorname>_secure_path: unable to stat .login_conf</errorname> shows up.</para>
 
       <para>When a user attempts to switch from the
 	<username>root</username> user to another user in the system,
-	the error message <errorname>_secure_path: unable to state
+	the error message <errorname>_secure_path: unable to stat
 	  .login_conf</errorname> appears.</para>
 
       <para>This message is usually shown when the user has a higher
@@ -1915,10 +1908,11 @@ setpmac biba/10\(10-10\) /usr/local/etc/rc.d/nagios.sh forcestart</userinput></s
 	the Biba integrity model will not permit
 	<username>root</username> to view objects set at a lower
 	integrity level.</para>
-    </sect2>
+    </listitem>
 
-    <sect2>
-      <title>The <username>root</username> username is broken!</title>
+    <listitem>
+      <para>The system no longer recognizes the
+      <username>root</username> user.</para>
 
       <para>In normal or even single user mode, the
 	<username>root</username> is not recognized,
@@ -1942,6 +1936,7 @@ setpmac biba/10\(10-10\) /usr/local/etc/rc.d/nagios.sh forcestart</userinput></s
 	system and access would be blocked as the file has inherited
 	the new label.  Disable the policy using &man.sysctl.8; and
 	everything should return to normal.</para>
-    </sect2>
+    </listitem>
+  </itemizedlist>
   </sect1>
 </chapter>
