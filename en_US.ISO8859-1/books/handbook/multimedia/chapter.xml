@@ -1437,6 +1437,26 @@ bktr0: Pinnacle/Miro TV, Philips SECAM tuner.</programlisting>
 	url="http://www.mythtv.org/wiki/">MythTV wiki</ulink> for
       more information on how to use MythTV.</para>
 
+      <para>MythTV requires a frontend and a backend; however,
+	it allows the user to have the frontend and backend on
+	different machines.</para>
+
+      <para>For the frontend, <filename
+	  role="package">multimedia/mythtv-frontend</filename> is
+	required, as well as an X server, which can be found in
+	<filename role="package">x11/xorg</filename>.  Ideally, the
+	frontend computer also has a video card that supports <acronym
+	  role="X-Video Motion Compensation">XvMC</acronym> and,
+	optionally, a <acronym role="Linux Infrared Remote
+	  Control">LIRC</acronym>-compatible remote.</para>
+
+      <para>For the backend, <filename
+	  role="package">multimedia/mythtv</filename> is required,
+	along with the &mysql; database server.  Optionally a tuner
+	and storage for any recorded data.  The &mysql; package should
+	be automatically installed as a dependency when installing
+	<filename role="package">multimedia/mythtv</filename>.</para>
+
     <sect2>
       <title>Hardware</title>
 
@@ -1466,29 +1486,6 @@ bktr0: Pinnacle/Miro TV, Philips SECAM tuner.</programlisting>
 	  wiki page</ulink> contains a list of all available <acronym
 	  role="Digital Video Broadcasting">DVB</acronym>
 	drivers.</para>
-    </sect2>
-
-    <sect2>
-      <title>Dependencies</title>
-
-      <para>Being flexible and modular, MythTV allows the user to
-	have the frontend and backend on different machines.</para>
-
-      <para>For the frontend, <filename
-	  role="package">multimedia/mythtv-frontend</filename> is
-	required, as well as an X server, which can be found in
-	<filename role="package">x11/xorg</filename>.  Ideally, the
-	frontend computer also has a video card that supports <acronym
-	  role="X-Video Motion Compensation">XvMC</acronym> and,
-	optionally, a <acronym role="Linux Infrared Remote
-	  Control">LIRC</acronym>-compatible remote.</para>
-
-      <para>For the backend, <filename
-	  role="package">multimedia/mythtv</filename> is required,
-	as well as a &mysql; database, and optionally a tuner and
-	storage for recordings.  The &mysql; package should be
-	automatically installed as a dependency when installing
-	<filename role="package">multimedia/mythtv</filename>.</para>
     </sect2>
 
     <sect2>
