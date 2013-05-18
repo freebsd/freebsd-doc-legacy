@@ -337,22 +337,19 @@ Info:   Lists information about open files (similar to fstat(1))</screen>
 
     <title>Using Binary Packages</title>
 
-    <para>There are several different tools used to manage packages on
-      &os;:</para>
+    <para>At the present time, &os; is transitioning toward a new
+      method of package management.  Users of the latest releases
+      may wish to investigate the benefits of using
+      <link linkend="pkgng-intro">PKGng</link> to manage third
+      party software on &os;.  For those not yet migrated to the
+      <application>pkgng</application> tool, the tools discussed
+      here may be used for managing the package database.  For
+      simplicity, the <command>sysinstall</command> utility is
+      also available post-install for package management.</para>
 
-    <itemizedlist>
-      <listitem>
-	<para>The <command>sysinstall</command> utility can be invoked
-	  on a running system to install, delete, and list available
-	  and installed packages.  For more information, see
-	  <xref linkend="packages"/>.</para>
-      </listitem>
-
-      <listitem>
-	<para>The package management command line tools, which are
-	  the subject of the rest of this section.</para>
-      </listitem>
-    </itemizedlist>
+    <para>All package installation files are stored in the
+      package database directory,
+      <filename role="directory">/var/db/pkg</filename>.</para>
 
     <sect2>
       <title>Installing a Package</title>
@@ -568,14 +565,6 @@ docbook                     =
 
       <para>in this case, all packages whose names start with
 	<literal>xchat</literal> will be deleted.</para>
-    </sect2>
-
-    <sect2>
-      <title>Miscellaneous</title>
-
-      <para>All package information, including the file list and
-	descriptions of each installed package is stored within the
-	<filename>/var/db/pkg</filename> directory.</para>
     </sect2>
   </sect1>
 
