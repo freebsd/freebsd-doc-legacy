@@ -1778,17 +1778,25 @@ ftp://ftp.FreeBSD.org/pub/FreeBSD/ports/distfiles/ fetch</userinput></screen>
   </sect1>
 
   <sect1 id="ports-nextsteps">
-    <title>Post-installation Activities</title>
+    <title>Working With Installed Ports</title>
 
-    <para>After installing a new application you will normally want to
-      read any documentation it may have included, edit any
-      required configuration files, and ensure that the
-      application's service starts at boot time.</para>
+    <para>Most third party applications will need some level of
+      configuration after they were installed.  This may be a simple
+      configuration file alteration, or perhaps the application will
+      just generate a configuration file.  Most applications will
+      have documentation installed into
+      <filename role="directory">/usr/local/share/doc</filename> and
+      manual pages.  This documentation should be consulted before
+      continuing.  Some applications run services which must be added
+      to the <filename>/etc/rc.conf</filename> file before
+      starting.</para>
 
-    <para>The exact steps you need to take to configure each
-      application will obviously be different.  However, if you have
-      just installed a new application and are wondering
-      <quote>What now?</quote> these tips might help:</para>
+    <para>The following list contains useful information for
+      post-install port management.  In several cases, finding
+      the location of binaries if they were installed outside
+      of the <envar>PATH</envar>.  Users of &man.csh.1; should run
+      the <command>rehash</command> to rebuild the known binary
+      list in the shells <envar>PATH</envar>.</para>
 
     <itemizedlist>
       <listitem>
@@ -1796,7 +1804,7 @@ ftp://ftp.FreeBSD.org/pub/FreeBSD/ports/distfiles/ fetch</userinput></screen>
 	  installed, and where.  For example, if you have just
 	  installed FooPackage version 1.0.0, then this command</para>
 
-	<screen>&prompt.root; <userinput>pkg_info -L foopackage-1.0.0 | less</userinput></screen>
+	<screen>&prompt.root; <userinput>pkg_info -L <replaceable>foopackage-1.0.0</replaceable> | less</userinput></screen>
 
 	<para>will show all the files installed by the package.  Pay
 	  special attention to files located in
