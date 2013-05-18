@@ -5682,7 +5682,7 @@ driftfile /var/db/ntp.drift</programlisting>
 
     <para>Centralized logging to a specific logging host can reduce
       some of the administrative burden of log file administration.
-      Log file aggregation, merging and rotation can be configured in
+      Log file aggregation, merging and rotation may be configured in
       one location, using the native tools of &os;, such as
       &man.syslogd.8; and &man.newsyslog.8;.  In the following example
       configuration, host <hostid>A</hostid>, named <hostid
@@ -5716,15 +5716,15 @@ driftfile /var/db/ntp.drift</programlisting>
 	</listitem>
 
 	<listitem>
-	  <para>syslogd has been configured to accept remote messages
-	    from client machines;</para>
+	  <para><command>syslogd</command> has been configured to
+	    accept remote messages from client machines;</para>
 	</listitem>
 
 	<listitem>
-	  <para>The syslogd server and all client machines must have
-	    valid entries for both forward and reverse
-	    <acronym>DNS</acronym>, or be properly configured in
-	    <filename>/etc/hosts</filename>.</para>
+	  <para>The <command>syslogd</command> server and all client
+	    machines must have valid entries for both forward and
+	    reverse <acronym>DNS</acronym>, or be properly configured
+	    in <filename>/etc/hosts</filename>.</para>
 	</listitem>
       </itemizedlist>
 
@@ -5770,13 +5770,14 @@ syslogd_flags="-a logclient.example.com -v -v"</programlisting>
 	does not matter, but &man.touch.1; works great for situations
 	such as this:</para>
 
-      <screen>&prompt.root; <userinput>touch <filename>/var/log/logclient.log</filename></userinput></screen>
+      <screen>&prompt.root; <userinput><command>touch</command>
+        <filename>/var/log/logclient.log</filename></userinput></screen>
 
       <para>At this point, the <command>syslogd</command> daemon
 	should be restarted and verified:</para>
 
-      <screen>&prompt.root; <userinput>service syslogd restart</userinput>
-&prompt.root; <userinput>pgrep syslog</userinput></screen>
+      <screen>&prompt.root; <userinput>service <command>syslogd</command> restart</userinput>
+&prompt.root; <userinput><command>pgrep</command> syslog</userinput></screen>
 
       <para>If a <acronym>PID</acronym> is returned, the server has
 	been restarted successfully, and client configuration may
@@ -5851,13 +5852,14 @@ syslogd_flags="-s -v -v"</programlisting>
       <para>Once added, <command>syslogd</command> must be restarted
 	for the changes to take effect:</para>
 
-      <screen>&prompt.root; <userinput>service syslogd restart</userinput></screen>
+      <screen>&prompt.root; <userinput>service <command>syslogd</command> restart</userinput></screen>
 
       <para>To test that log messages are being sent across the
 	network, use &man.logger.1; on the client to send a message to
 	<command>syslogd</command>:</para>
 
-      <screen>&prompt.root; <userinput>logger "<replaceable>Test message from logclient</replaceable>"</userinput></screen>
+      <screen>&prompt.root; <userinput><command>logger</command>
+        "<replaceable>Test message from logclient</replaceable>"</userinput></screen>
 
       <para>This message should now exist both in
 	<filename>/var/log/messages</filename> on the client, and
@@ -5888,7 +5890,7 @@ syslogd_flags="-s -v -v"</programlisting>
 
       <programlisting>syslogd_flags="-d -a logclien.example.com -v -v"</programlisting>
 
-      <screen>&prompt.root; <userinput>service syslogd restart</userinput></screen>
+      <screen>&prompt.root; <userinput>service <command>syslogd</command> restart</userinput></screen>
 
       <para>Debugging data similar to the following will flash on the
 	screen immediately after the restart:</para>
@@ -5913,7 +5915,7 @@ rejected in rule 0 due to name mismatch.</screen>
 	<literal>logclien</literal>.  After the proper alterations
 	are made, a restart is issued with expected results:</para>
 
-      <screen>&prompt.root; <userinput>service syslogd restart</userinput>
+      <screen>&prompt.root; <userinput>service <command>syslogd</command> restart</userinput>
 logmsg: pri 56, flags 4, from logserv.example.com, msg syslogd: restart
 syslogd: restarted
 logmsg: pri 6, flags 4, from logserv.example.com, msg syslogd: kernel boot file is /boot/kernel/kernel

@@ -1362,7 +1362,7 @@ ifconfig_fxp0_alias7="inet 202.0.75.20 netmask 255.255.255.255"</programlisting>
     </sect1info>
 
     <title>Configuring the System Logger,
-      &man.syslogd.8;</title>
+      <command>syslogd</command></title>
 
     <indexterm><primary>system logging</primary></indexterm>
     <indexterm><primary>syslog</primary></indexterm>
@@ -1383,7 +1383,7 @@ ifconfig_fxp0_alias7="inet 202.0.75.20 netmask 255.255.255.255"</programlisting>
 	linkend="network-syslogd"/>.</para>
 
     <sect2>
-      <title>Using &man.syslogd.8;</title>
+      <title>Using <command>syslogd</command></title>
 
       <para>In the default &os; configuration, &man.syslogd.8; is
 	started at boot.  This is controlled by the variable
@@ -1401,7 +1401,7 @@ ifconfig_fxp0_alias7="inet 202.0.75.20 netmask 255.255.255.255"</programlisting>
     </sect2>
 
     <sect2>
-      <title>Configuring &man.syslogd.8;</title>
+      <title>Configuring <command>syslogd</command></title>
 
       <indexterm><primary>syslog.conf</primary></indexterm>
 
@@ -1541,7 +1541,7 @@ cron.*                                          /var/log/cron
 
     <sect2>
       <title>Log Management and Rotation with
-	&man.newsyslog.8;</title>
+	<command>newsyslog</command></title>
 
       <indexterm><primary>newsyslog</primary></indexterm>
       <indexterm><primary>newsyslog.conf</primary></indexterm>
@@ -1563,7 +1563,7 @@ cron.*                                          /var/log/cron
 
       <sect3>
 	<title>Configuring
-	  &man.newsyslog.8;</title>
+	  <command>newsyslog</command></title>
 
 	<para>To know which actions to take, &man.newsyslog.8; reads
 	  its configuration file, by default
@@ -1958,6 +1958,19 @@ device_probe_and_attach: cbb0 attach returned 12</screen>
 
   <sect1 id="configtuning-disk">
     <title>Tuning Disks</title>
+
+    <para>The following section will discuss various tuning
+      mechanisms and options which may be applied to disk
+      devices.  In many cases, disks with mechanical parts,
+      such as <acronym>SCSI</acronym> drives, will be the bottle
+      neck driving down the overall system performance.  While
+      a solution is to install a drive without mechanical parts,
+      such as a solid state drive, mechanical drives are not
+      going away anytime in the near future.  When tuning disks,
+      it is advisable to utilize the features of the &man.iostat.8;
+      command to test various changes to the system.  This
+      command will allow the user to obtain valuable information
+      on system <acronym>IO</acronym>.</para>
 
     <sect2>
       <title>Sysctl Variables</title>
