@@ -1800,18 +1800,18 @@ ftp://ftp.FreeBSD.org/pub/FreeBSD/ports/distfiles/ fetch</userinput></screen>
 
     <itemizedlist>
       <listitem>
-	<para>Use &man.pkg.info.1; to find out which files were
-	  installed, and where.  For example, if you have just
-	  installed FooPackage version 1.0.0, then this command</para>
+	<para>The &man.pkg.info.1; will print all installed
+	  files and their location.  For example, if the FooPackage
+	  version 1.0.0 was just installed, then the following
+	  command will show all the files installed with the
+	  package.</para>
 
 	<screen>&prompt.root; <userinput>pkg_info -L <replaceable>foopackage-1.0.0</replaceable> | less</userinput></screen>
 
-	<para>will show all the files installed by the package.  Pay
-	  special attention to files located in
-	  <filename>man/</filename>, which will be manual pages,
-	  <filename>etc/</filename>, which will be configuration
-	  files, and <filename>doc/</filename>, which will be more
-	  comprehensive documentation.</para>
+	<para>Configuration files are always installed in the
+	  <filename role="directory">/usr/local/etc</filename>
+	  and should definitely be consulted before attempting
+	  to use the new application.</para>
 
 	<para>To determine which version of the application was
 	  installed:</para>
@@ -1825,17 +1825,18 @@ ftp://ftp.FreeBSD.org/pub/FreeBSD/ports/distfiles/ fetch</userinput></screen>
       </listitem>
 
       <listitem>
-	<para>Once you have identified where the application's manual
-	  pages have been installed, review them using &man.man.1;.
-	  Review the sample configuration files and any additional
-	  documentation that may have been provided.</para>
+	<para>These commands will also show the names of any manual
+	  pages installed with the application.  This additional
+	  documentation will now be available to the &man.man.1;
+	  command.</para>
       </listitem>
 
       <listitem>
-	<para>If the application has a web site, check it for
-	  additional documentation, frequently asked questions, and so
-	  forth.  If you are not sure of the web site address it may
-	  be listed in the output from</para>
+	<para>If the application has a web site, consult it for
+	  additional documentation, frequently asked questions, or
+	  a forum.  If the website is unknown, the following command
+	  will be useful to print out this information if it's
+	  available.</para>
 
 	<screen>&prompt.root; <userinput>pkg_info <replaceable>foopackage-1.0.0</replaceable></userinput></screen>
 
