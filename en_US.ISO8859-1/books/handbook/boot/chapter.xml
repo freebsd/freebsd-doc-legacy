@@ -969,7 +969,7 @@ console none                            unknown off insecure</programlisting>
 	of the system.</para>
 
       <sect3 id="boot-rc">
-	<title>Resource Configuration (rc)</title>
+	<title>Resource Configuration</title>
 
 	<indexterm><primary>rc files</primary></indexterm>
 
