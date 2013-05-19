@@ -2783,7 +2783,7 @@ racoon_enable="yes"</programlisting>
     </sect2>
 
     <sect2>
-      <title>Enabling &man.sshd.8;</title>
+      <title>Enabling The SSH Server</title>
 
       <indexterm>
 	<primary>OpenSSH</primary>
@@ -2805,7 +2805,7 @@ racoon_enable="yes"</programlisting>
     </sect2>
 
     <sect2>
-      <title>&man.ssh.1; Client</title>
+      <title>The SSH Client</title>
 
       <indexterm>
 	<primary>OpenSSH</primary>
@@ -2941,7 +2941,7 @@ bb:48:db:f2:93:57:80:b6:aa:bc:f5:d5:ba:8f:79:17 user@host.example.com</screen>
     </sect2>
 
     <sect2 id="security-ssh-agent">
-      <title>&man.ssh-agent.1; and &man.ssh-add.1;</title>
+      <title>Using SSH Agent To Cache Keys</title>
 
       <para>To load <acronym>SSH</acronym> keys into memory for use,
 	without needing to type the passphrase each time, use
