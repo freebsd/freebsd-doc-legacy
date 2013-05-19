@@ -38,7 +38,7 @@
       <listitem>
 	<para>How to set up network <acronym>PXE</acronym> booting
 	  with an
-	  <acronym>NFS</acronym> root filesystem.</para>
+	  <acronym>NFS</acronym> root file system.</para>
       </listitem>
 
       <listitem>
@@ -46,7 +46,7 @@
       </listitem>
 
       <listitem>
-	<para>How to set up IPv6 on a &os; machine.</para>
+	<para>How to set up <acronym>IPv6</acronym> on a &os; machine.</para>
       </listitem>
 
       <listitem>
@@ -3117,20 +3117,21 @@ rfcomm_sppd[94692]: Starting on /dev/ttyp6...</screen>
     <sect2>
       <title>Introduction</title>
 
-      <indexterm><primary>IP subnet</primary></indexterm>
+      <indexterm><primary><acronym>IP</acronym> subnet</primary></indexterm>
       <indexterm><primary>bridge</primary></indexterm>
-      <para>It is sometimes useful to divide one physical network
-	(such as an Ethernet segment) into two separate network
-	segments without having to create IP subnets and use a router
+      <para>It is sometimes useful to divide one physical network,
+	such as an Ethernet segment, into two separate network
+	segments without having to create <acronym>IP</acronym>
+	subnets and use a router
 	to connect the segments together.  A device that connects two
 	networks together in this fashion is called a
 	<quote>bridge</quote>.  A &os; system with two network
 	interface cards can act as a bridge.</para>
 
-      <para>The bridge works by learning the MAC layer addresses
-	(Ethernet addresses) of the devices on each of its network
+      <para>The bridge works by learning the <acronym>MAC</acronym>
+	layer (Ethernet) addresses of the devices on each of its network
 	interfaces.  It forwards traffic between two networks only
-	when its source and destination are on different
+	when the source and destination are on different
 	networks.</para>
 
       <para>In many respects, a bridge is like an Ethernet switch with
@@ -3149,8 +3150,8 @@ rfcomm_sppd[94692]: Starting on /dev/ttyp6...</screen>
 	<para>The basic operation of a bridge is to join two or more
 	  network segments together.  There are many reasons to use a
 	  host based bridge over plain networking equipment such as
-	  cabling constraints, firewalling or connecting pseudo
-	  networks such as a Virtual Machine interface.  A bridge can
+	  cabling constraints, firewalling, or connecting pseudo
+	  networks such as a virtual machine interface.  A bridge can
 	  also connect a wireless interface running in hostap mode to
 	  a wired network and act as an access point.</para>
       </sect3>
@@ -3162,51 +3163,60 @@ rfcomm_sppd[94692]: Starting on /dev/ttyp6...</screen>
 	<indexterm><primary>NAT</primary></indexterm>
 
 	<para>A common situation is where firewall functionality is
-	  needed without routing or network address translation
-	  (NAT).</para>
+	  needed without routing or Network Address Translation
+	  (<acronym>NAT</acronym>).</para>
 
-	<para>An example is a small company that is connected via DSL
-	  or ISDN to their ISP.  They have a 13 globally-accessible IP
-	  addresses from their ISP and have 10 PCs on their network.
+	<para>An example is a small company that is connected via
+	  <acronym>DSL</acronym>
+	  or <acronym>ISDN</acronym> to an <acronym>ISP</acronym>.
+	  There are thirteen globally-accessible <acronym>IP</acronym>
+	  addresses from the <acronym>ISP</acronym> and ten computers
+	  on the network.
 	  In this situation, using a router-based firewall is
 	  difficult because of subnetting issues.</para>
 
 	<indexterm><primary>router</primary></indexterm>
-	<indexterm><primary>DSL</primary></indexterm>
-	<indexterm><primary>ISDN</primary></indexterm>
+	<indexterm><primary><acronym>DSL</acronym></primary></indexterm>
+	<indexterm><primary><acronym>ISDN</acronym></primary></indexterm>
 	<para>A bridge-based firewall can be configured and dropped
-	  into the path just downstream of their DSL/ISDN router
-	  without any IP numbering issues.</para>
+	  into the path just downstream of the <acronym>DSL</acronym>
+	  or <acronym>ISDN</acronym> router
+	  without any <acronym>IP</acronym> numbering issues.</para>
       </sect3>
 
       <sect3>
 	<title>Network Tap</title>
 
 	<para>A bridge can join two network segments and be used to
-	  inspect all Ethernet frames that pass between them.  This
-	  can either be from using &man.bpf.4;/&man.tcpdump.1; on the
+	  inspect all Ethernet frames that pass between them using
+	  &man.bpf.4; and &man.tcpdump.1; on the
 	  bridge interface or by sending a copy of all frames out an
-	  additional interface (span port).</para>
+	  additional interface known as a span port.</para>
       </sect3>
 
       <sect3>
-	<title>Layer 2 VPN</title>
+	<title>Layer 2 <acronym>VPN</acronym></title>
 
-	<para>Two Ethernet networks can be joined across an IP link by
+	<para>Two Ethernet networks can be joined across an
+	  <acronym>IP</acronym> link by
 	  bridging the networks to an EtherIP tunnel or a &man.tap.4;
-	  based solution such as OpenVPN.</para>
+	  based solution such as
+	  <application>OpenVPN</application>.</para>
       </sect3>
 
       <sect3>
 	<title>Layer 2 Redundancy</title>
 
 	<para>A network can be connected together with multiple links
-	  and use the Spanning Tree Protocol to block redundant paths.
-	  For an Ethernet network to function properly only one active
-	  path can exist between two devices, Spanning Tree will
+	  and use the Spanning Tree Protocol <acronym>STP</acronym>
+	  to block redundant paths.
+	  For an Ethernet network to function properly, only one active
+	  path can exist between two devices.  <acronym>STP</acronym>
+	  will
 	  detect loops and put the redundant links into a blocked
-	  state.  Should one of the active links fail then the
-	  protocol will calculate a different tree and reenable one of
+	  state.  Should one of the active links fail,
+	  <acronym>STP</acronym> will calculate a different tree and
+	  enable one of
 	  the blocked paths to restore connectivity to all points in
 	  the network.</para>
       </sect3>
@@ -3215,15 +3225,16 @@ rfcomm_sppd[94692]: Starting on /dev/ttyp6...</screen>
     <sect2>
       <title>Kernel Configuration</title>
 
-      <para>This section covers &man.if.bridge.4; bridge
-	implementation, a netgraph bridging driver is also available,
-	for more information see &man.ng.bridge.4; manual page.</para>
+      <para>This section covers the &man.if.bridge.4;
+	implementation.  A netgraph bridging driver is also available,
+	and is described in &man.ng.bridge.4;.</para>
 
-      <para>The bridge driver is a kernel module and will be
+      <para>In &os;, &man.if.bridge.4; is a kernel module which is
 	automatically loaded by &man.ifconfig.8; when creating a
-	bridge interface.  It is possible to compile the bridge in to
+	bridge interface.  It is also possible to compile the bridge
+	in to
 	the kernel by adding <literal>device if_bridge</literal> to
-	your kernel configuration file.</para>
+	a custom kernel configuration file.</para>
 
       <para>Packet filtering can be used with any firewall package
 	that hooks in via the &man.pfil.9; framework.  The firewall
@@ -3237,9 +3248,7 @@ rfcomm_sppd[94692]: Starting on /dev/ttyp6...</screen>
       <title>Enabling the Bridge</title>
 
       <para>The bridge is created using interface cloning.  To create
-	a bridge use &man.ifconfig.8;, if the bridge driver is not
-	present in the kernel then it will be loaded
-	automatically.</para>
+	a bridge use &man.ifconfig.8;:</para>
 
       <screen>&prompt.root; <userinput>ifconfig bridge create</userinput>
 bridge0
@@ -3250,16 +3259,18 @@ bridge0: flags=8802&lt;BROADCAST,SIMPLEX,MULTICAST&gt; metric 0 mtu 1500
         maxage 20 holdcnt 6 proto rstp maxaddr 100 timeout 1200
         root id 00:00:00:00:00:00 priority 0 ifcost 0 port 0</screen>
 
-      <para>A bridge interface is created and is automatically
+      <para>When a bridge interface is created, it is automatically
 	assigned a randomly generated Ethernet address.  The
 	<literal>maxaddr</literal> and <literal>timeout</literal>
-	parameters control how many MAC addresses the bridge will keep
+	parameters control how many <acronym>MAC</acronym> addresses
+	the bridge will keep
 	in its forwarding table and how many seconds before each entry
 	is removed after it is last seen.  The other parameters
-	control how Spanning Tree operates.</para>
+	control how <acronym>STP</acronym> operates.</para>
 
-      <para>Add the member network interfaces to the bridge.  For the
-	bridge to forward packets all member interfaces and the bridge
+      <para>Next, add the member network interfaces to the bridge.
+	For the
+	bridge to forward packets, all member interfaces and the bridge
 	need to be up:</para>
 
       <screen>&prompt.root; <userinput>ifconfig bridge0 addm fxp0 addm fxp1 up</userinput>
@@ -3268,23 +3279,25 @@ bridge0: flags=8802&lt;BROADCAST,SIMPLEX,MULTICAST&gt; metric 0 mtu 1500
 
       <para>The bridge is now forwarding Ethernet frames between
 	<devicename>fxp0</devicename> and
-	<devicename>fxp1</devicename>.  The equivalent configuration
-	in <filename>/etc/rc.conf</filename> so the bridge is created
-	at startup is:</para>
+	<devicename>fxp1</devicename>.  Add the following lines to
+	<filename>/etc/rc.conf</filename> so the bridge is created
+	at startup:</para>
 
       <programlisting>cloned_interfaces="bridge0"
 ifconfig_bridge0="addm fxp0 addm fxp1 up"
 ifconfig_fxp0="up"
 ifconfig_fxp1="up"</programlisting>
 
-      <para>If the bridge host needs an IP address then the correct
+      <para>If the bridge host needs an <acronym>IP</acronym>
+	address, the correct
 	place to set this is on the bridge interface itself rather
 	than one of the member interfaces.  This can be set statically
-	or via DHCP:</para>
+	or via <acronym>DHCP</acronym>:</para>
 
       <screen>&prompt.root; <userinput>ifconfig bridge0 inet 192.168.0.1/24</userinput></screen>
 
-      <para>It is also possible to assign an IPv6 address to a bridge
+      <para>It is also possible to assign an <acronym>IPv6</acronym>
+	address to a bridge
 	interface.</para>
     </sect2>
 
@@ -3294,14 +3307,15 @@ ifconfig_fxp1="up"</programlisting>
       <indexterm><primary>firewall</primary></indexterm>
 
       <para>When packet filtering is enabled, bridged packets will
-	pass through the filter inbound on the originating interface,
-	on the bridge interface and outbound on the appropriate
+	pass through the filter inbound on the originating interface
+	on the bridge interface, and outbound on the appropriate
 	interfaces.  Either stage can be disabled.  When direction of
-	the packet flow is important it is best to firewall on the
+	the packet flow is important, it is best to firewall on the
 	member interfaces rather than the bridge itself.</para>
 
       <para>The bridge has several configurable settings for passing
-	non-IP and ARP packets, and layer2 firewalling with IPFW.  See
+	non-<acronym>IP</acronym> and <acronym>IP</acronym> packets,
+	and layer2 firewalling with &man.ipfw.8;.  See
 	&man.if.bridge.4; for more information.</para>
     </sect2>
 
@@ -3309,21 +3323,26 @@ ifconfig_fxp1="up"</programlisting>
       <title>Spanning Tree</title>
 
       <para>The bridge driver implements the Rapid Spanning Tree
-	Protocol (RSTP or 802.1w) with backwards compatibility with
-	the legacy Spanning Tree Protocol (STP).  Spanning Tree is
-	used to detect and remove loops in a network topology.  RSTP
-	provides faster Spanning Tree convergence than legacy STP, the
+	Protocol (<acronym>RSTP</acronym> or 802.1w) with backwards
+	compatibility with
+	legacy <acronym>STP</acronym>.  <acronym>STP</acronym> is
+	used to detect and remove loops in a network topology.
+	<acronym>RSTP</acronym>
+	provides faster convergence than legacy <acronym>STP</acronym>,
+	the
 	protocol will exchange information with neighbouring switches
 	to quickly transition to forwarding without creating
 	loops.
-	&os; supports RSTP and STP as operating modes, with RSTP
+	&os; supports <acronym>RSTP</acronym> and <acronym>STP</acronym>
+	as operating modes, with <acronym>RSTP</acronym>
 	being the default mode.</para>
 
-      <para>Spanning Tree can be enabled on member interfaces using
-	the <literal>stp</literal> command.  For a bridge with
+      <para><acronym>STP</acronym> can be enabled on member interfaces
+	using
+	&man.ifconfig.8;.  For a bridge with
 	<devicename>fxp0</devicename> and
 	<devicename>fxp1</devicename> as the current interfaces,
-	enable STP with the following:</para>
+	enable <acronym>STP</acronym> with:</para>
 
       <screen>&prompt.root; <userinput>ifconfig bridge0 stp fxp0 stp fxp1</userinput>
 bridge0: flags=8843&lt;UP,BROADCAST,RUNNING,SIMPLEX,MULTICAST&gt; metric 0 mtu 1500
@@ -3341,10 +3360,10 @@ bridge0: flags=8843&lt;UP,BROADCAST,RUNNING,SIMPLEX,MULTICAST&gt; metric 0 mtu 1
       <para>This bridge has a spanning tree ID of
 	<literal>00:01:02:4b:d4:50</literal> and a priority of
 	<literal>32768</literal>.  As the <literal>root id</literal>
-	is the same it indicates that this is the root bridge for the
+	is the same, it indicates that this is the root bridge for the
 	tree.</para>
 
-      <para>Another bridge on the network also has spanning tree
+      <para>Another bridge on the network also has <acronym>STP</acronym>
 	enabled:</para>
 
       <screen>bridge0: flags=8843&lt;UP,BROADCAST,RUNNING,SIMPLEX,MULTICAST&gt; metric 0 mtu 1500
@@ -3361,8 +3380,8 @@ bridge0: flags=8843&lt;UP,BROADCAST,RUNNING,SIMPLEX,MULTICAST&gt; metric 0 mtu 1
 
       <para>The line <literal>root id 00:01:02:4b:d4:50 priority 32768
 	  ifcost 400000 port 4</literal> shows that the root bridge is
-	<literal>00:01:02:4b:d4:50</literal> as above and has a path
-	cost of <literal>400000</literal> from this bridge, the path
+	<literal>00:01:02:4b:d4:50</literal> and has a path
+	cost of <literal>400000</literal> from this bridge.  The path
 	to the root bridge is via <literal>port 4</literal> which is
 	<devicename>fxp0</devicename>.</para>
     </sect2>
@@ -3374,7 +3393,7 @@ bridge0: flags=8843&lt;UP,BROADCAST,RUNNING,SIMPLEX,MULTICAST&gt; metric 0 mtu 1
 	<title>Reconstruct Traffic Flows</title>
 
 	<para>The bridge supports monitor mode, where the packets are
-	  discarded after &man.bpf.4; processing, and are not
+	  discarded after &man.bpf.4; processing and are not
 	  processed or forwarded further.  This can be used to
 	  multiplex the input of two or more interfaces into a single
 	  &man.bpf.4; stream.  This is useful for reconstructing the
@@ -3393,8 +3412,8 @@ bridge0: flags=8843&lt;UP,BROADCAST,RUNNING,SIMPLEX,MULTICAST&gt; metric 0 mtu 1
 
 	<para>A copy of every Ethernet frame received by the bridge
 	  will be transmitted out a designated span port.  The number
-	  of span ports configured on a bridge is unlimited, if an
-	  interface is designated as a span port then it may not also
+	  of span ports configured on a bridge is unlimited, but if an
+	  interface is designated as a span port, it cannot also
 	  be used as a regular bridge port.  This is most useful for
 	  snooping a bridged network passively on another host
 	  connected to one of the span ports of the bridge.</para>
@@ -3411,49 +3430,54 @@ bridge0: flags=8843&lt;UP,BROADCAST,RUNNING,SIMPLEX,MULTICAST&gt; metric 0 mtu 1
 	<para>A private interface does not forward any traffic to any
 	  other port that is also a private interface.  The traffic is
 	  blocked unconditionally so no Ethernet frames will be
-	  forwarded, including ARP.  If traffic needs to be
-	  selectively blocked then a firewall should be used
+	  forwarded, including <acronym>ARP</acronym>.  If traffic
+	  needs to be
+	  selectively blocked, a firewall should be used
 	  instead.</para>
       </sect3>
 
       <sect3>
 	<title>Sticky Interfaces</title>
 
-	<para>If a bridge member interface is marked as sticky then
+	<para>If a bridge member interface is marked as sticky,
 	  dynamically learned address entries are treated at static
 	  once entered into the forwarding cache.  Sticky entries are
 	  never aged out of the cache or replaced, even if the address
 	  is seen on a different interface.  This gives the benefit of
 	  static address entries without the need to pre-populate the
-	  forwarding table, clients learnt on a particular segment of
+	  forwarding table.  Clients learned on a particular segment of
 	  the bridge can not roam to another segment.</para>
 
-	<para>Another example of using sticky addresses would be to
-	  combine the bridge with VLANs to create a router where
-	  customer networks are isolated without wasting IP address
+	<para>Another example of using sticky addresses is to
+	  combine the bridge with <acronym>VLAN</acronym>s to create
+	  a router where
+	  customer networks are isolated without wasting
+	  <acronym>IP</acronym> address
 	  space.  Consider that
 	  <hostid role="hostname">CustomerA</hostid> is on
 	  <literal>vlan100</literal> and
 	  <hostid role="hostname">CustomerB</hostid> is on
 	  <literal>vlan101</literal>.  The bridge has the address
 	  <hostid role="ipaddr">192.168.0.1</hostid> and is also an
-	  internet router.</para>
+	  Internet router.</para>
 
 	<screen>&prompt.root; <userinput>ifconfig bridge0 addm vlan100 sticky vlan100 addm vlan101 sticky vlan101</userinput>
 &prompt.root; <userinput>ifconfig bridge0 inet 192.168.0.1/24</userinput></screen>
 
-	<para>Both clients see
+	<para>In this example, both clients see
 	  <hostid role="ipaddr">192.168.0.1</hostid> as their default
-	  gateway and since the bridge cache is sticky they can not
-	  spoof the MAC address of the other customer to intercept
+	  gateway.  Since the bridge cache is sticky, one host can not
+	  spoof the <acronym>MAC</acronym> address of the other
+	  customer in order to intercept
 	  their traffic.</para>
 
-	<para>Any communication between the VLANs can be blocked using
-	  private interfaces (or a firewall):</para>
+	<para>Any communication between the <acronym>VLAN</acronym>s
+	  can be blocked using a firewall or, as seen in this example,
+	  private interfaces:</para>
 
 	<screen>&prompt.root; <userinput>ifconfig bridge0 private vlan100 private vlan101</userinput></screen>
 
-	<para>The customers are completely isolated from each other,
+	<para>The customers are completely isolated from each other and
 	  the full <hostid role="netmask">/24</hostid> address range
 	  can be allocated without subnetting.</para>
       </sect3>
@@ -3461,52 +3485,57 @@ bridge0: flags=8843&lt;UP,BROADCAST,RUNNING,SIMPLEX,MULTICAST&gt; metric 0 mtu 1
       <sect3>
 	<title>Address Limits</title>
 
-	<para>The number of unique source MAC addresses behind an
-	  interface can be limited.  Once the limit is reached packets
+	<para>The number of unique source <acronym>MAC</acronym>
+	  addresses behind an
+	  interface can be limited.  Once the limit is reached, packets
 	  with unknown source addresses are dropped until an
 	  existing host cache entry expires or is removed.</para>
 
 	<para>The following example sets the maximum number of
 	  Ethernet devices for
 	  <hostid role="hostname">CustomerA</hostid> on
-	  <literal>vlan100</literal> to 10.</para>
+	  <literal>vlan100</literal> to 10:</para>
 
 	<screen>&prompt.root; <userinput>ifconfig bridge0 ifmaxaddr vlan100 10</userinput></screen>
       </sect3>
 
       <sect3>
-	<title>SNMP Monitoring</title>
+	<title><acronym>SNMP</acronym> Monitoring</title>
 
-	<para>The bridge interface and STP parameters can be monitored
-	  via the SNMP daemon which is included in the &os; base
-	  system.  The exported bridge MIBs conform to the IETF
-	  standards so any SNMP client or monitoring package can be
+	<para>The bridge interface and <acronym>STP</acronym>
+	  parameters can be monitored
+	  via &man.bsnmpd.1; which is included in the &os; base
+	  system.  The exported bridge <acronym>MIB</acronym>s
+	  conform to the <acronym>IETF</acronym>
+	  standards so any <acronym>SNMP</acronym> client or monitoring
+	  package can be
 	  used to retrieve the data.</para>
 
-	<para>On the bridge machine uncomment the
+	<para>On the bridge, uncomment the
 	  <literal>begemotSnmpdModulePath."bridge" =
 	    "/usr/lib/snmp_bridge.so"</literal> line from
-	  <filename>/etc/snmp.config</filename> and start the
-	  <application>bsnmpd</application> daemon.  Other
-	  configuration such as community names and access lists may
+	  <filename>/etc/snmp.config</filename> and start
+	  &man.bsnmpd.1;.  Other
+	  configuration, such as community names and access lists, may
 	  need to be modified.  See &man.bsnmpd.1; and
 	  &man.snmp.bridge.3; for more information.</para>
 
 	<para>The following examples use the
 	  <application>Net-SNMP</application> software
 	  (<filename role="package">net-mgmt/net-snmp</filename>) to
-	  query a bridge, the
+	  query a bridge from a client system.  The
 	  <filename role="package">net-mgmt/bsnmptools</filename> port
-	  can also be used.  From the SNMP client host add to
-	  <filename>$HOME/.snmp/snmp.conf</filename> the following
-	  lines to import the bridge MIB definitions in to
-	  <application>Net-SNMP</application>:</para>
+	  can also be used.  From the <acronym>SNMP</acronym> client
+	  which is running <application>Net-SNMP</application>,
+	  add the following lines to
+	  <filename>$HOME/.snmp/snmp.conf</filename> in order to
+	  import the bridge <acronym>MIB</acronym> definitions:</para>
 
 	<programlisting>mibdirs +/usr/share/snmp/mibs
 mibs +BRIDGE-MIB:RSTP-MIB:BEGEMOT-MIB:BEGEMOT-BRIDGE-MIB</programlisting>
 
-	<para>To monitor a single bridge via the IETF BRIDGE-MIB
-	  (RFC4188) do</para>
+	<para>To monitor a single bridge using the IETF BRIDGE-MIB
+	  (RFC4188):</para>
 
 	<screen>&prompt.user; <userinput>snmpwalk -v 2c -c public bridge1.example.com mib-2.dot1dBridge</userinput>
 BRIDGE-MIB::dot1dBaseBridgeAddress.0 = STRING: 66:fb:9b:6e:5c:44
@@ -3525,16 +3554,18 @@ BRIDGE-MIB::dot1dStpPortDesignatedPort.3 = Hex-STRING: 03 80
 BRIDGE-MIB::dot1dStpPortForwardTransitions.3 = Counter32: 1
 RSTP-MIB::dot1dStpVersion.0 = INTEGER: rstp(2)</screen>
 
-	<para>The <literal>dot1dStpTopChanges.0</literal> value is two
-	  which means that the STP bridge topology has changed twice,
-	  a topology change means that one or more links in the
+	<para>The <literal>dot1dStpTopChanges.0</literal> value is
+	  two,
+	  indicating that the <acronym>STP</acronym> bridge topology
+	  has changed twice.
+	  A topology change means that one or more links in the
 	  network have changed or failed and a new tree has been
 	  calculated.  The
 	  <literal>dot1dStpTimeSinceTopologyChange.0</literal> value
 	  will show when this happened.</para>
 
-	<para>To monitor multiple bridge interfaces one may use the
-	  private BEGEMOT-BRIDGE-MIB:</para>
+	<para>To monitor multiple bridge interfaces, the
+	  private BEGEMOT-BRIDGE-MIB can be used:</para>
 
 	<screen>&prompt.user; <userinput>snmpwalk -v 2c -c public bridge1.example.com</userinput>
 enterprises.fokus.begemot.begemotBridge
@@ -3553,7 +3584,7 @@ BEGEMOT-BRIDGE-MIB::begemotBridgeStpDesignatedRoot."bridge0" = Hex-STRING: 80 00
 BEGEMOT-BRIDGE-MIB::begemotBridgeStpDesignatedRoot."bridge2" = Hex-STRING: 80 00 00 50 8B B8 C6 A9</screen>
 
 	<para>To change the bridge interface being monitored via the
-	  <literal>mib-2.dot1dBridge</literal> subtree do:</para>
+	  <literal>mib-2.dot1dBridge</literal> subtree:</para>
 
 	<screen>&prompt.user; <userinput>snmpset -v 2c -c private bridge1.example.com</userinput>
 BEGEMOT-BRIDGE-MIB::begemotBridgeDefaultBridgeIf.0 s bridge2</screen>
@@ -3575,8 +3606,8 @@ BEGEMOT-BRIDGE-MIB::begemotBridgeDefaultBridgeIf.0 s bridge2</screen>
 
     <indexterm><primary>lagg</primary></indexterm>
     <indexterm><primary>failover</primary></indexterm>
-    <indexterm><primary>fec</primary></indexterm>
-    <indexterm><primary>lacp</primary></indexterm>
+    <indexterm><primary><acronym>FEC</acronym></primary></indexterm>
+    <indexterm><primary><acronym>LACP</acronym></primary></indexterm>
     <indexterm><primary>loadbalance</primary></indexterm>
     <indexterm><primary>roundrobin</primary></indexterm>
 
@@ -3591,6 +3622,9 @@ BEGEMOT-BRIDGE-MIB::begemotBridgeDefaultBridgeIf.0 s bridge2</screen>
     <sect2>
       <title>Operating Modes</title>
 
+      <para>The following operating modes are supported by
+	&man.lagg.4;:</para>
+	
       <variablelist>
 	<varlistentry>
 	  <term>Failover</term>
@@ -3598,7 +3632,8 @@ BEGEMOT-BRIDGE-MIB::begemotBridgeDefaultBridgeIf.0 s bridge2</screen>
 	    <para>Sends and receives traffic only through the master
 	      port.  If the master port becomes unavailable, the next
 	      active port is used.  The first interface added is the
-	      master port; any interfaces added after that are used as
+	      master port and any interfaces added after that are used
+	      as
 	      failover devices.  If failover to a non-master port
 	      occurs, the original port will become master when it
 	      becomes available again.</para>
@@ -3608,40 +3643,52 @@ BEGEMOT-BRIDGE-MIB::begemotBridgeDefaultBridgeIf.0 s bridge2</screen>
 	<varlistentry>
 	  <term>&cisco; Fast &etherchannel;</term>
 	  <listitem>
-	    <para>&cisco; Fast &etherchannel; (FEC), is a static setup
+	    <para>&cisco; Fast &etherchannel; (<acronym>FEC</acronym>)
+	      is a static setup
 	      and does not negotiate aggregation with the peer or
 	      exchange frames to monitor the link.  If the switch
-	      supports LACP then that should be used instead.</para>
+	      supports <acronym>LACP</acronym>, that should be used
+	      instead.</para>
 
 	    <para><acronym>FEC</acronym> balances outgoing traffic
 	      across the active ports based on hashed protocol header
 	      information and accepts incoming traffic from any active
 	      port.  The hash includes the Ethernet source and
-	      destination address, and, if available, the VLAN tag,
-	      and the IPv4/IPv6 source and destination address.</para>
+	      destination address and, if available, the
+	      <acronym>VLAN</acronym> tag,
+	      and the <acronym>IPv4</acronym> or
+	      <acronym>IPv6</acronym> source and
+	      destination address.</para>
 	  </listitem>
 	</varlistentry>
 
 	<varlistentry>
-	  <term>LACP</term>
+	  <term><acronym>LACP</acronym></term>
 	  <listitem>
 	    <para>The &ieee; 802.3ad Link Aggregation Control Protocol
-	      (LACP) and the Marker Protocol.  LACP will negotiate a
+	      (<acronym>LACP</acronym>) and the Marker Protocol.
+	      <acronym>LACP</acronym> will negotiate a
 	      set of aggregable links with the peer in to one or more
-	      Link Aggregated Groups (LAG).  Each LAG is composed of
+	      Link Aggregated Groups (<acronym>LAG</acronym>s).
+	      Each <acronym>LAG</acronym> is composed of
 	      ports of the same speed, set to full-duplex operation.
-	      The traffic will be balanced across the ports in the LAG
-	      with the greatest total speed, in most cases there will
-	      only be one LAG which contains all ports.  In the event
-	      of changes in physical connectivity, Link Aggregation
+	      The traffic will be balanced across the ports in the
+	      <acronym>LAG</acronym>
+	      with the greatest total speed.  In most cases, there will
+	      only be one <acronym>LAG</acronym> which contains all ports.
+	      In the event
+	      of changes in physical connectivity,
+	      <acronym>LACP</acronym>
 	      will quickly converge to a new configuration.</para>
 
 	    <para><acronym>LACP</acronym> balances outgoing traffic
 	      across the active ports based on hashed protocol header
 	      information and accepts incoming traffic from any active
 	      port.  The hash includes the Ethernet source and
-	      destination address, and, if available, the VLAN tag,
-	      and the IPv4/IPv6 source and destination address.</para>
+	      destination address and, if available, the
+	      <acronym>VLAN</acronym> tag,
+	      and the IPv4 or <acronym>IPv6</acronym> source and
+	      destination address.</para>
 	  </listitem>
 	</varlistentry>
 
@@ -3659,7 +3706,7 @@ BEGEMOT-BRIDGE-MIB::begemotBridgeDefaultBridgeIf.0 s bridge2</screen>
 	    <para>Distributes outgoing traffic using a round-robin
 	      scheduler through all active ports and accepts incoming
 	      traffic from any active port.  This mode violates
-	      Ethernet Frame ordering and should be used with
+	      Ethernet frame ordering and should be used with
 	      caution.</para>
 	  </listitem>
 	</varlistentry>
@@ -3670,23 +3717,23 @@ BEGEMOT-BRIDGE-MIB::begemotBridgeDefaultBridgeIf.0 s bridge2</screen>
       <title>Examples</title>
 
       <example id="networking-lacp-aggregation-cisco">
-	<title>LACP Aggregation with a &cisco; Switch</title>
+	<title><acronym>LACP</acronym> Aggregation with a &cisco; Switch</title>
 
 	<para>This example connects two interfaces on a &os; machine
 	  to the switch as a single load balanced and fault tolerant
 	  link.  More interfaces can be added to increase throughput
-	  and fault tolerance.  Since frame ordering is mandatory on
-	  Ethernet links then any traffic between two stations always
-	  flows over the same physical link limiting the maximum speed
+	  and fault tolerance.  Frame ordering is mandatory on
+	  Ethernet links and any traffic between two stations always
+	  flows over the same physical link, limiting the maximum speed
 	  to that of one interface.  The transmit algorithm attempts
 	  to use as much information as it can to distinguish
 	  different traffic flows and balance across the available
 	  interfaces.</para>
 
-	<para>On the &cisco; switch add the
+	<para>On the &cisco; switch, add the
 	  <replaceable>FastEthernet0/1</replaceable> and
-	  <replaceable>FastEthernet0/2</replaceable> interfaces to the
-	  channel-group <replaceable>1</replaceable>:</para>
+	  <replaceable>FastEthernet0/2</replaceable> interfaces to
+	  channel group <replaceable>1</replaceable>:</para>
 
 	<screen><userinput>interface <replaceable>FastEthernet0/1</replaceable>
  channel-group <replaceable>1</replaceable> mode active
@@ -3699,7 +3746,7 @@ BEGEMOT-BRIDGE-MIB::begemotBridgeDefaultBridgeIf.0 s bridge2</screen>
 	<para>Create the &man.lagg.4; interface using
 	  <replaceable>fxp0</replaceable> and
 	  <replaceable>fxp1</replaceable>, and bring the interfaces up
-	  with the IP Address of
+	  with the <acronym>IP</acronym> address of
 	  <replaceable>10.0.0.3/24</replaceable>:</para>
 
 	<screen>&prompt.root; <userinput>ifconfig <replaceable>fxp0</replaceable> up</userinput>
@@ -3713,9 +3760,10 @@ BEGEMOT-BRIDGE-MIB::begemotBridgeDefaultBridgeIf.0 s bridge2</screen>
 
 	<para>Ports marked as <emphasis>ACTIVE</emphasis> are part of
 	  the active aggregation group that has been negotiated with
-	  the remote switch and traffic will be transmitted and
-	  received.  Use the verbose output of &man.ifconfig.8; to
-	  view the LAG identifiers.</para>
+	  the remote switch.  Traffic will be transmitted and
+	  received through active ports.  Use the verbose output of
+	  &man.ifconfig.8; to
+	  view the <acronym>LAG</acronym> identifiers.</para>
 
 	<screen>lagg0: flags=8843&lt;UP,BROADCAST,RUNNING,SIMPLEX,MULTICAST&gt; metric 0 mtu 1500
         options=8&lt;VLAN_MTU&gt;
@@ -3726,7 +3774,7 @@ BEGEMOT-BRIDGE-MIB::begemotBridgeDefaultBridgeIf.0 s bridge2</screen>
         laggport: fxp1 flags=1c&lt;ACTIVE,COLLECTING,DISTRIBUTING&gt;
         laggport: fxp0 flags=1c&lt;ACTIVE,COLLECTING,DISTRIBUTING&gt;</screen>
 
-	<para>To see the port status on the switch, use
+	<para>To see the port status on the &cisco; switch, use
 	  <userinput>show lacp neighbor</userinput>:</para>
 
 	<screen>switch# show lacp neighbor
@@ -3743,8 +3791,8 @@ Port      Flags   Priority  Dev ID         Age     Key     Number   State
 Fa0/1     SA      32768     0005.5d71.8db8  29s    0x146   0x3      0x3D
 Fa0/2     SA      32768     0005.5d71.8db8  29s    0x146   0x4      0x3D</screen>
 
-	<para>For more detail use the <userinput>show lacp neighbor
-	  detail</userinput> command.</para>
+	<para>For more detail, type <userinput>show lacp neighbor
+	  detail</userinput>.</para>
 
 	<para>To retain this configuration across reboots, the
 	  following entries can be added to
@@ -3761,11 +3809,12 @@ ifconfig_<literal>lagg<replaceable>0</replaceable></literal>="laggproto lacp lag
 
 	<para>Failover mode can be used to switch over to a secondary
 	  interface if the link is lost on the master interface.
-	  Bring the underlying physical interfaces up.  Create the
+	  To configure failover mode, first bring the underlying
+	  physical interfaces up.  Then, create the
 	  &man.lagg.4; interface, using
 	  <replaceable>fxp0</replaceable> as the master interface and
-	  <replaceable>fxp1</replaceable> as the secondary interface
-	  and assign an IP Address of
+	  <replaceable>fxp1</replaceable> as the secondary interface,
+	  and assign an <acronym>IP</acronym> address of
 	  <replaceable>10.0.0.15/24</replaceable>:</para>
 
 	<screen>&prompt.root; <userinput>ifconfig <replaceable>fxp0</replaceable> up</userinput>
@@ -3773,9 +3822,7 @@ ifconfig_<literal>lagg<replaceable>0</replaceable></literal>="laggproto lacp lag
 &prompt.root; <userinput>ifconfig <literal>lagg<replaceable>0</replaceable></literal> create</userinput>
 &prompt.root; <userinput>ifconfig <literal>lagg<replaceable>0</replaceable></literal> up laggproto failover laggport <replaceable>fxp0</replaceable> laggport <replaceable>fxp1</replaceable> <replaceable>10.0.0.15/24</replaceable></userinput></screen>
 
-	<para>The interface will look something like this, the major
-	  differences will be the <acronym>MAC</acronym> address and
-	  the device names:</para>
+	<para>The interface should now look something like this:</para>
 
 	<screen>&prompt.root; <userinput>ifconfig <literal>lagg<replaceable>0</replaceable></literal></userinput>
 lagg0: flags=8843&lt;UP,BROADCAST,RUNNING,SIMPLEX,MULTICAST&gt; metric 0 mtu 1500
@@ -3790,9 +3837,9 @@ lagg0: flags=8843&lt;UP,BROADCAST,RUNNING,SIMPLEX,MULTICAST&gt; metric 0 mtu 150
 
 	<para>Traffic will be transmitted and received on
 	  <replaceable>fxp0</replaceable>.  If the link is lost on
-	  <replaceable>fxp0</replaceable> then
+	  <replaceable>fxp0</replaceable>,
 	  <replaceable>fxp1</replaceable> will become the active link.
-	  If the link is restored on the master interface then it will
+	  If the link is restored on the master interface, it will
 	  once again become the active link.</para>
 
 	<para>To retain this configuration across reboots, the
@@ -3809,27 +3856,27 @@ ifconfig_<literal>lagg<replaceable>0</replaceable></literal>="laggproto failover
 	<title>Failover Mode Between Wired and Wireless
 	  Interfaces</title>
 
-	<para>For laptop users, it is usually desirable to make
-	  wireless as a secondary interface, which is to be used when
+	<para>For laptop users, it is usually desirable to configure the
+	  wireless device as a secondary interface, which is used when
 	  the wired connection is not available.  With &man.lagg.4;,
-	  it is possible to use one IP address, prefer the wired
+	  it is possible to use one <acronym>IP</acronym> address, prefer the wired
 	  connection for both performance and security reasons, while
 	  maintaining the ability to transfer data over the wireless
 	  connection.</para>
 
-	<para>In this setup, we will need to override the underlying
+	<para>In this setup, override the underlying
 	  wireless interface's <acronym>MAC</acronym> address to match
-	  the &man.lagg.4;'s, which is inherited from the master
-	  interface being used, the wired interface.</para>
+	  that of the &man.lagg.4;, which is inherited from the wired
+	  interface.</para>
 
-	<para>In this setup, we will treat the wired interface,
-	  <replaceable>bge0</replaceable>, as the master, and the
-	  wireless interface, <replaceable>wlan0</replaceable>, as the
+	<para>In this example, the wired interface,
+	  <replaceable>bge0</replaceable>, is the master, and the
+	  wireless interface, <replaceable>wlan0</replaceable>, is the
 	  failover interface.  The <replaceable>wlan0</replaceable>
-	  was created from <replaceable>iwn0</replaceable> which we
-	  will set up with the wired connection's
-	  <acronym>MAC</acronym> address.  The first step would be to
-	  obtain the <acronym>MAC</acronym> address from the wired
+	  device was created from <replaceable>iwn0</replaceable>, which
+	  will be configured with the wired connection's
+	  <acronym>MAC</acronym> address.  The first step is to
+	  determine the <acronym>MAC</acronym> address of the wired
 	  interface:</para>
 
 	<screen>&prompt.root; <userinput>ifconfig <replaceable>bge0</replaceable></userinput>
@@ -3841,32 +3888,30 @@ bge0: flags=8843&lt;UP,BROADCAST,RUNNING,SIMPLEX,MULTICAST&gt; metric 0 mtu 1500
 	media: Ethernet autoselect (1000baseT &lt;full-duplex&gt;)
 	status: active</screen>
 
-	<para>You can replace the <replaceable>bge0</replaceable> to
-	  match your reality, and will get a different
-	  <literal>ether</literal> line which is the
-	  <acronym>MAC</acronym> address of your wired interface.
-	  Now, we change the underlying wireless interface,
-	  <replaceable>iwn0</replaceable>:</para>
+	<para>Replace <replaceable>bge0</replaceable> to
+	  match the system's interface name.  The
+	  <literal>ether</literal> line will contain the
+	  <acronym>MAC</acronym> address of the wired interface.
+	  Now, change the <acronym>MAC</acronym> address of the
+	  underlying wireless interface:</para>
 
 	<screen>&prompt.root; <userinput>ifconfig <replaceable>iwn0</replaceable> ether <replaceable>00:21:70:da:ae:37</replaceable></userinput></screen>
 
-	<para>Bring the wireless interface up, but do not set an IP
-	  address on it:</para>
+	<para>Bring the wireless interface up, but do not set an <acronym>IP</acronym>
+	  address:</para>
 
 	<screen>&prompt.root; <userinput>ifconfig <replaceable>wlan0</replaceable> create wlandev <replaceable>iwn0</replaceable> ssid <replaceable>my_router</replaceable> up</userinput></screen>
 
 	<para>Bring the <replaceable>bge0</replaceable> interface up.
 	  Create the &man.lagg.4; interface with
 	  <replaceable>bge0</replaceable> as master, and failover to
-	  <replaceable>wlan0</replaceable> if necessary:</para>
+	  <replaceable>wlan0</replaceable>:</para>
 
 	<screen>&prompt.root; <userinput>ifconfig <replaceable>bge0</replaceable> up</userinput>
 &prompt.root; <userinput>ifconfig <literal>lagg<replaceable>0</replaceable></literal> create</userinput>
 &prompt.root; <userinput>ifconfig <literal>lagg<replaceable>0</replaceable></literal> up laggproto failover laggport <replaceable>bge0</replaceable> laggport <replaceable>wlan0</replaceable></userinput></screen>
 
-	<para>The interface will look something like this, the major
-	  differences will be the <acronym>MAC</acronym> address and
-	  the device names:</para>
+	<para>The interface will now look something like this:</para>
 
 	<screen>&prompt.root; <userinput>ifconfig <literal>lagg<replaceable>0</replaceable></literal></userinput>
 lagg0: flags=8843&lt;UP,BROADCAST,RUNNING,SIMPLEX,MULTICAST&gt; metric 0 mtu 1500
@@ -3878,7 +3923,8 @@ lagg0: flags=8843&lt;UP,BROADCAST,RUNNING,SIMPLEX,MULTICAST&gt; metric 0 mtu 150
         laggport: wlan0 flags=0&lt;&gt;
         laggport: bge0 flags=5&lt;MASTER,ACTIVE&gt;</screen>
 
-	<para>Then start the DHCP client to obtain an IP
+	<para>Then, start the <acronym>DHCP</acronym> client to
+	  obtain an <acronym>IP</acronym>
 	  address:</para>
 
 	<screen>&prompt.root; <userinput>dhclient <literal>lagg<replaceable>0</replaceable></literal></userinput></screen>
@@ -3920,57 +3966,30 @@ ifconfig_<literal>lagg<replaceable>0</replaceable></literal>="laggproto failover
     <indexterm><primary>diskless operation</primary></indexterm>
 
     <para>A &os; machine can boot over the network and operate
-      without a local disk, using filesystems mounted from an
+      without a local disk, using file systems mounted from an
       <acronym>NFS</acronym> server.  No system modification is
       necessary, beyond standard configuration files.  Such a system
       is relatively easy to set up because all the necessary elements
       are readily available:</para>
 
-    <itemizedlist>
-      <listitem>
-	<para>There are at least two possible methods to load the
-	  kernel over the network:</para>
+    <para>The &intel; Preboot eXecution Environment
+      (<acronym>PXE</acronym>) can be used to load the kernel over
+      the network.  It provides a form of smart boot
+      <acronym>ROM</acronym> built into some networking cards or
+      motherboards.  See &man.pxeboot.8; for more details.</para>
 
-	<itemizedlist>
-	  <listitem>
-	    <para><acronym>PXE</acronym>: The &intel; Preboot
-	      eXecution Environment system is a form of smart boot ROM
-	      built into some networking cards or motherboards.  See
-	      &man.pxeboot.8; for more details.</para>
-	  </listitem>
+    <para>A sample script
+      (<filename>/usr/share/examples/diskless/clone_root</filename>)
+      eases the creation and maintenance of the workstation's root
+      file system on the server.  The script will probably require
+      a little customization.</para>
 
-	  <listitem>
-	    <para>The <application>Etherboot</application> port
-	      (<filename role="package">net/etherboot</filename>)
-	      produces ROM-able code to boot kernels over the network.
-	      The code can be either burnt into a boot PROM on a
-	      network card, or loaded from a local floppy (or hard)
-	      disk drive, or from a running &ms-dos; system.  Many
-	      network cards are supported.</para>
-	  </listitem>
-	</itemizedlist>
-      </listitem>
+    <para>Standard system startup files exist
+      in <filename class="directory">/etc</filename>
+      to detect and support a diskless system startup.</para>
 
-      <listitem>
-	<para>A sample script
-	  (<filename>/usr/share/examples/diskless/clone_root</filename>)
-	  eases the creation and maintenance of the workstation's root
-	  filesystem on the server.  The script will probably require
-	  a little customization but it will get you started very
-	  quickly.</para>
-      </listitem>
-
-      <listitem>
-	<para>Standard system startup files exist
-	  in <filename class="directory">/etc</filename>
-	  to detect and support a diskless system startup.</para>
-      </listitem>
-
-      <listitem>
-	<para>Swapping, if needed, can be done either to an
-	  <acronym>NFS</acronym> file or to a local disk.</para>
-      </listitem>
-    </itemizedlist>
+    <para>Swapping, if needed, can be done either to an
+      <acronym>NFS</acronym> file or to a local disk.</para>
 
     <para>There are many ways to set up diskless workstations.  Many
       elements are involved, and most can be customized to suit local
@@ -3981,37 +4000,27 @@ ifconfig_<literal>lagg<replaceable>0</replaceable></literal>="laggproto failover
 
     <itemizedlist>
       <listitem>
-	<para>The diskless workstations use a shared read-only
-	  <filename class="directory">/</filename> filesystem,
-	  and a shared read-only
+	<para>The diskless workstations use a shared, read-only
+	  <filename class="directory">/</filename>
+	  and
 	  <filename class="directory">/usr</filename>.</para>
 
-	<para>The root filesystem is a copy of a standard &os;
-	  root (typically the server's), with some configuration files
+	<para>The root file system is a copy of a standard &os;
+	  root, with some configuration files
 	  overridden by ones specific to diskless operation or,
 	  possibly, to the workstation they belong to.</para>
 
 	<para>The parts of the root which have to be writable are
-	  overlaid with &man.md.4; filesystems.  Any changes will be
+	  overlaid with &man.md.4; file systems.  Any changes will be
 	  lost when the system reboots.</para>
-      </listitem>
-
-      <listitem>
-	<para>The kernel is transferred and loaded either with
-	  <application>Etherboot</application> or
-	  <acronym>PXE</acronym> as some situations may mandate the
-	  use of either method.</para>
       </listitem>
     </itemizedlist>
 
     <caution>
       <para>As described, this system is insecure.  It should live in
-	a protected area of a network, and be untrusted by other
+	a protected area of a network and be untrusted by other
 	hosts.</para>
     </caution>
-
-    <para>All the information in this section has been tested using
-      &os; 5.2.1-RELEASE.</para>
 
     <sect2>
       <title>Background Information</title>
@@ -4034,7 +4043,7 @@ ifconfig_<literal>lagg<replaceable>0</replaceable></literal>="laggproto failover
       </itemizedlist>
 
       <para>In this context, having some knowledge of the background
-	mechanisms involved is very useful to solve the problems that
+	mechanisms involved is useful to solve the problems that
 	may arise.</para>
 
       <para>Several operations need to be performed for a successful
@@ -4043,26 +4052,29 @@ ifconfig_<literal>lagg<replaceable>0</replaceable></literal>="laggproto failover
       <itemizedlist>
 	<listitem>
 	  <para>The machine needs to obtain initial parameters such as
-	    its IP address, executable filename, server name, root
+	    its <acronym>IP</acronym> address, executable filename,
+	    server name, and root
 	    path.  This is done using the <acronym>DHCP</acronym> or
-	    BOOTP protocols.  <acronym>DHCP</acronym> is a compatible
-	    extension of BOOTP, and uses the same port numbers and
-	    basic packet format.</para>
-
-	  <para>It is possible to configure a system to use only
-	    BOOTP.  The &man.bootpd.8; server program is included in
+	    <acronym>BOOTP</acronym> protocols.
+	    <acronym>DHCP</acronym> is a compatible
+	    extension of <acronym>BOOTP</acronym>, and uses the same
+	    port numbers and
+	    basic packet format.  It is possible to configure a
+	    system to use only
+	    <acronym>BOOTP</acronym> and &man.bootpd.8; is included in
 	    the base &os; system.</para>
-
-	  <para>However, <acronym>DHCP</acronym> has a number of
-	    advantages over BOOTP (nicer configuration files,
-	    possibility of using <acronym>PXE</acronym>, plus many
-	    others not directly related to diskless operation), and we
-	    will describe mainly a <acronym>DHCP</acronym>
+	</listitem>
+	
+	<listitem>
+	  <para><acronym>DHCP</acronym> has a number of
+	    advantages over <acronym>BOOTP</acronym> such as nicer
+	    configuration files and support for
+	    <acronym>PXE</acronym>.  This section
+	    describes mainly a <acronym>DHCP</acronym>
 	    configuration, with equivalent examples using
 	    &man.bootpd.8; when possible.  The sample configuration
-	    will use the <application>ISC DHCP</application> software
-	    package (release 3.0.1.r12 was installed on the test
-	    server).</para>
+	    uses <application>ISC DHCP</application> which is
+	    available in the Ports Collection.</para>
 	</listitem>
 
 	<listitem>
@@ -4071,56 +4083,33 @@ ifconfig_<literal>lagg<replaceable>0</replaceable></literal>="laggproto failover
 	    <acronym>NFS</acronym> are used.  The choice between
 	    <acronym>TFTP</acronym> and <acronym>NFS</acronym> is a
 	    compile time option in several places.  A common source of
-	    error is to specify filenames for the wrong protocol:
+	    error is to specify filenames for the wrong protocol.
 	    <acronym>TFTP</acronym> typically transfers all files from
-	    a single directory on the server, and would expect
+	    a single directory on the server and expects
 	    filenames relative to this directory.
 	    <acronym>NFS</acronym> needs absolute file paths.</para>
 	</listitem>
 
 	<listitem>
 	  <para>The possible intermediate bootstrap programs and the
-	    kernel need to be initialized and executed.  There are
-	    several important variations in this area:</para>
-
-	  <itemizedlist>
-	    <listitem>
-
-	      <para><acronym>PXE</acronym> will load &man.pxeboot.8;,
-		which is a modified version of the &os; third stage
-		loader.  The &man.loader.8; will obtain most
-		parameters necessary to system startup, and leave them
-		in the kernel environment before transferring control.
-		It is possible to use a <filename>GENERIC</filename>
-		kernel in this case.</para>
+	    kernel need to be initialized and executed.
+	    <acronym>PXE</acronym> loads &man.pxeboot.8;,
+	    which is a modified version of the &os; third stage
+	    loader, &man.loader.8;.  The third stage loader will
+	    obtain most
+	    parameters necessary to system startup and leave them
+	    in the kernel environment before transferring control.
+	    It is possible to use a <filename>GENERIC</filename>
+	    kernel in this case.</para>
 	    </listitem>
-
-	    <listitem>
-	      <para><application>Etherboot</application>, will
-		directly load the kernel, with less preparation.  You
-		will need to build a kernel with specific
-		options.</para>
-	    </listitem>
-	  </itemizedlist>
-
-	  <para><acronym>PXE</acronym> and
-	    <application>Etherboot</application> work equally well;
-	    however, because kernels normally let the &man.loader.8;
-	    do more work for them, <acronym>PXE</acronym> is the
-	    preferred method.</para>
-
-	  <para>If your <acronym>BIOS</acronym> and network cards
-	    support <acronym>PXE</acronym>, you should probably use
-	    it.</para>
-	</listitem>
 
 	<listitem>
-	  <para>Finally, the machine needs to access its filesystems.
-	    <acronym>NFS</acronym> is used in all cases.</para>
+	  <para>Finally, the machine needs to access its file systems
+	    using <acronym>NFS</acronym>.</para>
 	</listitem>
       </itemizedlist>
 
-      <para>See also &man.diskless.8; manual page.</para>
+      <para>Refer to &man.diskless.8; for more information.</para>
     </sect2>
 
     <sect2>
@@ -4136,22 +4125,19 @@ ifconfig_<literal>lagg<replaceable>0</replaceable></literal>="laggproto failover
 	</indexterm>
 
 	<para>The <application>ISC DHCP</application> server can
-	  answer both BOOTP and <acronym>DHCP</acronym>
+	  answer both <acronym>BOOTP</acronym> and <acronym>DHCP</acronym>
 	  requests.</para>
 
-	<para><application>ISC DHCP 4.2</application> is not part of
-	  the base system.  You will first need to install the
+	<para><application>ISC DHCP</application> is not part of
+	  the base system.  Install the
 	  <filename role="package">net/isc-dhcp42-server</filename>
-	  port or the corresponding package.</para>
+	  port or package.</para>
 
 	<para>Once <application>ISC DHCP</application> is installed,
-	  it needs a configuration file to run (normally named
-	  <filename>/usr/local/etc/dhcpd.conf</filename>).  Here
-	  follows a commented example, where host
-	  <hostid>margaux</hostid> uses
-	  <application>Etherboot</application> and host
-	  <hostid>corbieres</hostid> uses
-	  <acronym>PXE</acronym>:</para>
+	  edit its configuration file,
+	  <filename>/usr/local/etc/dhcpd.conf</filename>.  Here
+	  follows a commented example for <acronym>PXE</acronym> host
+	  <hostid>corbieres</hostid>:</para>
 
 	<programlisting>default-lease-time 600;
 max-lease-time 7200;
@@ -4166,19 +4152,12 @@ subnet 192.168.4.0 netmask 255.255.255.0 {
   option subnet-mask 255.255.255.0;
   option broadcast-address 192.168.4.255;
 
-  host margaux {
-    hardware ethernet 01:23:45:67:89:ab;
-    fixed-address margaux.example.com;
-    next-server 192.168.4.4; <co id="co-dhcp-next-server"/>
-    filename "/data/misc/kernel.diskless"; <co id="co-dhcp-filename"/>
-    option root-path "192.168.4.4:/data/misc/diskless"; <co id="co-dhcp-root-path"/>
-  }
   host corbieres {
     hardware ethernet 00:02:b3:27:62:df;
     fixed-address corbieres.example.com;
-    next-server 192.168.4.4;
-    filename "pxeboot";
-    option root-path "192.168.4.4:/data/misc/diskless";
+    next-server 192.168.4.4; <co id="co-dhcp-next-server"/>
+    filename "pxeboot"; <co id="co-dhcp-filename"/>
+    option root-path "192.168.4.4:/data/misc/diskless"; <co id="co-dhcp-root-path"/>
   }
 }</programlisting>
 
@@ -4189,7 +4168,7 @@ subnet 192.168.4.0 netmask 255.255.255.0 {
 	      declarations as the hostname for the diskless host.
 	      An alternate way would be to add an <literal>option
 	      host-name
-		<replaceable>margaux</replaceable></literal> inside
+		<replaceable>corbieres</replaceable></literal> inside
 	      the <literal>host</literal> declarations.</para>
 	  </callout>
 
@@ -4197,134 +4176,48 @@ subnet 192.168.4.0 netmask 255.255.255.0 {
 	    <para>The <literal>next-server</literal> directive
 	      designates the <acronym>TFTP</acronym> or
 	      <acronym>NFS</acronym> server to use for loading
-	      loader or kernel file (the default is to use the same
-	      host as the <acronym>DHCP</acronym> server).</para>
+	      &man.loader.8; or the kernel file.  The default is to
+	      use the same
+	      host as the <acronym>DHCP</acronym> server.</para>
 	  </callout>
 
 	  <callout arearefs="co-dhcp-filename">
 	    <para>The <literal>filename</literal> directive
 	      defines the file that
-	      <application>Etherboot</application> or
 	      <acronym>PXE</acronym> will load for the next execution
 	      step.  It must be specified according to the transfer
-	      method used.  <application>Etherboot</application> can
-	      be compiled to use <acronym>NFS</acronym> or
-	      <acronym>TFTP</acronym>.  The &os; port configures
-	      <acronym>NFS</acronym> by default.
+	      method used.
 	      <acronym>PXE</acronym> uses <acronym>TFTP</acronym>,
-	      which is why a relative filename is used here (this may
-	      depend on the <acronym>TFTP</acronym> server
-	      configuration, but would be fairly typical).  Also,
+	      which is why a relative filename is used here.  Also,
 	      <acronym>PXE</acronym> loads
 	      <filename>pxeboot</filename>, not the kernel.  There are
 	      other interesting possibilities, like loading
 	      <filename>pxeboot</filename> from a &os; CD-ROM
-	      <filename class="directory">/boot</filename> directory
-	      (as &man.pxeboot.8; can load a
-	      <filename>GENERIC</filename> kernel, this makes it
+	      <filename class="directory">/boot</filename> directory.
+	      Since &man.pxeboot.8; can load a
+	      <filename>GENERIC</filename> kernel, it is
 	      possible to use <acronym>PXE</acronym> to boot from a
-	      remote CD-ROM).</para>
+	      remote CD-ROM.</para>
 	  </callout>
 
 	  <callout arearefs="co-dhcp-root-path">
 	    <para>The <literal>root-path</literal> option defines
-	      the path to the root filesystem, in usual
+	      the path to the root file system, in usual
 	      <acronym>NFS</acronym> notation.  When using
 	      <acronym>PXE</acronym>, it is possible to leave off the
-	      host's IP as long as you do not enable the kernel option
-	      BOOTP.  The <acronym>NFS</acronym> server will then be
+	      host's <acronym>IP</acronym> address as long as the
+	      <acronym>BOOTP</acronym> kernel option
+	      is not enabled.  The <acronym>NFS</acronym> server will
+	      then be
 	      the same as the <acronym>TFTP</acronym> one.</para>
 	  </callout>
 	</calloutlist>
       </sect3>
 
       <sect3>
-	<title>Configuration Using BOOTP</title>
-
-	<indexterm>
-	  <primary>BOOTP</primary>
-	  <secondary>diskless operation</secondary>
-	</indexterm>
-
-	<para>Here follows an equivalent
-	  <application>bootpd</application> configuration (reduced to
-	  one client).  This would be found in
-	  <filename>/etc/bootptab</filename>.</para>
-
-	<para>Please note that <application>Etherboot</application>
-	  must be compiled with the non-default option
-	  <literal>NO_DHCP_SUPPORT</literal> in order to use BOOTP,
-	  and that <acronym>PXE</acronym> <emphasis>needs</emphasis>
-	  <acronym>DHCP</acronym>.  The only obvious advantage of
-	  <application>bootpd</application> is that it exists in the
-	  base system.</para>
-
-	<programlisting>.def100:\
-  :hn:ht=1:sa=192.168.4.4:vm=rfc1048:\
-  :sm=255.255.255.0:\
-  :ds=192.168.4.1:\
-  :gw=192.168.4.1:\
-  :hd="/tftpboot":\
-  :bf="/kernel.diskless":\
-  :rp="192.168.4.4:/data/misc/diskless":
-
-margaux:ha=0123456789ab:tc=.def100</programlisting>
-      </sect3>
-
-      <sect3>
-	<title>Preparing a Boot Program with
-	  <application>Etherboot</application></title>
-
-	<indexterm>
-	  <primary>Etherboot</primary>
-	</indexterm>
-
-	<para><ulink
-	    url="http://etherboot.sourceforge.net">Etherboot's Web
-	    site</ulink> contains <ulink
-	    url="http://etherboot.sourceforge.net/doc/html/userman/t1.html">
-	    extensive documentation</ulink> mainly intended for Linux
-	  systems, but nonetheless containing useful information.  The
-	  following will just outline how you would use
-	  <application>Etherboot</application> on a &os;
-	  system.</para>
-
-	<para>You must first install the
-	  <filename role="package">net/etherboot</filename> package or
-	  port.</para>
-
-	<para>You can change the <application>Etherboot</application>
-	  configuration (i.e., to use <acronym>TFTP</acronym> instead
-	  of <acronym>NFS</acronym>) by editing the
-	  <filename>Config</filename> file in the
-	  <application>Etherboot</application> source
-	  directory.</para>
-
-	<para>For our setup, we shall use a boot floppy.  For other
-	  methods (PROM, or &ms-dos; program), please refer to the
-	  <application>Etherboot</application> documentation.</para>
-
-	<para>To make a boot floppy, insert a floppy in the drive on
-	  the machine where you installed
-	  <application>Etherboot</application>, then change your
-	  current directory to
-	  the <filename class="directory">src</filename>
-	  directory in the <application>Etherboot</application> tree and
-	  type:</para>
-
-	<screen>&prompt.root; <userinput>gmake bin32/<replaceable>devicetype</replaceable>.fd0</userinput></screen>
-
-	<para><replaceable>devicetype</replaceable> depends on the
-	  type of the Ethernet card in the diskless workstation.
-	  Refer to the <filename>NIC</filename> file in the same
-	  directory to determine the right
-	  <replaceable>devicetype</replaceable>.</para>
-      </sect3>
-
-      <sect3>
 	<title>Booting with <acronym>PXE</acronym></title>
 
-	<para>By default, the &man.pxeboot.8; loader loads the kernel
+	<para>By default, &man.pxeboot.8; loads the kernel
 	  via <acronym>NFS</acronym>.  It can be compiled to use
 	  <acronym>TFTP</acronym> instead by specifying the
 	  <literal>LOADER_TFTP_SUPPORT</literal> option in
@@ -4339,9 +4232,9 @@ margaux:ha=0123456789ab:tc=.def100</programlisting>
 	  <literal>BOOT_PXELDR_ALWAYS_SERIAL</literal>.</para>
 
 	<para>To use <acronym>PXE</acronym> when the machine starts,
-	  you will usually need to select the <literal>Boot from
-	    network</literal> option in your <acronym>BIOS</acronym>
-	  setup, or type a function key during the PC
+	  select the <literal>Boot from
+	    network</literal> option in the <acronym>BIOS</acronym>
+	  setup or type a function key during system
 	  initialization.</para>
       </sect3>
 
@@ -4358,27 +4251,26 @@ margaux:ha=0123456789ab:tc=.def100</programlisting>
 	  <secondary>diskless operation</secondary>
 	</indexterm>
 
-	<para>If you are using <acronym>PXE</acronym> or
-	  <application>Etherboot</application> configured to use
-	  <acronym>TFTP</acronym>, you need to enable
-	  <application>tftpd</application> on the file server:</para>
+	<para>If <acronym>PXE</acronym> is configured to use
+	  <acronym>TFTP</acronym>, enable
+	  &man.tftpd.8; on the file server:</para>
 
 	<procedure>
 	  <step>
 	    <para>Create a directory from which
-	      <application>tftpd</application> will serve the files,
-	      e.g., <filename class="directory">/tftpboot</filename>.</para>
+	      &man.tftpd.8; will serve the files, such as
+	      <filename class="directory">/tftpboot</filename>.</para>
 	  </step>
 
 	  <step>
-	    <para>Add this line to your
+	    <para>Add this line to
 	      <filename>/etc/inetd.conf</filename>:</para>
 
 	    <programlisting>tftp	dgram	udp	wait	root	/usr/libexec/tftpd	tftpd -l -s /tftpboot</programlisting>
 
 	    <note>
-	      <para>It appears that at least some
-		<acronym>PXE</acronym> versions want the
+	      <para>Some
+		<acronym>PXE</acronym> versions require the
 		<acronym>TCP</acronym> version of
 		<acronym>TFTP</acronym>.  In this case, add a second
 		line, replacing <literal>dgram udp</literal> with
@@ -4387,51 +4279,52 @@ margaux:ha=0123456789ab:tc=.def100</programlisting>
 	  </step>
 
 	  <step>
-	    <para>Tell <application>inetd</application> to reread its
-	      configuration file.  The
-	      <option>inetd_enable="YES"</option> must be in the
-	      <filename>/etc/rc.conf</filename> file for this command
+	    <para>Tell &man.inetd.8; to reread its
+	      configuration file.  Add
+	      <option>inetd_enable="YES"</option> to
+	      <filename>/etc/rc.conf</filename> in order for this command
 	      to execute correctly:</para>
 
 	    <screen>&prompt.root; <userinput>service inetd restart</userinput></screen>
 	  </step>
 	</procedure>
 
-	<para>You can place
-	  the <filename class="directory">tftpboot</filename>
-	  directory anywhere on the server.  Make sure that the
-	  location is set in both <filename>inetd.conf</filename> and
-	  <filename>dhcpd.conf</filename>.</para>
+	<para>Place
+	  <filename class="directory">tftpboot</filename>
+	  anywhere on the server.  Make sure that the
+	  location is set in both <filename>/etc/inetd.conf</filename>
+	  and
+	  <filename>/usr/local/etc/dhcpd.conf</filename>.</para>
 
-	<para>In all cases, you also need to enable
+	<para>Enable
 	  <acronym>NFS</acronym> and export the appropriate file
 	  system on the <acronym>NFS</acronym> server.</para>
 
 	<procedure>
 	  <step>
-	    <para>Add this to
+	    <para>Add this line to
 	      <filename>/etc/rc.conf</filename>:</para>
 
 	    <programlisting>nfs_server_enable="YES"</programlisting>
 	  </step>
 
 	  <step>
-	    <para>Export the filesystem where the diskless root
+	    <para>Export the file system where the diskless root
 	      directory is located by adding the following to
-	      <filename>/etc/exports</filename> (adjust the volume
-	      mount point and replace <replaceable>margaux
+	      <filename>/etc/exports</filename>.  Adjust the
+	      mount point and replace <replaceable>
 		corbieres</replaceable> with the names of the diskless
-	      workstations):</para>
+	      workstations:</para>
 
 	    <programlisting><replaceable>/data/misc</replaceable> -alldirs -ro <replaceable>margaux corbieres</replaceable></programlisting>
 	  </step>
 
 	  <step>
-	    <para>Tell <application>mountd</application> to reread its
-	      configuration file.  If you actually needed to enable
-	      <acronym>NFS</acronym> in
-	      <filename>/etc/rc.conf</filename> at the first step, you
-	      probably want to reboot instead.</para>
+	    <para>Tell &man.mountd.8; to reread its
+	      configuration file.  If
+	      <acronym>NFS</acronym> is enabled in
+	      <filename>/etc/rc.conf</filename>, it is recommended
+	      to reboot instead.</para>
 
 	    <screen>&prompt.root; <userinput>service mountd restart</userinput></screen>
 	  </step>
@@ -4446,76 +4339,59 @@ margaux:ha=0123456789ab:tc=.def100</programlisting>
 	  <secondary>kernel configuration</secondary>
 	</indexterm>
 
-	<para>If using <application>Etherboot</application>, you need
-	  to create a kernel configuration file for the diskless
-	  client with the following options (in addition to the usual
-	  ones):</para>
+	<para>When using <acronym>PXE</acronym>, building a custom
+	  kernel
+	  with the following options is not strictly necessary.
+	  These options cause more
+	  <acronym>DHCP</acronym> requests to be issued during
+	  kernel startup, with a small risk of inconsistency between
+	  the new values and those retrieved by &man.pxeboot.8; in
+	  some special cases.  The advantage is that
+	  the host name will be set.  Otherwise, set the host name
+	  in a client-specific <filename>/etc/rc.conf</filename>.</para>
 
 	<programlisting>options     BOOTP          # Use BOOTP to obtain IP address/hostname
 options     BOOTP_NFSROOT  # NFS mount root file system using BOOTP info</programlisting>
 
-	<para>You may also want to use <literal>BOOTP_NFSV3</literal>,
+	<para>The custom kernel can also include
+	  <literal>BOOTP_NFSV3</literal>,
 	  <literal>BOOT_COMPAT</literal> and
-	  <literal>BOOTP_WIRED_TO</literal> (refer to
-	  <filename>NOTES</filename>).</para>
+	  <literal>BOOTP_WIRED_TO</literal>.  Refer to
+	  <filename>NOTES</filename> for descriptions of these
+	  options.</para>
 
 	<para>These option names are historical and slightly
 	  misleading as they actually enable indifferent use of
-	  <acronym>DHCP</acronym> and BOOTP inside the kernel (it is
-	  also possible to force strict BOOTP or
-	  <acronym>DHCP</acronym> use).</para>
+	  <acronym>DHCP</acronym> and <acronym>BOOTP</acronym>
+	  inside the kernel.</para>
 
-	<para>Build the kernel (see <xref linkend="kernelconfig"/>),
+	<para>Build the custom kernel, using the instructions in
+	  <xref linkend="kernelconfig"/>,
 	  and copy it to the place specified in
-	  <filename>dhcpd.conf</filename>.</para>
-
-	<note>
-	  <para>When using <acronym>PXE</acronym>, building a kernel
-	    with the above options is not strictly necessary (though
-	    suggested).  Enabling them will cause more
-	    <acronym>DHCP</acronym> requests to be issued during
-	    kernel startup, with a small risk of inconsistency between
-	    the new values and those retrieved by &man.pxeboot.8; in
-	    some special cases.  The advantage of using them is that
-	    the host name will be set as a side effect.  Otherwise you
-	    will need to set the host name by another method, for
-	    example in a client-specific <filename>rc.conf</filename>
-	    file.</para>
-	</note>
-
-	<note>
-	  <para>In order to be loadable with
-	    <application>Etherboot</application>, a kernel needs to
-	    have the device hints compiled in.  You would typically
-	    set the following option in the configuration file (see
-	    the <filename>NOTES</filename> configuration comments
-	    file):</para>
-
-	  <programlisting>hints		"GENERIC.hints"</programlisting>
-	</note>
+	  <filename>/usr/local/etc/dhcpd.conf</filename>.</para>
       </sect3>
 
       <sect3>
-	<title>Preparing the Root Filesystem</title>
+	<title>Preparing the Root File System</title>
 
 	<indexterm>
-	  <primary>root filesystem</primary>
+	  <primary>root file system</primary>
 	  <secondary>diskless operation</secondary>
 	</indexterm>
 
-	<para>Create a root filesystem for the diskless
-	  workstations, in the location listed as
+	<para>Create a root file system for the diskless
+	  workstations in the location listed as
 	  <literal>root-path</literal> in
-	  <filename>dhcpd.conf</filename>.</para>
+	  <filename>/usr/local/etc/dhcpd.conf</filename>.</para>
 
 	<sect4>
 	  <title>Using <command>make world</command> to Populate
 	    Root</title>
 
 	  <para>This method is quick and will install a complete
-	    virgin system (not only the root filesystem) into
-	    <envar>DESTDIR</envar>.  All you have to do is simply
-	    execute the following script:</para>
+	    virgin system, not just the root file system, into
+	    <envar>DESTDIR</envar>.
+	    Execute the following script:</para>
 
 	  <programlisting>#!/bin/sh
 export DESTDIR=/data/misc/diskless
@@ -4524,10 +4400,11 @@ cd /usr/src; make buildworld &amp;&amp; make buildkernel
 make installworld &amp;&amp; make installkernel
 cd /usr/src/etc; make distribution</programlisting>
 
-	  <para>Once done, you may need to customize your
+	  <para>Once done, customize
 	    <filename>/etc/rc.conf</filename> and
 	    <filename>/etc/fstab</filename> placed into
-	    <envar>DESTDIR</envar> according to your needs.</para>
+	    <envar>DESTDIR</envar> according to the system's
+	    requirements.</para>
 	</sect4>
       </sect3>
 
@@ -4543,14 +4420,13 @@ cd /usr/src/etc; make distribution</programlisting>
 	  <para>The kernel does not support enabling
 	    <acronym>NFS</acronym> swap at boot time.  Swap must be
 	    enabled by the startup scripts, by mounting a writable
-	    filesystem and creating and enabling a swap file.  To
-	    create a swap file of appropriate size, you can do like
-	    this:</para>
+	    file system and creating and enabling a swap file.  To
+	    create a swap file:</para>
 
 	  <screen>&prompt.root; <userinput>dd if=/dev/zero of=<replaceable>/path/to/swapfile</replaceable> bs=1k count=1 oseek=<replaceable>100000</replaceable></userinput></screen>
 
-	  <para>To enable it you have to add the following line to
-	    your <filename>rc.conf</filename>:</para>
+	  <para>To enable the swap file, add the following line to
+	    <filename>/etc/rc.conf</filename>:</para>
 
 	  <programlisting>swapfile=<replaceable>/path/to/swapfile</replaceable></programlisting>
 	</sect4>
@@ -4568,9 +4444,10 @@ cd /usr/src/etc; make distribution</programlisting>
 	    <secondary>/usr read-only</secondary>
 	  </indexterm>
 
-	  <para>If the diskless workstation is configured to run X,
-	    you will have to adjust the
-	    <application>XDM</application> configuration file, which
+	  <para>If the diskless workstation is configured to run
+	    <application>&xorg;</application>,
+	    adjust the
+	    <application>XDM</application> configuration file as it
 	    puts the error log
 	    on <filename class="directory">/usr</filename> by
 	    default.</para>
@@ -4579,11 +4456,11 @@ cd /usr/src/etc; make distribution</programlisting>
 	<sect4>
 	  <title>Using a Non-&os; Server</title>
 
-	  <para>When the server for the root filesystem is not
+	  <para>When the server for the root file system is not
 	    running &os;, create the root file
 	    system on a &os; machine, then copy it to its
-	    destination, using <command>tar</command> or
-	    <command>cpio</command>.</para>
+	    destination, using &man.tar.1; or
+	    &man.cpio.1;.</para>
 
 	  <para>In this situation, there are sometimes problems with
 	    the special files
@@ -4611,12 +4488,12 @@ cd /usr/src/etc; make distribution</programlisting>
 	</author>
       </authorgroup>
     </sect1info>
-    <title>PXE Booting with an NFS Root File System</title>
+    <title>PXE Booting with an <acronym>NFS</acronym> Root File System</title>
 
     <para>The &intel; Preboot eXecution Environment
       (<acronym>PXE</acronym>) allows booting the operating system
       over the network.  <acronym>PXE</acronym> support is usually
-      provided in the <acronym>BIOS</acronym> of modern motherboards,
+      provided in the <acronym>BIOS</acronym>
       where it can be enabled in the <acronym>BIOS</acronym> settings
       which enable booting from the network.  A fully functioning
       <acronym>PXE</acronym> setup also requires properly configured
@@ -4625,29 +4502,33 @@ cd /usr/src/etc; make distribution</programlisting>
 
     <para>When the host computer boots, it receives information over
       <acronym>DHCP</acronym> about where to obtain the initial boot
-      loader via TFTP.  After the host computer receives this
+      loader via <acronym>TFTP</acronym>.  After the host computer
+      receives this
       information, it downloads the boot loader via
-      <acronym>TFTP</acronym>, and then executes the boot loader.
+      <acronym>TFTP</acronym> and then executes the boot loader.
       This is documented in section 2.2.1 of the <ulink
 	url="http://download.intel.com/design/archives/wfm/downloads/pxespec.pdf">Preboot
-	Execution Environment (PXE) Specification</ulink>.  In &os;,
+	Execution Environment (<acronym>PXE</acronym>) Specification</ulink>.
+      In &os;,
       the boot loader retrieved during the <acronym>PXE</acronym>
       process is <filename>/boot/pxeboot</filename>.  After
       <filename>/boot/pxeboot</filename> executes, the &os; kernel is
-      loaded, and the rest of the &os; bootup sequence proceeds.
+      loaded and the rest of the &os; bootup sequence proceeds.
       Refer to <xref linkend="boot"/> for more information about the
       &os; booting process.</para>
 
     <sect2>
-      <title>Setting Up the <command>chroot</command> Environment for
-	the NFS Root File System</title>
+      <title>Setting Up the &man.chroot.8; Environment for
+	the <acronym>NFS</acronym> Root File System</title>
 
       <procedure>
 	<step>
 	  <para>Choose a directory which will have a &os;
-	    installation which will be NFS mountable.  For example, a
+	    installation which will be <acronym>NFS</acronym>
+	    mountable.  For example, a
 	    directory such as
-	    <filename class="directory">/b/tftpboot/FreeBSD/install</filename> can be
+	    <filename class="directory">/b/tftpboot/FreeBSD/install</filename>
+	    can be
 	    used.</para>
 
 	  <screen>&prompt.root; <userinput>export NFSROOTDIR=/b/tftpboot/FreeBSD/install</userinput>
@@ -4655,19 +4536,21 @@ cd /usr/src/etc; make distribution</programlisting>
 	</step>
 
 	<step>
-	  <para>Enable the NFS server by following the instructions
+	  <para>Enable the <acronym>NFS</acronym> server by following
+	    the instructions
 	    in <xref linkend="network-configuring-nfs"/>.</para>
 	</step>
 
 	<step>
-	  <para>Export the directory via NFS by adding the following
+	  <para>Export the directory via <acronym>NFS</acronym> by
+	    adding the following
 	    to <filename>/etc/exports</filename>:</para>
 
 	  <programlisting>/b -ro -alldirs</programlisting>
 	</step>
 
 	<step>
-	  <para>Restart the NFS server:</para>
+	  <para>Restart the <acronym>NFS</acronym> server:</para>
 
 	  <screen>&prompt.root; <userinput>service nfsd restart</userinput></screen>
 	</step>
@@ -4685,14 +4568,14 @@ cd /usr/src/etc; make distribution</programlisting>
 	</step>
 
 	<step>
-	  <para>Restart inetd:</para>
+	  <para>Restart &man.inetd.8;:</para>
 
 	  <screen>&prompt.root; <userinput>service inetd restart</userinput></screen>
 	</step>
 
 	<step>
-	  <para><link linkend="makeworld">Rebuild the &os; kernel and
-	      userland</link>:</para>
+	  <para>Rebuild the &os; kernel and
+	      userland (<xref linkend="makeworld"/>):</para>
 
 	  <screen>&prompt.root; <userinput>cd /usr/src</userinput>
 &prompt.root; <userinput>make buildworld</userinput>
@@ -4711,7 +4594,7 @@ cd /usr/src/etc; make distribution</programlisting>
 	<step>
 	  <para>Test that the <acronym>TFTP</acronym> server works and
 	    can download the boot loader which will be obtained
-	    via PXE:</para>
+	    via <acronym>PXE</acronym>:</para>
 
 	  <screen>&prompt.root; <userinput>tftp localhost</userinput>
 tftp> <userinput>get FreeBSD/install/boot/pxeboot</userinput>
@@ -4720,39 +4603,41 @@ Received 264951 bytes in 0.1 seconds</screen>
 
 	<step>
 	  <para>Edit <filename>${NFSROOTDIR}/etc/fstab</filename> and
-	    create an entry to mount the root filesystem over
-	    NFS:</para>
+	    create an entry to mount the root file system over
+	    <acronym>NFS</acronym>:</para>
 
 	  <programlisting># Device                                         Mountpoint    FSType   Options  Dump Pass
 myhost.example.com:/b/tftpboot/FreeBSD/install       /         nfs      ro        0    0</programlisting>
 
 	  <para>Replace
 	    <replaceable>myhost.example.com</replaceable> with the
-	    hostname or IP address of your <acronym>NFS</acronym>
-	    server.  In this example, the root filesystem is mounted
-	    "read-only" in order to prevent <acronym>NFS</acronym>
+	    hostname or <acronym>IP</acronym> address of the
+	    <acronym>NFS</acronym>
+	    server.  In this example, the root file system is mounted
+	    read-only in order to prevent <acronym>NFS</acronym>
 	    clients from potentially deleting the contents of the root
-	    filesystem.</para>
+	    file system.</para>
 	</step>
 
 	<step>
 	  <para>Set the root password in the &man.chroot.8;
-	    environment.</para>
+	    environment:</para>
 
 	  <screen>&prompt.root; <userinput>chroot ${NFSROOTDIR}</userinput>
 &prompt.root; <userinput>passwd</userinput></screen>
 
-	  <para>This will set the root password for client
+	  <para>This sets the root password for client
 	    machines which are <acronym>PXE</acronym>
 	    booting.</para>
 	</step>
 
 	<step>
-	  <para>Enable ssh root logins for client machines which are
+	  <para>Enable &man.ssh.1; root logins for client machines
+	    which are
 	    <acronym>PXE</acronym> booting by editing
 	    <filename>${NFSROOTDIR}/etc/ssh/sshd_config</filename> and
-	    enabling the <literal>PermitRootLogin</literal> option.
-	    This is documented in &man.sshd.config.5;.</para>
+	    enabling <literal>PermitRootLogin</literal>.
+	    This option is documented in &man.sshd.config.5;.</para>
 	</step>
 
 	<step>
@@ -4773,38 +4658,41 @@ myhost.example.com:/b/tftpboot/FreeBSD/install       /         nfs      ro      
       <title>Configuring Memory File Systems Used by
 	<filename>/etc/rc.initdiskless</filename></title>
 
-      <para>If you boot from an NFS root volume,
-	<filename>/etc/rc</filename> detects that you booted over NFS
-	and runs the <filename>/etc/rc.initdiskless</filename> script.
+      <para>When booting from an <acronym>NFS</acronym> root volume,
+	<filename>/etc/rc</filename> detects the
+	<acronym>NFS</acronym> boot
+	and runs <filename>/etc/rc.initdiskless</filename>.
 	Read the comments in this script to understand what is going
-	on.  We need to
-	make <filename class="directory">/etc</filename>
-	and <filename class="directory">/var</filename>
-	memory backed filesystems because
-	these directories need to be writable, but the NFS root
-	directory is read-only.</para>
+	on.  In this case,
+	<filename class="directory">/etc</filename>
+	and <filename class="directory">/var</filename> need to be
+	memory backed file systems so that
+	these directories are writable but the <acronym>NFS</acronym>
+	root
+	directory is read-only:</para>
 
       <screen>&prompt.root; <userinput>chroot ${NFSROOTDIR}</userinput>
 &prompt.root; <userinput>mkdir -p conf/base</userinput>
 &prompt.root; <userinput>tar -c -v -f conf/base/etc.cpio.gz --format cpio --gzip etc</userinput>
 &prompt.root; <userinput>tar -c -v -f conf/base/var.cpio.gz --format cpio --gzip var</userinput></screen>
 
-      <para>When the system boots, memory filesystems
+      <para>When the system boots, memory file systems
         for <filename class="directory">/etc</filename>
 	and <filename class="directory">/var</filename> will
-	be created and mounted, and the contents of the
+	be created and mounted and the contents of the
 	<filename>cpio.gz</filename> files will be copied into
 	them.</para>
     </sect2>
 
     <sect2 id="network-pxe-setting-up-dhcp">
-      <title>Setting up the DHCP Server</title>
+      <title>Setting up the <acronym>DHCP</acronym> Server</title>
 
-      <para>PXE requires a <acronym>TFTP</acronym> server and a
+      <para><acronym>PXE</acronym> requires a <acronym>TFTP</acronym>
+        and a
 	<acronym>DHCP</acronym> server to be set up.  The
-	<acronym>DHCP</acronym> server does not necessarily need to be
+	<acronym>DHCP</acronym> server does not need to be
 	the same machine as the <acronym>TFTP</acronym> server, but it
-	needs to be accessible in your network.</para>
+	needs to be accessible in the network.</para>
 
       <procedure>
 	<step>
@@ -4820,11 +4708,12 @@ myhost.example.com:/b/tftpboot/FreeBSD/install       /         nfs      ro      
 	  <para>In <filename>/usr/local/etc/dhcpd.conf</filename>,
 	    configure the <literal>next-server</literal>,
 	    <literal>filename</literal>, and
-	    <literal>option root-path</literal> settings, to specify
-	    your <acronym>TFTP</acronym> server IP address, the path
+	    <literal>option root-path</literal> settings to specify
+	    the <acronym>TFTP</acronym> server <acronym>IP</acronym>
+	    address, the path
 	    to <filename>/boot/pxeboot</filename> in
 	    <acronym>TFTP</acronym>, and the path to the
-	    <acronym>NFS</acronym> root filesystem.  Here is a sample
+	    <acronym>NFS</acronym> root file system.  Here is a sample
 	    <filename>dhcpd.conf</filename> setup:</para>
 
 	  <programlisting>subnet 192.168.0.0 netmask 255.255.255.0 {
@@ -4851,7 +4740,8 @@ myhost.example.com:/b/tftpboot/FreeBSD/install       /         nfs      ro      
     </sect2>
 
     <sect2>
-      <title>Configuring the PXE Client and Debugging Connection
+      <title>Configuring the <acronym>PXE</acronym> Client and
+	Debugging Connection
 	Problems</title>
 
       <procedure>
@@ -4859,25 +4749,27 @@ myhost.example.com:/b/tftpboot/FreeBSD/install       /         nfs      ro      
 	  <para>When the client machine boots up, enter the
 	    <acronym>BIOS</acronym> configuration menu.  Configure the
 	    <acronym>BIOS</acronym> to boot from the network.  If all
-	    your previous configuration steps are correct, then
+	    previous configuration steps are correct,
 	    everything should &quot;just work&quot;.</para>
 	</step>
 
 	<step>
 
 	  <para>Use the
-	    <filename role="package">net/wireshark</filename> port to
+	    <filename role="package">net/wireshark</filename> package
+	    or port to
 	    debug the network traffic involved during the
-	    <acronym>PXE</acronym> booting process, which is
+	    <acronym>PXE</acronym> booting process, as
 	    illustrated in the diagram below.  In
 	    <xref linkend="network-pxe-setting-up-dhcp"/>, an example
 	    configuration is shown where the <acronym>DHCP</acronym>,
 	    <acronym>TFTP</acronym>, and <acronym>NFS</acronym>
-	    servers are actually on the same machine.  However, these
+	    servers are on the same machine.  However, these
 	    severs can be on separate machines.</para>
 
 	  <figure>
-	    <title>PXE Booting Process with NFS Root Mount</title>
+	    <title><acronym>PXE</acronym> Booting Process with
+	      <acronym>NFS</acronym> Root Mount</title>
 
 	    <mediaobjectco>
 	      <imageobjectco>
@@ -4893,30 +4785,33 @@ myhost.example.com:/b/tftpboot/FreeBSD/install       /         nfs      ro      
 		</imageobject>
 		<calloutlist>
 		  <callout arearefs="co-pxenfs1">
-		    <para>Client broadcasts DHCPDISCOVER.</para>
+		    <para>Client broadcasts a
+		      <literal>DHCPDISCOVER</literal> message.</para>
 		  </callout>
 		  <callout arearefs="co-pxenfs2">
-		    <para>DHCP server responds with IP address,
+		    <para>The <acronym>DHCP</acronym> server responds
+		      with the <acronym>IP</acronym> address,
 		      <literal>next-server</literal>,
 		      <literal>filename</literal>, and
-		      <literal>root-path</literal>.</para>
+		      <literal>root-path</literal> values.</para>
 		  </callout>
 		  <callout arearefs="co-pxenfs3">
-		    <para>Client sends <acronym>TFTP</acronym>
-		      request to <literal>next-server</literal>
+		    <para>The client sends a <acronym>TFTP</acronym>
+		      request to <literal>next-server</literal>,
 		      asking to retrieve
 		      <literal>filename</literal>.</para>
 		  </callout>
 		  <callout arearefs="co-pxenfs4">
-		    <para>TFTP server responds and sends
+		    <para>The <acronym>TFTP</acronym> server responds
+		      and sends
 		      <literal>filename</literal> to client.</para>
 		  </callout>
 		  <callout arearefs="co-pxenfs5">
-		    <para>Client executes
-		      <literal>filename</literal> which is
-		      &man.pxeboot.8;.  &man.pxeboot.8; loads the
+		    <para>The client executes
+		      <literal>filename</literal>, which is
+		      &man.pxeboot.8;, which then loads the
 		      kernel.  When the kernel executes, the root
-		      filesystem specified by
+		      file system specified by
 		      <literal>root-path</literal> is mounted over
 		      <acronym>NFS</acronym>.</para>
 		  </callout>
@@ -4928,26 +4823,26 @@ myhost.example.com:/b/tftpboot/FreeBSD/install       /         nfs      ro      
 
 	<step>
 	  <para>Make sure that the <filename>pxeboot</filename> file
-	    can be retrieved by <acronym>TFTP</acronym>.  On your
-	    <acronym>TFTP</acronym> server, look in
+	    can be retrieved by <acronym>TFTP</acronym>.  On the
+	    <acronym>TFTP</acronym> server, read
 	    <filename>/var/log/xferlog</filename> to ensure that the
 	    <filename>pxeboot</filename> file is being retrieved from
-	    the correct location.  To test the configuration from
-	    <filename>dhcpd.conf</filename> above:</para>
+	    the correct location.  To test this example
+	    configuration:</para>
 
 	  <screen>&prompt.root; <userinput>tftp 192.168.0.1</userinput>
 tftp> <userinput>get FreeBSD/install/boot/pxeboot</userinput>
 Received 264951 bytes in 0.1 seconds</screen>
 
-	  <para>Read &man.tftpd.8; and &man.tftp.1;.  The
-	    <literal>BUGS</literal> sections in these pages document
+	  <para>The <literal>BUGS</literal> sections in &man.tftpd.8;
+	    and &man.tftp.1; document
 	    some limitations with <acronym>TFTP</acronym>.</para>
 	</step>
 
 	<step>
-	  <para>Make sure that the root filesystem can be mounted
-	    via <acronym>NFS</acronym>.  To test configuration from
-	    <filename>dhcpd.conf</filename> above:</para>
+	  <para>Make sure that the root file system can be mounted
+	    via <acronym>NFS</acronym>.  To test this example
+	    configuration:</para>
 
 	  <screen>&prompt.root; <userinput>mount -t nfs 192.168.0.1:/b/tftpboot/FreeBSD/install /mnt</userinput></screen>
 	</step>
@@ -4958,7 +4853,8 @@ Received 264951 bytes in 0.1 seconds</screen>
 	    understand how the <filename>pxeboot</filename> loader
 	    sets variables like <literal>boot.nfsroot.server</literal>
 	    and <literal>boot.nfsroot.path</literal>.  These variables
-	    are then used in the NFS diskless root mount code in
+	    are then used in the <acronym>NFS</acronym> diskless root
+	    mount code in
 	    <filename>src/sys/nfsclient/nfs_diskless.c</filename>.</para>
 	</step>
 
@@ -4966,327 +4862,6 @@ Received 264951 bytes in 0.1 seconds</screen>
 	  <para>Read &man.pxeboot.8; and &man.loader.8;.</para>
 	</step>
       </procedure>
-    </sect2>
-  </sect1>
-
-  <sect1 id="network-isdn">
-    <title>ISDN</title>
-
-    <indexterm>
-      <primary>ISDN</primary>
-    </indexterm>
-
-    <para>A good resource for information on ISDN technology and
-      hardware is
-      <ulink url="http://www.alumni.caltech.edu/~dank/isdn/">Dan
-	Kegel's ISDN Page</ulink>.</para>
-
-    <para>A quick simple road map to ISDN follows:</para>
-
-    <itemizedlist>
-      <listitem>
-	<para>If you live in Europe you might want to investigate the
-	  ISDN card section.</para>
-      </listitem>
-
-      <listitem>
-	<para>If you are planning to use ISDN primarily to connect to
-	  the Internet with an Internet Provider on a dial-up
-	  non-dedicated basis, you might look into Terminal Adapters.
-	  This will give you the most flexibility, with the fewest
-	  problems, if you change providers.</para>
-      </listitem>
-
-      <listitem>
-	<para>If you are connecting two LANs together, or connecting
-	  to the Internet with a dedicated ISDN connection, you might
-	  consider the stand alone router/bridge option.</para>
-      </listitem>
-    </itemizedlist>
-
-    <para>Cost is a significant factor in determining what solution
-      you will choose.  The following options are listed from least
-      expensive to most expensive.</para>
-
-    <sect2 id="network-isdn-cards">
-      <sect2info>
-	<authorgroup>
-	  <author>
-	    <firstname>Hellmuth</firstname>
-	    <surname>Michaelis</surname>
-	    <contrib>Contributed by </contrib>
-	  </author>
-	</authorgroup>
-      </sect2info>
-      <title>ISDN Cards</title>
-
-      <indexterm>
-	<primary>ISDN</primary>
-	<secondary>cards</secondary>
-      </indexterm>
-
-      <para>&os;'s ISDN implementation supports only the DSS1/Q.931
-	(or Euro-ISDN) standard using passive cards.  Some active
-	cards are supported where the firmware also supports other
-	signaling protocols; this also includes the first supported
-	Primary Rate (PRI) ISDN card.</para>
-
-      <para>The <application>isdn4bsd</application> software allows
-	you to connect to other ISDN routers using either IP over raw
-	HDLC or by using synchronous PPP: either by using kernel PPP
-	with <literal>isppp</literal>, a modified &man.sppp.4; driver,
-	or by using userland &man.ppp.8;.  By using userland
-	&man.ppp.8;, channel bonding of two or more ISDN B-channels is
-	possible.  A telephone answering machine application is also
-	available as well as many utilities such as a software 300
-	Baud modem.</para>
-
-      <para>Some growing number of PC ISDN cards are supported under
-	&os; and the reports show that it is successfully used all
-	over Europe and in many other parts of the world.</para>
-
-      <para>The passive ISDN cards supported are mostly the ones with
-	the Infineon (formerly Siemens) ISAC/HSCX/IPAC ISDN chipsets,
-	but also ISDN cards with chips from Cologne Chip (ISA bus
-	only), PCI cards with Winbond W6692 chips, some cards with the
-	Tiger300/320/ISAC chipset combinations and some vendor
-	specific chipset based cards such as the AVM Fritz!Card PCI
-	V.1.0 and the AVM Fritz!Card PnP.</para>
-
-      <para>Currently the active supported ISDN cards are the AVM B1
-	(ISA and PCI) BRI cards and the AVM T1 PCI PRI cards.</para>
-
-      <para>For documentation on <application>isdn4bsd</application>,
-	have a look at the
-	<ulink url="http://www.freebsd-support.de/i4b/">homepage of
-	  isdn4bsd</ulink> which also has pointers to hints, erratas
-	and much more documentation such as the <ulink
-	  url="http://people.FreeBSD.org/~hm/">isdn4bsd
-	  handbook</ulink>.</para>
-
-      <para>In case you are interested in adding support for a
-	different ISDN protocol, a currently unsupported ISDN PC card
-	or otherwise enhancing <application>isdn4bsd</application>,
-	please get in touch with &a.hm;.</para>
-
-      <para>For questions regarding the installation, configuration
-	and troubleshooting <application>isdn4bsd</application>, a
-	&a.isdn.name; mailing list is available.</para>
-    </sect2>
-
-    <sect2>
-      <title>ISDN Terminal Adapters</title>
-
-      <para>Terminal adapters (TA), are to ISDN what modems are to
-	regular phone lines.</para>
-
-      <indexterm><primary>modem</primary></indexterm>
-      <para>Most TA's use the standard Hayes modem AT command set, and
-	can be used as a drop in replacement for a modem.</para>
-
-      <para>A TA will operate basically the same as a modem except
-	connection and throughput speeds will be much faster than your
-	old modem.  You will need to configure PPP exactly the same as
-	for a modem setup.  Make sure you set your serial speed as
-	high as possible.</para>
-
-      <indexterm><primary>PPP</primary></indexterm>
-      <para>The main advantage of using a TA to connect to an Internet
-	Provider is that you can do Dynamic PPP.  As IP address space
-	becomes more and more scarce, most providers are not willing
-	to provide you with a static IP any more.  Most stand-alone
-	routers are not able to accommodate dynamic IP
-	allocation.</para>
-
-      <para>TA's completely rely on the PPP daemon that you are
-	running for their features and stability of connection.  This
-	allows you to upgrade easily from using a modem to ISDN on a
-	&os; machine, if PPP is already set up.  However, at
-	the same time any problems you experienced with the PPP
-	program and are going to persist.</para>
-
-      <para>The following TA's are known to work with &os;:</para>
-
-      <itemizedlist>
-	<listitem>
-	  <para>Motorola BitSurfer and Bitsurfer Pro</para>
-	</listitem>
-
-	<listitem>
-	  <para>Adtran</para>
-	</listitem>
-      </itemizedlist>
-
-      <para>Most other TA's will probably work as well, TA vendors try
-	to make sure their product can accept most of the standard
-	modem AT command set.</para>
-
-      <para>The real problem with external TA's is that, like modems,
-	you need a good serial card in your computer.</para>
-
-      <para>You should read the <ulink
-	  url="&url.articles.serial-uart;/index.html">&os; Serial
-	Hardware</ulink> tutorial for a detailed understanding of
-	serial devices, and the differences between asynchronous and
-	synchronous serial ports.</para>
-
-      <para>A TA running off a standard PC serial port (asynchronous)
-	limits you to 115.2&nbsp;Kbs, even though you have a
-	128&nbsp;Kbs connection.  To fully utilize the 128&nbsp;Kbs
-	that ISDN is capable of, you must move the TA to a synchronous
-	serial card.</para>
-
-      <para>Do not be fooled into buying an internal TA and thinking
-	you have avoided the synchronous/asynchronous issue.  Internal
-	TA's simply have a standard PC serial port chip built into
-	them.  All this will do is save you having to buy another
-	serial cable and find another empty electrical socket.</para>
-
-      <para>A synchronous card with a TA is at least as fast as a
-	stand-alone router, and with a simple 386 &os; box driving
-	it, probably more flexible.</para>
-
-      <para>The choice of synchronous card/TA versus stand-alone
-	router is largely a religious issue.  There has been some
-	discussion of this in the mailing lists.  We suggest you
-	search the
-	<ulink url="&url.base;/search/index.html">archives</ulink> for
-	the complete discussion.</para>
-    </sect2>
-
-    <sect2>
-      <title>Stand-alone ISDN Bridges/Routers</title>
-
-      <indexterm>
-	<primary>ISDN</primary>
-	<secondary>stand-alone bridges/routers</secondary>
-      </indexterm>
-      <para>ISDN bridges or routers are not at all specific to &os;
-	or any other operating system.  For a more complete
-	description of routing and bridging technology, please refer
-	to a networking reference book.</para>
-
-      <para>In the context of this section, the terms router and
-	bridge will be used interchangeably.</para>
-
-      <para>As the cost of low end ISDN routers/bridges comes down, it
-	will likely become a more and more popular choice.  An ISDN
-	router is a small box that plugs directly into your local
-	Ethernet network, and manages its own connection to the other
-	bridge/router.  It has built in software to communicate via
-	PPP and other popular protocols.</para>
-
-      <para>A router will allow you much faster throughput than a
-	standard TA, since it will be using a full synchronous ISDN
-	connection.</para>
-
-      <para>The main problem with ISDN routers and bridges is that
-	interoperability between manufacturers can still be a problem.
-	If you are planning to connect to an Internet provider, you
-	should discuss your needs with them.</para>
-
-      <para>If you are planning to connect two LAN segments together,
-	such as your home LAN to the office LAN, this is the simplest
-	lowest
-	maintenance solution.  Since you are buying the equipment for
-	both sides of the connection you can be assured that the link
-	will work.</para>
-
-      <para>For example to connect a home computer or branch office
-	network to a head office network the following setup could be
-	used:</para>
-
-      <example>
-	<title>Branch Office or Home Network</title>
-
-	<indexterm><primary>10 base 2</primary></indexterm>
-	<para>Network uses a bus based topology with 10 base 2
-	  Ethernet (<quote>thinnet</quote>).  Connect router to
-	  network cable with AUI/10BT transceiver, if
-	  necessary.</para>
-
-	<mediaobject>
-	  <imageobject>
-	    <imagedata fileref="advanced-networking/isdn-bus"/>
-	  </imageobject>
-
-	  <textobject>
-	    <literallayout class="monospaced">---Sun workstation
-|
----FreeBSD box
-|
----Windows 95
-|
-Stand-alone router
-   |
-ISDN BRI line</literallayout>
-	  </textobject>
-
-	  <textobject>
-	    <phrase>10 Base 2 Ethernet</phrase>
-	  </textobject>
-	</mediaobject>
-
-	<para>If your home/branch office is only one computer you can
-	  use a twisted pair crossover cable to connect to the
-	  stand-alone router directly.</para>
-      </example>
-
-      <example>
-	<title>Head Office or Other LAN</title>
-
-	<indexterm><primary>10 base T</primary></indexterm>
-	<para>Network uses a star topology with 10 base T Ethernet
-	  (<quote>Twisted Pair</quote>).</para>
-
-	<mediaobject>
-	  <imageobject>
-	    <imagedata
-	      fileref="advanced-networking/isdn-twisted-pair"/>
-	  </imageobject>
-
-	  <textobject>
-	    <literallayout class="monospaced">    -------Novell Server
-    | H |
-    |   ---Sun
-    |   |
-    | U ---FreeBSD
-    |   |
-    |   ---Windows 95
-    | B |
-    |___---Stand-alone router
-                |
-        ISDN BRI line</literallayout>
-	  </textobject>
-
-	  <textobject>
-	    <phrase>ISDN Network Diagram</phrase>
-	  </textobject>
-	</mediaobject>
-      </example>
-
-      <para>One large advantage of most routers/bridges is that they
-	allow you to have 2 <emphasis>separate independent</emphasis>
-	PPP connections to 2 separate sites at the
-	<emphasis>same</emphasis> time.  This is not supported on most
-	TA's, except for specific (usually expensive) models that have
-	two serial ports.  Do not confuse this with channel bonding,
-	MPP, etc.</para>
-
-      <para>This can be a very useful feature if, for example, you
-	have an dedicated ISDN connection at your office and would
-	like to tap into it, but do not want to get another ISDN line
-	at work.  A router at the office location can manage a
-	dedicated B channel connection (64&nbsp;Kbps) to the Internet
-	and use the other B channel for a separate data connection.
-	The second B channel can be used for dial-in, dial-out or
-	dynamically bonding (MPP, etc.) with the first B channel for
-	more bandwidth.</para>
-
-      <indexterm><primary>IPX/SPX</primary></indexterm>
-      <para>An Ethernet bridge will also allow you to transmit more
-	than just IP traffic.  You can also send IPX/SPX or whatever
-	other protocols you use.</para>
     </sect2>
   </sect1>
 
@@ -5306,14 +4881,16 @@ ISDN BRI line</literallayout>
       <title>Overview</title>
 
       <indexterm>
-	<primary><application>natd</application></primary>
+	<primary>&man.natd.8;</primary>
       </indexterm>
-      <para>&os;'s Network Address Translation daemon, commonly
-	known as &man.natd.8; is a daemon that accepts incoming raw IP
-	packets, changes the source to the local machine and
-	re-injects these packets back into the outgoing IP packet
-	stream.  &man.natd.8; does this by changing the source IP
-	address and port such that when data is received back, it is
+      <para>&os;'s Network Address Translation (<acronym>NAT</acronym>)
+	daemon, &man.natd.8;, accepts incoming raw <acronym>IP</acronym>
+	packets, changes the source to the local machine, and
+	injects these packets back into the outgoing
+	<acronym>IP</acronym> packet
+	stream.  The source <acronym>IP</acronym>
+	address and port are changed such that when data is received
+	back, it is
 	able to determine the original location of the data and
 	forward it back to its original requester.</para>
 
@@ -5321,37 +4898,47 @@ ISDN BRI line</literallayout>
 	<primary>Internet connection sharing</primary>
       </indexterm>
       <indexterm>
-	<primary>NAT</primary>
+	<primary><acronym>NAT</acronym></primary>
       </indexterm>
-      <para>The most common use of NAT is to perform what is commonly
+      <para>The most common use of <acronym>NAT</acronym> is to
+	perform what is commonly
 	known as Internet Connection Sharing.</para>
     </sect2>
 
     <sect2 id="network-natsetup">
       <title>Setup</title>
 
-      <para>Due to the diminishing IP space in IPv4, and the increased
+      <para>Due to the diminishing <acronym>IP</acronym> address space in
+	<acronym>IPv4</acronym> and the increased
 	number of users on high-speed consumer lines such as cable or
-	DSL, people are increasingly in need of an Internet Connection
+	<acronym>DSL</acronym>, people are increasingly in need of
+	an Internet Connection
 	Sharing solution.  The ability to connect several computers
-	online through one connection and IP address makes
+	online through one connection and <acronym>IP</acronym>
+	address makes
 	&man.natd.8; a reasonable choice.</para>
 
       <para>Most commonly, a user has a machine connected to a cable
-	or DSL line with one IP address and wishes to use this one
+	or <acronym>DSL</acronym> line with one
+	<acronym>IP</acronym> address and wishes to use this one
 	connected computer to provide Internet access to several more
-	over a LAN.</para>
+	over a <acronym>LAN</acronym>.</para>
 
-      <para>To do this, the &os; machine on the Internet must act
+      <para>To do this, the &os; machine connected to the Internet
+	must act
 	as a gateway.  This gateway machine must have two
-	NICs&mdash;one for connecting to the Internet router, the
-	other connecting to a LAN.  All the machines on the LAN are
+	<acronym>NIC</acronym>s: one connects to the Internet
+	router and the
+	other connects to a <acronym>LAN</acronym>.  All the
+	machines on the <acronym>LAN</acronym> are
 	connected through a hub or switch.</para>
 
       <note>
-	<para>There are many ways to get a LAN connected to the
+	<para>There are many ways to get a <acronym>LAN</acronym>
+	  connected to the
 	  Internet through a &os; gateway.  This example will only
-	  cover a gateway with at least two NICs.</para>
+	  cover a gateway with at least two
+	  <acronym>NIC</acronym>s.</para>
       </note>
 
       <mediaobject>
@@ -5378,7 +4965,7 @@ ISDN BRI line</literallayout>
 
       <para>A setup like this is commonly used to share an Internet
 	connection.  One of the <acronym>LAN</acronym> machines is
-	connected to the Internet.  The rest of the machines access
+	connected to the Internet and the rest of the machines access
 	the Internet through that <quote>gateway</quote>
 	machine.</para>
     </sect2>
@@ -5391,10 +4978,10 @@ ISDN BRI line</literallayout>
 	<secondary>configuration</secondary>
       </indexterm>
 
-      <para>The kernel features for network address translation with
+      <para>The kernel features for
 	&man.natd.8; are not enabled in the
-	<filename>GENERIC</filename> kernel, but they can be preloaded
-	at boot time, by adding a couple of options to
+	<filename>GENERIC</filename> kernel, but they can be loaded
+	at boot time by adding a couple of options to
 	<filename>/boot/loader.conf</filename>:</para>
 
       <programlisting>ipfw_load="YES"
@@ -5402,17 +4989,18 @@ ipdivert_load="YES"</programlisting>
 
       <para>Additionally, the
 	<literal>net.inet.ip.fw.default_to_accept</literal> tunable
-	option may be set to <literal>1</literal>:</para>
+	option should be set to <literal>1</literal>:</para>
 
       <programlisting>net.inet.ip.fw.default_to_accept="1"</programlisting>
 
       <note>
-	<para>It is a very good idea to set this option during the
-	  first attempts to setup a firewall and NAT gateway.  This
-	  way the default policy of &man.ipfw.8; will be
-	  <literal>allow ip from any to any</literal> instead of the
-	  less permissive <literal>deny ip from any to any</literal>,
-	  and it will be slightly more difficult to get locked out of
+	<para>It is a good idea to set this option during the
+	  first attempts to setup a firewall and
+	  <acronym>NAT</acronym> gateway.  This
+	  sets the default policy of &man.ipfw.8; to be
+	  more permissive than the default <literal>deny ip from any
+	  to any</literal>,
+	  making it slightly more difficult to get locked out of
 	  the system right after a reboot.</para>
       </note>
     </sect2>
@@ -5425,14 +5013,14 @@ ipdivert_load="YES"</programlisting>
 	<secondary>configuration</secondary>
       </indexterm>
       <para>When modules are not an option or if it is preferrable to
-	build all the required features into the running kernel, the
-	following options must be in the kernel configuration
+	build all the required features into a custom kernel, the
+	following options must be in the custom kernel configuration
 	file:</para>
 
       <programlisting>options IPFIREWALL
 options IPDIVERT</programlisting>
 
-      <para>Additionally, at choice, the following may also be
+      <para>Additionally, the following may also be
 	suitable:</para>
 
       <programlisting>options IPFIREWALL_DEFAULT_TO_ACCEPT
@@ -5442,7 +5030,8 @@ options IPFIREWALL_VERBOSE</programlisting>
     <sect2 id="network-natdsystemconfiguration">
       <title>System Startup Configuration</title>
 
-      <para>To enable firewall and NAT support at boot time, the
+      <para>To enable firewall and <acronym>NAT</acronym> support at
+	boot time, the
 	following must be in <filename>/etc/rc.conf</filename>:</para>
 
       <programlisting>gateway_enable="YES" <co id="co-natd-gateway-enable"/>
@@ -5472,8 +5061,9 @@ natd_flags="" <co id="co-natd-natd-flags"/></programlisting>
 	</callout>
 
 	<callout arearefs="co-natd-natd-interface">
-	  <para>Indicates which interface to forward packets through
-	    (the interface connected to the Internet).</para>
+	  <para>Indicates which interface to forward packets through.
+	    This is the interface that is connected to the
+	    Internet.</para>
 	</callout>
 
 	<callout arearefs="co-natd-natd-flags">
@@ -5482,10 +5072,10 @@ natd_flags="" <co id="co-natd-natd-flags"/></programlisting>
 	</callout>
       </calloutlist>
 
-      <para>Having the previous options defined in
-	<filename>/etc/rc.conf</filename> would run
+      <para>These
+	<filename>/etc/rc.conf</filename> options will run
 	<command>natd -interface fxp0</command> at boot.  This can
-	also be run manually.</para>
+	also be run manually after boot.</para>
 
       <note>
 	<para>It is also possible to use a configuration file for
@@ -5496,37 +5086,40 @@ natd_flags="" <co id="co-natd-natd-flags"/></programlisting>
 
 	<programlisting>natd_flags="-f /etc/natd.conf"</programlisting>
 
-	<para>The <filename>/etc/natd.conf</filename> file will
-	  contain a list of configuration options, one per line.  For
-	  example the next section case would use the following
-	  file:</para>
+	<para>A list of configuration options, one per line, can be
+	  added to <filename>/etc/natd.conf</filename>.  For
+	  example:</para>
 
 	<programlisting>redirect_port tcp 192.168.0.2:6667 6667
 redirect_port tcp 192.168.0.3:80 80</programlisting>
 
-	<para>For more information about the configuration file,
-	  consult the &man.natd.8; manual page about the
-	  <option>-f</option> option.</para>
+	<para>For more information about this configuration file,
+	  consult &man.natd.8;.</para>
       </note>
 
-      <para>Each machine and interface behind the LAN should be
-	assigned IP address numbers in the private network space as
+      <para>Each machine and interface behind the
+	<acronym>LAN</acronym> should be
+	assigned <acronym>IP</acronym> addresses in the private
+	network space, as
 	defined by
 	<ulink url="ftp://ftp.isi.edu/in-notes/rfc1918.txt">RFC
-	  1918</ulink> and have a default gateway of the
-	<application>natd</application> machine's internal IP
+	  1918</ulink>, and have a default gateway of the
+	&man.natd.8; machine's internal <acronym>IP</acronym>
 	address.</para>
 
       <para>For example, client <hostid>A</hostid> and
-	<hostid>B</hostid> behind the LAN have IP addresses of
+	<hostid>B</hostid> behind the <acronym>LAN</acronym> have
+	<acronym>IP</acronym> addresses of
 	<hostid role="ipaddr">192.168.0.2</hostid> and
-	<hostid role="ipaddr">192.168.0.3</hostid>, while the natd
-	machine's LAN interface has an IP address of
-	<hostid role="ipaddr">192.168.0.1</hostid>.  Client
-	<hostid>A</hostid> and <hostid>B</hostid>'s default gateway
-	must be set to that of the <application>natd</application>
+	<hostid role="ipaddr">192.168.0.3</hostid>, while the &man.natd.8;
+	machine's <acronym>LAN</acronym> interface has an
+	<acronym>IP</acronym> address of
+	<hostid role="ipaddr">192.168.0.1</hostid>.  The default
+	gateway of clients
+	<hostid>A</hostid> and <hostid>B</hostid>
+	must be set to that of the &man.natd.8;
 	machine, <hostid role="ipaddr">192.168.0.1</hostid>.  The
-	<application>natd</application> machine's external, or
+	&man.natd.8; machine's external
 	Internet interface does not require any special modification
 	for &man.natd.8; to work.</para>
     </sect2>
@@ -5534,23 +5127,26 @@ redirect_port tcp 192.168.0.3:80 80</programlisting>
     <sect2 id="network-natdport-redirection">
       <title>Port Redirection</title>
 
-      <para>The drawback with &man.natd.8; is that the LAN clients are
-	not accessible from the Internet.  Clients on the LAN can make
+      <para>The drawback with &man.natd.8; is that the
+	<acronym>LAN</acronym> clients are
+	not accessible from the Internet.  Clients on the
+	<acronym>LAN</acronym> can make
 	outgoing connections to the world but cannot receive incoming
 	ones.  This presents a problem if trying to run Internet
-	services on one of the LAN client machines.  A simple way
+	services on one of the <acronym>LAN</acronym> client machines.
+	A simple way
 	around this is to redirect selected Internet ports on the
-	<application>natd</application> machine to a LAN
+	&man.natd.8; machine to a <acronym>LAN</acronym>
 	client.</para>
 
-      <para>For example, an IRC server runs on client
-	<hostid>A</hostid>, and a web server runs on client
+      <para>For example, an <acronym>IRC</acronym> server runs on client
+	<hostid>A</hostid> and a web server runs on client
 	<hostid>B</hostid>.  For this to work properly, connections
-	received on ports 6667 (IRC) and 80 (web) must be redirected
+	received on ports 6667 (<acronym>IRC</acronym>) and 80
+	(<acronym>HTTP</acronym>) must be redirected
 	to the respective machines.</para>
 
-      <para>The <option>-redirect_port</option> must be passed to
-	&man.natd.8; with the proper options.  The syntax is as
+      <para>The syntax for <option>-redirect_port</option> is as
 	follows:</para>
 
       <programlisting>     -redirect_port proto targetIP:targetPORT[-targetPORT]
@@ -5562,11 +5158,11 @@ redirect_port tcp 192.168.0.3:80 80</programlisting>
       <programlisting>    -redirect_port tcp 192.168.0.2:6667 6667
     -redirect_port tcp 192.168.0.3:80 80</programlisting>
 
-      <para>This will redirect the proper <emphasis>tcp</emphasis>
-	ports to the LAN client machines.</para>
+      <para>This redirects the proper <acronym>TCP</acronym>
+	ports to the <acronym>LAN</acronym> client machines.</para>
 
-      <para>The <option>-redirect_port</option> argument can be used
-	to indicate port ranges over individual ports.  For example,
+      <para>Port ranges over individual ports can be indicated with
+	<option>-redirect_port</option>.  For example,
 	<replaceable>tcp 192.168.0.2:2000-3000 2000-3000</replaceable>
 	would redirect all connections received on ports 2000 to 3000
 	to ports 2000 to 3000 on client <hostid>A</hostid>.</para>
@@ -5585,23 +5181,29 @@ redirect_port tcp 192.168.0.3:80 80</programlisting>
       <title>Address Redirection</title>
 
       <indexterm><primary>address redirection</primary></indexterm>
-      <para>Address redirection is useful if several IP addresses are
-	available, yet they must be on one machine.  With this,
-	&man.natd.8; can assign each LAN client its own external IP
-	address.  &man.natd.8; then rewrites outgoing packets from the
-	LAN clients with the proper external IP address and redirects
-	all traffic incoming on that particular IP address back to the
-	specific LAN client.  This is also known as static NAT.  For
-	example, the IP addresses
+      <para>Address redirection is useful if more than one
+	<acronym>IP</acronym> address is
+	available.  Each <acronym>LAN</acronym> client can be assigned
+	its own external <acronym>IP</acronym>
+	address by
+	&man.natd.8;, which will then rewrite outgoing packets from
+	the
+	<acronym>LAN</acronym> clients with the proper external
+	<acronym>IP</acronym> address and redirects
+	all traffic incoming on that particular <acronym>IP</acronym>
+	address back to the
+	specific <acronym>LAN</acronym> client.  This is also known
+	as static <acronym>NAT</acronym>.  For
+	example, if <acronym>IP</acronym> addresses
 	<hostid role="ipaddr">128.1.1.1</hostid>,
 	<hostid role="ipaddr">128.1.1.2</hostid>, and
-	<hostid role="ipaddr">128.1.1.3</hostid> belong to the
-	<application>natd</application> gateway machine.
+	<hostid role="ipaddr">128.1.1.3</hostid> are available,
 	<hostid role="ipaddr">128.1.1.1</hostid> can be used as the
-	<application>natd</application> gateway machine's external IP
+	&man.natd.8; machine's external <acronym>IP</acronym>
 	address, while <hostid role="ipaddr">128.1.1.2</hostid> and
 	<hostid role="ipaddr">128.1.1.3</hostid> are forwarded back to
-	LAN clients <hostid>A</hostid> and <hostid>B</hostid>.</para>
+	<acronym>LAN</acronym> clients <hostid>A</hostid> and
+	<hostid>B</hostid>.</para>
 
       <para>The <option>-redirect_address</option> syntax is as
 	follows:</para>
@@ -5614,13 +5216,15 @@ redirect_port tcp 192.168.0.3:80 80</programlisting>
 	  <tbody>
 	    <row>
 	      <entry>localIP</entry>
-	      <entry>The internal IP address of the LAN
+	      <entry>The internal <acronym>IP</acronym> address of
+		the <acronym>LAN</acronym>
 		client.</entry>
 	    </row>
 
 	    <row>
 	      <entry>publicIP</entry>
-	      <entry>The external IP address corresponding to the LAN
+	      <entry>The external <acronym>IP</acronym> address
+		corresponding to the <acronym>LAN</acronym>
 		client.</entry>
 	    </row>
 	  </tbody>
@@ -5633,16 +5237,16 @@ redirect_port tcp 192.168.0.3:80 80</programlisting>
 -redirect_address 192.168.0.3 128.1.1.3</programlisting>
 
       <para>Like <option>-redirect_port</option>, these arguments are
-	also placed within the <literal>natd_flags=""</literal> option
+	placed within the <literal>natd_flags=""</literal> option
 	of <filename>/etc/rc.conf</filename>, or passed via a
 	configuration file.  With address redirection, there is no
 	need for port redirection since all data received on a
-	particular IP address is redirected.</para>
+	particular <acronym>IP</acronym> address is redirected.</para>
 
-      <para>The external IP addresses on the
-	<application>natd</application> machine must be active and
-	aliased to the external interface.  Look at &man.rc.conf.5; to
-	do so.</para>
+      <para>The external <acronym>IP</acronym> addresses on the
+	&man.natd.8; machine must be active and
+	aliased to the external interface.  Refer to &man.rc.conf.5;
+	for details.</para>
     </sect2>
   </sect1>
 
@@ -5671,28 +5275,33 @@ redirect_port tcp 192.168.0.3:80 80</programlisting>
       </authorgroup>
     </sect1info>
 
-    <title>IPv6</title>
+    <title><acronym>IPv6</acronym></title>
 
-    <para>IPv6 (also known as IPng <quote>IP next generation</quote>)
-      is the new version of the well known IP protocol (also known as
-      <acronym>IPv4</acronym>).  Like the other current *BSD systems,
-      &os; includes the KAME IPv6 reference implementation.  So
-      thhe &os; system comes with everything needed to experiment
-      with IPv6.  This section focuses on getting IPv6 configured and
+    <para><acronym>IPv6</acronym>, also known as <acronym>IPng</acronym>
+      <quote><acronym>IP</acronym> next generation</quote>,
+      is the new version of the well known <acronym>IP</acronym>
+      protocol, also known as
+      <acronym>IPv4</acronym>.
+      &os; includes the <ulink url="http://www.kame.net/">KAME</ulink>
+      <acronym>IPv6</acronym> reference implementation.
+      &os; comes with everything needed to use
+      <acronym>IPv6</acronym>.  This section focuses on getting
+      <acronym>IPv6</acronym> configured and
       running.</para>
 
     <para>In the early 1990s, people became aware of the rapidly
-      diminishing address space of IPv4.  Given the expansion rate of
-      the Internet there were two major concerns:</para>
+      diminishing address space of <acronym>IPv4</acronym>.  Given
+      the expansion rate of
+      the Internet, there were two major concerns:</para>
 
     <itemizedlist>
       <listitem>
 	<para>Running out of addresses.  Today this is not so much of
-	  a concern any more, since RFC1918 private address space
+	  a concern, since RFC1918 private address space
 	  (<hostid role="ipaddr">10.0.0.0/8</hostid>,
 	  <hostid role="ipaddr">172.16.0.0/12</hostid>, and
-	  <hostid role="ipaddr">192.168.0.0/16</hostid>) and Network
-	  Address Translation (<acronym>NAT</acronym>) are being
+	  <hostid role="ipaddr">192.168.0.0/16</hostid>) and
+	  <acronym>NAT</acronym> are being
 	  employed.</para>
       </listitem>
 
@@ -5702,82 +5311,72 @@ redirect_port tcp 192.168.0.3:80 80</programlisting>
       </listitem>
     </itemizedlist>
 
-    <para>IPv6 deals with these and many other issues:</para>
+    <para><acronym>IPv6</acronym> deals with these and many other
+      issues by providing the following:</para>
 
     <itemizedlist>
       <listitem>
-	<para>128 bit address space.  In other words theoretically
-	  there are
+	<para>128 bit address space which allows for
 	  340,282,366,920,938,463,463,374,607,431,768,211,456
-	  addresses available.  This means there are approximately
-	  6.67 * 10^27 IPv6 addresses per square meter on our
+	  addresses.  This means there are approximately
+	  6.67 * 10^27 <acronym>IPv6</acronym> addresses per square
+	  meter on the
 	  planet.</para>
       </listitem>
 
       <listitem>
-	<para>Routers will only store network aggregation addresses in
-	  their routing tables thus reducing the average space of a
+	<para>Routers only store network aggregation addresses in
+	  their routing tables, thus reducing the average space of a
 	  routing table to 8192 entries.</para>
       </listitem>
     </itemizedlist>
 
-    <para>There are also lots of other useful features of IPv6 such
-      as:</para>
+    <para>There are other useful features of
+      <acronym>IPv6</acronym>:</para>
 
     <itemizedlist>
       <listitem>
 	<para>Address autoconfiguration (<ulink
-	    url="http://www.ietf.org/rfc/rfc2462.txt">RFC2462</ulink>)</para>
+	    url="http://www.ietf.org/rfc/rfc2462.txt">RFC2462</ulink>).</para>
       </listitem>
 
       <listitem>
 	<para>Anycast addresses (<quote>one-out-of
-	    many</quote>)</para>
+	    many</quote>).</para>
       </listitem>
 
       <listitem>
-	<para>Mandatory multicast addresses</para>
+	<para>Mandatory multicast addresses.</para>
       </listitem>
 
       <listitem>
-	<para>IPsec (IP security)</para>
+	<para><acronym>IPsec</acronym> (<acronym>IP</acronym>
+	  security).</para>
       </listitem>
 
       <listitem>
-	<para>Simplified header structure</para>
+	<para>Simplified header structure.</para>
       </listitem>
 
       <listitem>
-	<para>Mobile <acronym>IP</acronym></para>
+	<para>Mobile <acronym>IP</acronym>.</para>
       </listitem>
 
       <listitem>
-	<para>IPv6-to-IPv4 transition mechanisms</para>
-      </listitem>
-    </itemizedlist>
-
-
-    <para>For more information see:</para>
-
-    <itemizedlist>
-      <listitem>
-	<para>IPv6 overview at <ulink
-	    url="http://playground.sun.com/pub/ipng/html/ipng-main.html">playground.sun.com</ulink></para>
-      </listitem>
-
-      <listitem>
-	<para><ulink url="http://www.kame.net">KAME.net</ulink></para>
+	<para><acronym>IPv6</acronym>-to-<acronym>IPv4</acronym>
+	  transition mechanisms.</para>
       </listitem>
     </itemizedlist>
 
     <sect2>
-      <title>Background on IPv6 Addresses</title>
+      <title>Background on <acronym>IPv6</acronym> Addresses</title>
 
-      <para>There are different types of IPv6 addresses: Unicast,
-	Anycast and Multicast.</para>
+      <para>There are different types of <acronym>IPv6</acronym>
+	addresses: unicast,
+	anycast, and multicast.</para>
 
       <para>Unicast addresses are the well known addresses.  A packet
-	sent to a unicast address arrives exactly at the interface
+	sent to a unicast address arrives at the interface
 	belonging to the address.</para>
 
       <para>Anycast addresses are syntactically indistinguishable from
@@ -5791,18 +5390,18 @@ redirect_port tcp 192.168.0.3:80 80</programlisting>
 	interfaces belonging to the multicast group.</para>
 
       <note>
-	<para>The IPv4 broadcast address (usually
-	  <hostid role="ipaddr">xxx.xxx.xxx.255</hostid>) is expressed
-	  by multicast addresses in IPv6.</para>
+	<para>The <acronym>IPv4</acronym> broadcast address, usually
+	  <hostid role="ipaddr">xxx.xxx.xxx.255</hostid>, is expressed
+	  by multicast addresses in <acronym>IPv6</acronym>.</para>
       </note>
 
       <table frame="none">
-	<title>Reserved IPv6 Addresses</title>
+	<title>Reserved <acronym>IPv6</acronym> Addresses</title>
 
 	<tgroup cols="4">
 	  <thead>
 	    <row>
-	      <entry>IPv6 address</entry>
+	      <entry><acronym>IPv6</acronym> address</entry>
 	      <entry>Prefixlength (Bits)</entry>
 	      <entry>Description</entry>
 	      <entry>Notes</entry>
@@ -5814,35 +5413,36 @@ redirect_port tcp 192.168.0.3:80 80</programlisting>
 	      <entry><hostid role="ip6addr">::</hostid></entry>
 	      <entry>128 bits</entry>
 	      <entry>unspecified</entry>
-	      <entry>cf. <hostid role="ipaddr">0.0.0.0</hostid> in
-		IPv4</entry>
+	      <entry>Equivalent to <hostid role="ipaddr">0.0.0.0</hostid> in
+		<acronym>IPv4</acronym>.</entry>
 	    </row>
 
 	    <row>
 	      <entry><hostid role="ip6addr">::1</hostid></entry>
 	      <entry>128 bits</entry>
 	      <entry>loopback address</entry>
-	      <entry>cf. <hostid role="ipaddr">127.0.0.1</hostid> in
-		IPv4</entry>
+	      <entry>Equivalent to <hostid role="ipaddr">127.0.0.1</hostid> in
+		<acronym>IPv4</acronym>.</entry>
 	    </row>
 
 	    <row>
 	      <entry><hostid
 		  role="ip6addr">::00:xx:xx:xx:xx</hostid></entry>
 	      <entry>96 bits</entry>
-	      <entry>embedded IPv4</entry>
-	      <entry>The lower 32 bits are the IPv4 address.  Also
-		called <quote>IPv4 compatible IPv6
-		  address</quote></entry>
+	      <entry>embedded <acronym>IPv4</acronym></entry>
+	      <entry>The lower 32 bits are the compatible <acronym>IPv4</acronym>
+		address.</entry>
 	    </row>
 
 	    <row>
 	      <entry><hostid
 		  role="ip6addr">::ff:xx:xx:xx:xx</hostid></entry>
 	      <entry>96 bits</entry>
-	      <entry>IPv4 mapped IPv6 address</entry>
-	      <entry>The lower 32 bits are the IPv4 address.
-		For hosts which do not support IPv6.</entry>
+	      <entry><acronym>IPv4</acronym> mapped <acronym>IPv6</acronym> address</entry>
+	      <entry>The lower 32 bits are the <acronym>IPv4</acronym>
+		address
+		for hosts which do not support
+		<acronym>IPv6</acronym>.</entry>
 	    </row>
 
 	    <row>
@@ -5850,7 +5450,8 @@ redirect_port tcp 192.168.0.3:80 80</programlisting>
 		  role="ip6addr">feb::</hostid></entry>
 	      <entry>10 bits</entry>
 	      <entry>link-local</entry>
-	      <entry>cf. loopback address in IPv4</entry>
+	      <entry>Equivalent to the loopback address in
+		<acronym>IPv4</acronym>.</entry>
 	    </row>
 
 	    <row>
@@ -5883,34 +5484,34 @@ redirect_port tcp 192.168.0.3:80 80</programlisting>
     </sect2>
 
     <sect2>
-      <title>Reading IPv6 Addresses</title>
+      <title>Reading <acronym>IPv6</acronym> Addresses</title>
 
       <para>The canonical form is represented as:
-	<hostid role="ip6addr">x:x:x:x:x:x:x:x</hostid>, each
-	<quote>x</quote> being a 16 Bit hex value.  For example
+	<hostid role="ip6addr">x:x:x:x:x:x:x:x</hostid>, with each
+	<quote>x</quote> being a 16 bit hex value.  For example:
 	<hostid
-	  role="ip6addr">FEBC:A574:382B:23C1:AA49:4592:4EFE:9982</hostid></para>
+	  role="ip6addr">FEBC:A574:382B:23C1:AA49:4592:4EFE:9982</hostid>.</para>
 
-      <para>Often an address will have long substrings of all zeros
-	therefore one such substring per address can be abbreviated by
-	<quote>::</quote>. Also up to three leading <quote>0</quote>s
-	per hexquad can be omitted.  For example
+      <para>Often an address will have long substrings of all zeros.
+	One such substring per address can be abbreviated by
+	<quote>::</quote>.  Also, up to three leading <quote>0</quote>s
+	per hex quad can be omitted.  For example,
 	<hostid role="ip6addr">fe80::1</hostid> corresponds to the
 	canonical form <hostid
 	  role="ip6addr">fe80:0000:0000:0000:0000:0000:0000:0001</hostid>.</para>
 
-      <para>A third form is to write the last 32 Bit part in the
-	well known (decimal) IPv4 style with dots <quote>.</quote>
-	as separators.  For example
+      <para>A third form is to write the last 32 bit part in the
+	well known (decimal) <acronym>IPv4</acronym> style with dots
+	(<quote>.</quote>)
+	as separators.  For example,
 	<hostid role="ip6addr">2002::10.0.0.1</hostid>
-	corresponds to the (hexadecimal) canonical representation
+	corresponds to the hexadecimal canonical representation
 	<hostid
-	  role="ip6addr">2002:0000:0000:0000:0000:0000:0a00:0001</hostid>
-	which in turn is equivalent to writing
+	  role="ip6addr">2002:0000:0000:0000:0000:0000:0a00:0001</hostid>,
+	which in turn is equivalent to
 	<hostid role="ip6addr">2002::a00:1</hostid>.</para>
 
-      <para>By now the reader should be able to understand the
-	following:</para>
+      <para>Here is a sample entry from &man.ifconfig.8;:</para>
 
       <screen>&prompt.root; <userinput>ifconfig</userinput></screen>
 
@@ -5924,9 +5525,11 @@ redirect_port tcp 192.168.0.3:80 80</programlisting>
       <para><hostid
 	  role="ip6addr">fe80::200:21ff:fe03:8e1%rl0</hostid>
 	is an auto configured link-local address.  It is generated
-	from the MAC address as part of the auto configuration.</para>
+	from the <acronym>MAC</acronym> address as part of the auto
+	configuration.</para>
 
-      <para>For further information on the structure of IPv6 addresses
+      <para>For further information on the structure of
+	<acronym>IPv6</acronym> addresses,
 	see <ulink
 	  url="http://www.ietf.org/rfc/rfc3513.txt">RFC3513</ulink>.</para>
     </sect2>
@@ -5934,13 +5537,14 @@ redirect_port tcp 192.168.0.3:80 80</programlisting>
     <sect2>
       <title>Getting Connected</title>
 
-      <para>Currently there are four ways to connect to other IPv6
+      <para>Currently, there are four ways to connect to other
+	<acronym>IPv6</acronym>
 	hosts and networks:</para>
 
       <itemizedlist>
 	<listitem>
-	  <para>Contact your Internet Service Provider to see if they
-	    offer IPv6 yet.</para>
+	  <para>Contact an Internet Service Provider to see if they
+	    offer <acronym>IPv6</acronym>.</para>
 	</listitem>
 
 	<listitem>
@@ -5949,37 +5553,37 @@ redirect_port tcp 192.168.0.3:80 80</programlisting>
 	</listitem>
 
 	<listitem>
-	  <para>Tunnel via 6-to-4 (<ulink
-	      url="http://www.ietf.org/rfc/rfc3068.txt">RFC3068</ulink>)</para>
+	  <para>Tunnel via 6-to-4 as described in <ulink
+	      url="http://www.ietf.org/rfc/rfc3068.txt">RFC3068</ulink>.</para>
 	</listitem>
 
 	<listitem>
 	  <para>Use the
-	    <filename role="package">net/freenet6</filename> port if
-	    you are on a dial-up connection.</para>
+	    <filename role="package">net/freenet6</filename> port
+	    for a dial-up connection.</para>
 	</listitem>
       </itemizedlist>
     </sect2>
 
     <sect2>
-      <title>DNS in the IPv6 World</title>
+      <title><acronym>DNS</acronym> in the <acronym>IPv6</acronym> World</title>
 
-      <para>There used to be two types of DNS records for IPv6.  The
-	IETF has declared A6 records obsolete.  AAAA records are the
-	standard now.</para>
+      <para>There used to be two types of <acronym>DNS</acronym>
+	records for <acronym>IPv6</acronym>.  The
+	<acronym>IETF</acronym> has declared <acronym>AAAA</acronym> records as the
+	current standard.</para>
 
-      <para>Using AAAA records is straightforward.  Assign your
-	hostname to the new IPv6 address you just received by
-	adding:</para>
+      <para>Using <acronym>AAAA</acronym> records is straightforward.
+	Assign the
+	hostname to the <acronym>IPv6</acronym> address in the primary
+	zone <acronym>DNS</acronym> file:</para>
 
       <programlisting>MYHOSTNAME           AAAA    MYIPv6ADDR</programlisting>
 
-      <para>To your primary zone DNS file.  In case you do not serve
-	your own <acronym>DNS</acronym> zones ask your
-	<acronym>DNS</acronym> provider.  Current versions of
-	<application>bind</application> (version 8.3 and 9) and
-	<filename role="package">dns/djbdns</filename> (with the IPv6
-	patch) support AAAA records.</para>
+      <para>Current versions of
+	&man.named.8; and
+	<filename role="package">dns/djbdns</filename>
+	support <acronym>AAAA</acronym> records.</para>
     </sect2>
 
     <sect2>
@@ -5987,26 +5591,26 @@ redirect_port tcp 192.168.0.3:80 80</programlisting>
 	<filename>/etc/rc.conf</filename></title>
 
       <sect3>
-	<title>IPv6 Client Settings</title>
+	<title><acronym>IPv6</acronym> Client Settings</title>
 
-	<para>These settings will help you configure a machine that
-	  will be on your LAN and act as a client, not a router.  To
-	  have &man.rtsol.8; autoconfigure your interface on boot on
+	<para>These settings configure a machine
+	  on a <acronym>LAN</acronym> which acts as a client, not a
+	  router.  To instruct
+	  &man.rtsol.8; to autoconfigure the interface on boot on
 	  &os;&nbsp;9.<replaceable>x</replaceable> and later,
-	  add:</para>
+	  add this line to <filename>rc.conf</filename>:</para>
 
 	<programlisting>ipv6_prefer="YES"</programlisting>
 
-	<para>to <filename>rc.conf</filename>.</para>
-
-	<para>For &os;&nbsp;8.<replaceable>x</replaceable> and
-	  earlier, add:</para>
+	<para>For &os;&nbsp;8.<replaceable>x</replaceable>,
+	  add:</para>
 
 	<programlisting>ipv6_enable="YES"</programlisting>
 
-	<para>To statically assign an IP address such as <hostid
+	<para>To statically assign the <acronym>IPv6</acronym> address,
+	  <hostid
 	    role="ip6addr">2001:471:1f11:251:290:27ff:fee0:2093</hostid>,
-	  to your <devicename>fxp0</devicename> interface, add the
+	  to <devicename>fxp0</devicename>, add the
 	  following for
 	  &os;&nbsp;9.<replaceable>x</replaceable>:</para>
 
@@ -6014,64 +5618,70 @@ redirect_port tcp 192.168.0.3:80 80</programlisting>
 
 	<note>
 	  <para>Be sure to change <replaceable>prefixlen
-	      64</replaceable> to the appropriate value for the subnet
-	    within which the computer is networked.</para>
+	      64</replaceable> to the appropriate value for the
+	    subnet.</para>
 	</note>
 
-	<para>For &os;&nbsp;8<replaceable>x</replaceable> and earlier,
+	<para>For &os;&nbsp;8<replaceable>x</replaceable>,
 	  add:</para>
 
 	<programlisting>ipv6_ifconfig_fxp0="2001:471:1f11:251:290:27ff:fee0:2093"</programlisting>
 
 	<para>To assign a default router of
-	  <hostid role="ip6addr">2001:471:1f11:251::1</hostid> add the
+	  <hostid role="ip6addr">2001:471:1f11:251::1</hostid>, add the
 	  following to <filename>/etc/rc.conf</filename>:</para>
 
 	<programlisting>ipv6_defaultrouter="2001:471:1f11:251::1"</programlisting>
       </sect3>
 
       <sect3>
-	<title>IPv6 Router/Gateway Settings</title>
+	<title><acronym>IPv6</acronym> Router/Gateway Settings</title>
 
-	<para>This will help you take the directions that your tunnel
-	  provider has given you and convert it into settings that
-	  will persist through reboots.  To restore your tunnel on
-	  startup use something like the following in
-	  <filename>/etc/rc.conf</filename>:</para>
+	<para>This section demonstrates how to take the directions
+	  from a tunnel
+	  provider and convert it into settings that
+	  will persist through reboots.  To restore the tunnel on
+	  startup, add the following lines to
+	  <filename>/etc/rc.conf</filename>.</para>
 
-	<para>List the Generic Tunneling interfaces that will be
-	  configured, for example
+	<para>The first entry lists the generic tunneling interfaces
+	  to be
+	  configured.  This example configures one interface,
 	  <devicename>gif0</devicename>:</para>
 
 	<programlisting>gif_interfaces="gif0"</programlisting>
 
-	<para>To configure the interface with a local endpoint of
+	<para>To configure that interface with a local endpoint of
 	  <replaceable>MY_IPv4_ADDR</replaceable> to a remote endpoint
 	  of <replaceable>REMOTE_IPv4_ADDR</replaceable>:</para>
 
 	<programlisting>gifconfig_gif0="<replaceable>MY_IPv4_ADDR REMOTE_IPv4_ADDR</replaceable>"</programlisting>
 
-	<para>To apply the IPv6 address you have been assigned for use
-	  as your IPv6 tunnel endpoint, add the following for
+	<para>To apply the <acronym>IPv6</acronym> address that has
+	  been assigned for use
+	  as the <acronym>IPv6</acronym> tunnel endpoint, add the
+	  following line for
 	  &os;&nbsp;9.<replaceable>x</replaceable> and later:</para>
 
 	<programlisting>ifconfig_gif0_ipv6="inet6 <replaceable>MY_ASSIGNED_IPv6_TUNNEL_ENDPOINT_ADDR</replaceable>"</programlisting>
 
-	<para>For &os;&nbsp;8.<replaceable>x</replaceable> and
-	  earlier, add:</para>
+	<para>For &os;&nbsp;8.<replaceable>x</replaceable>,
+	  add:</para>
 
 	<programlisting>ipv6_ifconfig_gif0="<replaceable>MY_ASSIGNED_IPv6_TUNNEL_ENDPOINT_ADDR</replaceable>"</programlisting>
 
-	<para>Then all you have to do is set the default route for
-	  IPv6.  This is the other side of the IPv6 tunnel:</para>
+	<para>Then, set the default route for
+	  <acronym>IPv6</acronym>.  This is the other side of the
+	  <acronym>IPv6</acronym> tunnel:</para>
 
 	<programlisting>ipv6_defaultrouter="<replaceable>MY_IPv6_REMOTE_TUNNEL_ENDPOINT_ADDR</replaceable>"</programlisting>
       </sect3>
 
       <sect3>
-	<title>IPv6 Tunnel Settings</title>
+	<title><acronym>IPv6</acronym> Tunnel Settings</title>
 
-	<para>If the server is to route IPv6 between the rest of your
+	<para>If the server is to route <acronym>IPv6</acronym>
+	  between the rest of the
 	  network and the world, the following
 	  <filename>/etc/rc.conf</filename> setting will also be
 	  needed:</para>
@@ -6083,37 +5693,36 @@ redirect_port tcp 192.168.0.3:80 80</programlisting>
     <sect2>
       <title>Router Advertisement and Host Auto Configuration</title>
 
-      <para>This section will help you setup &man.rtadvd.8; to
-	advertise the IPv6 default route.</para>
+      <para>This section demonstrates how to setup &man.rtadvd.8; to
+	advertise the <acronym>IPv6</acronym> default route.</para>
 
-      <para>To enable &man.rtadvd.8; you will need the following in
-	your <filename>/etc/rc.conf</filename>:</para>
+      <para>To enable &man.rtadvd.8;, add the following to
+	<filename>/etc/rc.conf</filename>:</para>
 
       <programlisting>rtadvd_enable="YES"</programlisting>
 
-      <para>It is important that you specify the interface on which to
-	do IPv6 router solicitation.  For example to tell
+      <para>It is important to specify the interface on which to
+	do <acronym>IPv6</acronym> router solicitation.  For example,
+	to tell
 	&man.rtadvd.8; to use <devicename>fxp0</devicename>:</para>
 
       <programlisting>rtadvd_interfaces="fxp0"</programlisting>
 
-      <para>Now we must create the configuration file,
-	<filename>/etc/rtadvd.conf</filename>.  Here is an
+      <para>Next, create the configuration file,
+	<filename>/etc/rtadvd.conf</filename> as seen in this
 	example:</para>
 
       <programlisting>fxp0:\
 	:addrs#1:addr="2001:471:1f11:246::":prefixlen#64:tc=ether:</programlisting>
 
       <para>Replace <devicename>fxp0</devicename> with the interface
-	you are going to be using.</para>
-
-      <para>Next, replace
+	to be used and
 	<hostid role="ip6addr">2001:471:1f11:246::</hostid> with the
-	prefix of your allocation.</para>
+	prefix of the allocation.</para>
 
-      <para>If you are dedicated a <hostid role="netmask">/64</hostid>
-	subnet you will not need to change anything else.  Otherwise,
-	you will need to change the <literal>prefixlen#</literal> to
+      <para>For a dedicated <hostid role="netmask">/64</hostid>
+	subnet, nothing else needs to be changed.  Otherwise,
+	change the <literal>prefixlen#</literal> to
 	the correct value.</para>
     </sect2>
   </sect1>
@@ -6129,34 +5738,41 @@ redirect_port tcp 192.168.0.3:80 80</programlisting>
       </authorgroup>
     </sect1info>
 
-    <title>Asynchronous Transfer Mode (ATM)</title>
+    <title>Asynchronous Transfer Mode (<acronym>ATM</acronym>)</title>
 
     <sect2>
-      <title>Configuring Classical IP over ATM (PVCs)</title>
+      <title>Configuring Classical <acronym>IP</acronym> over
+	<acronym>ATM</acronym></title>
 
-      <para>Classical IP over ATM (<acronym>CLIP</acronym>) is the
-	simplest method to use Asynchronous Transfer Mode (ATM)
-	with IP.  It can be used with
-	switched connections (SVCs) and with permanent connections
-	(PVCs).  This section describes how to set up a network based
-	on PVCs.</para>
+      <para>Classical <acronym>IP</acronym> over
+	<acronym>ATM</acronym> (<acronym>CLIP</acronym>) is the
+	simplest method to use Asynchronous Transfer Mode (<acronym>ATM</acronym>)
+	with <acronym>IP</acronym>.  It can be used with
+	Switched Virtual Circuits (<acronym>SVC</acronym>s) and
+	with Permanent Virtual Circuits
+	(<acronym>PVC</acronym>s).  This section describes how to
+	set up a network based
+	on <acronym>PVC</acronym>s.</para>
 
       <sect3>
 	<title>Fully Meshed Configurations</title>
 
 	<para>The first method to set up a <acronym>CLIP</acronym>
-	  with PVCs is to connect each machine to each other machine
-	  in the network via a dedicated PVC.  While this is simple to
-	  configure it tends to become impractical for a larger number
-	  of machines.  The example supposes that we have four
+	  with <acronym>PVC</acronym>s is to connect each machine
+	  to each other machine
+	  in the network via a dedicated <acronym>PVC</acronym>.
+	  While this is simple to
+	  configure, it becomes impractical for a large number
+	  of machines.  The following example supposes four
 	  machines in the network, each connected to the
 	  <acronym role="Asynchronous Transfer Mode">ATM</acronym>
 	  network with an
 	  <acronym role="Asynchronous Transfer Mode">ATM</acronym>
-	  adapter card.  The first step is the planning of the IP
+	  adapter card.  The first step is the planning of the
+	  <acronym>IP</acronym>
 	  addresses and the
 	  <acronym role="Asynchronous Transfer Mode">ATM</acronym>
-	  connections between the machines.  We use the
+	  connections between the machines.  This example uses the
 	  following:</para>
 
 	<informaltable frame="none" pgwide="1">
@@ -6166,7 +5782,7 @@ redirect_port tcp 192.168.0.3:80 80</programlisting>
 	    <thead>
 	      <row>
 		<entry>Host</entry>
-		<entry>IP Address</entry>
+		<entry><acronym>IP</acronym> Address</entry>
 	      </row>
 	    </thead>
 
@@ -6198,8 +5814,9 @@ redirect_port tcp 192.168.0.3:80 80</programlisting>
 	  </tgroup>
 	</informaltable>
 
-	<para>To build a fully meshed net we need one ATM connection
-	  between each pair of machines:</para>
+	<para>To build a fully meshed net, one <acronym>ATM</acronym>
+	  connection
+	  is needed between each pair of machines:</para>
 
 	<informaltable frame="none" pgwide="1">
 	  <tgroup cols="2">
@@ -6252,9 +5869,12 @@ redirect_port tcp 192.168.0.3:80 80</programlisting>
 	  </tgroup>
 	</informaltable>
 
-	<para>The VPI and VCI values at each end of the connection may
-	  of course differ, but for simplicity we assume that they are
-	  the same.  Next we need to configure the ATM interfaces on
+	<para>The Virtual Path Identifier <acronym>VPI</acronym> and
+	  Virtual Channel Identifier <acronym>VCI</acronym>
+	  values at each end of the connection may
+	  differ, but for simplicity, this example assumes they are
+	  the same.  Next, configure the <acronym>ATM</acronym>
+	  interfaces on
 	  each host:</para>
 
 	<screen>hostA&prompt.root; <userinput>ifconfig hatm0 192.168.173.1 up</userinput>
@@ -6262,12 +5882,15 @@ hostB&prompt.root; <userinput>ifconfig hatm0 192.168.173.2 up</userinput>
 hostC&prompt.root; <userinput>ifconfig hatm0 192.168.173.3 up</userinput>
 hostD&prompt.root; <userinput>ifconfig hatm0 192.168.173.4 up</userinput></screen>
 
-	<para>assuming that the ATM interface is
-	  <devicename>hatm0</devicename> on all hosts.  Now the PVCs
-	  need to be configured on <hostid>hostA</hostid> (we assume
-	  that they are already configured on the ATM switches, you
-	  need to consult the manual for the switch on how to do
-	  this).</para>
+	<para>This example assumes that the <acronym>ATM</acronym>
+	  interface is
+	  <devicename>hatm0</devicename> on all hosts.  Next, the
+	  <acronym>PVC</acronym>s
+	  need to be configured on <hostid>hostA</hostid>.  This
+	  should already be configured on the <acronym>ATM</acronym>
+	  switch;
+	  consult the manual for the switch on how to do
+	  this.</para>
 
 	<screen>hostA&prompt.root; <userinput>atmconfig natm add 192.168.173.2 hatm0 0 100 llc/snap ubr</userinput>
 hostA&prompt.root; <userinput>atmconfig natm add 192.168.173.3 hatm0 0 101 llc/snap ubr</userinput>
@@ -6285,19 +5908,21 @@ hostD&prompt.root; <userinput>atmconfig natm add 192.168.173.1 hatm0 0 102 llc/s
 hostD&prompt.root; <userinput>atmconfig natm add 192.168.173.2 hatm0 0 104 llc/snap ubr</userinput>
 hostD&prompt.root; <userinput>atmconfig natm add 192.168.173.3 hatm0 0 105 llc/snap ubr</userinput></screen>
 
-	<para>Of course other traffic contracts than UBR can be used
-	  given the ATM adapter supports those.  In this case the name
+	<para>Other traffic contracts besides <literal>ubr</literal>
+	  can be used
+	  if the <acronym>ATM</acronym> adapter supports it.
+	  In this case, the name
 	  of the traffic contract is followed by the parameters of the
 	  traffic.  Help for the &man.atmconfig.8; tool can be
 	  obtained with:</para>
 
 	<screen>&prompt.root; <userinput>atmconfig help natm add</userinput></screen>
 
-	<para>or in the &man.atmconfig.8; manual page.</para>
+	<para>Refer to &man.atmconfig.8; for more information.</para>
 
 	<para>The same configuration can also be done via
-	  <filename>/etc/rc.conf</filename>.  For
-	  <hostid>hostA</hostid> this would look like:</para>
+	  <filename>/etc/rc.conf</filename>.  These lines configure
+	  <hostid>hostA</hostid>:</para>
 
 	<programlisting>network_interfaces="lo0 hatm0"
 ifconfig_hatm0="inet 192.168.173.1 up"
@@ -6325,37 +5950,39 @@ route_hostD="192.168.173.4 hatm0 0 102 llc/snap ubr"</programlisting>
       </authorgroup>
     </sect1info>
 
-    <title>Common Address Redundancy Protocol (CARP)</title>
+    <title>Common Address Redundancy Protocol
+      (<acronym>CARP</acronym>)</title>
 
     <indexterm>
-      <primary>CARP</primary>
+      <primary><acronym>CARP</acronym></primary>
     </indexterm>
     <indexterm>
       <primary>Common Address Redundancy Protocol</primary>
     </indexterm>
 
-    <para>The Common Address Redundancy Protocol, or
-      <acronym>CARP</acronym> allows multiple hosts to share the same
+    <para>The Common Address Redundancy Protocol
+      (<acronym>CARP</acronym>) allows multiple hosts to share the
+      same
       <acronym>IP</acronym> address.  In some configurations, this may
       be used for availability or load balancing.  Hosts may use
-      separate <acronym>IP</acronym> addresses as well, as in the
+      separate <acronym>IP</acronym> addresses, as in the
       example provided here.</para>
 
     <para>To enable support for <acronym>CARP</acronym>, the &os;
-      kernel must be rebuilt as described in
+      kernel can be rebuilt as described in
       <xref linkend="kernelconfig"/> with the following option:</para>
 
     <programlisting>device	carp</programlisting>
 
     <para>Alternatively, the <filename>if_carp.ko</filename> module
-      can be loaded at boot time.  Add the following line to the
+      can be loaded at boot time.  Add the following line to
       <filename>/boot/loader.conf</filename>:</para>
 
     <programlisting>if_carp_load="YES"</programlisting>
 
     <para><acronym>CARP</acronym> functionality should now be
-      available and may be tuned via several <command>sysctl</command>
-      <acronym>OID</acronym>s:</para>
+      available and may be tuned via several &man.sysctl.8;
+      variables:</para>
 
     <informaltable frame="none" pgwide="1">
       <tgroup cols="2">
@@ -6377,15 +6004,15 @@ route_hostD="192.168.173.4 hatm0 0 102 llc/snap ubr"</programlisting>
 	    <entry><varname>net.inet.carp.preempt</varname></entry>
 	    <entry>This option downs all of the
 	      <acronym>CARP</acronym> interfaces on the host when one
-	      of them goes down.  Disabled by default</entry>
+	      goes down.  Disabled by default.</entry>
 	  </row>
 
 	  <row>
 	    <entry><varname>net.inet.carp.log</varname></entry>
 	    <entry>A value of <literal>0</literal> disables any
-	      logging.  A Value of <literal>1</literal> enables
+	      logging.  A value of <literal>1</literal> enables
 	      logging of bad <acronym>CARP</acronym> packets.  Values
-	      greater than <literal>1</literal> enables logging of
+	      greater than <literal>1</literal> enable logging of
 	      state changes for the <acronym>CARP</acronym>
 	      interfaces.  The default value is
 	      <literal>1</literal>.</entry>
@@ -6399,63 +6026,67 @@ route_hostD="192.168.173.4 hatm0 0 102 llc/snap ubr"</programlisting>
 
 	  <row>
 	    <entry><varname>net.inet.carp.suppress_preempt</varname></entry>
-	    <entry>A read only <acronym>OID</acronym> showing the
+	    <entry>A read-only variable showing the
 	      status of preemption suppression.  Preemption can be
-	      suppressed if link on an interface is down.  A value of
-	      <literal>0</literal>, means that preemption is not
+	      suppressed if the link on an interface is down.  A
+	      value of
+	      <literal>0</literal> means that preemption is not
 	      suppressed.  Every problem increments this
-	      <acronym>OID</acronym>.</entry>
+	      variable.</entry>
 	  </row>
 	</tbody>
       </tgroup>
     </informaltable>
 
     <para>The <acronym>CARP</acronym> devices themselves may be
-      created via the <command>ifconfig</command> command:</para>
+      created using &man.ifconfig.8;:</para>
 
     <screen>&prompt.root; <userinput>ifconfig carp0 create</userinput></screen>
 
-    <para>In a real environment, these interfaces will need unique
-      identification numbers known as a <acronym>VHID</acronym>.  This
-      <acronym>VHID</acronym> or Virtual Host Identification will be
+    <para>In a real environment, each interface has a unique
+      identification number known as a Virtual Host IDentification
+      (<acronym>VHID</acronym>) which is
       used to distinguish the host on the network.</para>
 
     <sect2>
-      <title>Using CARP for Server Availability (CARP)</title>
+      <title>Using <acronym>CARP</acronym> for Server
+	Availability</title>
 
-      <para>One use of <acronym>CARP</acronym>, as noted above, is for
-	server availability.  This example will provide failover
-	support for three hosts, all with unique <acronym>IP</acronym>
+      <para>One use of <acronym>CARP</acronym> is to provide
+	server availability.  This example configures failover
+	support for three hosts, all with unique
+	<acronym><acronym>IP</acronym></acronym>
 	addresses and providing the same web content.  These machines
-	will act in conjunction with a Round Robin
+	act in conjunction with a Round Robin
 	<acronym>DNS</acronym> configuration.  The failover machine
-	will have two additional <acronym>CARP</acronym> interfaces,
-	one for each of the content server's <acronym>IP</acronym>s.
-	When a failure occurs, the failover server should pick up the
-	failed machine's <acronym>IP</acronym> address.  This means
-	the failure should go completely unnoticed to the user.  The
+	has two additional <acronym>CARP</acronym> interfaces,
+	one for each of the content server's
+	<acronym><acronym>IP</acronym></acronym> addresses.
+	When a failure occurs, the failover server will pick up the
+	failed machine's <acronym><acronym>IP</acronym></acronym>
+	address.  This means that
+	the failure should go completely unnoticed by the user.  The
 	failover server requires identical content and services as the
 	other content servers it is expected to pick up load
 	for.</para>
 
       <para>The two machines should be configured identically other
-	than their issued hostnames and <acronym>VHID</acronym>s.
+	than their hostnames and <acronym>VHID</acronym>s.
 	This example calls these machines
 	<hostid>hosta.example.org</hostid> and
 	<hostid>hostb.example.org</hostid> respectively.  First, the
 	required lines for a <acronym>CARP</acronym> configuration
-	have to be added to <filename>rc.conf</filename>.  For
-	<hostid>hosta.example.org</hostid>, the
-	<filename>rc.conf</filename> file should contain the following
-	lines:</para>
+	have to be added to <filename>/etc/rc.conf</filename>.  Here
+	are the lines for
+	<hostid>hosta.example.org</hostid>:</para>
 
       <programlisting>hostname="hosta.example.org"
 ifconfig_fxp0="inet 192.168.1.3 netmask 255.255.255.0"
 cloned_interfaces="carp0"
 ifconfig_carp0="vhid 1 pass testpass 192.168.1.50/24"</programlisting>
 
-      <para>On <hostid>hostb.example.org</hostid> the following lines
-	should be in <filename>rc.conf</filename>:</para>
+      <para>On <hostid>hostb.example.org</hostid>, use the following
+	lines:</para>
 
       <programlisting>hostname="hostb.example.org"
 ifconfig_fxp0="inet 192.168.1.4 netmask 255.255.255.0"
@@ -6465,18 +6096,18 @@ ifconfig_carp0="vhid 2 pass testpass 192.168.1.51/24"</programlisting>
       <note>
 	<para>It is very important that the passwords, specified by
 	  the <option>pass</option> option to
-	  <command>ifconfig</command>, are identical.  The
+	  &man.ifconfig.8;, are identical.  The
 	  <devicename>carp</devicename> devices will only listen to
 	  and accept advertisements from machines with the correct
 	  password.  The <acronym>VHID</acronym> must also be
-	  different for each machine.</para>
+	  unique for each machine.</para>
       </note>
 
       <para>The third machine, <hostid>provider.example.org</hostid>,
 	should be prepared so that it may handle failover from either
 	host.  This machine will require two
 	<devicename>carp</devicename> devices, one to handle each
-	host.  The appropriate <filename>rc.conf</filename>
+	host.  The appropriate <filename>/etc/rc.conf</filename>
 	configuration lines will be similar to the following:</para>
 
       <programlisting>hostname="provider.example.org"
@@ -6487,7 +6118,7 @@ ifconfig_carp1="vhid 2 advskew 100 pass testpass 192.168.1.51/24"</programlistin
 
       <para>Having the two <devicename>carp</devicename> devices will
 	allow <hostid>provider.example.org</hostid> to notice and pick
-	up the <acronym>IP</acronym> address of either machine should
+	up the <acronym>IP</acronym> address of either machine, should
 	it stop responding.</para>
 
       <note>
@@ -6496,7 +6127,8 @@ ifconfig_carp1="vhid 2 advskew 100 pass testpass 192.168.1.51/24"</programlistin
 	  <hostid>provider.example.org</hostid> may not relinquish the
 	  <acronym>IP</acronym> address back to the original content
 	  server.  In this case, an administrator may have to manually
-	  force the IP back to the master.  The following command
+	  force the <acronym>IP</acronym> back to the master.  The
+	  following command
 	  should be issued on
 	  <hostid>provider.example.org</hostid>:</para>
 
@@ -6507,12 +6139,11 @@ ifconfig_carp1="vhid 2 advskew 100 pass testpass 192.168.1.51/24"</programlistin
       </note>
 
       <para>At this point, <acronym>CARP</acronym> should be
-	completely enabled and available for testing.  For testing,
-	either networking has to be restarted or the machines need to
-	be rebooted.</para>
+	enabled and available for testing.  For testing,
+	either networking has to be restarted or the machines
+	rebooted.</para>
 
-      <para>More information is always available in the &man.carp.4;
-	manual page.</para>
+      <para>More information is available in &man.carp.4;.</para>
     </sect2>
   </sect1>
 </chapter>
