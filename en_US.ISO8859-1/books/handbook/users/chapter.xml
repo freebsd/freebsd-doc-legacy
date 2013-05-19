@@ -1076,7 +1076,7 @@ Password:
       <command>sudo</command> should be used.  It is provided as a port,
       <filename role="package">security/sudo</filename>.  It allows for
       things like activity logging, granting users the ability to only
-      run only certain commands as the superuser, and several other
+      run certain commands as the superuser, and several other
       options.</para>
   </sect1>
 </chapter>
