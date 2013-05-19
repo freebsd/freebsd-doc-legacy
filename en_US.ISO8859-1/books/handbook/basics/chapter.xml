@@ -302,6 +302,15 @@ console none                            unknown  off  secure</programlisting>
       managing requests for hardware devices, peripherals, memory, and
       CPU time fairly to each user.</para>
 
+    <para>Much more information about User Accounts is in the chapter
+      about <link linkend="users">accounts</link>.  For now you just
+      need to know that each person (user) who uses the computer should be
+      given their own username and password.  The system keeps track
+      of the people using the computer based on this username.  Since
+      it is often the case that several people are working on the same
+      project Unix also provides groups.  Several users can be placed
+      in the same group.</para>
+
     <para>Because the system is capable of supporting multiple users,
       everything the system manages has a set of permissions governing
       who can read, write, and execute the resource.  These
@@ -2416,8 +2425,23 @@ Swap: 256M Total, 38M Used, 217M Free, 15% Inuse
   <sect1 id="binary-formats">
     <title>Binary Formats</title>
 
-    <para>To understand why &os; uses the &man.elf.5; format,the three
-      currently <quote>dominant</quote> executable formats for &unix;
+    <para>Typically when a command is passed to the shell, the shell
+      will arrange for an executable file to be loaded into memory and
+      a new process is created.  Executable files can either be a binary
+      file (usually created by the linker as part of compiling a program)
+      or a shell script (text file to be interpreted by a binary file,
+      like &man.sh.1; or &man.perl.1;).  The &man.file.1; command can
+      usually determine what is inside a file.</para>
+
+    <para>Binary files need to have a well defined format for the system
+      to be able to use them properly.  Part of the file will be the
+      executable machine code (the instructions that tell the CPU what
+      to do), part of it will be data space with pre-defined values,
+      part will be data space with no pre-defined values, etc.  Through
+      time, different binary file formats have evolved.</para>
+
+    <para>To understand why &os; uses the &man.elf.5; format, the three
+      currently <quote>dominant</quote>, executable formats for &unix;
       must be described:</para>
 
     <itemizedlist>
@@ -2545,6 +2569,14 @@ Swap: 256M Total, 38M Used, 217M Free, 15% Inuse
       out of the <filename>GENERIC</filename> kernel, and eventually
       removed from the kernel once the need to run legacy
       <filename>a.out</filename> programs is past.</para>
+
+    <para>In addition to &man.file.1; another command that can prove
+      useful when working with executables is &man.ldd.1;.  If
+      &man.file.1; reveals that a file is a dynamically linked
+      executable &man.ldd.1; can figure out what dynamically linked
+      libraries that executable file requires.  Sometimes programs can
+      be linked against compatibility libraries instead of the main
+      system libraries, or otherwise rely on dynamic libraries.</para>
   </sect1>
 
   <sect1 id="basics-more-information">
