@@ -566,7 +566,7 @@ route_internalnet2="-net 192.168.2.0/24 192.168.1.2"</programlisting>
 	  <replaceable>internalnet2</replaceable>.  The variable
 	  <literal>route_<replaceable>internalnet2</replaceable></literal>
 	  contains all of the configuration parameters to
-	  &man.route.8;.  This example is equivalen to the
+	  &man.route.8;.  This example is equivalent to the
 	  command:</para>
 
 	  <screen>&prompt.root; <userinput>route add -net 192.168.2.0/24 192.168.1.2</userinput></screen>
@@ -1060,7 +1060,7 @@ ifconfig_wlan0="mode <replaceable>11g</replaceable> ssid <replaceable>your_ssid_
 	    <para>This example will force the card to operate in
 	      802.11g, which is defined only for 2.4GHz frequencies
 	      so any 5GHz channels will not be considered.  This can
-	      also be achieved witt the
+	      also be achieved with the
 	      <option>channel</option> parameter, which locks
 	      operation to one specific frequency, and the
 	      <option>chanlist</option> parameter, to specify a list
@@ -3116,7 +3116,7 @@ ifconfig_fxp1="up"</programlisting>
 	<acronym>STP</acronym> is used to detect and remove loops
 	in a network topology.  <acronym>RSTP</acronym> provides
 	faster convergence than legacy <acronym>STP</acronym>, the
-	protocol will exchange information with neighbouring switches
+	protocol will exchange information with neighboring switches
 	to quickly transition to forwarding without creating loops.
 	&os; supports <acronym>RSTP</acronym> and
 	<acronym>STP</acronym> as operating modes, with
@@ -4510,7 +4510,7 @@ myhost.example.com:/b/tftpboot/FreeBSD/install       /         nfs      ro      
 	    configuration is shown where the <acronym>DHCP</acronym>,
 	    <acronym>TFTP</acronym>, and <acronym>NFS</acronym>
 	    servers are on the same machine.  However, these
-	    severs can be on separate machines.</para>
+	    servers can be on separate machines.</para>
 
 	  <figure>
 	    <title><acronym>PXE</acronym> Booting Process with
@@ -4748,7 +4748,7 @@ ipdivert_load="YES"</programlisting>
 	<primary>kernel</primary>
 	<secondary>configuration</secondary>
       </indexterm>
-      <para>When modules are not an option or if it is preferrable to
+      <para>When modules are not an option or if it is preferable to
 	build all the required features into a custom kernel, the
 	following options must be in the custom kernel configuration
 	file:</para>
@@ -5755,15 +5755,15 @@ route_hostD="192.168.173.4 hatm0 0 102 llc/snap ubr"</programlisting>
 
       <para>One use of <acronym>CARP</acronym> is to provide server
 	availability.  This example configures failover support for
-	three hosts, all with unique <acronym><acronym>IP</acronym></acronym>
+	three hosts, all with unique <acronym>IP</acronym>
 	addresses and providing the same web content.  These machines
 	act in conjunction with a Round Robin
 	<acronym>DNS</acronym> configuration.  The failover machine
 	has two additional <acronym>CARP</acronym> interfaces, one
 	for each of the content server's
-	<acronym><acronym>IP</acronym></acronym> addresses.  When a
+	<acronym>IP</acronym> addresses.  When a
 	failure occurs, the failover server will pick up the failed
-	machine's <acronym><acronym>IP</acronym></acronym> address.
+	machine's <acronym>IP</acronym> address.
 	This means that the failure should go completely unnoticed
 	by the user.  The failover server requires identical content
 	and services as the other content servers it is expected to
