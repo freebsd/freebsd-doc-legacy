@@ -2927,6 +2927,25 @@ bb:48:db:f2:93:57:80:b6:aa:bc:f5:d5:ba:8f:79:17 user@host.example.com</screen>
       <para>This setup allows connections to the remote machine based
 	upon <acronym>SSH</acronym> keys instead of passwords.</para>
 
+      <warning>
+	<para>Many users believe that keys are secure by design and
+	  will use a key without a passphrase.  This is
+	  <emphasis>dangerous</emphasis> behavior and the method
+	  an administrator may use to verify keys have a passphrase
+	  is to view the key manually.  If the private key file
+	  contains the word <literal>ENCRYPTED</literal> the key
+	  owner is using a passphrase.  While it may still be a weak
+	  passphrase, at least if the system is compromised, access
+	  to other sites will still require some level of password
+	  guessing.  In addition, to better secure end users, the
+	  <literal>from</literal> may be placed in the public key
+	  file.  For example, adding
+	  <literal>from="192.168.10.5</literal> in the front of
+	  <literal>ssh-rsa</literal> or <literal>rsa-dsa</literal>
+	  prefix will only allow that specific user to login from
+	  that host <acronym>IP</acronym>.</para>
+      </warning>
+
       <para>If a passphrase is used in &man.ssh-keygen.1;, the user
 	will be prompted for the passphrase each time in order to use
 	the private key.  &man.ssh-agent.1; can alleviate the strain
