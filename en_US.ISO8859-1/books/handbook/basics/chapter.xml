@@ -302,13 +302,13 @@ console none                            unknown  off  secure</programlisting>
       managing requests for hardware devices, peripherals, memory, and
       CPU time fairly to each user.</para>
 
-    <para>Much more information about User Accounts is in the chapter
-      about <link linkend="users">accounts</link>.  For now you just
-      need to know that each person (user) who uses the computer should be
+    <para>Much more information about user accounts is in the chapter
+      about <link linkend="users">accounts</link>.  It is important to
+      understand that each person (user) who uses the computer should be
       given their own username and password.  The system keeps track
       of the people using the computer based on this username.  Since
       it is often the case that several people are working on the same
-      project Unix also provides groups.  Several users can be placed
+      project &unix; also provides groups.  Several users can be placed
       in the same group.</para>
 
     <para>Because the system is capable of supporting multiple users,

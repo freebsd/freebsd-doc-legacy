@@ -1962,8 +1962,8 @@ device_probe_and_attach: cbb0 attach returned 12</screen>
     <para>The following section will discuss various tuning
       mechanisms and options which may be applied to disk
       devices.  In many cases, disks with mechanical parts,
-      such as <acronym>SCSI</acronym> drives, will be the bottle
-      neck driving down the overall system performance.  While
+      such as <acronym>SCSI</acronym> drives, will be the
+      bottleneck driving down the overall system performance.  While
       a solution is to install a drive without mechanical parts,
       such as a solid state drive, mechanical drives are not
       going away anytime in the near future.  When tuning disks,
