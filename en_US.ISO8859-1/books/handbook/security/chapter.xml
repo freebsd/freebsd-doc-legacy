@@ -1018,7 +1018,7 @@ LINE PAP MILK NELL BUOY TROY</screen>
 
       <screen>&prompt.user; <userinput>opiekey 498 to4268</userinput>
 Using the MD5 algorithm to compute response.
-Reminder: Don't use opiekey from telnet or dial-in sessions.
+Reminder: Do not use opiekey from telnet or dial-in sessions.
 Enter secret pass phrase:
 GAME GAG WELT OUT DOWN CHAT</screen>
 
@@ -1066,7 +1066,7 @@ Password: </screen>
 
       <screen>&prompt.user; <userinput>opiekey 498 to4268</userinput>
 Using the MD5 algorithm to compute response.
-Reminder: Don't use opiekey from telnet or dial-in sessions.
+Reminder: Do not use opiekey from telnet or dial-in sessions.
 Enter secret pass phrase:
 GAME GAG WELT OUT DOWN CHAT</screen>
 
@@ -1084,7 +1084,7 @@ GAME GAG WELT OUT DOWN CHAT</screen>
 
       <screen>&prompt.user; <userinput>opiekey -n 5 30 zz99999</userinput>
 Using the MD5 algorithm to compute response.
-Reminder: Don't use opiekey from telnet or dial-in sessions.
+Reminder: Do not use opiekey from telnet or dial-in sessions.
 Enter secret pass phrase: <userinput>&lt;secret password&gt;</userinput>
 26: JOAN BORE FOSS DES NAY QUIT
 27: LATE BIAS SLAY FOLK MUCH TRIG
