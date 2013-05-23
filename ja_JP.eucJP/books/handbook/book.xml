@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="euc-jp"?>
-<!DOCTYPE book PUBLIC "-//FreeBSD//DTD DocBook XML V4.2-Based Extension//EN"
-	"../../../share/xml/freebsd42.dtd" [
-<!ENTITY % entities PUBLIC "-//FreeBSD//ENTITIES DocBook FreeBSD Entity Set//JA" "../../share/xml/entities.ent">
-%entities;
-
+<!DOCTYPE book PUBLIC "-//FreeBSD//DTD DocBook XML V4.5-Based Extension//EN"
+	"../../../share/xml/freebsd45.dtd" [
 <!ENTITY % chapters SYSTEM "chapters.ent">
 %chapters;
 <!ENTITY % txtfiles SYSTEM "txtfiles.ent">
@@ -14,7 +11,7 @@
      The FreeBSD Documentation Project
      The FreeBSD Japanese Documentation Project
 
-     Original revision: r40585
+     Original revision: r41343
      $FreeBSD$
 -->
 
@@ -61,7 +58,6 @@
       &tm-attrib.adaptec;
       &tm-attrib.adobe;
       &tm-attrib.apple;
-      &tm-attrib.corel;
       &tm-attrib.creative;
       &tm-attrib.cvsup;
       &tm-attrib.heidelberger;
@@ -74,7 +70,6 @@
       &tm-attrib.m-systems;
       &tm-attrib.macromedia;
       &tm-attrib.microsoft;
-      &tm-attrib.netscape;
       &tm-attrib.nexthop;
       &tm-attrib.opengroup;
       &tm-attrib.oracle;
@@ -248,13 +243,10 @@
     &chap.security;
 <!--
     &chap.jails;
--->
     &chap.mac;
-<!--
     &chap.audit;
 -->
     &chap.disks;
-    &chap.geom;
 <!--
     &chap.filesystems;
     &chap.vinum;
@@ -308,8 +300,10 @@
     &chap.serialcomms;
     &chap.ppp-and-slip;
     &chap.mail;
+<!--
     &chap.network-servers;
     &chap.firewalls;
+-->
     &chap.advanced-networking;
   </part>
 

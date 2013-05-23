@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="iso-8859-1" standalone="no"?>
+<?xml version="1.0" encoding="iso-8859-1"?>
 <!--
      The FreeBSD Dutch Documentation Project
 
      $FreeBSD$
 
      %SOURCE%	en_US.ISO8859-1/books/handbook/network-servers/chapter.xml
-     %SRCID%	40792
+     %SRCID%	41645
 -->
 
 <chapter id="network-servers">

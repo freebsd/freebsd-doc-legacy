@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="euc-jp" standalone="no"?>
+<?xml version="1.0" encoding="euc-jp"?>
 <!--
      The FreeBSD Documentation Project
      The FreeBSD Japanese Documentation Project
 
-     Original revision: r41189
+     Original revision: r41337
      $FreeBSD$
 -->
 
@@ -109,6 +109,10 @@
       別の方法によるアクセスを提供しているサイトもあります。
       各サイトで提供しているアクセス方法は、
       ホスト名に続く括弧の中に記載されています。</para>
+
+    &chap.mirrors.ftp.index.inc;
+
+    &chap.mirrors.lastmod.inc;
 
     &chap.mirrors.ftp.inc;
   </sect1>
@@ -807,7 +811,7 @@ Certificate information:
       一時的な認証であれば、サーバとの一回のセッションで有効期限が切れるため、
       次回の接続時にはもう一度検証が行われます。
       恒常的な認証を選んだ場合には、認証のための証明書が
-      <filename role="directory">~/.subversion/auth/</filename> に保存され、
+      <filename class="directory">~/.subversion/auth/</filename> に保存され、
       有効期限が切れるまでは、フィンガープリントの確認は求められません。</para>
 
     <para>ファイアウォールまたは他の問題のため、<acronym>HTTPS</acronym>
@@ -1693,6 +1697,10 @@ usr.bin/</programlisting>
       <para>&os; の <link linkend="cvsup">CVSup</link>
         サーバは以下のサイトで稼働しています。</para>
 
+      &chap.mirrors.cvsup.index.inc;
+
+      &chap.mirrors.lastmod.inc;
+
       &chap.mirrors.cvsup.inc;
     </sect2>
   </sect1>
@@ -1758,6 +1766,15 @@ usr.bin/</programlisting>
       </varlistentry>
 
       <varlistentry>
+	<term>RELENG_9_1</term>
+
+	<listitem>
+	  <para>&os;-9.1 用のリリースブランチ。セキュリティ勧告や、
+	    その他の深刻なセキュリティ上の修正があった場合にのみ使われます。</para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
 	<term>RELENG_9_0</term>
 
 	<listitem>
@@ -1772,6 +1789,15 @@ usr.bin/</programlisting>
 	<listitem>
 	  <para>&os;-8.X の開発のための流れです。
 	    &os; 8-STABLE としても知られています。</para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>RELENG_8_4</term>
+
+	<listitem>
+	  <para>&os;-8.4 用のリリースブランチ。セキュリティ勧告や、
+	    その他の深刻なセキュリティ上の修正があった場合にのみ使われます。</para>
 	</listitem>
       </varlistentry>
 
@@ -2113,6 +2139,14 @@ usr.bin/</programlisting>
 	リリースに際して特別なタグが付与されることはありません。</para>
 
     <variablelist>
+      <varlistentry>
+	<term>RELENG_9_1_0_RELEASE</term>
+
+	<listitem>
+	  <para>&os; 9.1</para>
+	</listitem>
+      </varlistentry>
+
       <varlistentry>
 	<term>RELENG_9_0_0_RELEASE</term>
 

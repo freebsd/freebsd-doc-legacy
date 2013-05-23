@@ -4,7 +4,7 @@
 <!--
      $FreeBSD$
      $FreeBSDde$
-     basiert auf: r41293
+     basiert auf: r41693
 -->
 
 <!-- Simple schema for FreeBSD Project news.
@@ -39,8 +39,216 @@
     <name>2013</name>
 
     <month>
+      <name>5</name>
+
+      <day>
+	<name>14</name>
+
+	<event>
+	  <title>Binärpakete wieder verfügbar</title>
+
+	  <p>Sechs Monate sind seit dem Angriffsversuch auf die
+	    FreeBSD-Infrastruktur vergangen, als Folge dessen die
+	    Produktion von Binärpakete vorübergehend eingestellt werden
+	    musste.  Wir freuen uns daher, bekanntgeben zu dürfen, dass
+	    nun alle Dienste (inklusive der Produktion von
+	    Binärpaketen) vollständig wiederhergestellt wurden.</p>
+
+	  <p>Lesen Sie dazu bitte auch die offizielle <a
+	    href="&lists.announce;/2013-May/001476.html">Ankündigung</a>.</p>
+	</event>
+      </day>
+
+      <day>
+	<name>12</name>
+
+	<event>
+	  <title>Statusreport Januar - März 2013</title>
+
+	  <p>Der Statusreport für die Monate Januar bis März 2013 mit
+	    31 Einträgen ist ab sofort <a
+	    href="&enbase;/news/status/report-2013-01-2013-03.html">verfügbar</a>.</p>
+	</event>
+      </day>
+
+      <day>
+	<name>9</name>
+
+	<event>
+	  <title>&os;&nbsp;Foundation:  Ed Maste ist neuer
+	    Director of Project Development</title>
+
+	  <p>Die &os;&nbsp;Foundation freut sich, bekanntgeben zu
+	    dürfen, dass Ed Maste ab sofort in Teilzeit als
+	    Director of Project Development für die FreeBSD Foundation
+	    tätig ist.  Ed war die zwei letzten Jahre im Vorstand der
+	    Foundation und hat den Vorstand verlassen, um seinen
+	    neuen Aufgabenbereich zu übernehmen.</p>
+
+	  <p>Weitere Informationen zu dieser Neubesetzung finden Sie <a
+	    href="http://freebsdfoundation.blogspot.com/2013/05/freebsd-foundation-announces-ed-maste.html">hier</a>.</p>
+	</event>
+      </day>
+
+      <day>
+	<name>8</name>
+
+	<event>
+	  <title>&os;&nbsp;8.4-RC3 verfügbar</title>
+
+	  <p>Der dritte Release Candidate aus dem &os;-8.4-Releasezyklus
+	    ist <a
+	    href="&lists.stable;/2013-May/073389.html">verfügbar</a>.
+	    ISO-Images für die Architekturen amd64, i386 sowie
+	    pc98 sind inzwischen auf den meisten <a
+            href="&enbase;/doc/de_DE.ISO8859-1/books/handbook/mirrors-ftp.html">&os;
+	    Spiegelservern</a> vorhanden.</p>
+	</event>
+      </day>
+    </month>
+    
+    <month>
+      <name>4</name>
+
+      <day>
+	<name>29</name>
+
+	<event>
+	  <title>Neuer technischer Mitarbeiter für die &os; Foundation:
+	    Edward Tomasz Napiera&#322;a</title>
+
+	  <p>Die &os;&nbsp;Foundation freut sich, bekanntgeben zu dürfen,
+	    dass mit Edward Tomasz Napiera&#322;a ein weiterer
+	    technischer Mitarbeiter in Vollzeit für die Foundation tätig
+	    sein wird.  Damit setzt die Foundation die für 2013 geplanten
+	    Investitionen in Personal fort.</p>
+	    
+	  <p>Weitere Informationen hierzu finden Sie <a
+	      href="http://freebsdfoundation.blogspot.com/2013/04/freebsd-foundation-announces-second.html">hier</a>.</p>
+	</event>
+      </day>
+      
+      <day>
+	<name>24</name>
+
+	<event>
+	  <p>Neuer Committer: <a
+	    href="mailto:asomers@FreeBSD.org">Alan Somers</a> (src)</p>
+	</event>
+
+	<event>
+	  <title>Das FreeBSD Project nimmt am Google Summer of
+	    Code 2013 teil</title>
+
+	  <p>Das FreeBSD Project freut sich, bekanntgeben zu dürfen,
+	    das es auch dieses Jahr an Google's Summer of Code-Programm
+	    teilnimmt.  Durch dieses Programm wird die Arbeit von Studenten
+	    im Rahmen von Open Source-Projekten gefördert.  Das
+	    FreeBSD Project nimmt bereits zum neunten Mal hintereinander
+	    an diesem Programm teil und hat seit der ersten Teilnahme 2005
+	    mehr als 150 Studenten erfolgreich durch deren Arbeiten
+	    begleitet.</p>
+
+	  <p>Zu den erfolgreich abgeschlossenen Projekten gehören
+	    Verbesserungen an der Linux-ABI-Emulation, NFSv4 ACLs,
+	    TCP-Regressionstests, die Unterstützung für das
+	    FUSE-Dateisytem sowie zahlreiche andere Projekte.  Viele
+	    Studenten, die an diesem Programm teilnahmen, sind inzwischen
+	    aktive FreeBSD-Entwickler und/oder nehmen (nicht zuletzt
+	    dank der Unterstützung der FreeBSD Foundation) weiterhin
+	    aktiv an verschiedenen FreeBSD-Veranstaltungen auf der
+	    ganzen Welt teil.</p>
+
+	  <p>Wir laden alle Studenten ein, während des Sommers gegen
+	    Bezahlung an der Weiterentwicklung von &os; zu arbeiten!
+	    Weitere Informationen zu möglichen Projektvorschlägen
+	    sowie zum Ablauf finden sich auf der Seite <a
+	    href="&enbase;/projects/summerofcode.html">FreeBSD Summer
+	    Projects</a>.</p>
+	</event>
+      </day>
+   
+      <day>
+	<name>22</name>
+
+	<event>
+	  <title>&os;&nbsp;8.4-RC2 verfügbar</title>
+
+	  <p>Der zweite Release Candidate aus dem &os;-8.4-Releasezyklus
+	    ist <a
+	    href="&lists.stable;/2013-April/073198.html">verfügbar</a>.
+	    ISO-Images für die Architekturen amd64, i386 sowie
+	    pc98 sind inzwischen auf den meisten <a
+            href="&enbase;/doc/de_DE.ISO8859-1/books/handbook/mirrors-ftp.html">&os;
+	    Spiegelservern</a> vorhanden.</p>  
+	</event>
+      </day>
+
+      <day>
+	<name>18</name>
+
+	<event>
+	  <p>Erweiterte Commit-Privilegien: <a
+	    href="mailto:cy@FreeBSD.org">Cy Schubert</a> (src, ports)</p>
+	</event>
+      </day>
+      
+      <day>
+	<name>12</name>
+
+	<event>
+	  <p>Neuer Committer: <a
+	    href="mailto:hiren@FreeBSD.org">Hiren Panchasara</a> (src)</p>
+	</event>
+      </day>
+
+      <day>
+	<name>10</name>
+
+	<event>
+	  <title>&os;&nbsp;8.4-RC1 verfügbar</title>
+
+	  <p>Der erste Release Candidate aus dem &os;-8.4-Releasezyklus
+	    ist <a
+	    href="&lists.stable;/2013-April/073070.html">verfügbar</a>.
+	    ISO-Images für die Architekturen amd64, i386 sowie
+	    pc98 sind inzwischen auf den meisten <a
+            href="&enbase;/doc/de_DE.ISO8859-1/books/handbook/mirrors-ftp.html">&os;
+	    Spiegelservern</a> vorhanden.</p>
+	</event>
+      </day>
+
+      <day>
+	<name>3</name>
+
+	<event>
+	  <p>Erweiterte Commit-Privilegien: <a
+	    href="mailto:antoine@FreeBSD.org">Antoine Brodin</a> (src, ports)</p>
+	</event>
+      </day>
+
+      <day>
+	<name>1</name>
+
+	<event>
+	  <p>Neuer Committer: <a
+	    href="mailto:wg@FreeBSD.org">William Grzybowski</a> (ports)</p>
+	</event>
+      </day>
+    </month>
+    
+    <month>
       <name>3</name>
 
+      <day>
+	<name>27</name>
+
+	<event>
+	  <p>Erweiterte Commit-Privilegien: <a
+	    href="mailto:tijl@FreeBSD.org">Tijl Coosemans</a> (src, ports)</p>
+	</event>
+      </day>
+      
       <day>
 	<name>22</name>
 

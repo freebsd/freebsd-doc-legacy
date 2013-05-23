@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="iso-8859-1" standalone="no"?>
+<?xml version="1.0" encoding="iso-8859-1"?>
 <!--
      The FreeBSD Documentation Project
 
@@ -256,6 +256,11 @@
 	    <row>
 	      <entry>&a.drivers.name;</entry>
 	      <entry>Writing device drivers for &os;</entry>
+	    </row>
+
+	    <row>
+	      <entry>&a.dtrace.name;</entry>
+	      <entry>Using and working on DTrace in &os;</entry>
 	    </row>
 
 	    <row>
@@ -540,6 +545,18 @@
 	    <row>
 	      <entry>&a.tcltk.name;</entry>
 	      <entry>FreeBSD-specific Tcl/Tk discussions</entry>
+	    </row>
+
+	    <row>
+	      <entry>&a.testing.name;</entry>
+	      <entry>Testing on &os;</entry>
+	    </row>
+
+	    <row>
+	      <entry>&a.tex.name;</entry>
+
+	      <entry>Porting <application>TeX</application> and its
+		applications to &os;</entry>
 	    </row>
 
 	    <row>
@@ -1161,6 +1178,21 @@
 	</varlistentry>
 
 	<varlistentry>
+	  <term>&a.dtrace.name;</term>
+
+	  <listitem>
+	    <para><emphasis>Using and working on DTrace in
+		&os;</emphasis></para>
+
+	    <para>DTrace is an integrated component of &os; that
+		provides a framework for understanding the kernel as
+		well as user space programs at run time.  The mailing
+		list is an archived discussion for developers of the
+		code as well as those using it.</para>
+	  </listitem>
+	</varlistentry>
+
+	<varlistentry>
 	  <term>&a.eclipse.name;</term>
 
 	  <listitem>
@@ -1613,7 +1645,7 @@
 
 	    <para>Important news for developers, porters, and users
 	      of the <quote>Ports Collection</quote> (<filename
-		role="directory">/usr/ports</filename>), including
+		class="directory">/usr/ports</filename>), including
 	      architecture/infrastructure changes, new capabilities,
 	      critical upgrade instructions, and release engineering
 	      information.  This is a low-volume mailing list,
@@ -1800,6 +1832,35 @@
 	    <para>This is a forum for technical discussions related
 	      to FreeBSD Conformance to the C99 and the POSIX
 	      standards.</para>
+	  </listitem>
+	</varlistentry>
+
+	<varlistentry>
+	  <term>&a.testing.name;</term>
+
+	  <listitem>
+	    <para><emphasis>Testing on &os;</emphasis></para>
+
+	    <para>Technical mailing list discussing testing on &os;,
+	      including ATF/Kyua, test build infrastructure,
+	      port tests to &os; from other operating systems
+	      (NetBSD, ...), etc.</para>
+	  </listitem>
+	</varlistentry>
+
+	<varlistentry>
+	  <term>&a.tex.name;</term>
+
+	  <listitem>
+	    <para><emphasis>Porting <application>TeX</application> and
+		its applications to &os;</emphasis></para>
+
+	    <para>This is a technical mailing list for discussions
+	      related to TeX and its applications on &os;.  It is for
+	      individuals actively working on porting TeX to FreeBSD,
+	      to bring up problems or discuss alternative solutions.
+	      Individuals interested in following the technical
+	      discussion are also welcome.</para>
 	  </listitem>
 	</varlistentry>
 
@@ -2208,6 +2269,10 @@
 
     <sect2 id="eresources-web-mirrors">
       <title>Official Mirrors</title>
+
+      &chap.eresources.www.index.inc;
+
+      &chap.mirrors.lastmod.inc;
 
       &chap.eresources.www.inc;
     </sect2>

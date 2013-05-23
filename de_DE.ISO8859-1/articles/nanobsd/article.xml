@@ -1,9 +1,6 @@
-<?xml version="1.0" encoding="iso-8859-1" standalone="no"?>
-<!DOCTYPE article PUBLIC "-//FreeBSD//DTD DocBook XML V4.2-Based Extension//EN"
-        "../../../share/xml/freebsd42.dtd" [
-<!ENTITY % entities PUBLIC "-//FreeBSD//ENTITIES DocBook FreeBSD Entity Set//DE" "../../share/xml/entities.ent">
-%entities;
-]>
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE article PUBLIC "-//FreeBSD//DTD DocBook XML V4.5-Based Extension//EN"
+	"../../../share/xml/freebsd45.dtd">
 
 <article lang="de">
   <articleinfo>
@@ -459,7 +456,7 @@ customize_cmd cust_nobeastie</programlisting>
 	    <filename>_.disk.full</filename> (enth&auml;lt ein Abbild der
 	    gesamten Platte) die Datei
 	    <filename>_.disk.image</filename> (enth&auml;lt ein Abbild
-	    einer einzelnen System-Partition) installiet wird.</para>
+	    einer einzelnen System-Partition) installiert wird.</para>
 	</step>
 
 	<step>
@@ -509,7 +506,7 @@ get _.disk.image "| sh updatep1"</userinput></screen>
 	<title>Verwendung von &man.ssh.1;</title>
 
 	<para>Wenn eine sichere &Uuml;bertragung bevorzugt wird,
-	  sollten Sie die Verwendung dieses Beipiels in Betracht
+	  sollten Sie die Verwendung dieses Beispiels in Betracht
 	  ziehen:</para>
 
 	<screen>&prompt.root; <userinput>ssh myhost cat _.disk.image.gz | zcat | sh updatep1</userinput></screen>

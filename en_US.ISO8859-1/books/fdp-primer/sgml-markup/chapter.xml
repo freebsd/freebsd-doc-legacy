@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="iso-8859-1" standalone="no"?>
+<?xml version="1.0" encoding="iso-8859-1"?>
 <!-- Copyright (c) 1998, 1999 Nik Clayton, All rights reserved.
 
      Redistribution and use in source (SGML DocBook) and 'compiled' forms
@@ -657,7 +657,7 @@
     </note>
 
     <para>The DocBook DTD is available from the Ports&nbsp;Collection
-      in the <filename role="package">textproc/docbook</filename>
+      in the <filename role="package">textproc/docbook-xml-450</filename>
       port.  It is automatically installed as part of the <filename
 	role="package">textproc/docproj</filename> port.</para>
 
@@ -2413,7 +2413,7 @@ This is the file called 'foo2'</screen>
 
 	<para>An example will probably make things easier to
 	  understand.  Suppose you have an image, called
-	  <filename>fig1</filename>, that you want to include in the
+	  <filename>fig1.png</filename>, that you want to include in the
 	  document.  This image is of a rectangle with an A inside it.
 	  The markup for this would be as follows.</para>
 

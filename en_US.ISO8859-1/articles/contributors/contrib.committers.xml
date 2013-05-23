@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="iso-8859-1" standalone="no"?>
+<?xml version="1.0" encoding="iso-8859-1"?>
 <!-- $FreeBSD$ -->
 <!--
 	NOTE TO NEW COMMITTERS: Core and committers lists are sorted in
@@ -1377,6 +1377,10 @@
 
     <listitem>
       <para>&a.sobomax;</para>
+    </listitem>
+
+    <listitem>
+      <para>&a.asomers;</para>
     </listitem>
 
     <listitem>
