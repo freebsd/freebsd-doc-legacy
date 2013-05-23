@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="iso-8859-1" standalone="no"?>
+<?xml version="1.0" encoding="iso-8859-1"?>
 <!--
      The FreeBSD Documentation Project
 
@@ -764,7 +764,7 @@ sshd is running as pid 433.</screen>
 
     <para>Additional information can be found in &man.rc.8; and
       &man.rc.subr.8;.  Refer to <ulink
-	url="&url.articles.rc-scripting">this article</ulink> for
+	url="&url.articles.rc-scripting;">this article</ulink> for
       instructions on how to create custom &man.rc.8;
       scripts.</para>
   </sect1>

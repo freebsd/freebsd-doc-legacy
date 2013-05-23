@@ -1,8 +1,6 @@
-<?xml version="1.0" encoding="iso-8859-1" standalone="no"?>
-<!DOCTYPE book PUBLIC "-//FreeBSD//DTD DocBook XML V4.2-Based Extension//EN"
-	"../../../share/xml/freebsd42.dtd" [
-<!ENTITY % entities PUBLIC "-//FreeBSD//ENTITIES DocBook FreeBSD Entity Set//EN" "../../share/xml/entities.ent">
-%entities;
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE book PUBLIC "-//FreeBSD//DTD DocBook XML V4.5-Based Extension//EN"
+	"../../../share/xml/freebsd45.dtd" [
 <!ENTITY bibliography SYSTEM "../../../share/xml/bibliography.xml">
 <!ENTITY rel.head "<emphasis>10-CURRENT</emphasis>">
 <!ENTITY rel.head.relx "10.<replaceable>X</replaceable>">
@@ -1672,6 +1670,25 @@
 	      found on the
 	      <ulink
 		url="http://www.FreeBSD.org/platforms/">platforms page.</ulink></para>
+	  </answer>
+	</qandaentry>
+
+	<qandaentry>
+	  <question id="smp-support">
+	    <para>Does &os; support Symmetric Multiprocessing
+	      (SMP)?</para>
+	  </question>
+
+	  <answer>
+	    <para>&os; supports symmetric multi-processor (SMP) on all
+	      non-embedded platforms (e.g, &arch.i386;, &arch.amd64;,
+	      etc.).  SMP is also
+	      supported in arm and MIPS kernels, although some CPUs
+	      may not support this.  &os;'s SMP implementation uses
+	      fine-grained locking, and performance scales nearly
+	      linearly with number of CPUs.</para>
+
+	    <para>&man.smp.4; has more details.</para>
 	  </answer>
 	</qandaentry>
 

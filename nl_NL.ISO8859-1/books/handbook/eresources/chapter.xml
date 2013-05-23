@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="iso-8859-1" standalone="no"?>
+<?xml version="1.0" encoding="iso-8859-1"?>
 <!--
      The FreeBSD Dutch Documentation Project
 
@@ -6,7 +6,7 @@
      Vertaald door: Siebrand Mazeland / Rene Ladan
 
      %SOURCE%	en_US.ISO8859-1/books/handbook/eresources/chapter.xml
-     %SRCID%	41167
+     %SRCID%	41682
 -->
 
 <appendix id="eresources">
@@ -622,6 +622,12 @@
 	      <entry>&a.tcltk.name;</entry>
 
 	      <entry>&os;-specifieke discussies over Tcl/Tk</entry>
+	    </row>
+
+	    <row>
+	      <entry>&a.testing.name;</entry>
+
+	      <entry>Testen op &os;</entry>
 	    </row>
 
 	    <row>
@@ -1761,7 +1767,7 @@
 
 	    <para>Belangrijk nieuws voor ontwikkelaars, porters en gebruikers
 	      van de <quote>Portscollectie</quote> (<filename
-		role="directory">/usr/ports</filename>), waaronder veranderingen
+		class="directory">/usr/ports</filename>), waaronder veranderingen
 	      aan de architectuur/infrastructuur, nieuwe mogelijkheden,
 	      kritische opwaardeerinstructies, en uitgave-informatie.  Dit is
 	      een mailinglijst met een laag volume, bedoeld voor
@@ -1946,6 +1952,19 @@
 	    <para>Dit is een forum voor technische bespreking
 	      gerelateerd aan het conformeren van &os; aan de C99- en de
 	      POSIX-standaarden.</para>
+	  </listitem>
+	</varlistentry>
+
+	<varlistentry>
+	  <term>&a.testing.name;</term>
+
+	  <listitem>
+	    <para><emphasis>Testen op &os;</emphasis></para>
+
+	    <para>Technische mailinglijst voor discussies over testen op &os;,
+	      inclusief ATF/Kyua, infrastructuren voor testbuilds, het testen
+	      van ports naar &os; van andere besturingssystemen (NetBSD, ...),
+	      enzovoorts.</para>
 	  </listitem>
 	</varlistentry>
 
@@ -2361,6 +2380,10 @@
 
     <sect2 id="eresources-web-mirrors">
       <title>Officiële spiegels</title>
+
+      &chap.eresources.www.index.inc;
+
+      &chap.mirrors.lastmod.inc;
 
       &chap.eresources.www.inc;
     </sect2>

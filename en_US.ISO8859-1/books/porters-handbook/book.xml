@@ -1,9 +1,6 @@
-<?xml version="1.0" encoding="iso-8859-1" standalone="no"?>
-<!DOCTYPE book PUBLIC "-//FreeBSD//DTD DocBook XML V4.2-Based Extension//EN"
-	"../../../share/xml/freebsd42.dtd" [
-<!ENTITY % entities PUBLIC "-//FreeBSD//ENTITIES DocBook FreeBSD Entity Set//EN" "../../share/xml/entities.ent">
-%entities;
-
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE book PUBLIC "-//FreeBSD//DTD DocBook XML V4.5-Based Extension//EN"
+	"../../../share/xml/freebsd45.dtd" [
 <!ENTITY values.uses SYSTEM "uses.xml">
 ]>
 
@@ -10807,9 +10804,9 @@ as .putsy.conf and edit it.</programlisting>
 
       <programlisting>old name|new name (blank for deleted)|date of move|reason</programlisting>
 
-      <para>The date should be entered in the form <literal>YYYY-
-	  MM-DD</literal>.  New entries should be added to the end
-	of the file to keep it in chronological order.</para>
+      <para>The date should be entered in the form
+	<literal>YYYY-MM-DD</literal>.  New entries should be added to
+	the end of the file to keep it in chronological order.</para>
 
       <para>If a port was removed but has since been restored,
 	delete the line in this file that states that it was

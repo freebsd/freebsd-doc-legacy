@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="iso-8859-1" standalone="no"?>
+<?xml version="1.0" encoding="iso-8859-1"?>
 <!--
      The FreeBSD Documentation Project
 
@@ -1746,7 +1746,7 @@ EOT</screen>
 
       <mediaobject>
 	<imageobject>
-	  <imagedata fileref="mail/mutt1" format="PNG"/>
+	  <imagedata fileref="mail/mutt1"/>
 	</imageobject>
       </mediaobject>
 
@@ -1757,7 +1757,7 @@ EOT</screen>
 
       <mediaobject>
 	<imageobject>
-	  <imagedata fileref="mail/mutt2" format="PNG"/>
+	  <imagedata fileref="mail/mutt2"/>
 	</imageobject>
       </mediaobject>
 
@@ -1792,7 +1792,7 @@ EOT</screen>
 
       <mediaobject>
 	<imageobject>
-	  <imagedata fileref="mail/mutt3" format="PNG"/>
+	  <imagedata fileref="mail/mutt3"/>
 	</imageobject>
       </mediaobject>
 
@@ -1843,7 +1843,7 @@ EOT</screen>
 
       <mediaobject>
 	<imageobject>
-	  <imagedata fileref="mail/pine1" format="PNG"/>
+	  <imagedata fileref="mail/pine1"/>
 	</imageobject>
       </mediaobject>
 
@@ -1863,7 +1863,7 @@ EOT</screen>
 
       <mediaobject>
 	<imageobject>
-	  <imagedata fileref="mail/pine2" format="PNG"/>
+	  <imagedata fileref="mail/pine2"/>
 	</imageobject>
       </mediaobject>
 
@@ -1874,7 +1874,7 @@ EOT</screen>
 
       <mediaobject>
 	<imageobject>
-	  <imagedata fileref="mail/pine3" format="PNG"/>
+	  <imagedata fileref="mail/pine3"/>
 	</imageobject>
       </mediaobject>
 
@@ -1887,7 +1887,7 @@ EOT</screen>
 
       <mediaobject>
 	<imageobject>
-	  <imagedata fileref="mail/pine4" format="PNG"/>
+	  <imagedata fileref="mail/pine4"/>
 	</imageobject>
       </mediaobject>
 
@@ -1905,7 +1905,7 @@ EOT</screen>
 
       <mediaobject>
 	<imageobject>
-	  <imagedata fileref="mail/pine5" format="PNG"/>
+	  <imagedata fileref="mail/pine5"/>
 	</imageobject>
       </mediaobject>
 
