@@ -5438,6 +5438,30 @@ redirect_port tcp 192.168.0.3:80 80</programlisting>
 	subnet, nothing else needs to be changed.  Otherwise, change
 	the <literal>prefixlen#</literal> to the correct value.</para>
     </sect2>
+
+    <sect2>
+      <title><acronym>IPv6</acronym> and <acronym>IPv6</acronym>
+        Address Mapping</title>
+
+      <para>When <acronym>IPv6</acronym> is enabled on a server, there
+	may be a need to enable <acronym>IPv4</acronym> mapped
+	<acronym>IPv6</acronym> address communication.  This
+	compatibility option allows for <acronym>IPv4</acronym>
+	addresses to be represented as <acronym>IPv6</acronym>
+	addresses.  Permitting <acronym>IPv6</acronym> applications
+	to communicate with <acronym>IPv4</acronym> and vice versa
+	may be a security issue.</para>
+
+      <para>This option may not be required in most cases and is
+	available only for compatibility while services are updated
+	to support <acronym>IPv6</acronym>.  To enable the feature,
+	add the following to <filename>/etc/rc.conf</filename>:</para>
+
+      <programlisting>ipv6_ipv4mapping="YES"</programlisting>
+
+      <para>Reviewing the information in <acronym>RFC</acronym> 3493,
+	section 3.6 and 3.7 may be useful to some adminstrators.</para>
+    </sect2>
   </sect1>
 
   <sect1 id="network-atm">
