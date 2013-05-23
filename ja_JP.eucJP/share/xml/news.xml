@@ -20,7 +20,7 @@
      the contents of <title> will be preferred over <p>.
 
      $FreeBSD$
-     Original revision: r40680
+     Original revision: r41614
 -->
 <news>
     <cvs:keyword xmlns:cvs="http://www.FreeBSD.org/XML/CVS">
@@ -31,7 +31,293 @@
     <name>2013</name>
 
     <month>
+      <name>5</name>
+
+      <day>
+	<name>12</name>
+
+	<event>
+	  <title>開発進捗レポート (2013 年 1 月 - 3 月) 公開</title>
+
+	  <p>2013 年 1 月 から 3 月の開発進捗レポート (31 エントリ) が <a
+	    href="&enbase;/news/status/report-2013-01-2013-03.html">公開</a>
+	    されました。</p>
+	</event>
+      </day>
+
+      <day>
+	<name>9</name>
+
+	<event>
+	  <title>新 &os; Foundation プロジェクト開発ディレクタ就任:
+	    Ed Maste</title>
+
+	  <p>The &os;&nbsp;Foundation は、Ed Maste
+	    が新しくパートタイムのプロジェクト開発ディレクタに就任したことをお知らせします。
+	    Ed は 2 年間 Foundation のボードメンバでありましたが、
+	    この新しいポジションへ就任するため、ボードメンバを退任しました。</p>
+
+	  <p><a
+	      href="http://freebsdfoundation.blogspot.com/2013/05/freebsd-foundation-announces-ed-maste.html">続きを読む</a></p>
+	</event>
+      </day>
+
+      <day>
+	<name>8</name>
+
+	<event>
+	  <title>&os;&nbsp;8.4-RC3 公開</title>
+
+	  <p>&os;-8.4 リリースサイクルの 3 回目のリリース候補が公開されました。
+	    amd64, i386 および pc98 アーキテクチャの ISO イメージが、<a
+	      href="&url.doc.base;/books/handbook/mirrors-ftp.html">&os;
+	    ミラーサイト</a> で <a
+	      href="&lists.stable;/2013-May/073389.html">公開</a>
+	    されています。</p>
+	</event>
+      </day>
+    </month>
+
+    <month>
+      <name>4</name>
+
+      <day>
+	<name>29</name>
+
+	<event>
+	  <title>新 &os; Foundation テクニカルスタッフ: Edward
+	    Tomasz Napiera&#322;a</title>
+
+	  <p>The &os;&nbsp;Foundation は、
+	    Edward Tomasz Napiera&#322;a が二人目のテクニカルスタッフに加わったことをお知らせします。
+	    これは、2013 年に Foundation
+	    が継続して行っているスタッフへの投資によるものです。</p>
+
+	  <p><a
+	      href="http://freebsdfoundation.blogspot.com/2013/04/freebsd-foundation-announces-second.html">続きを読む</a></p>
+	</event>
+      </day>
+
+      <day>
+	<name>24</name>
+
+	<event>
+	  <p>新コミッタ就任:
+	    <a href="mailto:asomers@FreeBSD.org">Alan Somers</a> (src)</p>
+	</event>
+
+	<event>
+	  <title>FreeBSD プロジェクトは、Google Summer of Code 2013
+	    に参加します</title>
+
+	  <p>FreeBSD プロジェクトは Google's 2013 Summer of Code
+	    プログラムに参加します。
+	    これは夏の間に奨学金を提供し、
+	    オープンソースプロジェクトに参加する学生を支援するプログラムです。
+	    FreeBSD プロジェクトの参加は今年で 9 年目となります。
+	    2005 年から 2012 年の間、
+	    長い夏の期間のコーディングプロジェクトを通して
+	    150 人を越える学生を指導してきました。</p>
+
+	  <p>これまでに成功したプロジェクトには、
+	    Linux ABI 互換機能の改善、NFSv4 ACLs, TCP レグレッションテスト、
+	    FUSE ファイルシステムのサポートがあり、
+	    その他にも数え切れないプロジェクトがあります。
+	    多くの学生は FreeBSD の開発者になり、
+	    FreeBSD Foundation の継続的な支援を通じて、世界中で開催されている
+	    FreeBSD の開発者のイベントにも参加しています。</p>
+
+	  <p>我こそは、と思う方はぜひとも応募してください!
+	    申し込みや締め切りなど、詳細については
+	    <a href="&enbase;/projects/summerofcode.html">FreeBSD Summer
+	    Projects ページ</a> をご覧ください。</p>
+	</event>
+      </day>
+
+      <day>
+	<name>22</name>
+
+	<event>
+	  <title>&os;&nbsp;8.4-RC2 公開</title>
+
+	  <p>&os;-8.4 リリースサイクルの 2 回目のリリース候補が公開されました。
+	    amd64, i386 および pc98 アーキテクチャの ISO イメージが、<a
+	      href="&url.doc.base;/books/handbook/mirrors-ftp.html">&os;
+	    ミラーサイト</a> で <a
+	      href="&lists.stable;/2013-April/073198.html">公開</a>
+	    されています。</p>
+	</event>
+      </day>
+
+      <day>
+	<name>18</name>
+
+	<event>
+	  <p>コミット権限の拡大: <a
+	      href="mailto:cy@FreeBSD.org">Cy Schubert</a>
+	    (src, ports)</p>
+	</event>
+      </day>
+
+      <day>
+	<name>12</name>
+
+	<event>
+          <p>新コミッタ就任:
+	    <a href="mailto:hiren@FreeBSD.org">Hiren Panchasara</a> (src)</p>
+	</event>
+      </day>
+
+      <day>
+	<name>10</name>
+
+	<event>
+	  <title>&os;&nbsp;8.4-RC1 公開</title>
+
+	  <p>&os;-8.4 リリースサイクルの最初のリリース候補が公開されました。
+	    amd64, i386 および pc98 アーキテクチャの ISO イメージが、<a
+	      href="&url.doc.base;/books/handbook/mirrors-ftp.html">&os;
+	    ミラーサイト</a> で <a
+	      href="&lists.stable;/2013-April/073070.html">公開</a>
+	    されています。</p>
+	</event>
+      </day>
+
+      <day>
+	<name>3</name>
+
+	<event>
+	  <p>コミット権限の拡大: <a
+	      href="mailto:antoine@FreeBSD.org">Antoine Brodin</a>
+	    (src, ports)</p>
+	</event>
+      </day>
+
+      <day>
+	<name>1</name>
+
+	<event>
+          <p>新コミッタ就任:
+	    <a href="mailto:wg@FreeBSD.org">William Grzybowski</a> (ports)</p>
+	</event>
+      </day>
+    </month>
+
+    <month>
+      <name>3</name>
+
+      <day>
+	<name>27</name>
+
+	<event>
+	  <p>コミット権の範囲の拡大:
+	    <a href="mailto:tijl@FreeBSD.org">Tijl Coosemans</a>
+	    (src, ports)</p>
+	</event>
+      </day>
+
+      <day>
+	<name>22</name>
+
+	<event>
+	  <title>&os;&nbsp;8.4-BETA1 公開</title>
+
+	  <p>&os;-8.4 リリースサイクルの最初のテストビルドが公開されました。
+	    amd64, i386 および pc98 アーキテクチャの ISO イメージが、<a
+	      href="&url.doc.base;/books/handbook/mirrors-ftp.html">&os;
+	    ミラーサイト</a> で <a
+	      href="&lists.stable;/2013-March/072913.html">公開</a>
+	    されています。</p>
+	</event>
+      </day>
+
+      <day>
+	<name>14</name>
+
+	<event>
+	  <title>The &os; Foundation に新しくテクニカルスタッフが加わりました
+	    (Konstantin Belousov)</title>
+
+	  <p>The &os;&nbsp;Foundation は、
+	    Konstantin Belousov を初めてのフルタイムのテクニカルスタッフとして雇用したことをお知らせします。
+	    これは、2013 年のスタッフに対する Foundation
+	    の投資の中で重大な出来事です。</p>
+
+	  <p><a
+	    href="http://freebsdfoundation.blogspot.com/2013/03/foundation-announces-new-technical.html">続きを読む</a></p>
+	</event>
+      </day>
+
+      <day>
+	<name>12</name>
+
+	<event>
+	  <p><a href="mailto:bdrewery@FreeBSD.org">Bryan Drewery</a>
+	    が、新しく Ports Management チームのメンバーに加わりました。</p>
+	</event>
+      </day>
+
+      <day>
+	<name>3</name>
+
+	<event>
+	  <title>開発進捗レポート (2012 年 10 月 - 12 月) 公開</title>
+
+	  <p>2012 年 10 月 から 12 月の開発進捗レポート (27 エントリ) が <a
+	    href="&enbase;/news/status/report-2012-10-2012-12.html">公開</a>
+	    されました。</p>
+	</event>
+	<event>
+	  <title>開発進捗レポート (2012 年 7 月 - 9 月) 公開</title>
+
+	  <p>2012 年 7 月 から 9 月の開発進捗レポート (12 エントリ) が <a
+	    href="&enbase;/news/status/report-2012-07-2012-09.html">公開</a>
+	    されました。</p>
+	</event>
+      </day>
+    </month>
+ 
+    <month>
+      <name>2</name>
+
+      <day>
+	<name>10</name>
+
+	<event>
+          <p>新コミッタ就任:
+	    <a href="mailto:pclin@FreeBSD.org">Po-Chien Lin</a> (ports)</p>
+	</event>
+      </day>
+
+      <day>
+	<name>1</name>
+
+	<event>
+          <p>新コミッタ就任:
+	    <a href="mailto:tmseck@FreeBSD.org">Thomas-Martin Seck</a> (ports)</p>
+	</event>
+      </day>
+
+    </month>
+
+    <month>
       <name>1</name>
+
+      <day>
+	<name>23</name>
+        <event>
+          <p>新コミッタ就任:
+            <a href="mailto:achim@FreeBSD.org">Achim Leubner</a> (src)</p>
+        </event>
+      </day>
+
+      <day>
+        <name>22</name>
+        <event>
+          <p>新コミッタ就任:
+            <a href="mailto:dru@FreeBSD.org">Dru Lavigne</a> (doc)</p>
+        </event>
+      </day>
 
       <day>
 	<name>16</name>
@@ -174,6 +460,11 @@
 
 	  <p>PC-BSD チームから PC-BSD&nbsp;9.1 がリリースされました (<a
 	      href="http://blog.pcbsd.org/2012/12/pc-bsd-9-1-now-available/">アナウンス</a>)。</p>
+	</event>
+
+	<event>
+	  <p>新コミッタ就任:
+	    <a href="mailto:smh@FreeBSD.org">Steven Hartland</a> (src)</p>
 	</event>
       </day>
 
