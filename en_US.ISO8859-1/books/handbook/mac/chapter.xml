@@ -769,7 +769,7 @@ test: biba/high</screen>
   </sect1>
 
   <sect1 id="mac-seeotheruids">
-    <title>The &man.mac.seeotheruids.4; Module</title>
+    <title>The MAC See Other UIDs Policy</title>
 
     <indexterm>
       <primary>MAC See Other UIDs Policy</primary>
@@ -824,7 +824,7 @@ test: biba/high</screen>
   </sect1>
 
   <sect1 id="mac-bsdextended">
-    <title>The &man.mac.bsdextended.4; Module</title>
+    <title>The MAC BSD Extended Policy</title>
 
     <indexterm>
       <primary>MAC</primary>
@@ -904,7 +904,7 @@ test: biba/high</screen>
   </sect1>
 
   <sect1 id="mac-ifoff">
-    <title>The &man.mac.ifoff.4; Module</title>
+    <title>The MAC Interface Silencing Policy</title>
 
     <indexterm>
       <primary>MAC Interface Silencing Policy</primary>
@@ -955,7 +955,7 @@ test: biba/high</screen>
   </sect1>
 
   <sect1 id="mac-portacl">
-    <title>The &man.mac.portacl.4; Module</title>
+    <title>The MAC Port Access Control List Policy</title>
 
     <indexterm>
       <primary>MAC Port Access Control List Policy</primary>
@@ -1069,7 +1069,7 @@ net.inet.ip.portrange.reservedhigh=0</userinput></screen>
   </sect1>
 
   <sect1 id="mac-partition">
-    <title>The &man.mac.partition.4; Module</title>
+    <title>The MAC Partition Policy</title>
 
     <indexterm>
       <primary>MAC Process Partition Policy</primary>
