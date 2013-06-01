@@ -47,6 +47,16 @@
       </listitem>
 
       <listitem>
+	<para>How to set &os; up to act as an <acronym>LDAP</acronym>
+	  server or client</para>
+      </listitem>
+
+      <listitem>
+	<para>How to set &os; up to act as an <acronym>LDAP</acronym>
+	  server or client</para>
+      </listitem>
+
+      <listitem>
 	<para>How to set up automatic network settings using
 	  DHCP.</para>
       </listitem>
@@ -2593,6 +2603,638 @@ nis_client_flags="-S <replaceable>NIS domain</replaceable>,<replaceable>server</
 	to deploy an NIS server for a heterogeneous
 	network, they will probably have to use DES on all systems
 	because it is the lowest common standard.</para>
+    </sect2>
+  </sect1>
+
+  <sect1 id="netserv-ldap">
+    <sect1info>
+      <authorgroup>
+	<author>
+	  <firstname>Tom</firstname>
+	  <surname>Rhodes</surname>
+	  <contrib>Written by </contrib>
+	</author>
+      </authorgroup>
+    </sect1info>
+    <title>&os; and <acronym>LDAP</acronym></title>
+
+    <indexterm><primary>LDAP</primary></indexterm>
+
+    <para><acronym>LDAP</acronym>, the Lightweight Directory Access
+      Protocol, is an application layer protocol used to access,
+      modify, and authenticate (bind) using a distributed directory
+      information service.  Think of it as a phone or record book which
+      stores several levels of hierarchical, homogeneous information.
+      It is often used in networks where users often need access to
+      several levels of internal information utilizing a single
+      account.  For example, email authentication, pulling employee
+      contact information, and internal website authentication might
+      all make use of a single user in the <acronym>LDAP</acronym>
+      server's record base.</para>
+
+    <para>This section will not provide a history or the implementation
+      details of the protocol.  These sections were authored to get an
+      <acronym>LDAP</acronym> server and/or client configured both
+      quickly and securely; however, any information base requires
+      planning and this is no exception.</para>
+
+    <para>Planning should include what type of information will be
+      stored, what that information will be used for, whom should
+      have access to said information, and how to secure this
+      information from prying eyes.</para>
+
+    <sect2>
+      <title><acronym>LDAP</acronym> Terminology and Structure</title>
+
+      <para>Before continuing, several parts of <acronym>LDAP</acronym>
+	must be explained to prevent confusion.  And confusion with
+	this configuration is relatively simple.  To begin, all
+	directory entries consist of a group of
+	<emphasis>attributes</emphasis>.  Each of these attribute sets
+	contain a name, a unique identifier known as a
+	<acronym>DN</acronym> or distinguished name normally built from
+	several other attributes such as the <acronym>RDN</acronym>.
+	The <acronym>RDN</acronym> or relative distinguished name, is
+	a more common name for the attribute.  Like directories have
+	absolute and relative paths, consider a <acronym>DN</acronym>
+	as an absolute path and the <acronym>RDN</acronym> as the
+	relative path.</para>
+
+      <para>As an example, an entry might look like the
+        following:</para>
+
+      <screen>&prompt.user; ldapsearch -xb "uid=trhodes,ou=users,o=example.com"</screen>
+      
+      <programlisting># extended LDIF
+#
+# LDAPv3
+# base &lt;uid=trhodes,ou=users,o=example.com&gt; with scope subtree
+# filter: (objectclass=*)
+# requesting: ALL
+#
+
+# trhodes, users, example.com
+dn: uid=trhodes,ou=users,o=example.com
+mail: trhodes@example.com
+cn: Tom Rhodes
+uid: trhodes
+telephoneNumber: (xxx) xxx-xxxx
+
+# search result
+search: 2
+result: 0 Success
+
+# numResponses: 2
+# numEntries: 1</programlisting>
+
+      <para>In this example, it is very obvious what the various
+	attributes are; however, the <acronym>cn</acronym> attribute
+	should be noticed.  This is the <acronym>RDN</acronym> discussed
+	previously.  In addition, there is a unique user id provided
+	here.  It is common practice to have specific uid or uuids for
+	entries to ease in any future migration.</para>
+      </sect2>
+
+    <sect2>
+      <title>Configuring an <acronym>LDAP</acronym> Server</title>
+
+      <indexterm><primary>LDAP Server</primary></indexterm>
+
+      <para>To configure &os; to act as an <acronym>LDAP</acronym>
+	server, the OpenLDAP port needs installed.  This may be
+	accomplished using the <command>pkg_add</command> command
+	or by installing the
+	<filename role="port">net/openldap24-server</filename>
+	port.  Building the port is recommended as the administrator
+	may select a great deal of options at this time and disable
+	some options.  In most cases, the defaults will be fine;
+	however, this is the time to enable SQL support if
+	needed.</para>
+
+      <para>A few directories will be required from this point on,
+        at minimal, a data directory and a directory to store the
+	certificates in.  Create them both with the following
+	commands:</para>
+
+      <screen>&prompt.root; <userinput>mkdir /var/db/openldap-data</userinput></screen>
+
+      <screen>&prompt.root; <userinput>mkdir /usr/local/etc/openldap/private</userinput></screen>
+
+      <para>Copy over the database configuration file:</para>
+
+      <screen>&prompt.root; <userinput>cp /usr/local/etc/openldap/DB_CONFIG.example /var/db/openldap-data/DB_CONFIG</userinput></screen>
+      
+      <para>The next phase is to configure the <acronym>SSL</acronym>
+	certificates.  While creating certificates is discussed in
+	the <link linkend="openssl">OpenSSL</link> section in this
+	book, a certificate authority is needed so a different method
+	will be used.  It is recommended that this section be reviewed
+	prior to configuring to ensure correct information is entered
+	during the certificate creation process below.</para>
+
+      <para>The following commands must be executed in the
+	<filename class="directory">
+	  /usr/local/etc/openldap/private</filename> directory.  This
+	is important as the file permissions will need to be restrictive
+	and users should not have access to these files directly.  To
+	create the certificates, issues the following commands.</para>
+
+      <screen>&prompt.root; <userinput>openssl req -days 365 -nodes -new -x509 -keyout ca.key -out ../ca.crt</userinput></screen>
+
+      <para>The entries for these may be completely generic
+	<emphasis>except</emphasis> for the
+	<emphasis>Common Name</emphasis> entry.  This entry must have
+	something different than the system hostname.  If the entry
+	is the hostname, it would be like the hostname is attempting
+	to verify hostname.  In cases with a self signed certificate
+	like this example, just prefix the hostname with
+	<acronym>CA</acronym> for certificate authority.</para>
+
+      <para>The next task is to create a certificate signing request
+        and a private key.  To do this, issue the following
+	commands:</para>
+
+      <screen>&prompt.root; <userinput>openssl req -days 365 -nodes -new -keyout server.key -out server.csr</userinput></screen>
+
+      <para>During the certificate generation process, be sure to
+	correctly set the common name attribute.  After this has
+	been completed, the key will need signed:</para>
+
+      <screen>&prompt.root; <userinput>openssl x509 -req -days 365 -in server.csr -out ../server.crt -CA ../ca.crt -CAkey ca.key -CAcreateserial</userinput></screen>
+
+      <para>The final part of the certificate generation process
+	is to generate and sign the client certificates:</para>
+
+      <screen>&prompt.root; <userinput>openssl req -days 365 -nodes -new -keyout client.key -out client.csr</userinput></screen>
+
+      <screen>&prompt.root; <userinput>openssl x509 -req -days 3650 -in client.csr -out ../client.crt -CA ../ca.crt -CAkey ca.key</userinput></screen>
+
+      <para>Remember, again, to respect the common name attribute.  This
+	is a common cause for confusion during the first attempt to
+	configure <acronym>LDAP</acronym>.  In addition, ensure that
+	a total of eight (8) new files have been generated through
+	the proceeding commands.  If so, the next step is to edit
+	<filename>/usr/local/etc/openldap/slapd.conf</filename> and add
+	the following options:</para>
+
+      <programlisting>TLSCipherSuite HIGH:MEDIUM:+SSLv3
+TLSCertificateFile /usr/local/etc/openldap/server.crt
+TLSCertificateKeyFile /usr/local/etc/openldap/private/server.key
+TLSCACertificateFile /usr/local/etc/openldap/ca.crt</programlisting>
+
+      <para>In addition, edit
+	<filename>/usr/local/etc/openldap/ldap.conf</filename> and
+	add the following lines:</para>
+
+      <programlisting>TLS_CACERT /usr/local/etc/openldap/ca.crt
+TLS_CIPHER_SUITE HIGH:MEDIUM:+SSLv3</programlisting>
+
+      <para>While editing these this file, set the <option>BASE</option>
+	to the desired values, and uncomment all three of the
+	<option>URI</option>, <option>SIZELIMIT</option> and
+	<option>TIMELIMIT</option> options.  In addition, set the
+	<option>URI</option> to contain <option>ldap://</option>
+	and <option>ldaps://</option>.</para>
+
+      <para>The resulting file should look similar to the following
+	shown here:</para>
+
+      <programlisting>BASE    dc=example,dc=com
+URI     ldap:// ldaps://
+
+SIZELIMIT       12
+TIMELIMIT       15
+#DEREF          never
+
+TLS_CACERT /usr/local/etc/openldap/ca.crt
+TLS_CIPHER_SUITE HIGH:MEDIUM:+SSLv3</programlisting>
+
+      <para>A password for the server will need to be created as the
+	default is extremely poor as is normal in this industry.  To
+	do this, issue the following command, sending the output to
+	<filename>slapd.conf</filename>:</para>
+
+      <screen>&prompt.root; <userinput>slappasswd -h "{SHA}" &gt;&gt; /usr/local/etc/openldap/slapd.conf</userinput></screen>
+
+      <para>There will be a prompt for entering the password and,
+	if the process does not fail, a password hash will be added
+	to the end of <filename>slapd.conf</filename>.  The
+	<command>slappasswd</command> understands several hashing
+	formats, refer to the manual page for more information.</para>
+
+      <para>Edit <filename>/usr/local/etc/openldap/slapd.conf</filename>
+	and add the following lines:</para>
+
+      <programlisting>password-hash {sha}
+allow bind_v2</programlisting>
+
+      <para>In addition, the <option>suffix</option> in this file must
+	be updated to match the <option>BASE</option> from the previous
+	configuration.  The <option>rootdn</option> option should
+	also be set.  A good recommendation is something like
+	<option>cn=Manager</option>.  Before saving this file, place
+	the <option>rootpw</option> option in front of the password
+	output from the <command>slappasswd</command> and delete the
+	old <option>rootpw</option> option above.  The end result
+	should look similar to this:</para>
+
+      <programlisting>TLSCipherSuite HIGH:MEDIUM:+SSLv3
+TLSCertificateFile /usr/local/etc/openldap/server.crt
+TLSCertificateKeyFile /usr/local/etc/openldap/private/server.key
+TLSCACertificateFile /usr/local/etc/openldap/ca.crt
+rootpw  {SHA}W6ph5Mm5Pz8GgiULbPgzG37mj9g=</programlisting>
+
+      <para>Finally, enable the <application>OpenLDAP</application>
+	service in <filename>rc.conf</filename>.  At this time,
+	setting up a <acronym>URI</acronym> and providing the group
+	and user to run as may be useful.
+	Edit <filename>/etc/rc.conf</filename> and add the following
+	lines:</para>
+
+      <programlisting>slapd_enable="YES"
+slapd_flags="-4 -h ldaps:///"</programlisting>
+
+      <para>At this point the server should be ready to be brought
+	up and tested.  To perform this task, issue the following
+	command:</para>
+
+      <screen>&prompt.root; <userinput>service slapd start</userinput></screen>
+
+      <para>If everything was configured correctly, a search of the
+	directory should show a successful connection with a single
+	response as in this example:</para>
+
+      <screen>&prompt.root; <userinput>ldapsearch -Z</userinput></screen>
+
+      <programlisting># extended LDIF
+#
+# LDAPv3
+# base &lt;dc=example,dc=com&gt; (default) with scope subtree
+# filter: (objectclass=*)
+# requesting: ALL
+#
+
+# search result
+search: 3
+result: 32 No such object
+
+# numResponses: 1</programlisting>
+
+      
+    </sect2>
+  </sect1>
+
+  <sect1 id="network-ldap">
+    <sect1info>
+      <authorgroup>
+	<author>
+	  <firstname>Tom</firstname>
+	  <surname>Rhodes</surname>
+	  <contrib>Written by </contrib>
+	</author>
+      </authorgroup>
+    </sect1info>
+    <title>&os; and <acronym>LDAP</acronym></title>
+<!-- XXXTR: Needed here or drop down? -->
+    <indexterm><primary>LDAP</primary></indexterm>
+
+    <para><acronym>LDAP</acronym>, the Lightweight Directory Access
+      Protocol, is an application layer protocol used to access,
+      modify, and authenticate (bind) using a distributed directory
+      information service.  Think of it as a phone or record book which
+      stores several levels of hierarchical, homogeneous information.
+      It is often used in networks where users often need access to
+      several levels of internal information utilizing a single
+      account.  For example, email authentication, pulling employee
+      contact information, and internal website authentication might
+      all make use of a single user in the <acronym>LDAP</acronym>
+      server's record base.</para>
+
+    <para>This section will not provide a history or the implementation
+      details of the protocol.  These sections were authored to get an
+      <acronym>LDAP</acronym> server and/or client configured both
+      quickly and securely; however, any information base requires
+      planning and this is no exception.</para>
+
+    <para>Planning should include what type of information will be
+      stored, what that information will be used for, whom should
+      have access to said information, and how to secure this
+      information from prying eyes.</para>
+
+    <sect2>
+      <title><acronym>LDAP</acronym> Terminology and Structure</title>
+
+      <para>Before continuing, several parts of <acronym>LDAP</acronym>
+	must be explained to prevent confusion.  And confusion with
+	this configuration is relatively simple.  To begin, all
+	directory entries consist of a group of
+	<emphasis>attributes</emphasis>.  Each of these attribute sets
+	contain a name, a unique identifier known as a
+	<acronym>DN</acronym> or distinguished name normally built from
+	several other attributes such as the <acronym>RDN</acronym>.
+	The <acronym>RDN</acronym> or relative distinguished name, is
+	a more common name for the attribute.  Like directories have
+	absolute and relative paths, consider a <acronym>DN</acronym>
+	as an absolute path and the <acronym>RDN</acronym> as the
+	relative path.</para>
+
+      <para>As an example, an entry might look like the
+        following:</para>
+
+      <screen>&prompt.user; ldapsearch -xb "uid=trhodes,ou=users,o=example.com"</screen>
+      
+      <programlisting># extended LDIF
+#
+# LDAPv3
+# base &lt;uid=trhodes,ou=users,o=example.com&gt; with scope subtree
+# filter: (objectclass=*)
+# requesting: ALL
+#
+
+# trhodes, users, example.com
+dn: uid=trhodes,ou=users,o=example.com
+mail: trhodes@example.com
+cn: Tom Rhodes
+uid: trhodes
+telephoneNumber: (xxx) xxx-xxxx
+
+# search result
+search: 2
+result: 0 Success
+
+# numResponses: 2
+# numEntries: 1</programlisting>
+
+      <para>In this example, it is very obvious what the various
+	attributes are; however, the <acronym>cn</acronym> attribute
+	should be noticed.  This is the <acronym>RDN</acronym> discussed
+	previously.  In addition, there is a unique user id provided
+	here.  It is common practice to have specific uid or uuids for
+	entries to ease in any future migration.</para>
+      </sect2>
+
+    <sect2>
+      <title>Configuring an <acronym>LDAP</acronym> Server</title>
+
+      <indexterm><primary>LDAP Server</primary></indexterm>
+
+      <para>To configure &os; to act as an <acronym>LDAP</acronym>
+	server, the OpenLDAP port needs installed.  This may be
+	accomplished using the <command>pkg_add</command> command
+	or by installing the
+	<filename role="port">net/openldap24-server</filename>
+	port.  Building the port is recommended as the administrator
+	may select a great deal of options at this time and disable
+	some options.  In most cases, the defaults will be fine;
+	however, this is the time to enable SQL support if
+	needed.</para>
+
+      <para>A few directories will be required from this point on,
+        at minimal, a data directory and a directory to store the
+	certificates in.  Create them both with the following
+	commands:</para>
+
+      <screen>&prompt.root; <userinput>mkdir /var/db/openldap-data</userinput></screen>
+
+      <screen>&prompt.root; <userinput>mkdir /usr/local/etc/openldap/private</userinput></screen>
+
+      <para>Copy over the database configuration file:</para>
+
+      <screen>&prompt.root; <userinput>cp /usr/local/etc/openldap/DB_CONFIG.example /var/db/openldap-data/DB_CONFIG</userinput></screen>
+      
+      <para>The next phase is to configure the <acronym>SSL</acronym>
+	certificates.  While creating certificates is discussed in
+	the <link linkend="openssl">OpenSSL</link> section in this
+	book, a certificate authority is needed so a different method
+	will be used.  It is recommended that this section be reviewed
+	prior to configuring to ensure correct information is entered
+	during the certificate creation process below.</para>
+
+      <para>The following commands must be executed in the
+	<filename class="directory">
+	  /usr/local/etc/openldap/private</filename> directory.  This
+	is important as the file permissions will need to be restrictive
+	and users should not have access to these files directly.  To
+	create the certificates, issues the following commands.</para>
+
+      <screen>&prompt.root; <userinput>openssl req -days 365 -nodes -new -x509 -keyout ca.key -out ../ca.crt</userinput></screen>
+
+      <para>The entries for these may be completely generic
+	<emphasis>except</emphasis> for the
+	<emphasis>Common Name</emphasis> entry.  This entry must have
+	something different than the system hostname.  If the entry
+	is the hostname, it would be like the hostname is attempting
+	to verify hostname.  In cases with a self signed certificate
+	like this example, just prefix the hostname with
+	<acronym>CA</acronym> for certificate authority.</para>
+
+      <para>The next task is to create a certificate signing request
+        and a private key.  To do this, issue the following
+	commands:</para>
+
+      <screen>&prompt.root; <userinput>openssl req -days 365 -nodes -new -keyout server.key -out server.csr</userinput></screen>
+
+      <para>During the certificate generation process, be sure to
+	correctly set the common name attribute.  After this has
+	been completed, the key will need signed:</para>
+
+      <screen>&prompt.root; <userinput>openssl x509 -req -days 365 -in server.csr -out ../server.crt -CA ../ca.crt -CAkey ca.key -CAcreateserial</userinput></screen>
+
+      <para>The final part of the certificate generation process
+	is to generate and sign the client certificates:</para>
+
+      <screen>&prompt.root; <userinput>openssl req -days 365 -nodes -new -keyout client.key -out client.csr</userinput></screen>
+
+      <screen>&prompt.root; <userinput>openssl x509 -req -days 3650 -in client.csr -out ../client.crt -CA ../ca.crt -CAkey ca.key</userinput></screen>
+
+      <para>Remember, again, to respect the common name attribute.  This
+	is a common cause for confusion during the first attempt to
+	configure <acronym>LDAP</acronym>.  In addition, ensure that
+	a total of eight (8) new files have been generated through
+	the proceeding commands.  If so, the next step is to edit
+	<filename>/usr/local/etc/openldap/slapd.conf</filename> and add
+	the following options:</para>
+
+      <programlisting>TLSCipherSuite HIGH:MEDIUM:+SSLv3
+TLSCertificateFile /usr/local/etc/openldap/server.crt
+TLSCertificateKeyFile /usr/local/etc/openldap/private/server.key
+TLSCACertificateFile /usr/local/etc/openldap/ca.crt</programlisting>
+
+      <para>In addition, edit
+	<filename>/usr/local/etc/openldap/ldap.conf</filename> and
+	add the following lines:</para>
+
+      <programlisting>TLS_CACERT /usr/local/etc/openldap/ca.crt
+TLS_CIPHER_SUITE HIGH:MEDIUM:+SSLv3</programlisting>
+
+      <para>While editing these this file, set the <option>BASE</option>
+	to the desired values, and uncomment all three of the
+	<option>URI</option>, <option>SIZELIMIT</option> and
+	<option>TIMELIMIT</option> options.  In addition, set the
+	<option>URI</option> to contain <option>ldap://</option>
+	and <option>ldaps://</option>.</para>
+
+      <para>The resulting file should look similar to the following
+	shown here:</para>
+
+      <programlisting>BASE    dc=example,dc=com
+URI     ldap:// ldaps://
+
+SIZELIMIT       12
+TIMELIMIT       15
+#DEREF          never
+
+TLS_CACERT /usr/local/etc/openldap/ca.crt
+TLS_CIPHER_SUITE HIGH:MEDIUM:+SSLv3</programlisting>
+
+      <para>A password for the server will need to be created as the
+	default is extremely poor as is normal in this industry.  To
+	do this, issue the following command, sending the output to
+	<filename>slapd.conf</filename>:</para>
+
+      <screen>&prompt.root; <userinput>slappasswd -h "{SHA}" &gt;&gt; /usr/local/etc/openldap/slapd.conf</userinput></screen>
+
+      <para>There will be a prompt for entering the password and,
+	if the process does not fail, a password hash will be added
+	to the end of <filename>slapd.conf</filename>.  The
+	<command>slappasswd</command> understands several hashing
+	formats, refer to the manual page for more information.</para>
+
+      <para>Edit <filename>/usr/local/etc/openldap/slapd.conf</filename>
+	and add the following lines:</para>
+
+      <programlisting>password-hash {sha}
+allow bind_v2</programlisting>
+
+      <para>In addition, the <option>suffix</option> in this file must
+	be updated to match the <option>BASE</option> from the previous
+	configuration.  The <option>rootdn</option> option should
+	also be set.  A good recommendation is something like
+	<option>cn=Manager</option>.  Before saving this file, place
+	the <option>rootpw</option> option in front of the password
+	output from the <command>slappasswd</command> and delete the
+	old <option>rootpw</option> option above.  The end result
+	should look similar to this:</para>
+
+      <programlisting>TLSCipherSuite HIGH:MEDIUM:+SSLv3
+TLSCertificateFile /usr/local/etc/openldap/server.crt
+TLSCertificateKeyFile /usr/local/etc/openldap/private/server.key
+TLSCACertificateFile /usr/local/etc/openldap/ca.crt
+rootpw  {SHA}W6ph5Mm5Pz8GgiULbPgzG37mj9g=</programlisting>
+
+      <para>Finally, enable the <application>OpenLDAP</application>
+	service in <filename>rc.conf</filename>.  At this time,
+	setting up a <acronym>URI</acronym> and providing the group
+	and user to run as may be useful.
+	Edit <filename>/etc/rc.conf</filename> and add the following
+	lines:</para>
+
+      <programlisting>slapd_enable="YES"
+slapd_flags="-4 -h ldaps:///"</programlisting>
+
+      <para>At this point the server should be ready to be brought
+	up and tested.  To perform this task, issue the following
+	command:</para>
+
+      <screen>&prompt.root; <userinput>service slapd start</userinput></screen>
+
+      <para>If everything was configured correctly, a search of the
+	directory should show a successful connection with a single
+	response as in this example:</para>
+
+      <screen>&prompt.root; <userinput>ldapsearch -Z</userinput></screen>
+
+      <programlisting># extended LDIF
+#
+# LDAPv3
+# base &lt;dc=example,dc=com&gt; (default) with scope subtree
+# filter: (objectclass=*)
+# requesting: ALL
+#
+
+# search result
+search: 3
+result: 32 No such object
+
+# numResponses: 1</programlisting>
+
+      <para>Considering the service should now be responding, as it
+	is above, the directory may be populated using the
+	<command>ldapadd</command> command.  In this example, there
+	is a file containing a list of users to be added to this
+	particular directory.  First, create a file to be imported
+	with the following dataset:</para>
+
+      <programlisting>dn: dc=example,dc=com
+objectclass: dcObject
+objectclass: organization
+o: Example
+dc: Example
+
+dn: cn=Manager,dc=example,dc=com
+objectclass: organizationalRole
+cn: Manager</programlisting>
+
+      <note>
+	<para>To debug any of the following, stop the
+	  <command>slapd</command> service using the
+	  <command>service</command> command and start it using with
+	  debugging options.  To accomplish this, issue the following
+	  command:</para>
+
+	<screen>&prompt.root; <userinput>/usr/local/libexec/slapd -d -1</userinput></screen>
+      </note>
+
+      <para>To import this datafile, issue the following command,
+	assuming the file is <filename>import.ldif</filename>:</para>
+
+      <screen>&prompt.root; <userinput>ldapadd -Z -D "cn=Manager,dc=example,dc=com" -W -f <replaceable>import.ldif</replaceable></userinput></screen>
+
+      <para>There will be a request for the password specified earlier,
+	and the output should look like this:</para>
+
+      <screen>Enter LDAP Password: 
+adding new entry "dc=example,dc=com"
+
+adding new entry "cn=Manager,dc=example,dc=com"</screen>
+
+      <para>Verify the data was added by issuing a search on the
+	server using <command>ldapsearch</command>.  In this case
+	the output should look like this:</para>
+
+      <screen>&prompt.user; <userinput>ldapsearch -Z</userinput></screen>
+
+      <screen># extended LDIF
+#
+# LDAPv3
+# base &lt;dc=example,dc=com&gt; (default) with scope subtree
+# filter: (objectclass=*)
+# requesting: ALL
+#
+
+# example.com
+dn: dc=example,dc=com
+objectClass: dcObject
+objectClass: organization
+o: Example
+dc: Example
+
+# Manager, example.com
+dn: cn=Manager,dc=example,dc=com
+objectClass: organizationalRole
+cn: Manager
+
+# search result
+search: 3
+result: 0 Success
+
+# numResponses: 3
+# numEntries: 2</screen>
+
+      <para>It is of course advisable to read about the structure of
+	<acronym>LDAP</acronym> directories and the various manual
+	pages mentioned in this section.  At this point, the server
+	should be configured and functioning properly.</para>
     </sect2>
   </sect1>
 
