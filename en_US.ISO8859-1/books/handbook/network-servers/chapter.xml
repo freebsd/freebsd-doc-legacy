@@ -2157,27 +2157,28 @@ basie&prompt.root;</screen>
 	</tgroup>
       </informaltable>
 
-      <para>Attempting to implement these restrictions by separately
-	blocking each user, there would have to be an addition of the
+      <para>An attempt to implement these restrictions by separately
+	blocking each user, would require the addition of the
 	<literal>-<replaceable>user</replaceable></literal> line to
-	each system's <filename>passwd</filename>.  One for each user
+	each system's <filename>passwd</filename>.  One line for each user
 	who is not allowed to login onto that system.  Forgetting just one
-	entry, could cause significant trouble.  It may be feasible to
+	entry could cause significant trouble.  It may be feasible to
 	do this correctly during the initial setup; however, eventually
 	someone will forget to add these lines
 	for new users.</para>
 
       <para>Handling this situation with netgroups offers several
 	advantages.  Each user need not be handled separately; they
-	would be assigned to one or more netgroups and allow or forbid
-	logins for all members of the netgroup.  While adding a new
+	would be assigned to one or more netgroups and logins would
+	be allowed or forbidden for all members of the netgroup.
+	While adding a new
 	machine, login restrictions must be defined for all
 	netgroups.  If a new user is added, they must be added
 	to one or more netgroups.  Those changes are
 	independent of each other: no more <quote>for each combination
 	of user and machine do...</quote> If the NIS setup is planned
 	carefully, only one central configuration file
-	needs modified to grant or deny access to machines.</para>
+	needs modification to grant or deny access to machines.</para>
 
       <para>The first step is the initialization of the NIS map
 	netgroup.  &os;'s &man.ypinit.8; does not create this map
@@ -2205,7 +2206,7 @@ INTERNS (,able,test-domain)     (,baker,test-domain)</programlisting>
 	<listitem>
 	  <para>The name of the host(s) where the following items are
 	    valid.  If a hostname is not specified, the entry is
-	    valid on all hosts.  If a hostname is specified, they
+	    valid on all hosts.  If a hostname is specified, it
 	    will need to be micro-managed within this
 	    configuration.</para>
 	</listitem>
@@ -2320,8 +2321,8 @@ ellington&prompt.user; <userinput>ypcat -k netgroup.byuser</userinput></screen>
 	  shell.</para>
       </warning>
 
-      <para>After this change, the NIS map will only need modified when
-	a new employee joins the IT department.  A similar approach
+      <para>After this change, the NIS map will only need modification
+	when a new employee joins the IT department.  A similar approach
 	for the less important servers may be used by replacing
 	the old <literal>+:::::::::</literal> in their local version
 	of <filename>/etc/master.passwd</filename> with something like
@@ -2438,7 +2439,7 @@ TWO       (,hotel,test-domain)
       <para>One last word of caution: It may not always be advisable
 	to use machine-based netgroups.  When deploying a couple
 	of dozen or even hundreds of identical machines for student
-	labs, the use of role-based netgroups instead of
+	labs, role-based netgroups instead of
 	machine-based netgroups may be used to keep the size of the NIS
 	map within reasonable limits.</para>
     </sect2>
@@ -2454,12 +2455,11 @@ TWO       (,hotel,test-domain)
 	<listitem>
 	  <para>Every time a new user is added to the lab, they
 	    must be added to the master NIS server
-	    <emphasis>only</emphasis>, and <emphasis>remember
-	    to rebuild the NIS maps</emphasis>.  If this step is
-	    missed, the new user will not be able to login anywhere
-	    except on the NIS master.  For example, if we needed to
-	    add a new user <username>jsmith</username> to the lab, we
-	    would:</para>
+	    and the <acronym>NIS</acronym> maps will need rebuilt.  If
+	    this step is omitted, the new user will not be able to login
+	    anywhere except on the NIS master.  For example, if we
+	    needed to add a new user <username>jsmith</username> to
+	    the lab, we would:</para>
 
 	  <screen>&prompt.root; <userinput>pw useradd jsmith</userinput>
 &prompt.root; <userinput>cd /var/yp</userinput>
@@ -2472,8 +2472,9 @@ TWO       (,hotel,test-domain)
 	</listitem>
 	<listitem>
 	  <para><emphasis>Keep the administration accounts out of the
-	      NIS maps</emphasis>.  These users and passwords should
-	    not be propagating to all machines.  Especially if these
+	      NIS maps</emphasis>.  This is undesirable as it will
+	    create a security risk.  These users and passwords should
+	    not be propagated to all machines.  Especially if these
 	    machines will have users whom should not have access to
 	    those accounts.</para>
 	</listitem>
