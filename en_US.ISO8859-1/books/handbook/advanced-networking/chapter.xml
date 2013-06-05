@@ -5453,14 +5453,19 @@ redirect_port tcp 192.168.0.3:80 80</programlisting>
 	may be a security issue.</para>
 
       <para>This option may not be required in most cases and is
-	available only for compatibility while services are updated
-	to support <acronym>IPv6</acronym>.  To enable the feature,
+	available only for compatibility.  This option will allow
+	<acronym>IPv6</acronym>-only applications to work with
+	<acronym>IPv4</acronym> in a dual stack environment.  This
+	is most useful for third party applications which may not
+	support an <acronym>IPv6</acronym>-only environment.  To
+	enable this feature,
 	add the following to <filename>/etc/rc.conf</filename>:</para>
 
       <programlisting>ipv6_ipv4mapping="YES"</programlisting>
 
       <para>Reviewing the information in <acronym>RFC</acronym> 3493,
-	section 3.6 and 3.7 may be useful to some adminstrators.</para>
+	section 3.6 and 3.7 as well as <acronym>RFC</acronym> 4038
+	section 4.2 may be useful to some adminstrators.</para>
     </sect2>
   </sect1>
 
