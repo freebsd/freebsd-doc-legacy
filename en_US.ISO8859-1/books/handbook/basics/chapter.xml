@@ -1254,13 +1254,6 @@ root     5211  0.0  0.2  3620  1724   2  I+    2:09AM   0:00.01 passwd</screen>
       </textobject>
     </mediaobject>
 
-    <para>This is similar, although not identical, to a &ms-dos;
-      <command>join</command>.</para>
-
-    <para>Typically file systems are created when installing &os;
-      and never change
-      unless a new disk is added.</para>
-
     <para>It is entirely possible to have one large root file system,
       and not need to create any others.  There are some drawbacks to
       this approach, and one advantage.</para>
@@ -1386,11 +1379,10 @@ root     5211  0.0  0.2  3620  1724   2  I+    2:09AM   0:00.01 passwd</screen>
       </tgroup>
     </informaltable>
 
-    <para>Each partition-that-contains-a-file-system is stored in what
-      &os; calls a <firstterm>slice</firstterm>.  Slice is &os;'s
-      term for what the common call partitions, and again, this is
-      because of &os;'s &unix; background.  Slices are numbered,
-      starting at 1, through to 4.</para>
+    <para>Disks in &os; are divided into slices, referred to in
+      &windows; as partitions, which are numbered from 1 to 4.  These
+      are then then divided into partitions, which contain file
+      systems, and are labeled using letters.</para>
 
     <indexterm><primary>slices</primary></indexterm>
     <indexterm><primary>partitions</primary></indexterm>
@@ -1795,17 +1787,6 @@ root     5211  0.0  0.2  3620  1724   2  I+    2:09AM   0:00.01 passwd</screen>
 	as a comma-separated list:</para>
 
       <variablelist>
-	<varlistentry>
-	  <term>noexec</term>
-
-	  <listitem>
-	    <para>Do not allow execution of binaries on this file
-	      system.  This option should not be the only security
-	      control placed on a file system as scripts written in
-	      any language may still execute.</para>
-	  </listitem>
-	</varlistentry>
-
 	<varlistentry>
 	  <term>nosuid</term>
 
@@ -2400,28 +2381,8 @@ Swap: 256M Total, 38M Used, 217M Free, 15% Inuse
       keyboard.</para>
 
     <para>Most devices in a &os; must be accessed through special
-      files called device nodes, which are located in <filename
-	class="directory">/dev</filename>.</para>
-
-    <sect2>
-      <title>Creating Device Nodes</title>
-
-      <para>When adding a new device to your system, or compiling
-	in support for additional devices, new device nodes must
-	be created.</para>
-
-      <sect3>
-	<title><literal>DEVFS</literal> (DEVice File System)</title>
-
-	<para> The device file system, <literal>DEVFS</literal>,
-	  provides access to the kernel's device namespace in the
-	  global file system namespace.  Instead of having to
-	  manually create and modify device nodes,
-	  <literal>DEVFS</literal> automatically maintains this
-	  particular file system.  Refer to &man.devfs.5; for
-	  more information.</para>
-      </sect3>
-    </sect2>
+      files called device nodes, which are located in
+      <filename class="directory">/dev</filename>.</para>
   </sect1>
 
   <sect1 id="binary-formats">
@@ -2566,19 +2527,8 @@ Swap: 256M Total, 38M Used, 217M Free, 15% Inuse
       <acronym>ELF</acronym> may be a little slower than
       <filename>a.out</filename>, but trying to measure it can be
       difficult.  There are also numerous details that are different
-      between the two such as how they map pages and handle init code.
-      In time, support for <filename>a.out</filename> will be moved
-      out of the <filename>GENERIC</filename> kernel, and eventually
-      removed from the kernel once the need to run legacy
-      <filename>a.out</filename> programs is past.</para>
-
-    <para>In addition to &man.file.1; another command that can prove
-      useful when working with executables is &man.ldd.1;.  If
-      &man.file.1; reveals that a file is a dynamically linked
-      executable &man.ldd.1; can figure out what dynamically linked
-      libraries that executable file requires.  Sometimes programs can
-      be linked against compatibility libraries instead of the main
-      system libraries, or otherwise rely on dynamic libraries.</para>
+      between the two such as how they map pages and handle init
+      code.</para>
   </sect1>
 
   <sect1 id="basics-more-information">

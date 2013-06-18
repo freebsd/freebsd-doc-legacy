@@ -1120,7 +1120,7 @@
 
 <!ENTITY a.rink "Rink Springer <email>rink@FreeBSD.org</email>">
 
-<!ENTITY a.rm "Ruslan Mahmatkhanov <email>rm@FreeBSD.org</email>">
+<!ENTITY a.rm "Ruslan Makhmatkhanov <email>rm@FreeBSD.org</email>">
 
 <!ENTITY a.rmacklem "Rick Macklem <email>rmacklem@FreeBSD.org</email>">
 
@@ -1391,6 +1391,8 @@
 <!ENTITY a.vd "Vasil Dimov <email>vd@FreeBSD.org</email>">
 
 <!ENTITY a.versus "Konrad Jankowski <email>versus@FreeBSD.org</email>">
+
+<!ENTITY a.vg "Veniamin Gvozdikov <email>vg@FreeBSD.org</email>">
 
 <!ENTITY a.viny "Vincent Tougait <email>viny@FreeBSD.org</email>">
 
