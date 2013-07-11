@@ -44,7 +44,7 @@
 
   <xsl:template name="user.footer.navigation">
     <p align="center"><small>This, and other documents, can be downloaded
-    from <a href="ftp://ftp.FreeBSD.org/pub/FreeBSD/doc/">ftp://ftp.FreeBSD.org/pub/FreeBSD/doc/</a></small></p>
+    from <a href="http://ftp.FreeBSD.org/pub/FreeBSD/doc/">http://ftp.FreeBSD.org/pub/FreeBSD/doc/</a></small></p>
 
     <p align="center"><small>For questions about FreeBSD, read the
     <a href="http://www.FreeBSD.org/docs.html">documentation</a> before
@@ -72,6 +72,36 @@
 
   <xsl:template match="refentrytitle" mode="no.anchor.mode">
     <xsl:value-of select="."/>
+  </xsl:template>
+
+  <!-- Customization to allow role="nolink" -->
+  <xsl:template match="email">
+    <xsl:call-template name="inline.monoseq">
+      <xsl:with-param name="content">
+	<xsl:if test="not($email.delimiters.enabled = 0)">
+	  <xsl:text>&lt;</xsl:text>
+	</xsl:if>
+	<xsl:choose>
+	  <xsl:when test="@role='nolink'">
+	    <xsl:apply-templates/>
+	  </xsl:when>
+
+	  <xsl:otherwise>
+	    <a>
+	      <xsl:apply-templates select="." mode="common.html.attributes"/>
+	      <xsl:attribute name="href">
+		<xsl:text>mailto:</xsl:text>
+		<xsl:value-of select="."/>
+	      </xsl:attribute>
+	      <xsl:apply-templates/>
+	    </a>
+	  </xsl:otherwise>
+	</xsl:choose>
+	<xsl:if test="not($email.delimiters.enabled = 0)">
+	  <xsl:text>&gt;</xsl:text>
+	</xsl:if>
+      </xsl:with-param>
+    </xsl:call-template>
   </xsl:template>
 
   <!-- Add title class to emitted hX -->
