@@ -100,81 +100,635 @@
     <title>The Z File System (ZFS)</title>
 
     <para>The Z&nbsp;file system, originally developed by &sun;,
-      is designed to use a pooled storage method in that space is only
-      used as it is needed for data storage.  It is also designed for
-      maximum data integrity, supporting data snapshots, multiple
-      copies, and data checksums.  It uses a software data replication
-      model, known as <acronym>RAID</acronym>-Z.
-      <acronym>RAID</acronym>-Z provides redundancy similar to
-      hardware <acronym>RAID</acronym>, but is designed to prevent
-      data write corruption and to overcome some of the limitations
-      of hardware <acronym>RAID</acronym>.</para>
+      is designed to future proof the file system by removing many of
+      the arbitrary limits imposed on previous file systems.  ZFS
+      allows continuous growth of the pooled storage by adding
+      additional devices.  ZFS allows you to create many file systems
+      (in addition to block devices) out of a single shared pool of
+      storage.  Space is allocated as needed, so all remaining free
+      space is available to each file system in the pool.  It is also
+      designed for maximum data integrity, supporting data snapshots,
+      multiple copies, and cryptographic checksums.  It uses a
+      software data replication model, known as
+      <acronym>RAID</acronym>-Z. <acronym>RAID</acronym>-Z provides
+      redundancy similar to hardware <acronym>RAID</acronym>, but is
+      designed to prevent data write corruption and to overcome some
+      of the limitations of hardware <acronym>RAID</acronym>.</para>
 
-    <sect2>
-      <title>ZFS Tuning</title>
+    <sect2 id="filesystems-zfs-term">
+      <title>ZFS Features and Terminology</title>
 
-      <para>Some of the features provided by <acronym>ZFS</acronym>
-	are RAM-intensive, so some tuning may be required to provide
-	maximum efficiency on systems with limited RAM.</para>
+      <para>ZFS is a fundamentally different file system because it
+	is more than just a file system.  ZFS combines the roles of
+	file system and volume manager, enabling additional storage
+	devices to be added to a live system and having the new space
+	available on all of the existing file systems in that pool
+	immediately.  By combining the traditionally separate roles,
+	ZFS is able to overcome previous limitations that prevented
+	RAID groups being able to grow.  Each top level device in a
+	zpool is called a vdev, which can be a simple disk or a RAID
+	transformation such as a mirror or RAID-Z array.  ZFS file
+	systems (called datasets), each have access to the combined
+	free space of the entire pool.  As blocks are allocated the
+	free space in the pool available to of each file system is
+	decreased.  This approach avoids the common pitfall with
+	extensive partitioning where free space becomes fragmentated
+	across the partitions.</para>
 
-      <sect3>
-	<title>Memory</title>
+      <informaltable pgwide="1">
+	<tgroup cols="2">
+	  <tbody>
+	    <row>
+	      <entry valign="top"><anchor
+		id="filesystems-zfs-term-zpool"/>zpool</entry>
 
-	<para>At a bare minimum, the total system memory should be at
-	  least one gigabyte.  The amount of recommended RAM depends
-	  upon the size of the pool and the ZFS features which are
-	  used.  A general rule of thumb is 1GB of RAM for every 1TB
-	  of storage.  If the deduplication feature is used, a general
-	  rule of thumb is 5GB of RAM per TB of storage to be
-	  deduplicated.  While some users successfully use ZFS with
-	  less RAM, it is possible that when the system is under heavy
-	  load, it may panic due to memory exhaustion.  Further tuning
-	  may be required for systems with less than the recommended
-	  RAM requirements.</para>
-      </sect3>
+	      <entry>A storage pool is the most basic building block
+		of ZFS.  A pool is made up of one or more vdevs, the
+		underlying devices that store the data.  A pool is
+		then used to create one or more file systems
+		(datasets) or block devices (volumes).  These datasets
+		and volumes share the pool of remaining free space.
+		Each pool is uniquely identified by a name and a
+		<acronym>GUID</acronym>.  The zpool also controls the
+		version number and therefore the features available
+		for use with ZFS.
+		<note><para>&os; 9.0 and 9.1 include
+		  support for ZFS version 28.  Future versions use ZFS
+		  version 5000 with feature flags.  This allows
+		  greater cross-compatibility with other
+		  implementations of ZFS.
+		</para></note></entry>
+	    </row>
 
-      <sect3>
-	<title>Kernel Configuration</title>
+	    <row>
+	      <entry valign="top"><anchor
+		id="filesystems-zfs-term-vdev"/>vdev&nbsp;Types</entry>
 
-	<para>Due to the RAM limitations of the &i386; platform, users
-	  using ZFS on the &i386; architecture should add the
-	  following option to a custom kernel configuration file,
-	  rebuild the kernel, and reboot:</para>
+	      <entry>A zpool is made up of one or more vdevs, which
+		themselves can be a single disk or a group of disks,
+		in the case of a RAID transform.  When multiple vdevs
+		are used, ZFS spreads data across the vdevs to
+		increase performance and maximize usable space.
+		<itemizedlist>
+		  <listitem>
+		    <para><anchor
+		      id="filesystems-zfs-term-vdev-disk"/>
+		      <emphasis>Disk</emphasis> - The most basic type
+		      of vdev is a standard block device.  This can be
+		      an entire disk (such as
+		      <devicename><replaceable>/dev/ada0</replaceable></devicename>
+		      or
+		      <devicename><replaceable>/dev/da0</replaceable></devicename>)
+		      or a partition
+		      (<devicename><replaceable>/dev/ada0p3</replaceable></devicename>).
+		      Contrary to the Solaris documentation, on &os;
+		      there is no performance penalty for using a
+		      partition rather than an entire disk.</para>
+		  </listitem>
 
-	<programlisting>options 	KVA_PAGES=512</programlisting>
+		  <listitem>
+		    <para><anchor
+		      id="filesystems-zfs-term-vdev-file"/>
+		      <emphasis>File</emphasis> - In addition to
+		      disks, ZFS pools can be backed by regular files,
+		      this is especially useful for testing and
+		      experimentation.  Use the full path to the file
+		      as the device path in the zpool create command.
+		      All vdevs must be atleast 128&nbsp;MB in
+		      size.</para>
+		  </listitem>
 
-	<para>This option expands the kernel address space, allowing
-	  the <varname>vm.kvm_size</varname> tunable to be pushed
-	  beyond the currently imposed limit of 1&nbsp;GB, or the
-	  limit of 2&nbsp;GB for <acronym>PAE</acronym>.  To find the
-	  most suitable value for this option, divide the desired
-	  address space in megabytes by four (4).  In this example, it
-	  is <literal>512</literal> for 2&nbsp;GB.</para>
-      </sect3>
+		  <listitem>
+		    <para><anchor
+		      id="filesystems-zfs-term-vdev-mirror"/>
+		      <emphasis>Mirror</emphasis> - When creating a
+		      mirror, specify the <literal>mirror</literal>
+		      keyword followed by the list of member devices
+		      for the mirror.  A mirror consists of two or
+		      more devices, all data will be written to all
+		      member devices.  A mirror vdev will only hold as
+		      much data as its smallest member.  A mirror vdev
+		      can withstand the failure of all but one of its
+		      members without losing any data.</para>
 
-      <sect3>
-	<title>Loader Tunables</title>
+		    <note>
+		      <para>
+			A regular single disk vdev can be
+			upgraded to a mirror vdev at any time using
+			the <command>zpool</command> <link
+			linkend="filesystems-zfs-zpool-attach">attach</link>
+			command.</para>
+		    </note>
+		  </listitem>
 
-	<para>The <devicename>kmem</devicename> address space can
-	  be increased on all &os; architectures.  On a test system
-	  with one gigabyte of physical memory, success was achieved
-	  with the following options added to
-	  <filename>/boot/loader.conf</filename>, and the system
-	  restarted:</para>
+		  <listitem>
+		    <para><anchor
+		      id="filesystems-zfs-term-vdev-raidz"/>
+		      <emphasis><acronym>RAID</acronym>-Z</emphasis> -
+		      ZFS implements RAID-Z, a variation on standard
+		      RAID-5 that offers better distribution of parity
+		      and eliminates the "RAID-5 write hole" in which
+		      the data and parity information become
+		      inconsistent after an unexpected restart.  ZFS
+		      supports 3 levels of RAID-Z which provide
+		      varying levels of redundancy in exchange for
+		      decreasing levels of usable storage.  The types
+		      are named RAID-Z1 through Z3 based on the number
+		      of parity devinces in the array and the number
+		      of disks that the pool can operate
+		      without.</para>
 
-	<programlisting>vm.kmem_size="330M"
-vm.kmem_size_max="330M"
-vfs.zfs.arc_max="40M"
-vfs.zfs.vdev.cache.size="5M"</programlisting>
+		    <para>In a RAID-Z1 configuration with 4 disks,
+		      each 1&nbsp;TB, usable storage will be 3&nbsp;TB
+		      and the pool will still be able to operate in
+		      degraded mode with one faulted disk.  If an
+		      additional disk goes offline before the faulted
+		      disk is replaced and resilvered, all data in the
+		      pool can be lost.</para>
 
-	<para>For a more detailed list of recommendations for
-	  ZFS-related tuning, see <ulink
-	    url="http://wiki.freebsd.org/ZFSTuningGuide"></ulink>.</para>
-      </sect3>
+		    <para>In a RAID-Z3 configuration with 8 disks of
+		      1&nbsp;TB, the volume would provide 5TB of
+		      usable space and still be able to operate with
+		      three faulted disks.  Sun recommends no more
+		      than 9 disks in a single vdev.  If the
+		      configuration has more disks, it is recommended
+		      to divide them into separate vdevs and the pool
+		      data will be striped across them.</para>
+
+		    <para>A configuration of 2 RAID-Z2 vdevs
+		      consisting of 8 disks each would create
+		      something similar to a RAID 60 array.  A RAID-Z
+		      group's storage capacity is approximately the
+		      size of the smallest disk, multiplied by the
+		      number of non-parity disks.  4x 1&nbsp;TB disks
+		      in Z1 has an effective size of approximately
+		      3&nbsp;TB, and a 8x 1&nbsp;TB array in Z3 will
+		      yeild 5&nbsp;TB of usable space.</para>
+		  </listitem>
+
+		  <listitem>
+		    <para><anchor
+		      id="filesystems-zfs-term-vdev-spare"/>
+		      <emphasis>Spare</emphasis> - ZFS has a special
+		      pseudo-vdev type for keeping track of available
+		      hot spares.  Note that installed hot spares are
+		      not deployed automatically; they must manually
+		      be configured to replace the failed device using
+		      the zfs replace command.</para>
+		  </listitem>
+
+		  <listitem>
+		    <para><anchor
+		      id="filesystems-zfs-term-vdev-log"/>
+		      <emphasis>Log</emphasis> - ZFS Log Devices, also
+		      known as ZFS Intent Log (<acronym>ZIL</acronym>)
+		      move the intent log from the regular pool
+		      devices to a dedicated device.  The ZIL
+		      accelerates synchronous transactions by using
+		      storage devices (such as
+		      <acronym>SSD</acronym>s) that are faster
+		      compared to those used for the main pool.  When
+		      data is being written and the application
+		      requests a guarantee that the data has been
+		      safely stored, the data is written to the faster
+		      ZIL storage, then later flushed out to the
+		      regular disks, greatly reducing the latency of
+		      synchronous writes.  Log devices can be
+		      mirrored, but RAID-Z is not supported.  When
+		      specifying multiple log devices writes will be
+		      load balanced across all devices.</para>
+		  </listitem>
+
+		  <listitem>
+		    <para><anchor
+		      id="filesystems-zfs-term-vdev-cache"/>
+		      <emphasis>Cache</emphasis> - Adding a cache vdev
+		      to a zpool will add the storage of the cache to
+		      the L2ARC.  Cache devices cannot be mirrored.
+		      Since a cache device only stores additional
+		      copies of existing data, there is no risk of
+		      data loss.</para>
+		  </listitem>
+		</itemizedlist></entry>
+	    </row>
+
+	    <row>
+	      <entry valign="top"><anchor
+		id="filesystems-zfs-term-arc"/>Adaptive Replacement
+		Cache (<acronym>ARC</acronym>)</entry>
+
+	      <entry>ZFS uses an Adaptive Replacement Cache
+		(<acronym>ARC</acronym>), rather than a more
+		traditional Least Recently Used
+		(<acronym>LRU</acronym>) cache.  An
+		<acronym>LRU</acronym> cache is a simple list of items
+		in the cache sorted by when each object was most
+		recently used; new items are added to the top of the
+		list and once the cache is full items from the bottom
+		of the list are evicted to make room for more active
+		objects.  An <acronym>ARC</acronym> consists of four
+		lists; the Most Recently Used (<acronym>MRU</acronym>)
+		and Most Frequently Used (<acronym>MFU</acronym>)
+		objects, plus a ghost list for each.  These ghost
+		lists tracks recently evicted objects to provent them
+		being added back to the cache.  This increases the
+		cache hit ratio by avoiding objects that have a
+		history of only being used occasionally.  Another
+		advantage of using both an <acronym>MRU</acronym> and
+		<acronym>MFU</acronym> is that scanning an entire
+		filesystem would normally evict all data from an
+		<acronym>MRU</acronym> or <acronym>LRU</acronym> cache
+		in favor of this freshly accessed content.  In the
+		case of <acronym>ZFS</acronym> since there is also an
+		<acronym>MFU</acronym> that only tracks the most
+		frequently used objects, the cache of the most
+		commonly accessed blocks remains.</entry>
+	    </row>
+
+	    <row>
+	      <entry valign="top"><anchor
+		id="filesystems-zfs-term-l2arc"/>L2ARC</entry>
+
+	      <entry>The <acronym>L2ARC</acronym> is the second level
+		of the <acronym>ZFS</acronym> caching system.  The
+		primary <acronym>ARC</acronym> is stored in
+		<acronym>RAM</acronym>, however since the amount of
+		available <acronym>RAM</acronym> is often limited,
+		<acronym>ZFS</acronym> can also make use of <link
+		linkend="filesystems-zfs-term-vdev-cache">cache</link>
+		vdevs.  Solid State Disks (<acronym>SSD</acronym>s)
+		are often used as these cache devices due to their
+		higher speed and lower latency compared to traditional
+		spinning disks.  An L2ARC is entirely optional, but
+		having one will significantly increase read speeds for
+		files that are cached on the <acronym>SSD</acronym>
+		instead of having to be read from the regular spinning
+		disks.  The L2ARC can also speed up <link
+		linkend="filesystems-zfs-term-deduplication">deduplication</link>
+		since a <acronym>DDT</acronym> that does not fit in
+		<acronym>RAM</acronym> but does fit in the
+		<acronym>L2ARC</acronym> will be much faster than if
+		the <acronym>DDT</acronym> had to be read from disk.
+		The rate at which data is added to the cache devices
+		is limited to prevent prematurely wearing out the
+		<acronym>SSD</acronym> with too many writes.  Until
+		the cache is full (the first block has been evicted to
+		make room), writing to the <acronym>L2ARC</acronym> is
+		limited to the sum of the write limit and the boost
+		limit, then after that limited to the write limit.  A
+		pair of sysctl values control these rate limits;
+		<literal>vfs.zfs.l2arc_write_max</literal> controls
+		how many bytes are written to the cache per second,
+		while <literal>vfs.zfs.l2arc_write_boost</literal>
+		adds to this limit during the "Turbo Warmup Phase"
+		(Write Boost).</entry>
+	    </row>
+
+	    <row>
+	      <entry valign="top"><anchor
+		id="filesystems-zfs-term-cow"/>Copy-On-Write</entry>
+
+	      <entry>Unlike a traditional file system, when data is
+		overwritten on ZFS the new data is written to a
+		different block rather than overwriting the old data
+		in place.  Only once this write is complete is the
+		metadata then updated to point to the new location of
+		the data.  This means that in the event of a shorn
+		write (a system crash or power loss in the middle of
+		writing a file) the entire original contents of the
+		file are still available and the incomplete write is
+		discarded.  This also means that ZFS does not require
+		a fsck after an unexpected shutdown.</entry>
+	    </row>
+
+	    <row>
+	      <entry valign="top"><anchor
+		id="filesystems-zfs-term-dataset"/>Dataset</entry>
+
+	      <entry></entry>
+	    </row>
+
+	    <row>
+	      <entry valign="top"><anchor
+		id="filesystems-zfs-term-volum"/>Volume</entry>
+
+	      <entry>In additional to regular file systems (datasets),
+		ZFS can also create volumes, which are block devices.
+		Volumes have many of the same features, including
+		copy-on-write, snapshots, clones and
+		checksumming.</entry>
+	    </row>
+
+	    <row>
+	      <entry valign="top"><anchor
+		id="filesystems-zfs-term-snapshot"/>Snapshot</entry>
+
+	      <entry>The <link
+		  linkend="filesystems-zfs-term-cow">copy-on-write</link>
+		design of ZFS allows for nearly instantaneous
+		consistent snapshots with arbitrary names.  After
+		taking a snapshot of a dataset (or a recursive
+		snapshot of a parent dataset that will include all
+		child datasets), new data is written to new blocks (as
+		described above), however the old blocks are not
+		reclaimed as free space.  There are then two versions
+		of the file system, the snapshot (what the file system
+		looked like before) and the live file system; however
+		no additional space is used.  As new data is written
+		to the live file system, new blocks are allocated to
+		store this data.  The apparent size of the snapshot
+		will grow as the blocks are no longer used in the live
+		file system, but only in the snapshot.  These
+		snapshots can be mounted (read only) to allow for the
+		recovery of previous versions of files.  It is also
+		possible to <link
+		linkend="filesystems-zfs-zfs-snapshot">rollback</link>
+		a live file system to a specific snapshot, undoing any
+		changes that took place after the snapshot was taken.
+		Each block in the zpool has a reference counter which
+		indicates how many snapshots, clones, datasets or
+		volumes make use of that block.  As files and
+		snapshots are deleted, the reference count is
+		decremented; once a block is no longer referenced, it
+		is reclaimed as free space.  Snapshots can also be
+		marked with a <link
+		linkend="filesystems-zfs-zfs-snapshot">hold</link>,
+		once a snapshot is held, any attempt to destroy it
+		will return an EBUY error.  Each snapshot can have
+		multiple holds, each with a unique name.  The <link
+		linkend="filesystems-zfs-zfs-snapshot">release</link>
+		command removes the hold so the snapshot can then be
+		deleted.  Snapshots can be taken on volumes, however
+		they can only be cloned or rolled back, not mounted
+		independently.</entry>
+	    </row>
+
+	    <row>
+	      <entry valign="top"><anchor
+		id="filesystems-zfs-term-clone"/>Clone</entry>
+
+	      <entry>Snapshots can also be cloned; a clone is a
+		writable version of a snapshot, allowing the file
+		system to be forked as a new dataset.  As with a
+		snapshot, a clone initially consumes no additional
+		space, only as new data is written to a clone and new
+		blocks are allocated does the apparent size of the
+		clone grow.  As blocks are overwritten in the cloned
+		file system or volume, the reference count on the
+		previous block is decremented.  The snapshot upon
+		which a clone is based cannot be deleted because the
+		clone is dependeant upon it (the snapshot is the
+		parent, and the clone is the child).  Clones can be
+		<literal>promoted</literal>, reversing this
+		dependeancy, making the clone the parent and the
+		previous parent the child.  This operation requires no
+		additional space, however it will change the way the
+		used space is accounted.</entry>
+	    </row>
+
+	    <row>
+	      <entry valign="top"><anchor
+		id="filesystems-zfs-term-checksum"/>Checksum</entry>
+
+	      <entry>Every block that is allocated is also checksummed
+		(which algorithm is used is a per dataset property,
+		see: zfs set).  ZFS transparently validates the
+		checksum of each block as it is read, allowing ZFS to
+		detect silent corruption.  If the data that is read
+		does not match the expected checksum, ZFS will attempt
+		to recover the data from any available redundancy
+		(mirrors, RAID-Z).  You can trigger the validation of
+		all checksums using the <link
+		linkend="filesystems-zfs-term-scrub">scrub</link>
+		command.  The available checksum algorithms include:
+		<itemizedlist>
+		  <listitem><para>fletcher2</para></listitem>
+		  <listitem><para>fletcher4</para></listitem>
+		  <listitem><para>sha256</para></listitem>
+		</itemizedlist> The fletcher algorithms are faster,
+		but sha256 is a strong cryptographic hash and has a
+		much lower chance of a collisions at the cost of some
+		performance.  Checksums can be disabled but it is
+		inadvisable.</entry>
+	    </row>
+
+	    <row>
+	      <entry valign="top"><anchor
+		id="filesystems-zfs-term-compression"/>Compression</entry>
+
+	      <entry>Each dataset in ZFS has a compression property,
+		which defaults to off.  This property can be set to
+		one of a number of compression algorithms, which will
+		cause all new data that is written to this dataset to
+		be compressed as it is written.  In addition to the
+		reduction in disk usage, this can also increase read
+		and write throughput, as only the smaller compressed
+		version of the file needs to be read or
+		written.<note>
+		  <para>LZ4 compression is only available after &os;
+		    9.2</para>
+		</note></entry>
+	    </row>
+
+	    <row>
+	      <entry valign="top"><anchor
+		id="filesystems-zfs-term-deduplication"/>Deduplication</entry>
+
+	      <entry>ZFS has the ability to detect duplicate blocks of
+		data as they are written (thanks to the checksumming
+		feature).  If deduplication is enabled, instead of
+		writing the block a second time, the reference count
+		of the existing block will be increased, saving
+		storage space.  In order to do this, ZFS keeps a
+		deduplication table (<acronym>DDT</acronym>) in
+		memory, containing the list of unique checksums, the
+		location of that block and a reference count.  When
+		new data is written, the checksum is calculated and
+		compared to the list.  If a match is found, the data
+		is considered to be a duplicate.  When deduplication
+		is enabled, the checksum algorithm is changed to
+		<acronym>SHA256</acronym> to provide a secure
+		cryptographic hash.  ZFS deduplication is tunable; if
+		dedup is on, then a matching checksum is assumed to
+		mean that the data is identical.  If dedup is set to
+		verify, then the data in the two blocks will be
+		checked byte-for-byte to ensure it is actually
+		identical and if it is not, the hash collision will be
+		noted by ZFS and the two blocks will be stored
+		separately.  Due to the nature of the
+		<acronym>DDT</acronym>, having to store the hash of
+		each unique block, it consumes a very large amount of
+		memory (a general rule of thumb is 5-6&nbsp;GB of ram
+		per 1&nbsp;TB of deduplicated data).  In situations
+		where it is not practical to have enough
+		<acronym>RAM</acronym> to keep the entire DDT in
+		memory, performance will suffer greatly as the DDT
+		will need to be read from disk before each new block
+		is written.  Deduplication can make use of the L2ARC
+		to store the DDT, providing a middle ground between
+		fast system memory and slower disks.  It is advisable
+		to consider using ZFS compression instead, which often
+		provides nearly as much space savings without the
+		additional memory requirement.</entry>
+	    </row>
+
+	    <row>
+	      <entry valign="top"><anchor
+		id="filesystems-zfs-term-scrub"/>Scrub</entry>
+
+	      <entry>In place of a consistency check like fsck, ZFS
+		has the <literal>scrub</literal> command, which reads
+		all data blocks stored on the pool and verifies their
+		checksums them against the known good checksums stored
+		in the metadata.  This periodic check of all the data
+		stored on the pool ensures the recovery of any
+		corrupted blocks before they are needed.  A scrub is
+		not required after an unclean shutdown, but it is
+		recommended that you run a scrub at least once each
+		quarter.  ZFS compares the checksum for each block as
+		it is read in the normal course of use, but a scrub
+		operation makes sure even infrequently used blocks are
+		checked for silent corruption.</entry>
+	    </row>
+
+	    <row>
+	      <entry valign="top"><anchor
+		id="filesystems-zfs-term-quota"/>Dataset
+		Quota</entry>
+
+	      <entry>ZFS provides very fast and accurate dataset, user
+		and group space accounting in addition to quotes and
+		space reservations.  This gives the administrator fine
+		grained control over how space is allocated and allows
+		critical file systems to reserve space to ensure other
+		file systems do not take all of the free space.
+		<para>ZFS supports different types of quotas: the
+		  dataset quota, the <link
+		  linkend="filesystems-zfs-term-refquota">reference
+		  quota (<acronym>refquota</acronym>)</link>, the
+		  <link linkend="filesystems-zfs-term-userquota">user
+		  quota</link>, and the <link
+		  linkend="filesystems-zfs-term-groupquota">
+		    group quota</link>.</para>
+
+		<para>Quotas limit the amount of space that a dataset
+		  and all of its descendants (snapshots of the
+		  dataset, child datasets and the snapshots of those
+		  datasets) can consume.</para>
+
+		<note>
+		  <para>Quotas cannot be set on volumes, as the
+		    <literal>volsize</literal> property acts as an
+		    implicit quota.</para>
+		</note></entry>
+	    </row>
+
+	    <row>
+	      <entry valign="top"><anchor
+		id="filesystems-zfs-term-refquota"/>Reference
+		Quota</entry>
+
+	      <entry>A reference quota limits the amount of space a
+		dataset can consume by enforcing a hard limit on the
+		space used.  However, this hard limit includes only
+		space that the dataset references and does not include
+		space used by descendants, such as file systems or
+		snapshots.</entry>
+	    </row>
+
+	    <row>
+	      <entry valign="top"><anchor
+		id="filesystems-zfs-term-userquota"/>User
+		  Quota</entry>
+
+	      <entry>User quotas are useful to limit the amount of
+		space that can be used by the specified user.</entry>
+	    </row>
+
+	    <row>
+	      <entry valign="top">
+		<anchor id="filesystems-zfs-term-groupquota"/>Group
+		  Quota</entry>
+
+	      <entry>The group quota limits the amount of space that a
+		specified group can consume.</entry>
+	    </row>
+
+	    <row>
+	      <entry valign="top"><anchor
+		id="filesystems-zfs-term-reservation"/>Dataset
+		  Reservation</entry>
+
+	      <entry>The <literal>reservation</literal> property makes
+		it possible to guaranteed a minimum amount of space
+		for the use of a specific dataset and its descendants.
+		This means that if a 10&nbsp;GB reservation is set on
+		<filename>storage/home/bob</filename>, if another
+		dataset tries to use all of the free space, at least
+		10&nbsp;GB of space is reserved for this dataset.  If
+		a snapshot is taken of
+		<filename>storage/home/bob</filename>, the space used
+		by that snapshot is counted against the reservation.
+		The <link
+		linkend="filesystems-zfs-term-refreservation">refreservation</link>
+		property works in a similar way, except it
+		<emphasis>excludes</emphasis> descendants, such as
+		snapshots.
+		<para>Reservations of any sort are useful
+		  in many situations, such as planning and testing the
+		  suitability of disk space allocation in a new
+		  system, or ensuring that enough space is available
+		  on file systems for audio logs or system recovery
+		  procedures and files.</para></entry>
+	    </row>
+
+	    <row>
+	      <entry valign="top"><anchor
+		id="filesystems-zfs-term-refreservation"/>Reference
+		  Reservation</entry>
+
+	      <entry>The <literal>refreservation</literal> property
+		makes it possible to guaranteed a minimum amount of
+		space for the use of a specific dataset
+		<emphasis>excluding</emphasis> its descendants.  This
+		means that if a 10&nbsp;GB reservation is set on
+		<filename>storage/home/bob</filename>, if another
+		dataset tries to use all of the free space, at least
+		10&nbsp;GB of space is reserved for this dataset.  In
+		contrast to a regular <link
+		linkend="filesystems-zfs-term-reservation">reservation</link>,
+		space used by snapshots and decendant datasets is not
+		counted against the reservation.  As an example, if a
+		snapshot was taken of
+		<filename>storage/home/bob</filename>, enough disk
+		space would have to exist outside of the
+		<literal>refreservation</literal> amount for the
+		operation to succeed because descendants of the main
+		data set are not counted by the
+		<literal>refreservation</literal> amount and so do not
+		encroach on the space set.</entry>
+	    </row>
+
+	    <row>
+	      <entry valign="top"><anchor
+		id="filesystems-zfs-term-resilver"/>Resilver</entry>
+
+	      <entry></entry>
+	    </row>
+
+	  </tbody>
+	</tgroup>
+      </informaltable>
     </sect2>
 
-    <sect2>
-      <title>Using <acronym>ZFS</acronym></title>
+    <sect2 id="filesystems-zfs-differences">
+      <title>What Makes ZFS Different</title>
+
+      <para></para>
+    </sect2>
+
+    <sect2 id="filesystems-zfs-quickstart">
+      <title><acronym>ZFS</acronym> Quick Start Guide</title>
 
       <para>There is a start up mechanism that allows &os; to
 	mount <acronym>ZFS</acronym> pools during system
@@ -189,8 +743,8 @@ vfs.zfs.vdev.cache.size="5M"</programlisting>
 	<devicename><replaceable>da0</replaceable></devicename>,
 	<devicename><replaceable>da1</replaceable></devicename>,
 	and <devicename><replaceable>da2</replaceable></devicename>.
-	Users of <acronym>IDE</acronym> hardware should instead use
-	<devicename><replaceable>ad</replaceable></devicename>
+	Users of <acronym>SATA</acronym> hardware should instead use
+	<devicename><replaceable>ada</replaceable></devicename>
 	device names.</para>
 
       <sect3>
@@ -200,7 +754,7 @@ vfs.zfs.vdev.cache.size="5M"</programlisting>
 	  pool using a single disk device, use
 	  <command>zpool</command>:</para>
 
-	<screen>&prompt.root; <userinput>zpool create example /dev/da0</userinput></screen>
+	<screen>&prompt.root; <userinput>zpool create <replaceable>example</replaceable> <replaceable>/dev/da0</replaceable></userinput></screen>
 
 	<para>To view the new pool, review the output of
 	  <command>df</command>:</para>
@@ -324,7 +878,9 @@ example/data        17547008       0 17547008     0%    /example/data</screen>
 	<para>There is no way to prevent a disk from failing.  One
 	  method of avoiding data loss due to a failed hard disk is to
 	  implement <acronym>RAID</acronym>.  <acronym>ZFS</acronym>
-	  supports this feature in its pool design.</para>
+	  supports this feature in its pool design.  RAID-Z pools
+	  require 3 or more disks but yield more usable space than
+	  mirrored pools.</para>
 
 	<para>To create a <acronym>RAID</acronym>-Z pool, issue the
 	  following command and specify the disks to add to the
@@ -333,7 +889,7 @@ example/data        17547008       0 17547008     0%    /example/data</screen>
 	<screen>&prompt.root; <userinput>zpool create storage raidz da0 da1 da2</userinput></screen>
 
 	<note>
-	  <para>&sun; recommends that the amount of devices used in
+	  <para>&sun; recommends that the number of devices used in
 	    a <acronym>RAID</acronym>-Z configuration is between
 	    three and nine.  For environments requiring a single pool
 	    consisting of 10 disks or more, consider breaking it up
@@ -553,42 +1109,126 @@ errors: No known data errors</screen>
 	<para>Refer to &man.zfs.8; and &man.zpool.8; for other
 	  <acronym>ZFS</acronym> options.</para>
       </sect3>
+    </sect2>
 
-      <sect3>
-	<title>ZFS Quotas</title>
+    <sect2 id="filesystems-zfs-zpool">
+      <title><command>zpool</command> Administration</title>
 
-	<para>ZFS supports different types of quotas: the refquota,
-	  the general quota, the user quota, and the group quota.
-	  This section explains the basics of each type and includes
-	  some usage instructions.</para>
+      <para></para>
 
-	<para>Quotas limit the amount of space that a dataset and its
-	  descendants can consume, and enforce a limit on the amount
-	  of space used by filesystems and snapshots for the
-	  descendants.  Quotas are useful to limit the amount of space
-	  a particular user can use.</para>
+      <sect3 id="filesystems-zfs-zpool-create">
+	<title>Creating &amp; Destroying Storage Pools</title>
 
-	<note>
-	  <para>Quotas cannot be set on volumes, as the
-	    <literal>volsize</literal> property acts as an implicit
-	    quota.</para>
-	</note>
+	<para></para>
+      </sect3>
 
-	<para>The
-	  <literal>refquota=<replaceable>size</replaceable></literal>
-	  limits the amount of space a dataset can consume by
-	  enforcing a hard limit on the space used.  However, this
-	  hard limit does not include space used by descendants, such
-	  as file systems or snapshots.</para>
+      <sect3 id="filesystems-zfs-zpool-attach">
+	<title>Adding &amp; Removing Devices</title>
 
-	<para>To enforce a general quota of 10&nbsp;GB for
+	<para></para>
+      </sect3>
+
+      <sect3 id="filesystems-zfs-zpool-resilver">
+	<title>Dealing with Failed Devices</title>
+
+	<para></para>
+      </sect3>
+
+      <sect3 id="filesystems-zfs-zpool-import">
+	<title>Importing &amp; Exporting Pools</title>
+
+	<para></para>
+      </sect3>
+
+      <sect3 id="filesystems-zfs-zpool-upgrade">
+	<title>Upgrading a Storage Pool</title>
+
+	<para></para>
+      </sect3>
+
+      <sect3 id="filesystems-zfs-zpool-status">
+	<title>Checking the Status of a Pool</title>
+
+	<para></para>
+      </sect3>
+
+      <sect3 id="filesystems-zfs-zpool-iostat">
+	<title>Performance Monitoring</title>
+
+	<para></para>
+      </sect3>
+
+      <sect3 id="filesystems-zfs-zpool-split">
+	<title>Splitting a Storage Pool</title>
+
+	<para></para>
+      </sect3>
+    </sect2>
+
+    <sect2 id="filesystems-zfs-zfs">
+      <title><command>zfs</command> Administration</title>
+
+      <para></para>
+
+      <sect3 id="filesystems-zfs-zfs-create">
+	<title>Creating &amp; Destroying Datasets</title>
+
+	<para></para>
+      </sect3>
+
+      <sect3 id="filesystems-zfs-zfs-volume">
+	<title>Creating &amp; Destroying Volumes</title>
+
+	<para></para>
+      </sect3>
+
+      <sect3 id="filesystems-zfs-zfs-rename">
+	<title>Renaming a Dataset</title>
+
+	<para></para>
+      </sect3>
+
+      <sect3 id="filesystems-zfs-zfs-set">
+	<title>Setting Dataset Properties</title>
+
+	<para></para>
+      </sect3>
+
+      <sect3 id="filesystems-zfs-zfs-snapshot">
+	<title>Managing Snapshots</title>
+
+	<para></para>
+      </sect3>
+
+      <sect3 id="filesystems-zfs-zfs-clones">
+	<title>Managing Clones</title>
+
+	<para></para>
+      </sect3>
+
+      <sect3 id="filesystems-zfs-zfs-send">
+	<title>ZFS Replication</title>
+
+	<para></para>
+      </sect3>
+
+      <sect3 id="filesystems-zfs-zfs-quota">
+	<title>Dataset, User and Group Quotes</title>
+
+	<para>To enforce a dataset quota of 10&nbsp;GB for
 	  <filename>storage/home/bob</filename>, use the
 	  following:</para>
 
 	<screen>&prompt.root; <userinput>zfs set quota=10G storage/home/bob</userinput></screen>
 
-	<para>User quotas limit the amount of space that can be used
-	  by the specified user.  The general format is
+	<para>To enforce a reference quota of 10&nbsp;GB for
+	  <filename>storage/home/bob</filename>, use the
+	  following:</para>
+
+	<screen>&prompt.root; <userinput>zfs set refquota=10G storage/home/bob</userinput></screen>
+
+	<para>The general
+	  format is
 	  <literal>userquota@<replaceable>user</replaceable>=<replaceable>size</replaceable></literal>,
 	  and the user's name must be in one of the following
 	  formats:</para>
@@ -622,8 +1262,8 @@ errors: No known data errors</screen>
 	  </listitem>
 	</itemizedlist>
 
-	<para>For example, to enforce a quota of 50&nbsp;GB for a user
-	  named <replaceable>joe</replaceable>, use the
+	<para>For example, to enforce a user quota of 50&nbsp;GB
+	  for a user named <replaceable>joe</replaceable>, use the
 	  following:</para>
 
 	<screen>&prompt.root; <userinput>zfs set userquota@joe=50G</userinput></screen>
@@ -633,15 +1273,17 @@ errors: No known data errors</screen>
 
 	<screen>&prompt.root; <userinput>zfs set userquota@joe=none</userinput></screen>
 
-	<para>User quota properties are not displayed by
-	  <command>zfs get all</command>.
-	  Non-<username>root</username> users can only see their own
-	  quotas unless they have been granted the
-	  <literal>userquota</literal> privilege.  Users with this
-	  privilege are able to view and set everyone's quota.</para>
+	<note>
+	  <para>User quota properties are not displayed by
+	    <command>zfs get all</command>.
+	    Non-<username>root</username> users can only see their own
+	    quotas unless they have been granted the
+	    <literal>userquota</literal> privilege.  Users with this
+	    privilege are able to view and set everyone's
+	    quota.</para>
+	</note>
 
-	<para>The group quota limits the amount of space that a
-	  specified group can consume.  The general format is
+	<para>The general format for setting a group quota is:
 	  <literal>groupquota@<replaceable>group</replaceable>=<replaceable>size</replaceable></literal>.</para>
 
 	<para>To set the quota for the group
@@ -678,35 +1320,10 @@ errors: No known data errors</screen>
 	<screen>&prompt.root; <userinput>zfs get quota storage/home/bob</userinput></screen>
       </sect3>
 
-      <sect3>
-	<title>ZFS Reservations</title>
+      <sect3 id="filesystems-zfs-zfs-reservation">
+	<title>Reservations</title>
 
-	<para>ZFS supports two types of space reservations.  This
-	  section explains the basics of each and includes some usage
-	  instructions.</para>
-
-	<para>The <literal>reservation</literal> property makes it
-	  possible to reserve a minimum amount of space guaranteed
-	  for a dataset and its descendants.  This means that if a
-	  10&nbsp;GB reservation is set on
-	  <filename>storage/home/bob</filename>, if disk
-	  space gets low, at least 10&nbsp;GB of space is reserved
-	  for this dataset.  The <literal>refreservation</literal>
-	  property sets or indicates the minimum amount of space
-	  guaranteed to a dataset excluding descendants, such as
-	  snapshots.  As an example, if a snapshot was taken of
-	  <filename>storage/home/bob</filename>, enough disk space
-	  would have to exist outside of the
-	  <literal>refreservation</literal> amount for the operation
-	  to succeed because descendants of the main data set are
-	  not counted by the <literal>refreservation</literal>
-	  amount and so do not encroach on the space set.</para>
-
-	<para>Reservations of any sort are useful in many situations,
-	  such as planning and testing the suitability of disk space
-	  allocation in a new system, or ensuring that enough space is
-	  available on file systems for system recovery procedures and
-	  files.</para>
+	<para></para>
 
 	<para>The general format of the <literal>reservation</literal>
 	  property is
@@ -733,6 +1350,141 @@ errors: No known data errors</screen>
 	<screen>&prompt.root; <userinput>zfs get reservation storage/home/bob</userinput>
 &prompt.root; <userinput>zfs get refreservation storage/home/bob</userinput></screen>
       </sect3>
+
+      <sect3 id="filesystems-zfs-zfs-compression">
+	<title>Compression</title>
+
+	<para></para>
+      </sect3>
+
+      <sect3 id="filesystems-zfs-zfs-deduplication">
+	<title>Deduplication</title>
+
+	<para></para>
+      </sect3>
+
+      <sect3 id="filesystems-zfs-zfs-allow">
+	<title>Delegated Administration</title>
+
+	<para></para>
+      </sect3>
+    </sect2>
+
+    <sect2 id="filesystems-zfs-advanced">
+      <title>ZFS Advanced Topics</title>
+
+      <sect3 id="filesystems-zfs-advanced-tuning">
+	<title>ZFS Tuning</title>
+
+	<para></para>
+      </sect3>
+
+      <sect3 id="filesystems-zfs-advanced-booting">
+	<title>Booting Root on ZFS</title>
+
+	<para></para>
+      </sect3>
+
+      <sect3 id="filesystems-zfs-advanced-beadm">
+	<title>ZFS Boot Environments</title>
+
+	<para></para>
+      </sect3>
+
+      <sect3 id="filesystems-zfs-advanced-troubleshoot">
+	<title>Troubleshooting</title>
+
+	<para></para>
+      </sect3>
+
+      <sect3 id="filesystems-zfs-advanced-i386">
+	<title>ZFS on i386</title>
+
+	<para>Some of the features provided by <acronym>ZFS</acronym>
+	  are RAM-intensive, so some tuning may be required to provide
+	  maximum efficiency on systems with limited RAM.</para>
+
+	<sect4>
+	  <title>Memory</title>
+
+	  <para>At a bare minimum, the total system memory should be
+	    at least one gigabyte.  The amount of recommended RAM
+	    depends upon the size of the pool and the ZFS features
+	    which are used.  A general rule of thumb is 1GB of RAM
+	    for every 1TB of storage.  If the deduplication feature
+	    is used, a general rule of thumb is 5GB of RAM per TB of
+	    storage to be deduplicated.  While some users successfully
+	    use ZFS with less RAM, it is possible that when the system
+	    is under heavy load, it may panic due to memory
+	    exhaustion.  Further tuning may be required for systems
+	    with less than the recommended RAM requirements.</para>
+	</sect4>
+
+	<sect4>
+	  <title>Kernel Configuration</title>
+
+	  <para>Due to the RAM limitations of the &i386; platform,
+	    users using ZFS on the &i386; architecture should add the
+	    following option to a custom kernel configuration file,
+	    rebuild the kernel, and reboot:</para>
+
+	  <programlisting>options        KVA_PAGES=512</programlisting>
+
+	  <para>This option expands the kernel address space, allowing
+	    the <varname>vm.kvm_size</varname> tunable to be pushed
+	    beyond the currently imposed limit of 1&nbsp;GB, or the
+	    limit of 2&nbsp;GB for <acronym>PAE</acronym>.  To find
+	    the most suitable value for this option, divide the
+	    desired address space in megabytes by four (4).  In this
+	    example, it is <literal>512</literal> for
+	    2&nbsp;GB.</para>
+	</sect4>
+
+	<sect4>
+	  <title>Loader Tunables</title>
+
+	  <para>The <devicename>kmem</devicename> address space can
+	    be increased on all &os; architectures.  On a test system
+	    with one gigabyte of physical memory, success was achieved
+	    with the following options added to
+	    <filename>/boot/loader.conf</filename>, and the system
+	    restarted:</para>
+
+	  <programlisting>vm.kmem_size="330M"
+vm.kmem_size_max="330M"
+vfs.zfs.arc_max="40M"
+vfs.zfs.vdev.cache.size="5M"</programlisting>
+
+	  <para>For a more detailed list of recommendations for
+	    ZFS-related tuning, see <ulink
+	      url="http://wiki.freebsd.org/ZFSTuningGuide"></ulink>.</para>
+	</sect4>
+      </sect3>
+    </sect2>
+
+    <sect2 id="filesystems-zfs-links">
+      <title>Additional Resources</title>
+
+      <itemizedlist>
+	<listitem><para><ulink url="https://wiki.freebsd.org/ZFS">
+	    FreeBSD Wiki - ZFS</ulink></para></listitem>
+	<listitem><para><ulink
+	    url="https://wiki.freebsd.org/ZFSTuningGuide">
+	    FreeBSD Wiki - ZFS Tuning</ulink></para></listitem>
+	<listitem><para><ulink
+	    url="http://wiki.illumos.org/display/illumos/ZFS">
+	    Illumos Wiki - ZFS</ulink></para></listitem>
+	<listitem><para><ulink
+	    url="http://docs.oracle.com/cd/E19253-01/819-5461/index.html">
+	    Oracle Solaris ZFS Administration
+	    Guide</ulink></para></listitem>
+	<listitem><para><ulink
+	    url="http://www.solarisinternals.com/wiki/index.php/ZFS_Evil_Tuning_Guide">
+	    ZFS Evil Tuning Guide</ulink></para></listitem>
+	<listitem><para><ulink
+	    url="http://www.solarisinternals.com/wiki/index.php/ZFS_Best_Practices_Guide">
+	    ZFS Best Practices Guide</ulink></para></listitem>
+      </itemizedlist>
     </sect2>
   </sect1>
 
