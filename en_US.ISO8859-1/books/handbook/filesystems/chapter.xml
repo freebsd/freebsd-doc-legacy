@@ -139,8 +139,8 @@
 	<tgroup cols="2">
 	  <tbody>
 	    <row>
-	      <entry valign="top"><anchor
-		id="filesystems-zfs-term-zpool"/>zpool</entry>
+	      <entry valign="top"
+		id="filesystems-zfs-term-zpool">zpool</entry>
 
 	      <entry>A storage pool is the most basic building block
 		of ZFS.  A pool is made up of one or more vdevs, the
@@ -161,8 +161,8 @@
 	    </row>
 
 	    <row>
-	      <entry valign="top"><anchor
-		id="filesystems-zfs-term-vdev"/>vdev&nbsp;Types</entry>
+	      <entry valign="top"
+		id="filesystems-zfs-term-vdev">vdev&nbsp;Types</entry>
 
 	      <entry>A zpool is made up of one or more vdevs, which
 		themselves can be a single disk or a group of disks,
@@ -171,8 +171,7 @@
 		increase performance and maximize usable space.
 		<itemizedlist>
 		  <listitem>
-		    <para><anchor
-		      id="filesystems-zfs-term-vdev-disk"/>
+		    <para id="filesystems-zfs-term-vdev-disk">
 		      <emphasis>Disk</emphasis> - The most basic type
 		      of vdev is a standard block device.  This can be
 		      an entire disk (such as
@@ -187,8 +186,7 @@
 		  </listitem>
 
 		  <listitem>
-		    <para><anchor
-		      id="filesystems-zfs-term-vdev-file"/>
+		    <para id="filesystems-zfs-term-vdev-file">
 		      <emphasis>File</emphasis> - In addition to
 		      disks, ZFS pools can be backed by regular files,
 		      this is especially useful for testing and
@@ -199,8 +197,7 @@
 		  </listitem>
 
 		  <listitem>
-		    <para><anchor
-		      id="filesystems-zfs-term-vdev-mirror"/>
+		    <para id="filesystems-zfs-term-vdev-mirror">
 		      <emphasis>Mirror</emphasis> - When creating a
 		      mirror, specify the <literal>mirror</literal>
 		      keyword followed by the list of member devices
@@ -222,8 +219,7 @@
 		  </listitem>
 
 		  <listitem>
-		    <para><anchor
-		      id="filesystems-zfs-term-vdev-raidz"/>
+		    <para id="filesystems-zfs-term-vdev-raidz">
 		      <emphasis><acronym>RAID</acronym>-Z</emphasis> -
 		      ZFS implements RAID-Z, a variation on standard
 		      RAID-5 that offers better distribution of parity
@@ -267,8 +263,7 @@
 		  </listitem>
 
 		  <listitem>
-		    <para><anchor
-		      id="filesystems-zfs-term-vdev-spare"/>
+		    <para id="filesystems-zfs-term-vdev-spare">
 		      <emphasis>Spare</emphasis> - ZFS has a special
 		      pseudo-vdev type for keeping track of available
 		      hot spares.  Note that installed hot spares are
@@ -278,8 +273,7 @@
 		  </listitem>
 
 		  <listitem>
-		    <para><anchor
-		      id="filesystems-zfs-term-vdev-log"/>
+		    <para id="filesystems-zfs-term-vdev-log">
 		      <emphasis>Log</emphasis> - ZFS Log Devices, also
 		      known as ZFS Intent Log (<acronym>ZIL</acronym>)
 		      move the intent log from the regular pool
@@ -300,8 +294,7 @@
 		  </listitem>
 
 		  <listitem>
-		    <para><anchor
-		      id="filesystems-zfs-term-vdev-cache"/>
+		    <para id="filesystems-zfs-term-vdev-cache">
 		      <emphasis>Cache</emphasis> - Adding a cache vdev
 		      to a zpool will add the storage of the cache to
 		      the L2ARC.  Cache devices cannot be mirrored.
@@ -313,8 +306,8 @@
 	    </row>
 
 	    <row>
-	      <entry valign="top"><anchor
-		id="filesystems-zfs-term-arc"/>Adaptive Replacement
+	      <entry valign="top"
+		id="filesystems-zfs-term-arc">Adaptive Replacement
 		Cache (<acronym>ARC</acronym>)</entry>
 
 	      <entry>ZFS uses an Adaptive Replacement Cache
@@ -346,8 +339,8 @@
 	    </row>
 
 	    <row>
-	      <entry valign="top"><anchor
-		id="filesystems-zfs-term-l2arc"/>L2ARC</entry>
+	      <entry valign="top"
+		id="filesystems-zfs-term-l2arc">L2ARC</entry>
 
 	      <entry>The <acronym>L2ARC</acronym> is the second level
 		of the <acronym>ZFS</acronym> caching system.  The
@@ -385,8 +378,8 @@
 	    </row>
 
 	    <row>
-	      <entry valign="top"><anchor
-		id="filesystems-zfs-term-cow"/>Copy-On-Write</entry>
+	      <entry valign="top"
+		id="filesystems-zfs-term-cow">Copy-On-Write</entry>
 
 	      <entry>Unlike a traditional file system, when data is
 		overwritten on ZFS the new data is written to a
@@ -402,26 +395,44 @@
 	    </row>
 
 	    <row>
-	      <entry valign="top"><anchor
-		id="filesystems-zfs-term-dataset"/>Dataset</entry>
+	      <entry valign="top"
+		id="filesystems-zfs-term-dataset">Dataset</entry>
 
-	      <entry></entry>
+	      <entry>Dataset is the generic term for a ZFS file
+		system, volume, snapshot or clone.  Each dataset will
+		have a unique name in the format:
+		<literal>poolname/path@snapshot</literal>.  The root
+		of the pool is technically a dataset as well.  Child
+		datasets are named hierarchically like directories;
+		for example <literal>mypool/home</literal>, the home
+		dataset is a child of mypool and inherits properties
+		from it.  This can be expended further by creating
+		<literal>mypool/home/user</literal>.  This grandchild
+		dataset will inherity properties from the parent and
+		grandparent.  It is also possible to set properties
+		on a child to override the defaults inherited from the
+		parents and grandparents.  ZFS also allows
+		administration of datasets and their children to be
+		delegated.</entry>
 	    </row>
 
 	    <row>
-	      <entry valign="top"><anchor
-		id="filesystems-zfs-term-volum"/>Volume</entry>
+	      <entry valign="top"
+		id="filesystems-zfs-term-volum">Volume</entry>
 
-	      <entry>In additional to regular file systems (datasets),
+	      <entry>In additional to regular file system datasets,
 		ZFS can also create volumes, which are block devices.
 		Volumes have many of the same features, including
 		copy-on-write, snapshots, clones and
-		checksumming.</entry>
+		checksumming.  Volumes can be useful for running other
+		file system formats on top of ZFS, such as UFS or in
+		the case of Virtualization or exporting
+		<acronym>iSCSI</acronym> extents.</entry>
 	    </row>
 
 	    <row>
-	      <entry valign="top"><anchor
-		id="filesystems-zfs-term-snapshot"/>Snapshot</entry>
+	      <entry valign="top"
+		id="filesystems-zfs-term-snapshot">Snapshot</entry>
 
 	      <entry>The <link
 		  linkend="filesystems-zfs-term-cow">copy-on-write</link>
@@ -464,8 +475,8 @@
 	    </row>
 
 	    <row>
-	      <entry valign="top"><anchor
-		id="filesystems-zfs-term-clone"/>Clone</entry>
+	      <entry valign="top"
+		id="filesystems-zfs-term-clone">Clone</entry>
 
 	      <entry>Snapshots can also be cloned; a clone is a
 		writable version of a snapshot, allowing the file
@@ -487,8 +498,8 @@
 	    </row>
 
 	    <row>
-	      <entry valign="top"><anchor
-		id="filesystems-zfs-term-checksum"/>Checksum</entry>
+	      <entry valign="top"
+		id="filesystems-zfs-term-checksum">Checksum</entry>
 
 	      <entry>Every block that is allocated is also checksummed
 		(which algorithm is used is a per dataset property,
@@ -513,8 +524,8 @@
 	    </row>
 
 	    <row>
-	      <entry valign="top"><anchor
-		id="filesystems-zfs-term-compression"/>Compression</entry>
+	      <entry valign="top"
+		id="filesystems-zfs-term-compression">Compression</entry>
 
 	      <entry>Each dataset in ZFS has a compression property,
 		which defaults to off.  This property can be set to
@@ -531,8 +542,8 @@
 	    </row>
 
 	    <row>
-	      <entry valign="top"><anchor
-		id="filesystems-zfs-term-deduplication"/>Deduplication</entry>
+	      <entry valign="top"
+		id="filesystems-zfs-term-deduplication">Deduplication</entry>
 
 	      <entry>ZFS has the ability to detect duplicate blocks of
 		data as they are written (thanks to the checksumming
@@ -573,8 +584,8 @@
 	    </row>
 
 	    <row>
-	      <entry valign="top"><anchor
-		id="filesystems-zfs-term-scrub"/>Scrub</entry>
+	      <entry valign="top"
+		id="filesystems-zfs-term-scrub">Scrub</entry>
 
 	      <entry>In place of a consistency check like fsck, ZFS
 		has the <literal>scrub</literal> command, which reads
@@ -592,9 +603,8 @@
 	    </row>
 
 	    <row>
-	      <entry valign="top"><anchor
-		id="filesystems-zfs-term-quota"/>Dataset
-		Quota</entry>
+	      <entry valign="top"
+		id="filesystems-zfs-term-quota">Dataset Quota</entry>
 
 	      <entry>ZFS provides very fast and accurate dataset, user
 		and group space accounting in addition to quotes and
@@ -624,8 +634,8 @@
 	    </row>
 
 	    <row>
-	      <entry valign="top"><anchor
-		id="filesystems-zfs-term-refquota"/>Reference
+	      <entry valign="top"
+		id="filesystems-zfs-term-refquota">Reference
 		Quota</entry>
 
 	      <entry>A reference quota limits the amount of space a
@@ -637,27 +647,27 @@
 	    </row>
 
 	    <row>
-	      <entry valign="top"><anchor
-		id="filesystems-zfs-term-userquota"/>User
-		  Quota</entry>
+	      <entry valign="top"
+		id="filesystems-zfs-term-userquota">User
+		Quota</entry>
 
 	      <entry>User quotas are useful to limit the amount of
 		space that can be used by the specified user.</entry>
 	    </row>
 
 	    <row>
-	      <entry valign="top">
-		<anchor id="filesystems-zfs-term-groupquota"/>Group
-		  Quota</entry>
+	      <entry valign="top"
+		id="filesystems-zfs-term-groupquota">Group
+		Quota</entry>
 
 	      <entry>The group quota limits the amount of space that a
 		specified group can consume.</entry>
 	    </row>
 
 	    <row>
-	      <entry valign="top"><anchor
-		id="filesystems-zfs-term-reservation"/>Dataset
-		  Reservation</entry>
+	      <entry valign="top"
+		id="filesystems-zfs-term-reservation">Dataset
+		Reservation</entry>
 
 	      <entry>The <literal>reservation</literal> property makes
 		it possible to guaranteed a minimum amount of space
@@ -683,9 +693,9 @@
 	    </row>
 
 	    <row>
-	      <entry valign="top"><anchor
-		id="filesystems-zfs-term-refreservation"/>Reference
-		  Reservation</entry>
+	      <entry valign="top"
+		id="filesystems-zfs-term-refreservation">Reference
+		Reservation</entry>
 
 	      <entry>The <literal>refreservation</literal> property
 		makes it possible to guaranteed a minimum amount of
@@ -710,10 +720,15 @@
 	    </row>
 
 	    <row>
-	      <entry valign="top"><anchor
-		id="filesystems-zfs-term-resilver"/>Resilver</entry>
+	      <entry valign="top"
+		id="filesystems-zfs-term-resilver">Resilver</entry>
 
-	      <entry></entry>
+	      <entry>When a disk fails and must be replaced, the new
+		disk must be filled with the data that was lost.  This
+		process of calculating and writing the missing data
+		(using the parity information distributed across the
+		remaining drives) to the new drive is called
+		Resilvering.</entry>
 	    </row>
 
 	  </tbody>
@@ -724,7 +739,33 @@
     <sect2 id="filesystems-zfs-differences">
       <title>What Makes ZFS Different</title>
 
-      <para></para>
+      <para>ZFS is significantly different from any previous file
+	system owing to the fact that it is more than just a file
+	system.  ZFS combines the traditionally separate roles of
+	volume manager and file system, which provides unique
+	advantages because the file system is now aware of the
+	underlying structure of the disks.  Traditional file systems
+	could only be created on a single disk at a time, if there
+	were two disks then two separate file systems would have to
+	be created.  In a traditional hardware <acronym>RAID</acronym>
+	configuration, this problem was worked around by presenting
+	the operating system with a single logical disk made up of
+	the space provided by a number of disks, on top of which the
+	operating system placed its file system.  Even in the case of
+	software RAID solutions like <acronym>GEOM</acronym>, the UFS
+	file system living on top of the <acronym>RAID</acronym>
+	transform believed that it was dealing with a single device.
+	ZFS's combination of the volume manager and the file system
+	solves this and allows the creation of many file systems all
+	sharing a pool of available storage.  One of the biggest
+	advantages to ZFS's awareness of the physical layout of the
+	disks is that ZFS can grow the existing file systems
+	automatically when additional disks are added to the pool.
+	This new space is then made available to all of the file
+	systems.  ZFS also has a number of different properties that
+	can be applied to each file system, creating many advantages
+	to creating a number of different filesystems and datasets
+	rather than a single monolithic filesystem.</para>
     </sect2>
 
     <sect2 id="filesystems-zfs-quickstart">
