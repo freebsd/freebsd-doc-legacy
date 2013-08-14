@@ -1411,7 +1411,7 @@ Trying to mount root from cd9660:/dev/iso9660/FREEBSD_INSTALL [ro]...</screen>
       <para>Another partition type worth noting is
 	<literal>freebsd-zfs</literal>, used for partitions that will
 	contain a &os; ZFS filesystem.  See
-	<xref linkend="filesystems-zfs"/>.  &man.gpart.8; shows more
+	<xref linkend="zfs"/>.  &man.gpart.8; shows more
 	of the available <acronym>GPT</acronym> partition
 	types.</para>
 

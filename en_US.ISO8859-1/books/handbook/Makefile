@@ -278,6 +278,7 @@ SRCS+= serialcomms/chapter.xml
 SRCS+= users/chapter.xml
 SRCS+= virtualization/chapter.xml
 SRCS+= x11/chapter.xml
+SRCS+= zfs/chapter.xml
 
 # Entities
 SRCS+= chapters.ent
