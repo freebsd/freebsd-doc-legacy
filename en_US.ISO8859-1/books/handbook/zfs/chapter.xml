@@ -851,10 +851,9 @@ vfs.zfs.vdev.cache.size="5M"</programlisting>
 
     <informaltable pgwide="1">
       <tgroup cols="2">
-	<tbody>
+	<tbody valign="top">
 	  <row>
-	    <entry valign="top"
-	      id="zfs-term-zpool">zpool</entry>
+	    <entry id="zfs-term-zpool">zpool</entry>
 
 	    <entry>A storage pool is the most basic building block of
 	      ZFS.  A pool is made up of one or more vdevs, the
@@ -877,8 +876,7 @@ vfs.zfs.vdev.cache.size="5M"</programlisting>
 	  </row>
 
 	  <row>
-	    <entry valign="top"
-	      id="zfs-term-vdev">vdev&nbsp;Types</entry>
+	    <entry id="zfs-term-vdev">vdev&nbsp;Types</entry>
 
 	    <entry>A zpool is made up of one or more vdevs, which
 	      themselves can be a single disk or a group of disks, in
@@ -1022,8 +1020,7 @@ vfs.zfs.vdev.cache.size="5M"</programlisting>
 	  </row>
 
 	  <row>
-	    <entry valign="top"
-	      id="zfs-term-arc">Adaptive Replacement
+	    <entry id="zfs-term-arc">Adaptive Replacement
 	      Cache (<acronym>ARC</acronym>)</entry>
 
 	    <entry>ZFS uses an Adaptive Replacement Cache
@@ -1055,8 +1052,7 @@ vfs.zfs.vdev.cache.size="5M"</programlisting>
 	  </row>
 
 	  <row>
-	    <entry valign="top"
-	      id="zfs-term-l2arc">L2ARC</entry>
+	    <entry id="zfs-term-l2arc">L2ARC</entry>
 
 	    <entry>The <acronym>L2ARC</acronym> is the second level
 	      of the <acronym>ZFS</acronym> caching system.  The
@@ -1094,8 +1090,7 @@ vfs.zfs.vdev.cache.size="5M"</programlisting>
 	  </row>
 
 	  <row>
-	    <entry valign="top"
-	      id="zfs-term-cow">Copy-On-Write</entry>
+	    <entry id="zfs-term-cow">Copy-On-Write</entry>
 
 	    <entry>Unlike a traditional file system, when data is
 	      overwritten on ZFS the new data is written to a
@@ -1111,8 +1106,7 @@ vfs.zfs.vdev.cache.size="5M"</programlisting>
 	  </row>
 
 	  <row>
-	    <entry valign="top"
-	      id="zfs-term-dataset">Dataset</entry>
+	    <entry id="zfs-term-dataset">Dataset</entry>
 
 	    <entry>Dataset is the generic term for a ZFS file system,
 	      volume, snapshot or clone.  Each dataset will have a
@@ -1133,8 +1127,7 @@ vfs.zfs.vdev.cache.size="5M"</programlisting>
 	  </row>
 
 	  <row>
-	    <entry valign="top"
-	      id="zfs-term-volum">Volume</entry>
+	    <entry id="zfs-term-volum">Volume</entry>
 
 	    <entry>In additional to regular file system datasets, ZFS
 	      can also create volumes, which are block devices.
@@ -1147,8 +1140,7 @@ vfs.zfs.vdev.cache.size="5M"</programlisting>
 	  </row>
 
 	  <row>
-	    <entry valign="top"
-	      id="zfs-term-snapshot">Snapshot</entry>
+	    <entry id="zfs-term-snapshot">Snapshot</entry>
 
 	    <entry>The <link
 		linkend="zfs-term-cow">copy-on-write</link>
@@ -1190,8 +1182,7 @@ vfs.zfs.vdev.cache.size="5M"</programlisting>
 	  </row>
 
 	  <row>
-	    <entry valign="top"
-	      id="zfs-term-clone">Clone</entry>
+	    <entry id="zfs-term-clone">Clone</entry>
 
 	    <entry>Snapshots can also be cloned; a clone is a writable
 	      version of a snapshot, allowing the file system to be
@@ -1212,8 +1203,7 @@ vfs.zfs.vdev.cache.size="5M"</programlisting>
 	  </row>
 
 	  <row>
-	    <entry valign="top"
-	      id="zfs-term-checksum">Checksum</entry>
+	    <entry id="zfs-term-checksum">Checksum</entry>
 
 	    <entry>Every block that is allocated is also checksummed
 	      (which algorithm is used is a per dataset property, see:
@@ -1247,8 +1237,7 @@ vfs.zfs.vdev.cache.size="5M"</programlisting>
 	  </row>
 
 	  <row>
-	    <entry valign="top"
-	      id="zfs-term-compression">Compression</entry>
+	    <entry id="zfs-term-compression">Compression</entry>
 
 	    <entry>Each dataset in ZFS has a compression property,
 	      which defaults to off.  This property can be set to one
@@ -1266,8 +1255,7 @@ vfs.zfs.vdev.cache.size="5M"</programlisting>
 	  </row>
 
 	  <row>
-	    <entry valign="top"
-	      id="zfs-term-deduplication">Deduplication</entry>
+	    <entry id="zfs-term-deduplication">Deduplication</entry>
 
 	    <entry>ZFS has the ability to detect duplicate blocks of
 	      data as they are written (thanks to the checksumming
@@ -1306,8 +1294,7 @@ vfs.zfs.vdev.cache.size="5M"</programlisting>
 	  </row>
 
 	  <row>
-	    <entry valign="top"
-	      id="zfs-term-scrub">Scrub</entry>
+	    <entry id="zfs-term-scrub">Scrub</entry>
 
 	    <entry>In place of a consistency check like fsck, ZFS has
 	      the <literal>scrub</literal> command, which reads all
@@ -1325,8 +1312,7 @@ vfs.zfs.vdev.cache.size="5M"</programlisting>
 	  </row>
 
 	  <row>
-	    <entry valign="top"
-	      id="zfs-term-quota">Dataset Quota</entry>
+	    <entry id="zfs-term-quota">Dataset Quota</entry>
 
 	    <entry>ZFS provides very fast and accurate dataset, user
 	      and group space accounting in addition to quotes and
@@ -1357,8 +1343,7 @@ vfs.zfs.vdev.cache.size="5M"</programlisting>
 	  </row>
 
 	  <row>
-	    <entry valign="top"
-	      id="zfs-term-refquota">Reference
+	    <entry id="zfs-term-refquota">Reference
 	      Quota</entry>
 
 	    <entry>A reference quota limits the amount of space a
@@ -1370,8 +1355,7 @@ vfs.zfs.vdev.cache.size="5M"</programlisting>
 	  </row>
 
 	  <row>
-	    <entry valign="top"
-	      id="zfs-term-userquota">User
+	    <entry id="zfs-term-userquota">User
 	      Quota</entry>
 
 	    <entry>User quotas are useful to limit the amount of space
@@ -1379,8 +1363,7 @@ vfs.zfs.vdev.cache.size="5M"</programlisting>
 	  </row>
 
 	  <row>
-	    <entry valign="top"
-	      id="zfs-term-groupquota">Group
+	    <entry id="zfs-term-groupquota">Group
 	      Quota</entry>
 
 	    <entry>The group quota limits the amount of space that a
@@ -1388,8 +1371,7 @@ vfs.zfs.vdev.cache.size="5M"</programlisting>
 	  </row>
 
 	  <row>
-	    <entry valign="top"
-	      id="zfs-term-reservation">Dataset
+	    <entry id="zfs-term-reservation">Dataset
 	      Reservation</entry>
 
 	    <entry>The <literal>reservation</literal> property makes
@@ -1417,8 +1399,7 @@ vfs.zfs.vdev.cache.size="5M"</programlisting>
 	  </row>
 
 	  <row>
-	    <entry valign="top"
-	      id="zfs-term-refreservation">Reference
+	    <entry id="zfs-term-refreservation">Reference
 	      Reservation</entry>
 
 	    <entry>The <literal>refreservation</literal> property
@@ -1444,8 +1425,7 @@ vfs.zfs.vdev.cache.size="5M"</programlisting>
 	  </row>
 
 	  <row>
-	    <entry valign="top"
-	      id="zfs-term-resilver">Resilver</entry>
+	    <entry id="zfs-term-resilver">Resilver</entry>
 
 	    <entry>When a disk fails and must be replaced, the new
 	      disk must be filled with the data that was lost.  This
