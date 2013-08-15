@@ -564,27 +564,23 @@ errors: No known data errors</screen>
 
       <itemizedlist>
 	<listitem>
-	  <para><acronym
-	      role="Portable Operating System
-	      Interface">POSIX</acronym> compatible name such as
+	  <para><acronym>POSIX</acronym> compatible name such as
 	    <replaceable>joe</replaceable>.</para>
 	</listitem>
 
 	<listitem>
-	  <para><acronym
-	      role="Portable Operating System
-	      Interface">POSIX</acronym> numeric ID such as
+	  <para><acronym>POSIX</acronym> numeric ID such as
 	    <replaceable>789</replaceable>.</para>
 	</listitem>
 
 	<listitem>
-	  <para><acronym role="System Identifier">SID</acronym> name
+	  <para><acronym>SID</acronym> name
 	    such as
 	    <replaceable>joe.bloggs@example.com</replaceable>.</para>
 	</listitem>
 
 	<listitem>
-	  <para><acronym role="System Identifier">SID</acronym>
+	  <para><acronym>SID</acronym>
 	    numeric ID such as
 	    <replaceable>S-1-123-456-789</replaceable>.</para>
 	</listitem>
