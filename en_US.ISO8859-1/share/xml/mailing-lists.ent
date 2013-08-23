@@ -289,10 +289,6 @@
 <!ENTITY a.mono "<ulink url='&a.mono.url;'>Mono and C# applications on FreeBSD</ulink>">
 <!ENTITY a.mono.name "<ulink url='&a.mono.url;'>freebsd-mono</ulink>">
 
-<!ENTITY a.mozilla.url "&a.mailman.listinfo;/freebsd-mozilla">
-<!ENTITY a.mozilla "<ulink url='&a.mozilla.url;'>FreeBSD port of the Mozilla browser mailing list</ulink>">
-<!ENTITY a.mozilla.name "<ulink url='&a.mozilla.url;'>freebsd-mozilla</ulink>">
-
 <!ENTITY a.multimedia.url "&a.mailman.listinfo;/freebsd-multimedia">
 <!ENTITY a.multimedia "<ulink url='&a.multimedia.url;'>FreeBSD multimedia mailing list</ulink>">
 <!ENTITY a.multimedia.name "<ulink url='&a.multimedia.url;'>freebsd-multimedia</ulink>">
@@ -336,6 +332,10 @@
 <!ENTITY a.pkg.url "&a.mailman.listinfo;/freebsd-pkg">
 <!ENTITY a.pkg "<ulink url='&a.pkg.url;'>Binary package management and package tools discussion</ulink>">
 <!ENTITY a.pkg.name "<ulink url='&a.pkg.url;'>freebsd-pkg</ulink>">
+
+<!ENTITY a.pkg-fallout.url "&a.mailman.listinfo;/freebsd-pkg-fallout">
+<!ENTITY a.pkg-fallout "<ulink url='&a.pkg-fallout.url;'>Fallout logs from package building</ulink>">
+<!ENTITY a.pkg-fallout.name "<ulink url='&a.pkg-fallout.url;'>freebsd-pkg-fallout</ulink>">
 
 <!ENTITY a.platforms.url "&a.mailman.listinfo;/freebsd-platforms">
 <!ENTITY a.platforms "<ulink url='&a.platforms.url;'>FreeBSD non-Intel platforms porting mailing list</ulink>">

@@ -426,6 +426,11 @@
       &pgpkey.ale;
     </sect2>
 
+    <sect2 id="pgpkey-nemysis">
+      <title>&a.nemysis.email;</title>
+      &pgpkey.nemysis;
+    </sect2>
+
     <sect2 id="pgpkey-peadar">
       <title>&a.peadar.email;</title>
       &pgpkey.peadar;
@@ -1199,6 +1204,11 @@
     <sect2 id="pgpkey-ken">
       <title>&a.ken.email;</title>
       &pgpkey.ken;
+    </sect2>
+
+    <sect2 id="pgpkey-markm">
+      <title>&a.markm.email;</title>
+      &pgpkey.markm;
     </sect2>
 
     <sect2 id="pgpkey-dinoex">
