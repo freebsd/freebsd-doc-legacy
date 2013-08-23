@@ -8,7 +8,7 @@
   <!-- Global customisation -->
 
   <!-- Redefine variables, and replace templates as necessary here -->
-  <xsl:template match="hostid|username|groupname|devicename|maketarget|makevar|userinput|command">
+  <xsl:template match="hostid|username|groupname|devicename|maketarget|makevar|command">
     <xsl:call-template name="inline.monoseq"/>
   </xsl:template>
 
@@ -27,4 +27,6 @@
   <xsl:param name="generate.index" select="0"/>
 
   <xsl:param name="graphic.default.extension">png</xsl:param>
+
+  <xsl:param name="callout.graphics.number.limit">30</xsl:param>
 </xsl:stylesheet>

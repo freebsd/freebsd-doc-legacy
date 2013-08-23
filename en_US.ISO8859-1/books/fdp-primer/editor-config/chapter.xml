@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!-- Copyright (c) 2013 Warren Block
+    All rights reserved.
+
+    Redistribution and use in source and binary forms, with or without
+    modification, are permitted provided that the following conditions
+    are met:
+    1. Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+    2. Redistributions in binary form must reproduce the above
+    copyright notice, this list of conditions and the following
+    disclaimer in the documentation and/or other materials provided
+    with the distribution.
+
+    THIS SOFTWARE IS PROVIDED BY THE AUTHORS AND CONTRIBUTORS ``AS
+    IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+    LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+    FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE
+    AUTHORS OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+    INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+    (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+    SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+    HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+    CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+    OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+    EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+    $FreeBSD$
+-->
+
+<chapter id="editor-config">
+  <title>Editor Configuration</title>
+
+  <para>Adjusting text editor configuration can make working on
+    document files quicker and easier, and help documents conform to
+    <acronym>FDP</acronym> guidelines.</para>
+
+  <sect1 id="editor-config-vim">
+    <title><application>Vim</application></title>
+
+    <para>Install from <filename role="package">editors/vim</filename>
+      or <filename role="package">editors/vim-lite</filename>.</para>
+
+    <para>Edit <filename>~/.vimrc</filename>, adding these
+      lines:</para>
+
+    <programlisting>augroup sgmledit
+  autocmd FileType sgml set formatoptions=cq2l " Special formatting options
+  autocmd FileType sgml set textwidth=70       " Wrap lines at 70 columns
+  autocmd FileType sgml set shiftwidth=2       " Automatically indent
+  autocmd FileType sgml set softtabstop=2      " Tab key indents 2 spaces
+  autocmd FileType sgml set tabstop=8          " Replace 8 spaces with a tab
+  autocmd FileType sgml set autoindent         " Automatic indentation
+augroup END</programlisting>
+
+  </sect1>
+
+  <sect1 id="editor-config-emacs">
+    <title><application>Emacs</application></title>
+
+    <para>Install from
+      <filename role="package">editors/emacs</filename>
+      or <filename role="package">editors/xemacs</filename>.</para>
+
+    <para>Edit <filename>~/.emacs</filename>, adding these
+      lines:</para>
+
+    <programlisting>    (defun local-sgml-mode-hook
+      (setq fill-column 70
+	    indent-tabs-mode nil
+	    next-line-add-newlines nil
+	    standard-indent 4
+	    sgml-indent-data t)
+      (auto-fill-mode t)
+      (setq sgml-catalog-files '("/usr/local/share/xml/catalog")))
+    (add-hook 'psgml-mode-hook
+      '(lambda () (local-psgml-mode-hook)))</programlisting>
+  </sect1>
+
+  <sect1 id="editor-config-nano">
+    <title><application>nano</application></title>
+
+    <para>Install from
+      <filename role="package">editors/nano</filename> or
+      <filename role="package">editors/nano-devel</filename>.</para>
+
+    <sect2 id="editor-config-nano-config">
+      <title>Configuration</title>
+
+      <para>Copy the sample <acronym>XML</acronym> syntax highlight
+	file to the user's home directory:</para>
+
+      <screen>&prompt.user; <userinput>cp /usr/local/share/nano/xml.nanorc ~/.nanorc</userinput></screen>
+
+      <para>Add these lines to the new
+	<filename>~/.nanorc</filename>.</para>
+
+      <programlisting># trailing whitespace
+color ,blue "[[:space:]]+$"
+# multiples of eight spaces at the start a line
+# (after zero or more tabs) should be a tab
+color ,blue "^([TAB]*[ ]{8})+"
+# tabs after spaces
+color ,yellow "( )+TAB"
+# highlight indents that have an odd number of spaces
+color ,red "^(([ ]{2})+|(TAB+))*[ ]{1}[^ ]{1}"
+# lines longer than 70 characters
+color ,yellow "^(.{71})|(TAB.{63})|(TAB{2}.{55})|(TAB{3}.{47}).+$"</programlisting>
+
+      <para>Process the file to create embedded tabs:</para>
+
+      <screen>&prompt.user; <userinput>perl -i'' -pe 's/TAB/\t/g' ~/.nanorc</userinput></screen>
+    </sect2>
+
+    <sect2 id="editor-config-nano-use">
+      <title>Use</title>
+
+      <para>Specify additional helpful options when running the
+	editor:</para>
+
+      <screen>&prompt.user; <userinput>nano -AKipwz -r 70 -T8 <replaceable>chapter.xml</replaceable></userinput></screen>
+
+      <para>Users of &man.csh.1; can define an alias in
+	<filename>~/.cshrc</filename> to automate these
+	options:</para>
+
+      <programlisting>alias nano "nano -AKipwz -r 70 -T8"</programlisting>
+
+      <para>After the alias is defined, the options will be added
+	automatically:</para>
+
+      <screen>&prompt.user; <userinput>nano <replaceable>chapter.xml</replaceable></userinput></screen>
+    </sect2>
+  </sect1>
+</chapter>
