@@ -543,6 +543,18 @@ errors: No known data errors</screen>
       <title>Setting Dataset Properties</title>
 
       <para></para>
+
+     <para>It is possible to set user-defined properties in ZFS.  They
+        become part of the pool configuration and can be used to provide
+        additional information about the pool or it's contents.  To
+        distnguish these custom properties from the ones supplied by
+        ZFS by default, the colon (<literal>:</literal>) is used in the
+        property name.</para>
+
+      <screen>&prompt.root; <userinput>zfs set custom:costcenter=1234</userinput>
+&prompt.root; <userinput>zfs get custom:costcenter</userinput>
+NAME PROPERTY           VALUE SOURCE 
+tank custom:costcenter  1234  local</screen>
     </sect2>
 
     <sect2 id="zfs-zfs-snapshot">
