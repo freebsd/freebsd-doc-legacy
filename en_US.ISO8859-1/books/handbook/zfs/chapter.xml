@@ -531,6 +531,26 @@ errors: No known data errors</screen>
       <title>Creating &amp; Destroying Volumes</title>
 
       <para></para>
+      
+      <para>A volume can be formatted with any filesystem on top of
+        it. This will appear to the user as if they are working with
+        that specific filesystem and not ZFS.  This way, it can be
+        used to augment non-ZFS filesystems with ZFS features that
+        they do not have.  For example, combining the ZFS compression
+        property together with a 250&nbsp;MB volume allows to create a
+        compressed FAT filesystem.</para>
+
+      <screen>&prompt.root; <userinput>zfs create -V 250m -o compression=on tank/fat32</userinput>
+&prompt.root; <userinput>zfs list tank</userinput>
+NAME USED AVAIL REFER MOUNTPOINT
+tank 258M  670M   31K /tank
+&prompt.root; <userinput>newfs_msdos -F32 /dev/zvol/tank/fat32</userinput>
+&prompt.root; <userinput>mount -t msdosfs /dev/zvol/tank/fat32 /mnt</userinput>
+&prompt.root; <userinput>df -h /mnt | grep fat32</userinput>
+Filesystem           Size Used Avail Capacity Mounted on
+/dev/zvol/tank/fat32 249M  24k  249M     0%   /mnt
+&prompt.root; <userinput>mount | grep fat32</userinput>
+/dev/zvol/tank/fat32 on /mnt (msdosfs, local)</screen>
     </sect2>
 
     <sect2 id="zfs-zfs-rename">
@@ -544,7 +564,7 @@ errors: No known data errors</screen>
 
       <para></para>
 
-     <para>It is possible to set user-defined properties in ZFS.  They
+      <para>It is possible to set user-defined properties in ZFS.  They
         become part of the pool configuration and can be used to provide
         additional information about the pool or it's contents.  To
         distnguish these custom properties from the ones supplied by
