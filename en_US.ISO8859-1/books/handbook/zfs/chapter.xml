@@ -506,8 +506,51 @@ errors: No known data errors</screen>
     <sect2 id="zfs-zpool-iostat">
       <title>Performance Monitoring</title>
 
-      <para></para>
-    </sect2>
+      <para>ZFS has a built-in monitoring isystem that can display
+	statistics about I/O happening on the pool in real-time.
+	Additionally, it shows the free and used space on the pool and
+	how much I/O bandwidth are currently utilized for read and
+	write operations.  By default, all pools in the system will be
+	monitored and displayed.  A pool name can be provided to just
+	monitor one pool. A basic example is provided below:</para>
+
+<screen>&prompt.root; <userinput>zpool iostat</userinput>
+               capacity     operations    bandwidth
+pool        alloc   free   read  write   read  write
+----------  -----  -----  -----  -----  -----  -----
+data         288G  1.53T      2     11  11.3K  57.1K</screen>
+
+	<para>To monitor I/O activity on the pool continuously, a
+	  number indicating the seconds after which to refresh the
+	  display can be specified.  ZFS will then print the next
+	  statistic line after each intervall has been reached.  Press
+	  <keycombo
+	  action="simul"><keycap>Ctrl</keycap><keycap>C</keycap></keycombo>
+	  to stop this continuous monitoring.  Alternatively, a second
+	  whole number can be provided on the command line after the
+	  intervall to indicate how many of these statistics should be
+	  displayed in total.</para>
+
+	<para>An even more detailed pool I/O statistic can be
+	  displayed using the <literal>-v</literal> parameter.  For
+	  each storage device that is part of the pool ZFS will
+	  provide a separate statistic line.  This is helpful to
+	  determine reads and writes on devices that slow down I/O on
+	  the whole pool.  In the following example, we have a
+	  mirrored pool consisting of two devices.  For each of these,
+	  a separate line is shown with the current I/O
+	  activity.</para>
+
+<screen>&prompt.root; <userinput>zpool iostat -v </userinput>
+                            capacity     operations    bandwidth
+pool                     alloc   free   read  write   read  write
+-----------------------  -----  -----  -----  -----  -----  -----
+data                      288G  1.53T      2     12  9.23K  61.5K
+  mirror                  288G  1.53T      2     12  9.23K  61.5K
+    ada1                     -      -      0      4  5.61K  61.7K
+    ada2                     -      -      1      4  5.04K  61.7K
+-----------------------  -----  -----  -----  -----  -----  -----</screen>
+</sect2>
 
     <sect2 id="zfs-zpool-split">
       <title>Splitting a Storage Pool</title>
@@ -533,12 +576,12 @@ errors: No known data errors</screen>
       <para></para>
       
       <para>A volume can be formatted with any filesystem on top of
-        it. This will appear to the user as if they are working with
-        that specific filesystem and not ZFS.  This way, it can be
-        used to augment non-ZFS filesystems with ZFS features that
-        they do not have.  For example, combining the ZFS compression
-        property together with a 250&nbsp;MB volume allows to create a
-        compressed FAT filesystem.</para>
+	it. This will appear to the user as if they are working with
+	that specific filesystem and not ZFS.  This way, it can be
+	used to augment non-ZFS filesystems with ZFS features that
+	they do not have.  For example, combining the ZFS compression
+	property together with a 250&nbsp;MB volume allows to create a
+	compressed FAT filesystem.</para>
 
       <screen>&prompt.root; <userinput>zfs create -V 250m -o compression=on tank/fat32</userinput>
 &prompt.root; <userinput>zfs list tank</userinput>
@@ -564,12 +607,12 @@ Filesystem           Size Used Avail Capacity Mounted on
 
       <para></para>
 
-      <para>It is possible to set user-defined properties in ZFS.  They
-        become part of the pool configuration and can be used to provide
-        additional information about the pool or it's contents.  To
-        distnguish these custom properties from the ones supplied by
-        ZFS by default, the colon (<literal>:</literal>) is used in the
-        property name.</para>
+      <para>It is possible to set user-defined properties in ZFS.
+	They become part of the pool configuration and can be used to
+	provide additional information about the pool or it's
+	contents.  To distnguish these custom properties from the ones
+	supplied by ZFS by default, the colon (<literal>:</literal>)
+	is used in the property name.</para>
 
       <screen>&prompt.root; <userinput>zfs set custom:costcenter=1234</userinput>
 &prompt.root; <userinput>zfs get custom:costcenter</userinput>
