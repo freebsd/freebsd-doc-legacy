@@ -812,8 +812,8 @@ tank custom:costcenter  1234  local</screen>
 	<replaceable>someuser</replaceable> create
 	<replaceable>mydataset</replaceable></userinput> command will
 	give the indicated user the required permissions to create
-	child datasets under the selected parent dataset.  There is
-	a caveat, creating a new dataset involves mouting it, which
+	child datasets under the selected parent dataset.  There is a
+	caveat, creating a new dataset involves mouting it, which
 	requires the <literal>vfs.usermount</literal> sysctl be
 	enabled in order to allow non-root users to mount a
 	filesystem.  There is the further restriction that non-root
