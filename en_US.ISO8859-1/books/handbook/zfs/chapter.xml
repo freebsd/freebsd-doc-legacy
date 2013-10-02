@@ -518,7 +518,7 @@ errors: No known data errors</screen>
 	how much I/O bandwidth are currently utilized for read and
 	write operations.  By default, all pools in the system will be
 	monitored and displayed.  A pool name can be provided to just
-	monitor one pool. A basic example is provided below:</para>
+	monitor one pool.  A basic example is provided below:</para>
 
 <screen>&prompt.root; <userinput>zpool iostat</userinput>
                capacity     operations    bandwidth
@@ -617,7 +617,7 @@ Filesystem           Size Used Avail Capacity Mounted on
       <para>It is possible to set user-defined properties in ZFS.
 	They become part of the dataset configuration and can be used
 	to provide additional information about the dataset or its
-	contents.  To distnguish these custom properties from the
+	contents.  To distinguish these custom properties from the
 	ones supplied as part of ZFS, a colon (<literal>:</literal>)
 	is used to create a custom namespace for the property.</para>
 
@@ -646,7 +646,7 @@ tank custom:costcenter  1234  local</screen>
     </sect2>
 
     <sect2 id="zfs-zfs-quota">
-      <title>Dataset, User and Group Quotes</title>
+      <title>Dataset, User and Group Quotas</title>
 
       <para>To enforce a dataset quota of 10&nbsp;GB for
 	<filename>storage/home/bob</filename>, use the
@@ -786,6 +786,92 @@ tank custom:costcenter  1234  local</screen>
       <title>Deduplication</title>
 
       <para></para>
+
+      <para>To activate deduplication, you simply need to set the
+	following property on the target pool.</para>
+
+      <screen>&prompt.root; <userinput>zfs set dedup=on <replaceable>pool</replaceable></userinput></screen>
+
+      <para>it is important to mention that only new data being
+	written to the pool will be deduplicated.  Data that is
+	already residing on the pool will not be deduplicated by
+	activating this option.  As such, a pool with a freshly
+	activated deduplication property will look something like this
+	example.</para>
+
+      <screen>&prompt.root; <userinput>zpool list</userinput>
+NAME  SIZE ALLOC  FREE CAP DEDUP HEALTH ALTROOT
+pool 2.84G 2.19M 2.83G  0% 1.00x ONLINE -</screen>
+
+      <para>The <literal>DEDUP</literal> column shows the actual rate
+	of deduplication for that pool.  A value of
+	<literal>1.00x</literal> that no data has been deduplicated
+	due to insufficient duplicate data.  In the following example,
+	the ports tree is copied three times into different
+	directories on the deduplicated pool above to provide
+	redundancy.</para>
+
+      <screen>&prompt.root; <userinput>zpool list</userinput>
+for d in dir1 dir2 dir3; do
+for> mkdir $d &amp;&amp; cp -R /usr/ports $d &amp;
+for> done</screen>
+
+      <para>Now that redundant data has been created, ZFS detects that
+	and makes sure that the data is not taking up additional
+	space.</para>
+
+      <screen>&prompt.root; <userinput>zpool list</userinput>
+NAME SIZE  ALLOC FREE CAP DEDUP HEALTH ALTROOT
+pool 2.84G 20.9M 2.82G 0% 3.00x ONLINE -</screen>
+
+      <para>The <literal>DEDUP</literal> column does now contain the
+	value <literal>3.00x</literal>. This indicates that ZFS
+	detected the copies of the ports tree data and was able to
+	deduplicate it at a ratio of 1/3.  The space savings that this
+	yields can be enormous, but only when there is enough memory
+	available to keep track of the deduplicated blocks.</para>
+
+      <para>Deduplication is not always beneficial, especially when
+	there is not much redundant data on a ZFS pool.  To see how
+	much space could be saved by deduplication for a given set of
+	data that is already stored in a pool, ZFS can simulate the
+	effects that deduplication would have.  To do that, the
+	following command can be invoked on the pool.</para>
+
+      <screen>&prompt.root; <userinput>zdb -S <replaceable>pool</replaceable></userinput>
+Simulated DDT histogram:
+
+bucket              allocated                       referenced
+______   ______________________________   ______________________________
+refcnt   blocks   LSIZE   PSIZE   DSIZE   blocks   LSIZE   PSIZE   DSIZE
+------   ------   -----   -----   -----   ------   -----   -----   -----
+     1    2.58M    289G    264G    264G    2.58M    289G    264G    264G
+     2     206K   12.6G   10.4G   10.4G     430K   26.4G   21.6G   21.6G
+     4    37.6K    692M    276M    276M     170K   3.04G   1.26G   1.26G
+     8    2.18K   45.2M   19.4M   19.4M    20.0K    425M    176M    176M
+    16      174   2.83M   1.20M   1.20M    3.33K   48.4M   20.4M   20.4M
+    32       40   2.17M    222K    222K    1.70K   97.2M   9.91M   9.91M
+    64        9     56K   10.5K   10.5K      865   4.96M    948K    948K
+   128        2   9.50K      2K      2K      419   2.11M    438K    438K
+   256        5   61.5K     12K     12K    1.90K   23.0M   4.47M   4.47M
+    1K        2      1K      1K      1K    2.98K   1.49M   1.49M   1.49M
+ Total    2.82M    303G    275G    275G    3.20M    319G    287G    287G
+
+dedup = 1.05, compress = 1.11, copies = 1.00, dedup * compress / copies = 1.16</screen>
+
+      <para>After <command>zdb -S</command> finished analyzing the
+	pool, it outputs a summary that shows the ratio that would
+	result in activating deduplication.  In this case,
+	<literal>1.16</literal> is a very poor rate that is mostly
+	influenced by compression.  Activating deduplication on this
+	pool would not save any significant amount of space.  Keeping
+	the formula <literal>dedup * compress / copies = deduplication
+	ratio</literal> in mind, a system administrator can plan the
+	storage allocation more towards having multiple copies of data
+	or by having a decent compression rate in order to utilize the
+	space savings that deduplication provides.  As a rule of
+	thumb, compression should be used first before deduplication
+	due to the lower memory requirements.</para>
     </sect2>
   </sect1>
 
