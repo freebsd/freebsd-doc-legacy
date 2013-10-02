@@ -25,7 +25,7 @@
   <itemizedlist>
     <listitem>
       <para>Data integrity: checksums are created when data is written
-	and checked when data is read. If on-disk data corruption is
+	and checked when data is read.  If on-disk data corruption is
 	detected, the user is notified and recovery methods are
 	initiated.</para>
     </listitem>
@@ -476,7 +476,13 @@ errors: No known data errors</screen>
     <sect2 id="zfs-zpool-attach">
       <title>Adding &amp; Removing Devices</title>
 
-      <para></para>
+      <para>Creating a ZFS Storage Pool (<acronym>zpool</acronym>)
+	involves making a number of decisions that are relatively
+	permanent.  Although additional vdevs can be added to a pool,
+	the layout of the pool cannot be changed once the pool has
+	been created, instead the data must be backed up and the pool
+	recreated.  Currently, devices cannot be removed from a
+	zpool.</para>
     </sect2>
 
     <sect2 id="zfs-zpool-resilver">
@@ -574,14 +580,15 @@ data                      288G  1.53T      2     12  9.23K  61.5K
       <title>Creating &amp; Destroying Volumes</title>
 
       <para></para>
-      
+
       <para>A volume can be formatted with any filesystem on top of
-	it. This will appear to the user as if they are working with
-	that specific filesystem and not ZFS.  This way, it can be
-	used to augment non-ZFS filesystems with ZFS features that
-	they do not have.  For example, combining the ZFS compression
-	property together with a 250&nbsp;MB volume allows to create a
-	compressed FAT filesystem.</para>
+	it.  This will appear to the user as if they are working with
+	a regular disk using that specific filesystem and not ZFS.
+	In this way, non-ZFS file systems can be augmented with
+	ZFS features that they would not normally have.  For example,
+	combining the ZFS compression property together with a
+	250&nbsp;MB volume allows to create a compressed FAT
+	filesystem.</para>
 
       <screen>&prompt.root; <userinput>zfs create -V 250m -o compression=on tank/fat32</userinput>
 &prompt.root; <userinput>zfs list tank</userinput>
@@ -608,15 +615,15 @@ Filesystem           Size Used Avail Capacity Mounted on
       <para></para>
 
       <para>It is possible to set user-defined properties in ZFS.
-	They become part of the pool configuration and can be used to
-	provide additional information about the pool or it's
-	contents.  To distnguish these custom properties from the ones
-	supplied by ZFS by default, the colon (<literal>:</literal>)
-	is used in the property name.</para>
+	They become part of the dataset configuration and can be used
+	to provide additional information about the dataset or its
+	contents.  To distnguish these custom properties from the
+	ones supplied as part of ZFS, a colon (<literal>:</literal>)
+	is used to create a custom namespace for the property.</para>
 
       <screen>&prompt.root; <userinput>zfs set custom:costcenter=1234</userinput>
 &prompt.root; <userinput>zfs get custom:costcenter</userinput>
-NAME PROPERTY           VALUE SOURCE 
+NAME PROPERTY           VALUE SOURCE
 tank custom:costcenter  1234  local</screen>
     </sect2>
 
@@ -780,11 +787,52 @@ tank custom:costcenter  1234  local</screen>
 
       <para></para>
     </sect2>
+  </sect1>
 
-    <sect2 id="zfs-zfs-allow">
-      <title>Delegated Administration</title>
+  <sect1 id="zfs-zfs-allow">
+    <title>Delegated Administration</title>
 
-      <para></para>
+    <para>ZFS features a comprehensive delegation system to assign
+      permissions to performs the various ZFS administration functions
+      to a regular user.  For example, if each users' home directory
+      is a dataset, then each user could be delegated permission to
+      create and destroy snapshots of their home directory.  A backup
+      user could be assigned the permissions required to make use of
+      the ZFS replication features without requiring root access, or
+      isolate a usage collection script to run as an unprivledged user
+      with access to only the space utilization data of all users.  It
+      is even possible to delegate the ability to delegate
+      permissions.  It is possible to delegate permissions over each
+      ZFS subcommand and most ZFS properties.</para>
+
+    <sect2 id="zfs-zfs-allow-create">
+      <title>Delegating Dataset Creation</title>
+
+      <para>Using the <userinput>zfs allow
+	<replaceable>someuser</replaceable> create
+	<replaceable>mydataset</replaceable></userinput> command will
+	give the indicated user the required permissions to create
+	child datasets under the selected parent dataset.  There is
+	a caveat, creating a new dataset involves mouting it, which
+	requires the <literal>vfs.usermount</literal> sysctl be
+	enabled in order to allow non-root users to mount a
+	filesystem.  There is the further restriction that non-root
+	users must own the directory they are mounting the filesystem
+	to, in order to prevent abuse.</para>
+    </sect2>
+
+    <sect2 id="zfs-zfs-allow-allow">
+      <title>Delegating Permission Delegation</title>
+
+      <para>Using the <userinput>zfs allow
+	<replaceable>someuser</replaceable> allow
+	<replaceable>mydataset</replaceable></userinput> command will
+	give the indicated user the ability to assign any permission
+	they have on the target dataset (or its children) to other
+	users.  If a user has the <literal>snapshot</literal>
+	permission and the <literal>allow</literal> permission that
+	user can then grant the snapshot permission to some other
+	users.</para>
     </sect2>
   </sect1>
 
@@ -1062,7 +1110,7 @@ vfs.zfs.vdev.cache.size="5M"</programlisting>
 		  <para>In a <acronym>RAID-Z3</acronym> configuration
 		    with 8 disks of 1&nbsp;TB, the volume would
 		    provide 5&nbsp;TB of usable space and still be
-		    able to operate with three faulted disks.  Sun
+		    able to operate with three faulted disks.  &sun;
 		    recommends no more than 9 disks in a single vdev.
 		    If the configuration has more disks, it is
 		    recommended to divide them into separate vdevs and
