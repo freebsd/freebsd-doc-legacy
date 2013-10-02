@@ -964,7 +964,7 @@
 	    </listitem>
 
 	    <listitem>
-	      <para>Channel <literal>##FreeBSD</literal> on <ulink
+	      <para>Channel <literal>#FreeBSD</literal> on <ulink
 		  url="http://freenode.net/">Freenode</ulink> is a
 		general help channel with many users at any time.
 		The conversations have been known to run off-topic for a
@@ -5238,9 +5238,12 @@ ttyvb   "/usr/libexec/getty Pc"         xterm  off secure</programlisting>
 	</question>
 
 	<answer>
-	  <para>Run the command <command>xmodmap -e "pointer = 3 2 1"</command>
-	    from <filename>.xinitrc</filename> or
-	    <filename>.xsession</filename>.</para>
+	  <para>Run the command
+	    <command>xmodmap -e "pointer = 3 2 1"</command>.</para>
+	  <para>You add the above command to
+	    <filename>.xinitrc</filename> or
+	    <filename>.xsession</filename> to make it happen
+	    automatically.</para>
 	</answer>
       </qandaentry>
 
@@ -7233,7 +7236,7 @@ hint.sio.7.irq="12"</programlisting>
     <qandaset>
       <qandaentry>
 	<question id="more-swap">
-	  <para>&os; a lot of swap space even when the computer has
+	  <para>&os; uses a lot of swap space even when the computer has
 	    free memory left.  Why?</para>
 	</question>
 

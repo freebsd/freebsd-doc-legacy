@@ -149,6 +149,11 @@
       &pgpkey.bvs;
     </sect2>
 
+    <sect2 id="pgpkey-zbb">
+      <title>&a.zbb.email;</title>
+      &pgpkey.zbb;
+    </sect2>
+
     <sect2 id="pgpkey-novel">
       <title>&a.novel.email;</title>
       &pgpkey.novel;
@@ -217,6 +222,11 @@
     <sect2 id="pgpkey-sbruno">
       <title>&a.sbruno.email;</title>
       &pgpkey.sbruno;
+    </sect2>
+
+    <sect2 id="pgpkey-br">
+      <title>&a.br.email;</title>
+      &pgpkey.br;
     </sect2>
 
     <sect2 id="pgpkey-oleg">
@@ -579,6 +589,11 @@
     <sect2 id="pgpkey-pgollucci">
       <title>&a.pgollucci.email;</title>
       &pgpkey.pgollucci;
+    </sect2>
+
+    <sect2 id="pgpkey-danilo">
+      <title>&a.danilo.email;</title>
+      &pgpkey.danilo;
     </sect2>
 
     <sect2 id="pgpkey-daichi">

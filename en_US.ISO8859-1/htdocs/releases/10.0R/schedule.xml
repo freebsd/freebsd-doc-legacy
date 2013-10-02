@@ -34,6 +34,19 @@
 
   <h1>Schedule</h1>
 
+  <p>During the &local.branch.head; freeze, the Release Engineering
+    Team may create ALPHA snapshots to publish for testing purposes.
+    As the frequency and total number of the ALPHA snapshots will
+    depend on the length of time the &local.branch.head; branch is
+    frozen, no official schedule is provided.</p>
+
+  <p>Announcements regarding the availability of the
+    ALPHA snapshots will be sent to the <a
+      href="mailto:freebsd-current@FreeBSD.org">freebsd-current</a>
+    and <a
+      href="mailto:freebsd-snapshots@FreeBSD.org">freebsd-snapshots</a>
+    mailing lists.</p>
+
   <table class="tblbasic">
     <tr class="heading">
       <td>Action</td>
@@ -53,7 +66,7 @@
     <tr>
       <td>Release schedule reminder</td>
       <td>19&nbsp;August&nbsp;2013</td>
-      <td>-</td>
+      <td>19&nbsp;August&nbsp;2013</td>
       <td>Release Engineers send reminder announcement e-mail to developers
 	with updated schedule.</td>
     </tr>
@@ -61,7 +74,7 @@
     <tr>
       <td>Code slush begins</td>
       <td>24&nbsp;August&nbsp;2013</td>
-      <td>-</td>
+      <td>24&nbsp;August&nbsp;2013</td>
       <td>Release Engineers announce that all further commits to the
 	&local.branch.stable; branch will not require explicit approval,
 	however new features should be avoided.</td>
@@ -70,7 +83,7 @@
     <tr>
       <td>Code freeze begins</td>
       <td>7&nbsp;September&nbsp;2013</td>
-      <td>-</td>
+      <td>7&nbsp;September&nbsp;2013</td>
       <td>Release Engineers announce that all further commits to the
 	&local.branch.head; branch will require explicit approval.
 	Certain blanket approvals will be granted for narrow areas of
@@ -80,7 +93,7 @@
     <tr>
       <td>KBI freeze begins</td>
       <td>21&nbsp;September&nbsp;2013</td>
-      <td>-</td>
+      <td>29&nbsp;September&nbsp;2013</td>
       <td>Release Engineers announce that all further commits to the
 	&local.branch.head; branch will require explicit approval.
 	Additionally, there can be no changes to the KBI until
@@ -88,18 +101,18 @@
     </tr>
 
     <tr>
+      <td>&local.branch.stable; branch</td>
+      <td>10&nbsp;October&nbsp;2013</td>
+      <td>-</td>
+      <td>Subversion branch created; release engineering continues
+	on this branch.</td>
+    </tr>
+
+    <tr>
       <td>BETA1 builds begin</td>
       <td>12&nbsp;October&nbsp;2013</td>
       <td>-</td>
       <td>First beta test snapshot.</td>
-    </tr>
-
-    <tr>
-      <td>&local.branch.stable; branch</td>
-      <td>17&nbsp;October&nbsp;2013</td>
-      <td>-</td>
-      <td>Subversion branch created; release engineering continues
-	proceeds on this branch.</td>
     </tr>
 
     <tr>

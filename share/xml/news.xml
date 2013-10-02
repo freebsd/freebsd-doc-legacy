@@ -31,7 +31,131 @@
     <name>2013</name>
 
     <month>
+      <name>9</name>
+
+      <day>
+	<name>30</name>
+
+	<event>
+	  <title>&os; 9.2-RELEASE Available</title>
+
+	  <p><a href="&enbase;/releases/9.2R/announce.html">FreeBSD
+	      9.2-RELEASE</a> is now available.  Please be sure to
+		check the <a
+		  href="&enbase;/releases/9.2R/relnotes.html">Release
+		  Notes</a> <a
+		  href="&enbase;/releases/9.2R/errata.html">Release
+		  Errata</a> before installation for any late-breaking
+		news and/or issues with 9.2.  More information about
+		FreeBSD releases can be found on the <a
+		  href="&enbase;/releases/index.html">Release
+		  Information</a> page.</p>
+	</event>
+      </day>
+
+      <day>
+	<name>29</name>
+
+	<event>
+	  <title>&os;&nbsp;10.0-ALPHA4 Available</title>
+
+	  <p>The fourth ALPHA build for the &os;-10.0 release cycle is
+	    now available.  ISO images for the amd64, i386, ia64,
+	    powerpc, powerpc64 and sparc64 architectures are <a
+	      href="&lists.current;/2013-September/044951.html">available</a>
+	    on most of our <a
+	      href="&url.doc.base-en;/books/handbook/mirrors-ftp.html">&os;
+	    mirror sites</a>.</p>
+	</event>
+      </day>
+
+      <day>
+	<name>23</name>
+	<event>
+	  <p>New committer:
+	      <a href="mailto:danilo@FreeBSD.org">Danilo Eg&ecirc;a Gondolfo</a> (ports)</p>
+	</event>
+      </day>
+
+      <day>
+	<name>18</name>
+
+	<event>
+	  <title>&os;&nbsp;10.0-ALPHA2 Available</title>
+
+	  <p>The second ALPHA build for the &os;-10.0 release cycle is
+	    now available.  ISO images for the amd64, i386, ia64,
+	    powerpc, powerpc64 and sparc64 architectures are <a
+	      href="&lists.current;/2013-September/044676.html">available</a>
+	    on most of our <a
+	      href="&url.doc.base-en;/books/handbook/mirrors-ftp.html">&os;
+	    mirror sites</a>.</p>
+	</event>
+      </day>
+
+      <day>
+	<name>13</name>
+
+	<event>
+	  <title>&os;&nbsp;10.0-ALPHA1 Available</title>
+
+	  <p>The first ALPHA build for the &os;-10.0 release cycle is
+	    now available.  ISO images for the amd64, i386, ia64,
+	    powerpc and sparc64 architectures are <a
+	      href="&lists.current;/2013-September/044522.html">available</a>
+	    on most of our <a
+	      href="&url.doc.base-en;/books/handbook/mirrors-ftp.html">&os;
+	    mirror sites</a>.</p>
+	</event>
+      </day>
+
+      <day>
+	<name>12</name>
+
+	<event>
+	  <title>&os;&nbsp;9.2-RC4 Available</title>
+
+	  <p>The fourth RC build for the &os;-9.2 release cycle is
+	    now available.  ISO images for the amd64, i386, ia64,
+	    powerpc, powerpc64 and sparc64 architectures are <a
+	      href="&lists.stable;/2013-September/075163.html">available</a>
+	    on most of our <a
+	      href="&url.doc.base-en;/books/handbook/mirrors-ftp.html">&os;
+	    mirror sites</a>.</p>
+	</event>
+      </day>
+
+      <day>
+	<name>2</name>
+	<event>
+	  <p>New committer:
+	      <a href="mailto:br@FreeBSD.org">Ruslan Bukin</a> (src)</p>
+	</event>
+	<event>
+	  <p>New committer:
+	      <a href="mailto:zbb@FreeBSD.org">Zbigniew Bodek</a> (src)</p>
+	</event>
+      </day>
+    </month>
+
+    <month>
       <name>8</name>
+
+      <day>
+	<name>26</name>
+
+	<event>
+	  <title>&os;&nbsp;9.2-RC3 Available</title>
+
+	  <p>The third RC build for the &os;-9.2 release cycle is
+	    now available.  ISO images for the amd64, i386, ia64,
+	    powerpc, powerpc64 and sparc64 architectures are <a
+	      href="&lists.stable;/2013-August/074920.html">available</a>
+	    on most of our <a
+	      href="&url.doc.base-en;/books/handbook/mirrors-ftp.html">&os;
+	    mirror sites</a>.</p>
+	</event>
+      </day>
 
       <day>
 	<name>16</name>
