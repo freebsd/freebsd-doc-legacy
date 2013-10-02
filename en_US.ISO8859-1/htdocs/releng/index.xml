@@ -50,9 +50,9 @@
     </tr>
 
     <tr>
-      <td>August 2013</td>
-      <td>&os; 9.2</td>
-      <td><a href="&base;/releases/9.2R/schedule.html">Target Schedule</a></td>
+      <td>November 2013</td>
+      <td>&os; 10.0</td>
+      <td><a href="&base;/releases/10.0R/schedule.html">Target Schedule</a></td>
     </tr>
   </table>
 
@@ -75,8 +75,8 @@
 
     <tr>
       <td><tt>head</tt></td>
-      <td>Open</td>
-      <td>committers</td>
+      <td>Frozen</td>
+      <td>&contact.re;</td>
       <td>Active development branch for 10-CURRENT.</td>
     </tr>
 

@@ -1,0 +1,525 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE report PUBLIC "-//FreeBSD//DTD FreeBSD XML Database for Status Report//EN" "http://www.FreeBSD.org/XML/www/share/xml/statusreport.dtd" >
+<!-- $FreeBSD$ -->
+<report>
+  <date>
+    <month>July-September</month>
+
+    <year>2013</year>
+  </date>
+
+  <section>
+    <title>Introduction</title>
+
+    <p>This report covers &os;-related projects between July and
+      September 2013.  This is the third of four reports planned for
+      2013.</p>
+
+    <!-- XXX: introduction goes here -->
+
+    <!-- XXX: keep updating the number of entries -->
+    <p>Thanks to all the reporters for the excellent work!  This report
+      contains 10 entries and we hope you enjoy reading it.</p>
+
+    <!-- XXX: set date for the next set of submissions -->
+    <p>The deadline for submissions covering between October and
+      December 2013 is not yet decided.</p>
+  </section>
+
+  <category>
+    <name>team</name>
+
+    <description>&os; Team Reports</description>
+  </category>
+
+  <category>
+    <name>proj</name>
+
+    <description>Projects</description>
+  </category>
+
+  <category>
+    <name>kern</name>
+
+    <description>Kernel</description>
+  </category>
+
+  <category>
+    <name>ports</name>
+
+    <description>Ports</description>
+  </category>
+
+  <category>
+    <name>doc</name>
+
+    <description>Documentation</description>
+  </category>
+
+  <category>
+    <name>soc</name>
+
+    <description>Google Summer of Code</description>
+  </category>
+
+  <project cat='kern'>
+    <title>AES-NI Improvements for GELI</title>
+
+    <contact>
+      <person>
+	<name>
+	  <given>John-Mark</given>
+	  <common>Gurney</common>
+	</name>
+	<email>jmg@FreeBSD.org</email>
+      </person>
+    </contact>
+
+    <links>
+      <url href="http://svnweb.freebsd.org/base?view=revision&amp;revision=255187"/>
+    </links>
+
+    <body>
+      <p>An enhancement to the AES-NI implementation for OpenCrypto has
+	been committed that significantly improves AES-XTS and AES-CBC
+	decryption performance.  This gives <tt>geli(8)</tt> around a
+	three times performance boost on <tt>gnop(8)</tt> using AES-XTS
+	compared to the old code.</p>
+
+      <p>These improvements are available to users of the OpenCrypto
+	framework and <tt>crypto(4)</tt>.</p>
+    </body>
+  </project>
+
+  <project cat='proj'>
+    <title>Static Code Analysis</title>
+
+    <contact>
+      <person>
+	<name>
+	  <given>Ulrich</given>
+	  <common>Spoerlein</common>
+	</name>
+	<email>uqs@FreeBSD.org</email>
+      </person>
+    </contact>
+
+    <links>
+      <url href="http://scan.coverity.com/">Coverity Scan</url>
+      <url href="http://scan.freebsd.your.org/">Clang Static Analyzer Scan for &os;</url>
+      <url href="http://clang-analyzer.llvm.org/">Clang Static Analyzer Home Page</url>
+    </links>
+
+    <body>
+      <p>With our own (old and unstable) instance of Coverity Prevent
+	gone, we have now fully transitioned to the Scan project run by
+	Coverity (see links), which Open Source projects can use to
+	learn about possible defects in their source code.</p>
+
+      <p>We also continue to run our code base through the Static
+	Analyzer that is shipped with Clang/LLVM.  It cannot track the
+	state of the code over time, but has the benefit that everyone
+	can use it without any special setup.  See the home page at the
+	links section for more information on the Clang Static Analyzer
+	project in general, and head over to the &os; Clang Static
+	Analyzer Scan page (see links) to see those possible defects (no
+	signup required).</p>
+
+      <p>We are looking for a co-admin for both of these projects to
+	increase the bus-factor and the chance of survival for these
+	services.  Fame and fortune await!</p>
+    </body>
+
+    <help>
+      <task>Maybe turn on email reports for new defects to the internal
+	list of &os; developers.</task>
+
+      <task>Find co-admin.</task>
+
+      <task>Fix the defects reported by Coverity and Clang.</task>
+    </help>
+  </project>
+
+  <project cat='kern'>
+    <title>GEOM Direct Dispatch and Fine-Grained CAM Locking</title>
+
+    <contact>
+      <person>
+	<name>
+	  <given>Alexander</given>
+	  <common>Motin</common>
+	</name>
+	<email>mav@FreeBSD.org</email>
+      </person>
+    </contact>
+
+    <links>
+      <url href="http://svnweb.freebsd.org/base/projects/camlock/">Project SVN branch</url>
+      <url href="http://people.freebsd.org/~mav/camlock_patches/">Project patches</url>
+    </links>
+
+    <body>
+      <p>Last year's high-performance storage vendors reported a
+	performance bottleneck in the &os; block storage subsystem,
+	limiting peak performance around 300-500K IOPS.  While that is
+	still more than enough for average systems, detailed
+	investigation has shown a number of places that require radical
+	improvement.  Unmapped I/O support implemented early this year
+	already improved I/O performance by about 30% and moved more
+	accents toward GEOM and CAM subsystems scalability.  Fixing
+	these issues was the goal of this project.</p>
+
+      <p>The existing GEOM design assumed most I/O handling to be done
+	by only two kernel threads (<tt>g_up()</tt> and
+	<tt>g_down()</tt>).  That simplified locking in some cases, but
+	limited potential SMP scalability and created additional
+	scheduler overhead.  This project introduces the concept of
+	direct I/O dispatch into GEOM for cases where it is known to be
+	safe and efficient.  That implies marking some GEOM consumers
+	and providers with one or two new flags, declaring situations
+	when a direct function call can be used instead of normal request
+	queuing.  That allows avoiding any context switches inside GEOM
+	for the most widely used topologies, simultaneously processing
+	multiple I/Os from multiple calling threads.</p>
+
+      <p>Having GEOM passing through multiple concurrent calls down to
+	the underlying layers exposed major lock congestion in CAM.  In
+	the existing CAM design all devices connected to the same ATA/SCSI
+	controller are sharing a single lock, which can be quite busy due
+	to multiple controller hardware accesses and/or code logic.
+	Experiments have shown that applying only the above GEOM direct
+	dispatch changes burns up to 60% of system CPU time or even more
+	in attempts to obtain these locks by multiple callers, killing
+	any benefits of GEOM direct dispatch.  To overcome that, new
+	fine-grained CAM locking design was implemented.  It implies
+	splitting big per-SIM locks into several smaller ones: per-LUN
+	locks, per-bus locks, queue locks, etc.  After these changes,
+	the remaining per-SIM lock protects only the controller driver
+	internals, reducing lock congestion down to an acceptable level
+	and keeping keep compatibility with existing drivers.</p>
+
+      <p>Together, GEOM and CAM changes double the peak I/O rate,
+	reaching up to 1,000,000 IOPS on contemporary hardware.</p>
+
+      <p>The changes were tested by a number of people and will be
+	committed into &os; <tt>head</tt> and merged to
+	<tt>stable/10</tt> after the end of the &os; 10.0 release
+	cycle.</p>
+
+      <p>The project is sponsored by iXsystems, Inc.</p>
+    </body>
+
+    <help>
+      <task>More reviews, more stability and performance tests.</task>
+    </help>
+  </project>
+
+  <project cat='kern'>
+    <title>VMware VMXNET3 Driver</title>
+
+    <contact>
+      <person>
+	<name>
+	  <given>Bryan</given>
+	  <common>Venteicher</common>
+	</name>
+	<email>bryanv@freebsd.org</email>
+      </person>
+    </contact>
+
+    <links>
+      <url href="http://lists.freebsd.org/pipermail/freebsd-current/2013-August/043494.html"/>
+      <url href="http://svnweb.freebsd.org/base/head/sys/dev/vmware/vmxnet3/"/>
+    </links>
+
+    <body>
+      <p>A port of the OpenBSD <tt>vmx(4)</tt> ethernet driver has been
+	committed.  The driver can be used in place of the VMware Tools
+	<tt>vmxnet3</tt> driver, which currently does not support
+	10.0-RELEASE (or anything past 9.0-RELEASE).</p>
+    </body>
+
+    <help>
+      <task>Performance improvements, multiqueue support.</task>
+      <task>Merge to <tt>stable/9</tt>.</task>
+    </help>
+  </project>
+
+  <project cat='kern'>
+    <title>VirtIO Network Multiqueue</title>
+
+    <contact>
+      <person>
+	<name>
+	  <given>Bryan</given>
+	  <common>Venteicher</common>
+	</name>
+	<email>bryanv@freebsd.org</email>
+      </person>
+    </contact>
+
+    <links>
+      <url href="http://svnweb.freebsd.org/changeset/base/255112"/>
+    </links>
+
+    <body>
+      <p>The VirtIO network driver, <tt>vtnet(4)</tt>, recently gained
+	support for multiple queues, along with a significant cleanup
+	and support for a few additional features.</p>
+    </body>
+  </project>
+
+  <project cat='ports'>
+    <title>&os; Python Ports</title>
+
+    <contact>
+      <person>
+	<name>
+	  <given>&os;</given>
+	  <common>Python Team</common>
+	</name>
+	<email>python@FreeBSD.org</email>
+      </person>
+    </contact>
+
+    <links>
+      <url href="https://wiki.FreeBSD.org/Python">The &os; Python Team Page</url>
+      <url href="irc://freebsd-python@irc.freenode.net">IRC channel</url>
+    </links>
+
+    <body>
+      <p>We are currently working on cleaning up the
+	<tt>lang/python*</tt> ports to improve the compatibility with
+	the original upstream build behaviour and to lower the need for
+	&os;-specific build patches.  A first step was made in September
+	by reducing the flags injected into the different Python
+	interpreter versions.</p>
+
+      <p>The first tasks for supporting the installation of packages for
+	different Python ports have been done.  A new metaport structure
+	has replaced the original Python port behaviour and will be
+	enhanced over the next months to enable improved installation
+	support of packages for different Python versions at the same
+	time.</p>
+
+      <p>The Python ports framework was enhanced by automated packaging
+	list creation and replacement macros, which improve the
+	compatibility with multiple Python versions and reduce the
+	packaging list sizes.</p>
+
+      <p>PyPy was heavily enhanced over the last couple of months.
+	Major updates of the port solved integration issues and a new
+	<tt>pypy-devel</tt> port for snapshots and previews was added.
+	Since the PyPy&nbsp;3 release, there is a new
+	<tt>pypy3-devel</tt> port available to provide not only
+	compatibility for Python&nbsp;2.x specific scripts, but also for
+	those using the 3.x language specification.</p>
+
+      <p>IronPython found its way into the &os; ports tree, which
+	provides an implementation of the Python language based on .NET
+	and Mono.</p>
+    </body>
+
+    <help>
+      <task>Develop a high-level and lightweight Python Ports
+	Policy.</task>
+
+      <task>Chase the unification of Distribute
+	(<tt>devel/py-distribute</tt>) and Setuptools
+	(<tt>devel/py-setuptools*</tt>).</task>
+
+      <task>Add support for granular dependencies (for example
+	<tt>>=1.0</tt> or <tt>&lt; 2.0</tt>).</task>
+
+      <task>Look at what adding <tt>pip</tt> (Python Package Index)
+	support looks like.</task>
+
+      <task>More tasks can be found on the Team's wiki page (see
+	links).</task>
+    </help>
+  </project>
+
+  <project cat='doc'>
+    <title>The <tt>entities</tt> Documentation Branch</title>
+
+    <contact>
+      <person>
+	<name>
+	  <given>René</given>
+	  <common>Ladan</common>
+	</name>
+	<email>rene@FreeBSD.org</email>
+      </person>
+    </contact>
+
+    <links>
+      <url href="http://svnweb.freebsd.org/changeset/doc/42226"/>
+    </links>
+
+    <body>
+      <p>The <tt>entities</tt> project branch has been succesfully
+	merged into the main documentation branch per revision 42226 of
+	the <tt>doc</tt> repository (see link).  The purpose of this
+	branch was to remove the duplicated definitions of authors in
+	both <tt>authors.ent</tt> and <tt>developers.ent</tt>.  The
+	latter file has been removed after migrating its contents to the
+	former file.  While most changes are not visible to end users,
+	the Committers Guide was changed to accomodate for changes
+	related to adding a new committer.  Translators were also
+	informed of the update.  The largest hurdle mentioned in the
+	last report, processing the <tt>&lt;email&gt;</tt> element, was
+	solved with the help of Gábor Kövesdán.</p>
+    </body>
+  </project>
+
+  <project cat='team'>
+    <title>&os; Release Engineering Team</title>
+
+    <contact>
+      <person>
+	<name>&os; Release Engineering Team</name>
+	<email>re@FreeBSD.org</email>
+      </person>
+    </contact>
+
+    <links>
+      <url href="http://www.FreeBSD.org/releases/9.2R/schedule.html">&os;&nbsp;9.2-RELEASE schedule</url>
+      <url href="http://www.FreeBSD.org/releases/10.0R/schedule.html">&os;&nbsp;10.0-RELEASE schedule</url>
+      <url href="http://ftp.FreeBSD.org/pub/FreeBSD/snapshots/VM-IMAGES/">&os;&nbsp;Virtual Machine Images</url>
+      <url href="http://ftp.FreeBSD.org/pub/FreeBSD/snapshots/ISO-IMAGES/">&os;&nbsp;Development Snapshots</url>
+    </links>
+
+    <body>
+      <p>The &os; Release Engineering Team is wrapping up the
+	9.2-RELEASE process.  At the time of this writing, the 9.2-RC4
+	builds have begun, which unless any major last-minute issues are
+	discovered, is expected to the be final release candidate for
+	the 9.2-RELEASE cycle.</p>
+
+      <p>The &os;&nbsp;10.0-RELEASE cycle has started, and testing is
+	strongly encouraged.  For testing purposes, both installation
+	images and virtual machine images exist on the &os;&nbsp;Project
+	FTP servers.</p>
+    </body>
+
+    <help>
+      <task>Test 10.0-CURRENT and report problems.</task>
+    </help>
+  </project>
+
+  <project cat='soc'>
+    <title>Download Manager Service for the Ports Collection</title>
+
+    <contact>
+      <person>
+	<name>
+	  <given>Ambarisha</given>
+	  <common>Bhatlapenumarthi</common>
+	</name>
+	<email>ambarisha@freebsd.org</email>
+      </person>
+
+      <person>
+	<name>
+	  <given>Xin</given>
+	  <common>Li</common>
+	</name>
+	<email>delphij@freebsd.org</email>
+      </person>
+    </contact>
+
+    <links>
+      <url href="https://wiki.freebsd.org/SummerOfCode2013/IntellegentDownloadManager">Project wiki page</url>
+      <url href="https://wiki.freebsd.org/IdeasPage/IDMS">More information on DMS</url>
+    </links>
+
+    <body>
+      <p>This is a Google Summer of Code 2013 project that aims to
+	replace the <tt>fetch(1)</tt>-based method for getting
+	distribution files, such as source tarballs, for the third-party
+	applications (ports) with an intelligent Download Manager
+	Service (see links for more information).</p>
+
+      <p>All the modules highlighted in the project wiki have been
+	completed (see links).  Specifically:</p>
+
+      <ul>
+	<li>A service which receives and serves download requests.  It
+	  samples download speeds from different mirrors and uses this
+	  information to pick the best mirror on the next request.  It
+	  can migrate jobs between mirrors if it realizes that a
+	  complete download from a different mirror would be faster than
+	  proceeding with the mirror it is currently using.</li>
+
+	<li>A status dump feature has also been added to the client
+	  (<tt>dmget</tt>) which dumps the information about active
+	  downloads, speeds from mirrors, etc.</li>
+      </ul>
+    </body>
+
+    <help>
+      <task>The implementation (especially job migration and dumping
+	status) has not been tested thoroughly.  Test the code, write more
+	unit and regression tests.</task>
+    </help>
+  </project>
+
+  <project cat='ports'>
+    <title>&os; Ada Ports</title>
+
+    <contact>
+      <person>
+	<name>
+	  <given>John</given>
+	  <common>Marino</common>
+	</name>
+	<email>marino@FreeBSD.org</email>
+      </person>
+    </contact>
+
+    <links>
+      <url href="http://www.dragonlace.net"/>
+    </links>
+
+    <body>
+      <p>A few years ago, Ada-based ports almost completely disappeared
+	from the Ports Collection.  This was not surprising as
+	FSF&nbsp;GNAT, the only open-source Ada compiler, ceased to
+	build correctly on any BSD flavor and previously built bootstrap
+	compilers would not run on modern &os;, and certainly not on
+	amd64.  The first step, see the link for details, was to patch
+	GCC in order to fix GNAT not only on &os;, but DragonFly,
+	NetBSD, and OpenBSD as well.  New bootstraps for both i386 and
+	amd64 platforms were produced during this effort.  Ada compilers
+	on &os; now pass 100% of the ACATS and GCC testsuites.</p>
+
+      <p>With the first new Ada compiler port was introduced, the
+	GCC&nbsp;4.6-based <tt>lang/gnat-aux</tt>, the GNAT Programming
+	Studio (multilanguage integrated development environment),
+	XML/Ada, and GTkAda were among the first Ada ports
+	resurrected.</p>
+
+      <p>With the latest compiler, <tt>lang/gcc-aux</tt> based on GCC
+	4.7, a cohesive Ada framework was created with the new
+	<tt>USES=</tt> capability.  Currently around 20 ports are part
+	of this framework including Florist, ASIS, GPRbuild, QtAda,
+	AdaControl, AdaBrowse, PolyOrb, and AWS (Ada Web Server).</p>
+
+      <p>The GNAT AUX compiler is also still in use to serve as a basis
+	for the GNATDroid ports which are &os;-to-Android Ada+C cross-compilers.
+	However, these will soon be integrated in the Ada Framework.</p>
+
+      <p>At this point, it looks like that &os; (shared with DragonFly
+	via DPorts) has taken the crown from Debian as the recognized best
+	Ada development platform.  The &os; versions of the software are
+	more recent and the Ports Collection has ports not available on
+	Debian, such as LibSparkCrypto, Matreshka library, and the Ahven
+	unit tester.</p>
+
+      <p>Future work potentially includes converting GCC AUX to
+	GCC&nbsp;4.8 to acquire better Ada&nbsp;2012 support, importing
+	Spark&nbsp;2014 into ports when it arrives and to continue to
+	add new Ada ports to the framework.</p>
+    </body>
+  </project>
+</report>
