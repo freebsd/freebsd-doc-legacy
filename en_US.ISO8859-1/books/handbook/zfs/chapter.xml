@@ -587,7 +587,7 @@ data                      288G  1.53T      2     12  9.23K  61.5K
 	In this way, non-ZFS file systems can be augmented with
 	ZFS features that they would not normally have.  For example,
 	combining the ZFS compression property together with a
-	250&nbsp;MB volume allows to create a compressed FAT
+	250&nbsp;MB volume allows creation of a compressed FAT
 	filesystem.</para>
 
       <screen>&prompt.root; <userinput>zfs create -V 250m -o compression=on tank/fat32</userinput>
