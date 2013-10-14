@@ -515,7 +515,7 @@ errors: No known data errors</screen>
       <para>ZFS has a built-in monitoring isystem that can display
 	statistics about I/O happening on the pool in real-time.
 	Additionally, it shows the free and used space on the pool and
-	how much I/O bandwidth are currently utilized for read and
+	how much I/O bandwidth is currently utilized for read and
 	write operations.  By default, all pools in the system will be
 	monitored and displayed.  A pool name can be provided to just
 	monitor one pool.  A basic example is provided below:</para>
@@ -529,15 +529,15 @@ data         288G  1.53T      2     11  11.3K  57.1K</screen>
 	<para>To monitor I/O activity on the pool continuously, a
 	  number indicating the seconds after which to refresh the
 	  display can be specified.  ZFS will then print the next
-	  statistic line after each intervall has been reached.  Press
+	  statistic line after each interval has been reached.  Press
 	  <keycombo
 	  action="simul"><keycap>Ctrl</keycap><keycap>C</keycap></keycombo>
 	  to stop this continuous monitoring.  Alternatively, a second
 	  whole number can be provided on the command line after the
-	  intervall to indicate how many of these statistics should be
+	  interval to indicate how many of these statistics should be
 	  displayed in total.</para>
 
-	<para>An even more detailed pool I/O statistic can be
+	<para>Even more detailed pool I/O statistics can be
 	  displayed using the <literal>-v</literal> parameter.  For
 	  each storage device that is part of the pool ZFS will
 	  provide a separate statistic line.  This is helpful to
