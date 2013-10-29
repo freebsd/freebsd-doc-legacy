@@ -12,6 +12,16 @@
 	<surname>Rhodes</surname>
 	<contrib>Written by </contrib>
       </author>
+      <author>
+	<firstname>Allan</firstname>
+	<surname>Jude</surname>
+	<contrib>Written by </contrib>
+      </author>
+      <author>
+	<firstname>Benedict</firstname>
+	<surname>Reuschling</surname>
+	<contrib>Written by </contrib>
+      </author>
     </authorgroup>
   </chapterinfo>
 
@@ -470,11 +480,51 @@ errors: No known data errors</screen>
     <sect2 id="zfs-zpool-create">
       <title>Creating &amp; Destroying Storage Pools</title>
 
+      <para>Creating a ZFS Storage Pool (<acronym>zpool</acronym>)
+	involves making a number of decisions that are relatively
+	permanent because the structure of the pool cannot be
+	changed after the pool has been created.  The most important
+	decision is what type(s) of vdevs to group the physical disks
+	into.  See the list of <link
+	linkend="zfs-term-vdev">vdev types</link> for details about
+	the possible options.  Once the pool has been created, most
+	vdev types do not allow additional disks to be added to the
+	vdev.  The exceptions are mirrors, which allow additional
+	disks to be added to the vdev, and stripes, which can be
+	upgraded to mirrors by attaching an additional to the vdev.
+	Although additional vdevs can be added to a pool, the layout
+	of the pool cannot be changed once the pool has been created,
+	instead the data must be backed up and the pool
+	recreated.</para>
+
       <para></para>
     </sect2>
 
     <sect2 id="zfs-zpool-attach">
       <title>Adding &amp; Removing Devices</title>
+
+      <para>Adding additional disks to a zpool can be broken down into
+	two separate cases, attaching an additional disk to an
+	existing vdev with the <literal>zpool attach</literal>
+	command, or adding additional vdevs to the pool with the
+	<literal>zpool add</literal> command.  Only some
+	<link linkend="zfs-term-vdev">vdev types</link> allow disks to
+	be added to the vdev after the fact.</para>
+
+      <para>When adding additional disks to the existing vdev is not
+	an option, such as in the case of RAID-Z, the other option is
+	to add an additional vdev to the pool.  It is possible, but
+	discouraged, to mix vdev types.  ZFS stripes data across each
+	of the vdevs, for example if there are two mirror vdevs, then
+	this is effectively a RAID 10, striping the writes across the
+	two sets of mirrors.  Because of the way that space is
+	allocated in ZFS in order to attempt to have each vdev reach
+	100% full at the same time, there is a performance penalty if
+	the vdevs have different amounts of free space.</para>
+
+      <para>Currently, vdevs cannot be removed from a zpool, and disks
+	can only be removed from a mirror if there is enough remaining
+	redundancy.</para>
 
       <para>Creating a ZFS Storage Pool (<acronym>zpool</acronym>)
 	involves making a number of decisions that are relatively
@@ -485,22 +535,84 @@ errors: No known data errors</screen>
 	zpool.</para>
     </sect2>
 
+    <sect2 id="zfs-zpool-replace">
+      <title>Replacing a Working Devices</title>
+
+      <para>There are a number of situations in which it may be
+	desirable to replacing a disk with a different disk.  This
+	process requires connecting the new disk at the same time as
+	the disk to be replaced.  The
+	<literal>zpool replace</literal> command will copy all of the
+	data from the old disk to the new one.  Once this operation
+	completes, the old disk is disconnected from the vdev.  If the
+	newer disk is larger this may allow your zpool to grow, see
+	the <link linkend="zfs-zpool-online">Growing a Pool</link>
+	section.</para>
+    </sect2>
+
     <sect2 id="zfs-zpool-resilver">
       <title>Dealing with Failed Devices</title>
 
-      <para></para>
+      <para>When a disk fails and the physical device is replaced, ZFS
+	needs to be told to begin the <link
+	linkend="zfs-term-resilver">resilver</link> operation, where
+	the data that was on the failed device will be recalculated
+	from the available redundancy and written to the new
+	device.</para>
+    </sect2>
+
+    <sect2 id="zfs-zpool-online">
+      <title>Growing a Pool</title>
+
+      <para>The usable size of a redundant ZFS pool is limited by the
+	size of the smallest device in the vdev.  If you sequentially
+	replace each device in the vdev then when the smallest device
+	has completed the replace or resilver operation, the pool
+	can then grow based on the size of the new smallest device.
+	This expansion can be triggered with the
+	<literal>zpool online</literal> command with the -e flag on
+	each device.  Once the expansion of each device is complete,
+	the additional space will be available in the pool.</para>
     </sect2>
 
     <sect2 id="zfs-zpool-import">
       <title>Importing &amp; Exporting Pools</title>
 
-      <para></para>
+      <para>Pools can be exported in preperation for moving them to
+	another system.  All datasets are unmounted, and each device
+	is marked as exported but still locked so it cannot be used
+	by other disk subsystems.  This allows pools to be imported on
+	other machines, other operating systems that support ZFS, and
+	even different hardware architectures (with some caveats, see
+	the zpool man page).  The -f flag can be used to force
+	exporting a pool, in cases such as when a dataset has open
+	files.  If you force an export, the datasets will be forcibly
+	unmounted such can have unexpected side effects.</para>
+
+      <para>Importing a pool will automatically mount the datasets,
+	which may not be the desired behavior.  The -N command line
+	param will skip mounting.  The command line parameter -o sets
+	temporary properties for this import only.  The altroot=
+	property allows you to import a zpool with a base of some
+	mount point, instead of the root of the file system.  If the
+	pool was last used on a different system and was not properly
+	exported, you may have to force an import with the -f flag.
+	The -a flag will import all pools that do not appear to be
+	in use by another system.</para>
     </sect2>
 
     <sect2 id="zfs-zpool-upgrade">
       <title>Upgrading a Storage Pool</title>
 
-      <para></para>
+      <para>After FreeBSD has been upgraded, or if a pool has been
+	imported from a system using an older verison of ZFS, the pool
+	must be manually upgraded to the latest version of ZFS.  This
+	process is unreversable, so consider if the pool may ever need
+	to be imported on an older system before upgrading.  Onle once
+	the <literal>zpool upgrade</literal> command has completed
+	will the newer features of ZFS be available.  An upgrade
+	cannot be undone.  The -v flag can be used to see what new
+	features will be supported by upgrading.</para>
     </sect2>
 
     <sect2 id="zfs-zpool-status">
@@ -556,7 +668,7 @@ data                      288G  1.53T      2     12  9.23K  61.5K
     ada1                     -      -      0      4  5.61K  61.7K
     ada2                     -      -      1      4  5.04K  61.7K
 -----------------------  -----  -----  -----  -----  -----  -----</screen>
-</sect2>
+    </sect2>
 
     <sect2 id="zfs-zpool-split">
       <title>Splitting a Storage Pool</title>
@@ -1389,7 +1501,8 @@ vfs.zfs.vdev.cache.size="5M"</programlisting>
 	    <entry id="zfs-term-snapshot">Snapshot</entry>
 
 	    <entry>The <link
-		linkend="zfs-term-cow">copy-on-write</link> (<acronym>COW</acronym>) design of
+		linkend="zfs-term-cow">copy-on-write</link>
+		(<acronym>COW</acronym>) design of
 	      <acronym>ZFS</acronym> allows for nearly instantaneous
 	      consistent snapshots with arbitrary names.  After taking
 	      a snapshot of a dataset (or a recursive snapshot of a
