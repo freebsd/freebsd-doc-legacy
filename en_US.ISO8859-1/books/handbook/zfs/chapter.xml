@@ -32,26 +32,30 @@
 
   <title>The Z File System (<acronym>ZFS</acronym>)</title>
 
-  <para>The <emphasis>Z File System</emphasis>
-    (<acronym>ZFS</acronym>) was originally developed at &sun; to
-    address many of the problems with then-current file systems.
-    Development has since moved to the <ulink url="http://open-zfs.org">OpenZFS Project</ulink>.  For more on
-    past and future development, see
-    <xref linkend="zfs-history"/>.</para>
+  <para>The <emphasis>Z File System</emphasis>, or
+    <acronym>ZFS</acronym>, is an advanced file system designed to
+    overcome many of the major problems found in previous
+    designs.</para>
 
-  <para>The three major design goals of <acronym>ZFS</acronym> are:</para>
+  <para>Originally developed at &sun;, ongoing <acronym>ZFS</acronym>
+    development has moved to the
+    <ulink url="http://open-zfs.org">OpenZFS Project</ulink>.
+    <xref linkend="zfs-history"/> describes the development history in
+    more detail.</para>
+
+  <para><acronym>ZFS</acronym> has three major design goals:</para>
 
   <itemizedlist>
     <listitem>
-      <para>Data integrity: All data that is stored on
-	<acronym>ZFS</acronym> includes a <link
+      <para>Data integrity: All data
+	includes a <link
 	linkend="zfs-term-checksum">checksum</link> of the data.  When
-	data is written the checksum is calculated and written along
-	with the data.  When that data is later read back, the
-	checksum is calculated again and if the values do not match an
-	error is returned.  <acronym>ZFS</acronym> will attempt to
-	automatically correct the error if there is sufficient
-	redundancy available.</para>
+	data is written, the checksum is calculated and written along
+	with it.  When that data is later read back, the
+	checksum is calculated again.  If the checksums do not match, a
+	data error has been detected.  <acronym>ZFS</acronym> will attempt to
+	automatically correct errors when data
+	redundancy is available.</para>
     </listitem>
 
     <listitem>
@@ -62,13 +66,14 @@
     </listitem>
 
     <listitem>
-      <para>Performance: <acronym>ZFS</acronym> features a number of
-	optional caching mechanisms to provide increased performance.
-	In addition to an advanced read cache known as the <link
-	linkend="zfs-term-arc">ARC</link> in memory, there is also the
-	optional <link linkend="zfs-term-l2arc">L2ARC</link> read
-	cache and the <link linkend="zfs-term-zil">ZIL</link>
-	synchronous write cache.</para>
+      <para>Performance: multiple
+	caching mechanisms provide increased performance.
+	<link linkend="zfs-term-arc">ARC</link> is an advanced
+	memory-based read cache.  A second level of
+	disk-based read cache can be added with
+	<link linkend="zfs-term-l2arc">L2ARC</link>, and disk-based synchronous
+	write cache is available with
+	<link linkend="zfs-term-zil">ZIL</link>.</para>
     </listitem>
   </itemizedlist>
 
