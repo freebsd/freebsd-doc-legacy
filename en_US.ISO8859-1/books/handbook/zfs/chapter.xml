@@ -884,10 +884,24 @@ Filesystem           Size Used Avail Capacity Mounted on
 	ones supplied as part of ZFS, a colon (<literal>:</literal>)
 	is used to create a custom namespace for the property.</para>
 
-      <screen>&prompt.root; <userinput>zfs set custom:costcenter=1234</userinput>
-&prompt.root; <userinput>zfs get custom:costcenter</userinput>
+      <screen>&prompt.root; <userinput>zfs set <replaceable>custom</replaceable>:<replaceable>costcenter</replaceable>=<replaceable>1234</replaceable> <replaceable>tank</replaceable></userinput>
+&prompt.root; <userinput>zfs get <replaceable>custom</replaceable>:<replaceable>costcenter</replaceable> <replaceable>tank</replaceable></userinput>
 NAME PROPERTY           VALUE SOURCE
 tank custom:costcenter  1234  local</screen>
+
+      <para>To remove such a custom property again, use the
+	<command>zfs inherit</command> command with the
+	<option>-r</option> option.  If the custom property is not
+	defined in any of the parent datasets, it will be removed
+	completely (although the changes are still recorded in the
+	pool's history).</para>
+
+      <screen>&prompt.root; <userinput>zfs inherit -r <replaceable>custom</replaceable>:<replaceable>costcenter</replaceable> <replaceable>tank</replaceable></userinput>
+&prompt.root; <userinput>zfs get <replaceable>custom</replaceable>:<replaceable>costcenter</replaceable> <replaceable>tank</replaceable></userinput>
+NAME    PROPERTY           VALUE              SOURCE
+tank    custom:costcenter  -                  -
+&prompt.root; <userinput>zfs get all <replaceable>tank</replaceable> | grep <replaceable>custom</replaceable>:<replaceable>costcenter</replaceable></userinput>
+&prompt.root;</screen>
     </sect2>
 
     <sect2 id="zfs-zfs-snapshot">
