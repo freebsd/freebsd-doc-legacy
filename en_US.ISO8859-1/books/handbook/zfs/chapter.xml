@@ -459,12 +459,17 @@ errors: No known data errors</screen>
 
       <screen>&prompt.root; <userinput>zfs set checksum=off storage/home</userinput></screen>
 
-      <para>Doing so is <emphasis>not</emphasis> recommended.
-	Checksums take very little storage space and provide
-	data integrity.  Checksum verification is
-	known as <quote>scrubbing</quote>.  Verify the data
-	integrity of the <literal>storage</literal> pool, with this
-	command:</para>
+      <warning>
+	<para>Doing so is <emphasis>not</emphasis> recommended!
+	  Checksums take very little storage space and provide data
+	  integrity.  Many ZFS features will not work properly with
+	  checksums disabled.  There is also no noticeable performance
+	  gain from disabling these checksums.</para>
+      </warning>
+	
+      <para>Checksum verification is known as <quote>scrubbing</quote>.
+	Verify the data integrity of the <literal>storage</literal>
+	pool, with this command:</para>
 
       <screen>&prompt.root; <userinput>zpool scrub storage</userinput></screen>
 
