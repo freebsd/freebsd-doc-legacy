@@ -77,7 +77,7 @@ SUBDIR+= snapshots
 SUBDIR+= support
 .if !defined(WEB_ONLY) || empty(WEB_ONLY)
 SUBDIR+= doc
-#SUBDIR+= ports
+SUBDIR+= ports
 .endif
 .if defined(BUILD_RELNOTES)
 SUBDIR+= relnotes
