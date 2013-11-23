@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <!DOCTYPE html PUBLIC "-//FreeBSD//DTD XHTML 1.0 Transitional-Based Extension//EN"
-"http://www.FreeBSD.org/XML/doc/share/xml/xhtml10-freebsd.dtd" [
+"http://www.FreeBSD.org/XML/share/xml/xhtml10-freebsd.dtd" [
 <!ENTITY title "FreeBSD/MIPS Project">
 <!ENTITY email 'freebsd-mips'>
 ]>
@@ -75,11 +75,8 @@
 
   <h4><a name="5">Who should I contact?</a></h4>
 
-  <p><a href="mailto:jmallett@FreeBSD.org">Juli Mallett</a> is the project lead.
-    Contact her if you can contribute code.  If you just want
-    to know about the status of this project, check this page
-    regularly or
-    join the <a href="#list">FreeBSD/MIPS mailing list</a>.</p>
+  <p>Join the <a href="#list">FreeBSD/MIPS mailing list</a> to
+  contribute code or learn about the status of the project.</p>
 
   <h3><a name="list">FreeBSD/MIPS mailing list</a></h3>
 

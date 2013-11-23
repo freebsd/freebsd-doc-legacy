@@ -4,33 +4,40 @@
      $FreeBSD$
 -->
 
-<chapter id="zfs">
-  <chapterinfo>
+<chapter xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0" xml:id="zfs">
+  <info>
+    <title>The Z File System (<acronym>ZFS</acronym>)</title>
     <authorgroup>
       <author>
-	<firstname>Tom</firstname>
-	<surname>Rhodes</surname>
+	<personname>
+	  <firstname>Tom</firstname>
+	  <surname>Rhodes</surname>
+	</personname>
 	<contrib>Written by </contrib>
       </author>
       <author>
-	<firstname>Allan</firstname>
-	<surname>Jude</surname>
+	<personname>
+	  <firstname>Allan</firstname>
+	  <surname>Jude</surname>
+	</personname>
 	<contrib>Written by </contrib>
       </author>
       <author>
-	<firstname>Benedict</firstname>
-	<surname>Reuschling</surname>
+	<personname>
+	  <firstname>Benedict</firstname>
+	  <surname>Reuschling</surname>
+	</personname>
 	<contrib>Written by </contrib>
       </author>
       <author>
-	<firstname>Warren</firstname>
-	<surname>Block</surname>
+	<personname>
+	  <firstname>Warren</firstname>
+	  <surname>Block</surname>
+	</personname>
 	<contrib>Written by </contrib>
       </author>
     </authorgroup>
-  </chapterinfo>
-
-  <title>The Z File System (<acronym>ZFS</acronym>)</title>
+  </info>
 
   <para>The <emphasis>Z File System</emphasis>, or
     <acronym>ZFS</acronym>, is an advanced file system designed to
@@ -39,7 +46,7 @@
 
   <para>Originally developed at &sun;, ongoing <acronym>ZFS</acronym>
     development has moved to the
-    <ulink url="http://open-zfs.org">OpenZFS Project</ulink>.
+    <link xlink:href="http://open-zfs.org">OpenZFS Project</link>.
     <xref linkend="zfs-history"/> describes the development history in
     more detail.</para>
 
@@ -80,7 +87,7 @@
   <para>A complete list of <acronym>ZFS</acronym> features and
     terminology is shown in <xref linkend="zfs-term"/>.</para>
 
-  <sect1 id="zfs-differences">
+  <sect1 xml:id="zfs-differences">
     <title>What Makes <acronym>ZFS</acronym> Different</title>
 
     <para><acronym>ZFS</acronym> is significantly different from any
@@ -114,7 +121,7 @@
       monolithic filesystem.</para>
   </sect1>
 
-  <sect1 id="zfs-quickstart">
+  <sect1 xml:id="zfs-quickstart">
     <title><acronym>ZFS</acronym> Quick Start Guide</title>
 
     <para>There is a start up mechanism that allows &os; to mount
@@ -130,11 +137,11 @@
 
     <para>The examples in this section assume three
       <acronym>SCSI</acronym> disks with the device names
-      <devicename><replaceable>da0</replaceable></devicename>,
-      <devicename><replaceable>da1</replaceable></devicename>, and
-      <devicename><replaceable>da2</replaceable></devicename>.  Users
+      <filename><replaceable>da0</replaceable></filename>,
+      <filename><replaceable>da1</replaceable></filename>, and
+      <filename><replaceable>da2</replaceable></filename>.  Users
       of <acronym>SATA</acronym> hardware should instead use
-      <devicename><replaceable>ada</replaceable></devicename> device
+      <filename><replaceable>ada</replaceable></filename> device
       names.</para>
 
     <sect2>
@@ -422,7 +429,7 @@ errors: No known data errors</screen>
       <screen>&prompt.root; <userinput>zpool offline storage da1</userinput></screen>
 
       <para>Now the system can be powered down to replace
-	<devicename>da1</devicename>.  When the system is back online,
+	<filename>da1</filename>.  When the system is back online,
 	the failed disk can replaced in the pool:</para>
 
       <screen>&prompt.root; <userinput>zpool replace storage da1</userinput></screen>
@@ -504,7 +511,7 @@ errors: No known data errors</screen>
     </sect2>
   </sect1>
 
-  <sect1 id="zfs-zpool">
+  <sect1 xml:id="zfs-zpool">
     <title><command>zpool</command> Administration</title>
 
     <para>The administration of ZFS is divided between two main
@@ -516,7 +523,7 @@ errors: No known data errors</screen>
       <link linkend="zfs-term-filesystem">filesystems</link> and <link
 	linkend="zfs-term-volume">volumes</link>).</para>
 
-    <sect2 id="zfs-zpool-create">
+    <sect2 xml:id="zfs-zpool-create">
       <title>Creating &amp; Destroying Storage Pools</title>
 
       <para>Creating a ZFS Storage Pool (<acronym>zpool</acronym>)
@@ -547,7 +554,7 @@ errors: No known data errors</screen>
 	those datasets.</para>
     </sect2>
 
-    <sect2 id="zfs-zpool-attach">
+    <sect2 xml:id="zfs-zpool-attach">
       <title>Adding &amp; Removing Devices</title>
 
       <para>Adding disks to a zpool can be broken down into two
@@ -574,7 +581,7 @@ errors: No known data errors</screen>
 
     </sect2>
 
-    <sect2 id="zfs-zpool-replace">
+    <sect2 xml:id="zfs-zpool-replace">
       <title>Replacing a Functioning Device</title>
 
       <para>There are a number of situations in which it may be
@@ -589,7 +596,7 @@ errors: No known data errors</screen>
 	  Pool</link>.</para>
     </sect2>
 
-    <sect2 id="zfs-zpool-resilver">
+    <sect2 xml:id="zfs-zpool-resilver">
       <title>Dealing with Failed Devices</title>
 
       <para>When a disk in a ZFS pool fails, the vdev that the disk
@@ -615,7 +622,7 @@ errors: No known data errors</screen>
 	restored from backups.</para>
     </sect2>
 
-    <sect2 id="zfs-zpool-online">
+    <sect2 xml:id="zfs-zpool-online">
       <title>Growing a Pool</title>
 
       <para>The usable size of a redundant ZFS pool is limited by the
@@ -631,7 +638,7 @@ errors: No known data errors</screen>
 	additional space will become available in the pool.</para>
     </sect2>
 
-    <sect2 id="zfs-zpool-import">
+    <sect2 xml:id="zfs-zpool-import">
       <title>Importing &amp; Exporting Pools</title>
 
       <para>Pools can be exported in preparation for moving them to
@@ -658,7 +665,7 @@ errors: No known data errors</screen>
 	in use by another system.</para>
     </sect2>
 
-    <sect2 id="zfs-zpool-upgrade">
+    <sect2 xml:id="zfs-zpool-upgrade">
       <title>Upgrading a Storage Pool</title>
 
       <para>After upgrading &os;, or if a pool has been imported from
@@ -675,13 +682,13 @@ errors: No known data errors</screen>
 	already supported by the existing version.</para>
     </sect2>
 
-    <sect2 id="zfs-zpool-status">
+    <sect2 xml:id="zfs-zpool-status">
       <title>Checking the Status of a Pool</title>
 
       <para></para>
     </sect2>
 
-    <sect2 id="zfs-zpool-iostat">
+    <sect2 xml:id="zfs-zpool-iostat">
       <title>Performance Monitoring</title>
 
       <para>ZFS has a built-in monitoring system that can display
@@ -732,7 +739,7 @@ data                      288G  1.53T      2     12  9.23K  61.5K
 -----------------------  -----  -----  -----  -----  -----  -----</screen>
     </sect2>
 
-    <sect2 id="zfs-zpool-split">
+    <sect2 xml:id="zfs-zpool-split">
       <title>Splitting a Storage Pool</title>
 
       <para>A ZFS pool consisting of one or more mirror vdevs can be
@@ -746,7 +753,7 @@ data                      288G  1.53T      2     12  9.23K  61.5K
     </sect2>
   </sect1>
 
-  <sect1 id="zfs-zfs">
+  <sect1 xml:id="zfs-zfs">
     <title><command>zfs</command> Administration</title>
 
     <para>The <command>zfs</command> utility is responsible for
@@ -755,7 +762,7 @@ data                      288G  1.53T      2     12  9.23K  61.5K
       the <link linkend="zfs-zpool"><command>zpool</command></link>
       command.</para>
 
-    <sect2 id="zfs-zfs-create">
+    <sect2 xml:id="zfs-zfs-create">
       <title>Creating &amp; Destroying Datasets</title>
 
       <para>Unlike with traditional disks and volume managers, space
@@ -805,13 +812,13 @@ data                      288G  1.53T      2     12  9.23K  61.5K
 	proceeding with the destruction.</para>
     </sect2>
 
-    <sect2 id="zfs-zfs-volume">
+    <sect2 xml:id="zfs-zfs-volume">
       <title>Creating &amp; Destroying Volumes</title>
 
       <para>A volume is special type of <acronym>ZFS</acronym>
 	dataset.  Rather than being mounted as a file system, it is
 	exposed as a block device under
-	<devicename>/dev/zvol/<replaceable>poolname</replaceable>/<replaceable>dataset</replaceable></devicename>.
+	<filename>/dev/zvol/<replaceable>poolname</replaceable>/<replaceable>dataset</replaceable></filename>.
 	This allows the volume to be used for other file systems, to
 	back the disks of a virtual machine, or to be exported using
 	protocols like iSCSI or HAST.</para>
@@ -844,7 +851,7 @@ Filesystem           Size Used Avail Capacity Mounted on
 
     </sect2>
 
-    <sect2 id="zfs-zfs-rename">
+    <sect2 xml:id="zfs-zfs-rename">
       <title>Renaming a Dataset</title>
 
       <para>The name of a dataset can be changed using <command>zfs
@@ -862,7 +869,7 @@ Filesystem           Size Used Avail Capacity Mounted on
 	renamed.</para>
     </sect2>
 
-    <sect2 id="zfs-zfs-set">
+    <sect2 xml:id="zfs-zfs-set">
       <title>Setting Dataset Properties</title>
 
       <para>Each <acronym>ZFS</acronym> dataset has a number of
@@ -904,7 +911,7 @@ tank    custom:costcenter  -                  -
 &prompt.root;</screen>
     </sect2>
 
-    <sect2 id="zfs-zfs-snapshot">
+    <sect2 xml:id="zfs-zfs-snapshot">
       <title>Managing Snapshots</title>
 
       <para><link linkend="zfs-term-snapshot">Snapshots</link> are one
@@ -942,7 +949,7 @@ tank    custom:costcenter  -                  -
 	with the destroy operation.</para>
     </sect2>
 
-    <sect2 id="zfs-zfs-clones">
+    <sect2 xml:id="zfs-zfs-clones">
       <title>Managing Clones</title>
 
       <para>A clone is a copy of a snapshot that is treated more like
@@ -958,13 +965,13 @@ tank    custom:costcenter  -                  -
 	consumed.</para>
     </sect2>
 
-    <sect2 id="zfs-zfs-send">
+    <sect2 xml:id="zfs-zfs-send">
       <title>ZFS Replication</title>
 
       <para></para>
     </sect2>
 
-    <sect2 id="zfs-zfs-quota">
+    <sect2 xml:id="zfs-zfs-quota">
       <title>Dataset, User and Group Quotas</title>
 
       <para><link linkend="zfs-term-quota">Dataset
@@ -1034,7 +1041,7 @@ tank    custom:costcenter  -                  -
       <note>
 	<para>User quota properties are not displayed by
 	  <command>zfs get all</command>.
-	  Non-<username>root</username> users can only see their own
+	  Non-<systemitem class="username">root</systemitem> users can only see their own
 	  quotas unless they have been granted the
 	  <literal>userquota</literal> privilege.  Users with this
 	  privilege are able to view and set everyone's quota.</para>
@@ -1056,9 +1063,9 @@ tank    custom:costcenter  -                  -
       <screen>&prompt.root; <userinput>zfs set groupquota@firstgroup=none</userinput></screen>
 
       <para>As with the user quota property,
-	non-<username>root</username> users can only see the quotas
+	non-<systemitem class="username">root</systemitem> users can only see the quotas
 	associated with the groups that they belong to.  However,
-	<username>root</username> or a user with the
+	<systemitem class="username">root</systemitem> or a user with the
 	<literal>groupquota</literal> privilege can view and set all
 	quotas for all groups.</para>
 
@@ -1070,13 +1077,13 @@ tank    custom:costcenter  -                  -
 	specific options, refer to &man.zfs.1;.</para>
 
       <para>Users with sufficient privileges and
-	<username>root</username> can list the quota for
+	<systemitem class="username">root</systemitem> can list the quota for
 	<filename>storage/home/bob</filename> using:</para>
 
       <screen>&prompt.root; <userinput>zfs get quota storage/home/bob</userinput></screen>
     </sect2>
 
-    <sect2 id="zfs-zfs-reservation">
+    <sect2 xml:id="zfs-zfs-reservation">
       <title>Reservations</title>
 
       <para><link linkend="zfs-term-reservation">Reservations</link>
@@ -1114,13 +1121,13 @@ tank    custom:costcenter  -                  -
 &prompt.root; <userinput>zfs get refreservation storage/home/bob</userinput></screen>
     </sect2>
 
-    <sect2 id="zfs-zfs-compression">
+    <sect2 xml:id="zfs-zfs-compression">
       <title>Compression</title>
 
       <para></para>
     </sect2>
 
-    <sect2 id="zfs-zfs-deduplication">
+    <sect2 xml:id="zfs-zfs-deduplication">
       <title>Deduplication</title>
 
       <para>When enabled, <link
@@ -1223,7 +1230,7 @@ dedup = 1.05, compress = 1.11, copies = 1.00, dedup * compress / copies = 1.16</
 	due to the lower memory requirements.</para>
     </sect2>
 
-    <sect2 id="zfs-zfs-jail">
+    <sect2 xml:id="zfs-zfs-jail">
       <title>ZFS and Jails</title>
 
       <para><command>zfs jail</command> and the corresponding
@@ -1240,7 +1247,7 @@ dedup = 1.05, compress = 1.11, copies = 1.00, dedup * compress / copies = 1.16</
     </sect2>
   </sect1>
 
-  <sect1 id="zfs-zfs-allow">
+  <sect1 xml:id="zfs-zfs-allow">
     <title>Delegated Administration</title>
 
     <para>ZFS features a comprehensive delegation system to assign
@@ -1256,7 +1263,7 @@ dedup = 1.05, compress = 1.11, copies = 1.00, dedup * compress / copies = 1.16</
       permissions.  It is possible to delegate permissions over each
       ZFS subcommand and most ZFS properties.</para>
 
-    <sect2 id="zfs-zfs-allow-create">
+    <sect2 xml:id="zfs-zfs-allow-create">
       <title>Delegating Dataset Creation</title>
 
       <para>Using the <userinput>zfs allow
@@ -1272,7 +1279,7 @@ dedup = 1.05, compress = 1.11, copies = 1.00, dedup * compress / copies = 1.16</
 	to, in order to prevent abuse.</para>
     </sect2>
 
-    <sect2 id="zfs-zfs-allow-allow">
+    <sect2 xml:id="zfs-zfs-allow-allow">
       <title>Delegating Permission Delegation</title>
 
       <para>Using the <userinput>zfs allow
@@ -1287,34 +1294,34 @@ dedup = 1.05, compress = 1.11, copies = 1.00, dedup * compress / copies = 1.16</
     </sect2>
   </sect1>
 
-  <sect1 id="zfs-advanced">
+  <sect1 xml:id="zfs-advanced">
     <title>ZFS Advanced Topics</title>
 
-    <sect2 id="zfs-advanced-tuning">
+    <sect2 xml:id="zfs-advanced-tuning">
       <title>ZFS Tuning</title>
 
       <para></para>
     </sect2>
 
-    <sect2 id="zfs-advanced-booting">
+    <sect2 xml:id="zfs-advanced-booting">
       <title>Booting Root on ZFS</title>
 
       <para></para>
     </sect2>
 
-    <sect2 id="zfs-advanced-beadm">
+    <sect2 xml:id="zfs-advanced-beadm">
       <title>ZFS Boot Environments</title>
 
       <para></para>
     </sect2>
 
-    <sect2 id="zfs-advanced-troubleshoot">
+    <sect2 xml:id="zfs-advanced-troubleshoot">
       <title>Troubleshooting</title>
 
       <para></para>
     </sect2>
 
-    <sect2 id="zfs-advanced-i386">
+    <sect2 xml:id="zfs-advanced-i386">
       <title>ZFS on i386</title>
 
       <para>Some of the features provided by <acronym>ZFS</acronym>
@@ -1363,7 +1370,7 @@ dedup = 1.05, compress = 1.11, copies = 1.00, dedup * compress / copies = 1.16</
       <sect3>
 	<title>Loader Tunables</title>
 
-	<para>The <devicename>kmem</devicename> address space can be
+	<para>The <filename>kmem</filename> address space can be
 	  increased on all &os; architectures.  On a test system with
 	  one gigabyte of physical memory, success was achieved with
 	  the following options added to
@@ -1376,61 +1383,61 @@ vfs.zfs.arc_max="40M"
 vfs.zfs.vdev.cache.size="5M"</programlisting>
 
 	<para>For a more detailed list of recommendations for
-	  <acronym>ZFS</acronym>-related tuning, see <ulink
-	    url="http://wiki.freebsd.org/ZFSTuningGuide"></ulink>.</para>
+	  <acronym>ZFS</acronym>-related tuning, see <link
+	    xlink:href="http://wiki.freebsd.org/ZFSTuningGuide"></link>.</para>
       </sect3>
     </sect2>
   </sect1>
 
-  <sect1 id="zfs-links">
+  <sect1 xml:id="zfs-links">
     <title>Additional Resources</title>
 
     <itemizedlist>
       <listitem>
-	<para><ulink url="https://wiki.freebsd.org/ZFS">FreeBSD Wiki -
-	    ZFS</ulink></para>
+	<para><link xlink:href="https://wiki.freebsd.org/ZFS">FreeBSD Wiki -
+	    ZFS</link></para>
       </listitem>
 
       <listitem>
-	<para><ulink
-	    url="https://wiki.freebsd.org/ZFSTuningGuide">FreeBSD Wiki
-	    - ZFS Tuning</ulink></para>
+	<para><link
+	    xlink:href="https://wiki.freebsd.org/ZFSTuningGuide">FreeBSD Wiki
+	    - ZFS Tuning</link></para>
       </listitem>
 
       <listitem>
-	<para><ulink
-	    url="http://wiki.illumos.org/display/illumos/ZFS">Illumos
-	    Wiki - ZFS</ulink></para>
+	<para><link
+	    xlink:href="http://wiki.illumos.org/display/illumos/ZFS">Illumos
+	    Wiki - ZFS</link></para>
       </listitem>
 
       <listitem>
-	<para><ulink
-	    url="http://docs.oracle.com/cd/E19253-01/819-5461/index.html">Oracle
+	<para><link
+	    xlink:href="http://docs.oracle.com/cd/E19253-01/819-5461/index.html">Oracle
 	    Solaris ZFS Administration
-	    Guide</ulink></para>
+	    Guide</link></para>
       </listitem>
 
       <listitem>
-	<para><ulink
-	    url="http://www.solarisinternals.com/wiki/index.php/ZFS_Evil_Tuning_Guide">ZFS
-	    Evil Tuning Guide</ulink></para>
+	<para><link
+	    xlink:href="http://www.solarisinternals.com/wiki/index.php/ZFS_Evil_Tuning_Guide">ZFS
+	    Evil Tuning Guide</link></para>
       </listitem>
 
       <listitem>
-	<para><ulink
-	    url="http://www.solarisinternals.com/wiki/index.php/ZFS_Best_Practices_Guide">ZFS
-	    Best Practices Guide</ulink></para>
+	<para><link
+	    xlink:href="http://www.solarisinternals.com/wiki/index.php/ZFS_Best_Practices_Guide">ZFS
+	    Best Practices Guide</link></para>
       </listitem>
     </itemizedlist>
 
-    <sect2 id="zfs-history">
+    <sect2 xml:id="zfs-history">
       <title>History of <acronym>ZFS</acronym></title>
 
       <para></para>
     </sect2>
   </sect1>
 
-  <sect1 id="zfs-term">
+  <sect1 xml:id="zfs-term">
     <title><acronym>ZFS</acronym> Features and Terminology</title>
 
     <para><acronym>ZFS</acronym> is a fundamentally different file
@@ -1456,7 +1463,7 @@ vfs.zfs.vdev.cache.size="5M"</programlisting>
       <tgroup cols="2">
 	<tbody valign="top">
 	  <row>
-	    <entry id="zfs-term-zpool">zpool</entry>
+	    <entry xml:id="zfs-term-zpool">zpool</entry>
 
 	    <entry>A storage pool is the most basic building block of
 	      <acronym>ZFS</acronym>.  A pool is made up of one or
@@ -1480,7 +1487,7 @@ vfs.zfs.vdev.cache.size="5M"</programlisting>
 	  </row>
 
 	  <row>
-	    <entry id="zfs-term-vdev">vdev&nbsp;Types</entry>
+	    <entry xml:id="zfs-term-vdev">vdev&nbsp;Types</entry>
 
 	    <entry>A zpool is made up of one or more vdevs, which
 	      themselves can be a single disk or a group of disks, in
@@ -1491,22 +1498,22 @@ vfs.zfs.vdev.cache.size="5M"</programlisting>
 
 	      <itemizedlist>
 		<listitem>
-		  <para id="zfs-term-vdev-disk">
+		  <para xml:id="zfs-term-vdev-disk">
 		    <emphasis>Disk</emphasis> - The most basic type
 		    of vdev is a standard block device.  This can be
 		    an entire disk (such as
-		    <devicename><replaceable>/dev/ada0</replaceable></devicename>
+		    <filename><replaceable>/dev/ada0</replaceable></filename>
 		    or
-		    <devicename><replaceable>/dev/da0</replaceable></devicename>)
+		    <filename><replaceable>/dev/da0</replaceable></filename>)
 		    or a partition
-		    (<devicename><replaceable>/dev/ada0p3</replaceable></devicename>).
+		    (<filename><replaceable>/dev/ada0p3</replaceable></filename>).
 		    Contrary to the Solaris documentation, on &os;
 		    there is no performance penalty for using a
 		    partition rather than an entire disk.</para>
 		</listitem>
 
 		<listitem>
-		  <para id="zfs-term-vdev-file">
+		  <para xml:id="zfs-term-vdev-file">
 		    <emphasis>File</emphasis> - In addition to disks,
 		    <acronym>ZFS</acronym> pools can be backed by
 		    regular files, this is especially useful for
@@ -1517,7 +1524,7 @@ vfs.zfs.vdev.cache.size="5M"</programlisting>
 		</listitem>
 
 		<listitem>
-		  <para id="zfs-term-vdev-mirror">
+		  <para xml:id="zfs-term-vdev-mirror">
 		    <emphasis>Mirror</emphasis> - When creating a
 		    mirror, specify the <literal>mirror</literal>
 		    keyword followed by the list of member devices
@@ -1538,7 +1545,7 @@ vfs.zfs.vdev.cache.size="5M"</programlisting>
 		</listitem>
 
 		<listitem>
-		  <para id="zfs-term-vdev-raidz">
+		  <para xml:id="zfs-term-vdev-raidz">
 		    <emphasis><acronym>RAID-Z</acronym></emphasis> -
 		    <acronym>ZFS</acronym> implements
 		    <acronym>RAID-Z</acronym>, a variation on standard
@@ -1588,7 +1595,7 @@ vfs.zfs.vdev.cache.size="5M"</programlisting>
 		</listitem>
 
 		<listitem>
-		  <para id="zfs-term-vdev-spare">
+		  <para xml:id="zfs-term-vdev-spare">
 		    <emphasis>Spare</emphasis> -
 		    <acronym>ZFS</acronym> has a special pseudo-vdev
 		    type for keeping track of available hot spares.
@@ -1599,7 +1606,7 @@ vfs.zfs.vdev.cache.size="5M"</programlisting>
 		</listitem>
 
 		<listitem>
-		  <para id="zfs-term-vdev-log">
+		  <para xml:id="zfs-term-vdev-log">
 		    <emphasis>Log</emphasis> - <acronym>ZFS</acronym>
 		    Log Devices, also known as ZFS Intent Log
 		    (<link
@@ -1616,7 +1623,7 @@ vfs.zfs.vdev.cache.size="5M"</programlisting>
 		</listitem>
 
 		<listitem>
-		  <para id="zfs-term-vdev-cache">
+		  <para xml:id="zfs-term-vdev-cache">
 		    <emphasis>Cache</emphasis> - Adding a cache vdev
 		    to a zpool will add the storage of the cache to
 		    the <link
@@ -1629,7 +1636,7 @@ vfs.zfs.vdev.cache.size="5M"</programlisting>
 	  </row>
 
 	  <row>
-	    <entry id="zfs-term-arc">Adaptive Replacement
+	    <entry xml:id="zfs-term-arc">Adaptive Replacement
 	      Cache (<acronym>ARC</acronym>)</entry>
 
 	    <entry><acronym>ZFS</acronym> uses an Adaptive Replacement
@@ -1662,7 +1669,7 @@ vfs.zfs.vdev.cache.size="5M"</programlisting>
 
 	  <row>
 	    <entry
-	      id="zfs-term-l2arc"><acronym>L2ARC</acronym></entry>
+	      xml:id="zfs-term-l2arc"><acronym>L2ARC</acronym></entry>
 
 	    <entry>The <acronym>L2ARC</acronym> is the second level
 	      of the <acronym>ZFS</acronym> caching system.  The
@@ -1702,7 +1709,7 @@ vfs.zfs.vdev.cache.size="5M"</programlisting>
 
 	  <row>
 	    <entry
-	      id="zfs-term-zil"><acronym>ZIL</acronym></entry>
+	      xml:id="zfs-term-zil"><acronym>ZIL</acronym></entry>
 
 	    <entry>The <acronym>ZIL</acronym> accelerates synchronous
 	      transactions by using storage devices (such as
@@ -1721,7 +1728,7 @@ vfs.zfs.vdev.cache.size="5M"</programlisting>
 	  </row>
 
 	  <row>
-	    <entry id="zfs-term-cow">Copy-On-Write</entry>
+	    <entry xml:id="zfs-term-cow">Copy-On-Write</entry>
 
 	    <entry>Unlike a traditional file system, when data is
 	      overwritten on <acronym>ZFS</acronym> the new data is
@@ -1738,7 +1745,7 @@ vfs.zfs.vdev.cache.size="5M"</programlisting>
 	  </row>
 
 	  <row>
-	    <entry id="zfs-term-dataset">Dataset</entry>
+	    <entry xml:id="zfs-term-dataset">Dataset</entry>
 
 	    <entry>Dataset is the generic term for a
 	      <acronym>ZFS</acronym> file system, volume, snapshot or
@@ -1761,7 +1768,7 @@ vfs.zfs.vdev.cache.size="5M"</programlisting>
 	  </row>
 
 	  <row>
-	    <entry id="zfs-term-filesystem">Filesystem</entry>
+	    <entry xml:id="zfs-term-filesystem">Filesystem</entry>
 
 	    <entry>A <acronym>ZFS</acronym> dataset is most often used
 	      as a file system.  Like most other file systems, a
@@ -1772,7 +1779,7 @@ vfs.zfs.vdev.cache.size="5M"</programlisting>
 	  </row>
 
 	  <row>
-	    <entry id="zfs-term-volume">Volume</entry>
+	    <entry xml:id="zfs-term-volume">Volume</entry>
 
 	    <entry>In additional to regular file system datasets,
 	      <acronym>ZFS</acronym> can also create volumes, which
@@ -1786,7 +1793,7 @@ vfs.zfs.vdev.cache.size="5M"</programlisting>
 	  </row>
 
 	  <row>
-	    <entry id="zfs-term-snapshot">Snapshot</entry>
+	    <entry xml:id="zfs-term-snapshot">Snapshot</entry>
 
 	    <entry>The <link
 		linkend="zfs-term-cow">copy-on-write</link>
@@ -1828,7 +1835,7 @@ vfs.zfs.vdev.cache.size="5M"</programlisting>
 	  </row>
 
 	  <row>
-	    <entry id="zfs-term-clone">Clone</entry>
+	    <entry xml:id="zfs-term-clone">Clone</entry>
 
 	    <entry>Snapshots can also be cloned; a clone is a writable
 	      version of a snapshot, allowing the file system to be
@@ -1849,7 +1856,7 @@ vfs.zfs.vdev.cache.size="5M"</programlisting>
 	  </row>
 
 	  <row>
-	    <entry id="zfs-term-checksum">Checksum</entry>
+	    <entry xml:id="zfs-term-checksum">Checksum</entry>
 
 	    <entry>Every block that is allocated is also checksummed
 	      (the algorithm used is a per dataset property, see:
@@ -1886,7 +1893,7 @@ vfs.zfs.vdev.cache.size="5M"</programlisting>
 	  </row>
 
 	  <row>
-	    <entry id="zfs-term-compression">Compression</entry>
+	    <entry xml:id="zfs-term-compression">Compression</entry>
 
 	    <entry>Each dataset in <acronym>ZFS</acronym> has a
 	      compression property, which defaults to off.  This
@@ -1905,7 +1912,7 @@ vfs.zfs.vdev.cache.size="5M"</programlisting>
 	  </row>
 
 	  <row>
-	    <entry id="zfs-term-deduplication">Deduplication</entry>
+	    <entry xml:id="zfs-term-deduplication">Deduplication</entry>
 
 	    <entry><acronym>ZFS</acronym> has the ability to detect
 	      duplicate blocks of data as they are written (thanks to
@@ -1948,7 +1955,7 @@ vfs.zfs.vdev.cache.size="5M"</programlisting>
 	  </row>
 
 	  <row>
-	    <entry id="zfs-term-scrub">Scrub</entry>
+	    <entry xml:id="zfs-term-scrub">Scrub</entry>
 
 	    <entry>In place of a consistency check like &man.fsck.8;,
 	      <acronym>ZFS</acronym> has the <literal>scrub</literal>
@@ -1966,7 +1973,7 @@ vfs.zfs.vdev.cache.size="5M"</programlisting>
 	  </row>
 
 	  <row>
-	    <entry id="zfs-term-quota">Dataset Quota</entry>
+	    <entry xml:id="zfs-term-quota">Dataset Quota</entry>
 
 	    <entry><acronym>ZFS</acronym> provides very fast and
 	      accurate dataset, user and group space accounting in
@@ -1998,7 +2005,7 @@ vfs.zfs.vdev.cache.size="5M"</programlisting>
 	  </row>
 
 	  <row>
-	    <entry id="zfs-term-refquota">Reference
+	    <entry xml:id="zfs-term-refquota">Reference
 	      Quota</entry>
 
 	    <entry>A reference quota limits the amount of space a
@@ -2010,7 +2017,7 @@ vfs.zfs.vdev.cache.size="5M"</programlisting>
 	  </row>
 
 	  <row>
-	    <entry id="zfs-term-userquota">User
+	    <entry xml:id="zfs-term-userquota">User
 	      Quota</entry>
 
 	    <entry>User quotas are useful to limit the amount of space
@@ -2018,7 +2025,7 @@ vfs.zfs.vdev.cache.size="5M"</programlisting>
 	  </row>
 
 	  <row>
-	    <entry id="zfs-term-groupquota">Group
+	    <entry xml:id="zfs-term-groupquota">Group
 	      Quota</entry>
 
 	    <entry>The group quota limits the amount of space that a
@@ -2026,7 +2033,7 @@ vfs.zfs.vdev.cache.size="5M"</programlisting>
 	  </row>
 
 	  <row>
-	    <entry id="zfs-term-reservation">Dataset
+	    <entry xml:id="zfs-term-reservation">Dataset
 	      Reservation</entry>
 
 	    <entry>The <literal>reservation</literal> property makes
@@ -2054,7 +2061,7 @@ vfs.zfs.vdev.cache.size="5M"</programlisting>
 	  </row>
 
 	  <row>
-	    <entry id="zfs-term-refreservation">Reference
+	    <entry xml:id="zfs-term-refreservation">Reference
 	      Reservation</entry>
 
 	    <entry>The <literal>refreservation</literal> property
@@ -2080,7 +2087,7 @@ vfs.zfs.vdev.cache.size="5M"</programlisting>
 	  </row>
 
 	  <row>
-	    <entry id="zfs-term-resilver">Resilver</entry>
+	    <entry xml:id="zfs-term-resilver">Resilver</entry>
 
 	    <entry>When a disk fails and must be replaced, the new
 	      disk must be filled with the data that was lost.  This
@@ -2091,7 +2098,7 @@ vfs.zfs.vdev.cache.size="5M"</programlisting>
 	  </row>
 
 	  <row>
-	    <entry id="zfs-term-online">Online</entry>
+	    <entry xml:id="zfs-term-online">Online</entry>
 
 	    <entry>A ZFS pool or vdev that is in the
 	      <literal>Online</literal> state has all of its member
@@ -2101,7 +2108,7 @@ vfs.zfs.vdev.cache.size="5M"</programlisting>
 	  </row>
 
 	  <row>
-	    <entry id="zfs-term-offline">Offline</entry>
+	    <entry xml:id="zfs-term-offline">Offline</entry>
 
 	    <entry>Individual devices can be put in an
 	      <literal>Offline</literal> state by the administrator if
@@ -2114,7 +2121,7 @@ vfs.zfs.vdev.cache.size="5M"</programlisting>
 	  </row>
 
 	  <row>
-	    <entry id="zfs-term-degraded">Degraded</entry>
+	    <entry xml:id="zfs-term-degraded">Degraded</entry>
 
 	    <entry>A ZFS pool or vdev that is in the
 	      <literal>Degraded</literal> state has one or more disks
@@ -2130,7 +2137,7 @@ vfs.zfs.vdev.cache.size="5M"</programlisting>
 	  </row>
 
 	  <row>
-	    <entry id="zfs-term-faulted">Faulted</entry>
+	    <entry xml:id="zfs-term-faulted">Faulted</entry>
 
 	    <entry>A ZFS pool or vdev that is in the
 	      <literal>Faulted</literal> state is no longer

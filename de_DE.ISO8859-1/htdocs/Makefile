@@ -47,14 +47,14 @@ SUBDIR+= handbook
 SUBDIR+= ipv6
 SUBDIR+= java
 SUBDIR+= platforms
-SUBDIR+= ports
+#SUBDIR+= ports
 SUBDIR+= projects
 SUBDIR+= releases
 SUBDIR+= security
 SUBDIR+= snapshots
 SUBDIR+= support
 .if !defined(WEB_ONLY) || empty(WEB_ONLY)
-SUBDIR+= ports
+#SUBDIR+= ports
 SUBDIR+= doc
 .endif
 .if defined(BUILD_RELNOTES)

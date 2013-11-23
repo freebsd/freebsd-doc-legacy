@@ -11,7 +11,7 @@ DOC_LANG=	en_US.ISO8859-1
 SUBDIR = 	${DOC_LANG}
 .else
 SUBDIR =	en_US.ISO8859-1
-SUBDIR+=	bn_BD.ISO10646-1
+SUBDIR+=	bn_BD.UTF-8
 SUBDIR+=	da_DK.ISO8859-1
 SUBDIR+=	de_DE.ISO8859-1
 SUBDIR+=	el_GR.ISO8859-7
@@ -27,13 +27,17 @@ SUBDIR+=	pt_BR.ISO8859-1
 SUBDIR+=	ru_RU.KOI8-R
 SUBDIR+=	sr_YU.ISO8859-2
 SUBDIR+=	tr_TR.ISO8859-9
-SUBDIR+=	zh_CN.GB2312
+SUBDIR+=	zh_CN.UTF-8
 SUBDIR+=	zh_TW.Big5
 .endif
 
 DOC_PREFIX?=   ${.CURDIR}
 
+.if exists(/usr/bin/svnlite)
+SVN?=		/usr/bin/svnlite
+.else
 SVN?=		/usr/local/bin/svn
+.endif
 
 update:
 .if !exists(${SVN})

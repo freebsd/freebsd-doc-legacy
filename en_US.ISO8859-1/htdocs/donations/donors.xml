@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <!DOCTYPE html PUBLIC "-//FreeBSD//DTD XHTML 1.0 Transitional-Based Extension//EN"
-"http://www.FreeBSD.org/XML/doc/share/xml/xhtml10-freebsd.dtd" [
+"http://www.FreeBSD.org/XML/share/xml/xhtml10-freebsd.dtd" [
 <!ENTITY title "Hardware Donors Page">
 ]>
 
@@ -2955,6 +2955,13 @@
       <td> Dell PowerEdge R510 server <br/>
            + Linksys SFE2010 switch </td>
       <td> sbruno </td>
+      <td> received </td>
+  </tr>
+
+  <tr>
+      <td> <tt>Olivier Cochard-Labbé</tt> </td>
+      <td> Ubiquiti RouterStation Pro </td>
+      <td> lstewart </td>
       <td> received </td>
   </tr>
 </table>

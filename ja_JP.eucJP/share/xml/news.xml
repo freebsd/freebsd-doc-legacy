@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="euc-jp" ?>
 <!DOCTYPE news PUBLIC "-//FreeBSD//DTD FreeBSD XML Database for News//EN"
-                      "http://www.FreeBSD.org/XML/www/share/xml/news.dtd">
+                      "http://www.FreeBSD.org/XML/share/xml/news.dtd">
 
 <!-- Simple schema for FreeBSD Project news.
 
@@ -20,7 +20,7 @@
      the contents of <title> will be preferred over <p>.
 
      $FreeBSD$
-     Original revision: r42766
+     Original revision: r43154
 -->
 <news>
     <cvs:keyword xmlns:cvs="http://www.FreeBSD.org/XML/CVS">
@@ -29,6 +29,132 @@
 
   <year>
     <name>2013</name>
+
+    <month>
+      <name>11</name>
+
+      <day>
+	<name>8</name>
+
+	<event>
+	  <p>新コミッタ就任:
+	      <a href="mailto:alexey@FreeBSD.org">Alexey Degtyarev</a> (ports)</p>
+	</event>
+      </day>
+
+      <day>
+	<name>5</name>
+
+	<event>
+	  <title>&os;&nbsp;10.0-BETA3 公開</title>
+
+	  <p>&os;-10.0 リリースサイクルから 3
+	    回目のベータ版が公開されました (<a
+	      href="&lists.stable;/2013-November/075704.html">アナウンス</a>)。
+	    <a
+	      href="&url.doc.base;/books/handbook/mirrors-ftp.html">&os;
+	    ミラーサイト</a> から amd64, i386, ia64, powerpc, powerpc64 および
+	    sparc64 アーキテクチャの ISO イメージを入手できます。</p>
+	</event>
+      </day>
+
+      <day>
+	<name>2</name>
+
+	<event>
+	  <p>新コミッタ就任:
+	      <a href="mailto:jmmv@FreeBSD.org">Julio Merino</a> (src)</p>
+	</event>
+      </day>
+
+    </month>
+
+    <month>
+      <name>10</name>
+
+      <day>
+	<name>30</name>
+
+	<event>
+	  <title>pkg 公式バイナリ package 公開</title>
+
+	  <p>pkg の公式バイナリ package が公開されました。
+	    &os; 8.3, 8.4, 9.1, 9.2, 10.0 および head のバイナリ package
+	    が利用可能です。
+	    詳細については、<a
+	      href="&lists.pkg;/2013-October/000107.html">アナウンス</a>
+	    をご覧ください。</p>
+	</event>
+      </day>
+
+      <day>
+	<name>28</name>
+
+	<event>
+	  <title>&os;&nbsp;10.0-BETA2 公開</title>
+
+	  <p>&os;-10.0 リリースサイクルから 2
+	    回目のベータ版が公開されました (<a
+	      href="&lists.stable;/2013-October/075591.html">アナウンス</a>)。
+	    <a
+	      href="&url.doc.base;/books/handbook/mirrors-ftp.html">&os;
+	    ミラーサイト</a> から amd64, i386, ia64, powerpc, powerpc64 および
+	    sparc64 アーキテクチャの ISO イメージを入手できます。</p>
+	</event>
+      </day>
+
+      <day>
+	<name>20</name>
+
+	<event>
+	  <title>開発進捗レポート (2013 年 7 月 - 9 月) 公開</title>
+
+	    <p><a
+		href="&enbase;/news/status/report-2013-07-2013-09.html">2013
+	      年 7 月から 9 月の開発進捗レポート</a> (30 エントリ)
+	      が公開されました。</p>
+	</event>
+      </day>
+
+      <day>
+	<name>14</name>
+
+	<event>
+	  <title>&os;&nbsp;10.0-BETA1 公開</title>
+
+	  <p>&os;-10.0 リリースサイクルから最初のベータ版が公開されました (<a
+	      href="&lists.stable;/2013-October/075504.html">アナウンス</a>)。
+	    <a
+	      href="&url.doc.base;/books/handbook/mirrors-ftp.html">&os;
+	    ミラーサイト</a> から amd64, i386, ia64, powerpc, powerpc64 および
+	    sparc64 アーキテクチャの ISO イメージを入手できます。</p>
+	</event>
+      </day>
+
+      <day>
+	<name>9</name>
+	<event>
+	  <p>新コミッタ就任:
+	      <a href="mailto:edavis@FreeBSD.org">Eric Davis</a> (src)</p>
+	</event>
+      </day>
+
+      <day>
+	<name>7</name>
+
+	<event>
+	  <title>&os;&nbsp;10.0-ALPHA5 公開</title>
+
+	  <p>&os;-10.0 リリースサイクルから
+	    5 回目のアルファ版が公開されました (<a
+	      href="&lists.current;/2013-October/045097.html">アナウンス</a>)。
+	    <a
+	      href="&url.doc.base;/books/handbook/mirrors-ftp.html">&os;
+	    ミラーサイト</a> から amd64, i386, ia64, powerpc, powerpc64 および
+	    sparc64 アーキテクチャの ISO イメージを入手できます。</p>
+	</event>
+      </day>
+    </month>
 
     <month>
       <name>9</name>

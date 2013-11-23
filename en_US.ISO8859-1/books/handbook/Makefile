@@ -39,8 +39,6 @@ DOC?= book
 
 FORMATS?= html-split
 
-HAS_INDEX= true
-
 INSTALL_COMPRESSED?= gz
 INSTALL_ONLY_COMPRESSED?=
 
@@ -275,7 +273,6 @@ SRCS+= preface/preface.xml
 SRCS+= printing/chapter.xml
 SRCS+= security/chapter.xml
 SRCS+= serialcomms/chapter.xml
-SRCS+= users/chapter.xml
 SRCS+= virtualization/chapter.xml
 SRCS+= x11/chapter.xml
 SRCS+= zfs/chapter.xml
