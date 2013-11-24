@@ -688,6 +688,84 @@ errors: No known data errors</screen>
       <para></para>
     </sect2>
 
+    <sect2 xml:id="zfs-zpool-history">
+      <title>Displaying recorded Pool history</title>
+
+      <para>ZFS records all the commands that were issued to
+	administer the pool.  These include the creation of datasets,
+	changing zfs properties or that a disk has been replaced in
+	the pool.  This is useful to review how a pool was created and
+	which user did a specific action at what point in time.  The
+	history is not kept in a log file, but is a part of the pool
+	itself.  That is the reason why the history cannot be altered
+	after the fact unless the pool is destroyed.  The command to
+	review this history is aptly named <command>zpool
+	history</command>:</para>
+      
+      <screen>&prompt.root; <userinput>zpool history</userinput>
+History for 'tank':
+2013-02-26.23:02:35 zpool create tank mirror /dev/ada0 /dev/ada1
+2013-02-27.18:50:58 zfs set atime=off tank
+2013-02-27.18:51:09 zfs set checksum=fletcher4 tank
+2013-02-27.18:51:18 zfs create tank/backup</screen>
+
+      <para>The command output shows in it's basic form a timestamp
+	followed by each <command>zpool</command> or
+	<command>zfs</command> command that was executed on the pool.
+	Note that only commands that altered the pool in some way are
+	being recorded.  Commands like <command>zfs list</command> are
+	not part of the history.  When there is no pool name provided
+	for <command>zpool history</command> then the history of all
+	pools will be displayed.</para>
+
+      <para>The <command>zpool history</command> can show even more
+	information when the options <literal>-i</literal> or
+	<literal>-l</literal> are provided.  The option
+	<literal>-i</literal> displays user initiated events as well
+	as internally logged ZFS events.</para>
+
+      <screen>&prompt.root; <userinput>zpool history -i</userinput>
+History for 'tank':
+2013-02-26.23:02:35 [internal pool create txg:5] pool spa 28; zfs spa 28; zpl 5;uts  9.1-RELEASE 901000 amd64
+2013-02-27.18:50:53 [internal property set txg:50] atime=0 dataset = 21
+2013-02-27.18:50:58 zfs set atime=off tank 
+2013-02-27.18:51:04 [internal property set txg:53] checksum=7 dataset = 21
+2013-02-27.18:51:09 zfs set checksum=fletcher4 tank
+2013-02-27.18:51:13 [internal create txg:55] dataset = 39
+2013-02-27.18:51:18 zfs create tank/backup</screen>
+
+      <para>The other more detailed history display can be invoked by
+	using the <literal>-l</literal> command.  This will show the
+	log records in long format, which includes more information
+	like the user name who issued the command and the hostname on
+	which the change was made.</para>
+
+      <screen>&prompt.root; <userinput>zpool history -l</userinput>
+History for 'tank':
+2013-02-26.23:02:35 zpool create tank mirror /dev/ada0 /dev/ada1 [user 0 (root) on :global]
+2013-02-27.18:50:58 zfs set atime=off tank [user 0 (root) on myzfsbox:global]
+2013-02-27.18:51:09 zfs set checksum=fletcher4 tank [user 0 (root) on myzfsbox:global]
+2013-02-27.18:51:18 zfs create tank/backup [user 0 (root) on myzfsbox:global]</screen>
+
+      <para>This output clearly shows that the <literal>root</literal>
+	user created the mirrored pool (consisting of
+	<filename>/dev/ada0</filename> and
+	<filename>/dev/ada1</filename>).  In addition to that, the
+	hostname (<literal>myzfsbox</literal>) is also shown in the
+	commands following the pool's creation.  The hostname display
+	becomes important when the pool is exported from the current
+	and imported on another system.  The commands that are issued
+	on the other system can clearly be distinguished by the
+	hostname that is recorded for each command.</para>
+
+      <para>Both options to the <command>zpool history</command>
+	command can be combined together to give the most detailed
+	information possible for any given pool.  The pool history can
+	become a valuable information source when tracking down what
+	actions were performed or when it is needed to provide more
+	detailed output for debugging a ZFS pool.</para>
+    </sect2>
+
     <sect2 xml:id="zfs-zpool-iostat">
       <title>Performance Monitoring</title>
 
