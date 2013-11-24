@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <!DOCTYPE news PUBLIC "-//FreeBSD//DTD FreeBSD XML Database for News//EN"
-                      "http://www.FreeBSD.org/XML/www/share/xml/news.dtd">
+                      "http://www.FreeBSD.org/XML/share/xml/news.dtd">
 
 <!-- Simple schema for FreeBSD Project news.
 
@@ -29,6 +29,130 @@
 
   <year>
     <name>2013</name>
+
+    <month>
+      <name>11</name>
+
+      <day>
+	<name>8</name>
+
+	<event>
+	  <p>New committer:
+	      <a href="mailto:alexey@FreeBSD.org">Alexey Degtyarev</a> (ports)</p>
+	</event>
+      </day>
+
+      <day>
+	<name>5</name>
+
+	<event>
+	  <title>&os;&nbsp;10.0-BETA3 Available</title>
+
+	  <p>The third BETA build for the &os;-10.0 release cycle is
+	    now available.  ISO images for the amd64, i386, ia64,
+	    powerpc, powerpc64 and sparc64 architectures are <a
+	      href="&lists.stable;/2013-November/075704.html">available</a>
+	    on most of our <a
+	      href="&url.doc.base-en;/books/handbook/mirrors-ftp.html">&os;
+	    mirror sites</a>.</p>
+	</event>
+      </day>
+
+      <day>
+	<name>2</name>
+
+	<event>
+	  <p>New committer:
+	      <a href="mailto:jmmv@FreeBSD.org">Julio Merino</a> (src)</p>
+	</event>
+      </day>
+
+    </month>
+
+    <month>
+      <name>10</name>
+
+      <day>
+	<name>30</name>
+
+	<event>
+	  <title>Official Binary Packages for Pkg Available</title>
+
+	  <p>Official binary packages are now available for Pkg for &os;
+	    8.3, 8.4, 9.1, 9.2, 10.0 and head. See the <a
+	      href="&lists.pkg;/2013-October/000107.html">announcement</a>
+	    for more information.</p>
+	</event>
+      </day>
+
+      <day>
+	<name>28</name>
+
+	<event>
+	  <title>&os;&nbsp;10.0-BETA2 Available</title>
+
+	  <p>The second BETA build for the &os;-10.0 release cycle is
+	    now available.  ISO images for the amd64, i386, ia64,
+	    powerpc, powerpc64 and sparc64 architectures are <a
+	      href="&lists.stable;/2013-October/075591.html">available</a>
+	    on most of our <a
+	      href="&url.doc.base-en;/books/handbook/mirrors-ftp.html">&os;
+	    mirror sites</a>.</p>
+	</event>
+      </day>
+
+      <day>
+	<name>20</name>
+
+	<event>
+	  <title>July-September, 2013 Status Report</title>
+
+	    <p>The <a
+		href="&enbase;/news/status/report-2013-07-2013-09.html">July-September, 2013 Status Report</a>
+	      is now available with 30 entries.</p>
+	</event>
+      </day>
+
+      <day>
+	<name>14</name>
+
+	<event>
+	  <title>&os;&nbsp;10.0-BETA1 Available</title>
+
+	  <p>The first BETA build for the &os;-10.0 release cycle is
+	    now available.  ISO images for the amd64, i386, ia64,
+	    powerpc, powerpc64 and sparc64 architectures are <a
+	      href="&lists.stable;/2013-October/075504.html">available</a>
+	    on most of our <a
+	      href="&url.doc.base-en;/books/handbook/mirrors-ftp.html">&os;
+	    mirror sites</a>.</p>
+	</event>
+      </day>
+
+      <day>
+	<name>9</name>
+	<event>
+	  <p>New committer:
+	      <a href="mailto:edavis@FreeBSD.org">Eric Davis</a> (src)</p>
+	</event>
+      </day>
+
+      <day>
+	<name>7</name>
+
+	<event>
+	  <title>&os;&nbsp;10.0-ALPHA5 Available</title>
+
+	  <p>The fifth ALPHA build for the &os;-10.0 release cycle is
+	    now available.  ISO images for the amd64, i386, ia64,
+	    powerpc, powerpc64 and sparc64 architectures are <a
+	      href="&lists.current;/2013-October/045097.html">available</a>
+	    on most of our <a
+	      href="&url.doc.base-en;/books/handbook/mirrors-ftp.html">&os;
+	    mirror sites</a>.</p>
+	</event>
+      </day>
+    </month>
 
     <month>
       <name>9</name>

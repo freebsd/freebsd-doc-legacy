@@ -22,7 +22,7 @@
      rel2.* and u.rel2.* for the "conservative users" version.
 -->
 
-<!ENTITY rel.head.major '10'>
+<!ENTITY rel.head.major '11'>
 <!ENTITY rel.head '&rel.head.major;.0'>
 
 <!-- If there is no release currently in the release cycle (i.e. we
@@ -32,7 +32,7 @@
 <!ENTITY beta.testing "INCLUDE">
 <!ENTITY % beta.testing "INCLUDE">
 <!ENTITY betarel.current '10.0'>
-<!ENTITY betarel.vers 'ALPHA4'>
+<!ENTITY betarel.vers 'BETA3'>
 <!ENTITY u.betarel.schedule '&base;/releases/&betarel.current;R/schedule.html'>
 
 <!-- If we have a second release in the release cycle (e.g. 5.x and 6.y
@@ -83,4 +83,4 @@
 
 <!ENTITY gnomeoldver '2.30'>
 <!ENTITY gnomever '2.32'>
-<!ENTITY gnomedevelver '2.90'>
+<!ENTITY gnomedevelver '3.6'>

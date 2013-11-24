@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE entries PUBLIC "-//FreeBSD//DTD FreeBSD XML Database for Commercial Gallery//EN"
-                         "http://www.FreeBSD.org/XML/www/share/xml/gallery.dtd">
+                         "http://www.FreeBSD.org/XML/share/xml/gallery.dtd">
 <!-- $FreeBSD$ -->
 
 <entries>
@@ -514,6 +514,18 @@
       environments. Services also include private consulting, emergency
       response coordination and various IT solutions to maximize the
       effectiveness of your business.
+    </description>
+  </entry>
+
+  <entry id="Hermetek" category="namerica">
+    <name>HermeTek Network Solutions</name>
+    <url>https://www.hermetek.com/</url>
+    <description>
+      HermeTek Network Solutions is a comprehensive network solutions
+      provider with a strong focus on FreeBSD.  HermeTek also offers
+      support for other BSD and Linux operating systems, as well as
+      fully managed hosting packages.  Please visit <a
+      href="https://www.hermetek.com/">our web site</a> for more information.
     </description>
   </entry>
 

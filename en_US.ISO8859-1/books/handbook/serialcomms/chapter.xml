@@ -4,11 +4,10 @@
 
      $FreeBSD$
 -->
-
-<chapter id="serialcomms">
+<chapter xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0" xml:id="serialcomms">
   <title>Serial Communications</title>
 
-  <sect1 id="serial-synopsis">
+  <sect1 xml:id="serial-synopsis">
     <title>Synopsis</title>
 
     <indexterm><primary>serial communications</primary></indexterm>
@@ -56,36 +55,40 @@
     </itemizedlist>
   </sect1>
 
-  <sect1 id="serial">
-    <title>Introduction</title>
+  <sect1 xml:id="serial">
+    <title>Serial Terminology and Hardware</title>
 
-    <!-- XXX Write me! -->
-
-    <sect2 id="serial-terminology">
-      <title>Terminology</title>
-
-      <variablelist>
-	<varlistentry>
-	  <term><acronym>bps</acronym></term>
+    <para>The following terms are often used in serial
+      communications:</para>
+    <variablelist>
+      <varlistentry>
+	<term><acronym>bps</acronym></term>
 	  <listitem>
-	    <para>Bits per Second<indexterm><primary>bits-per-second</primary></indexterm> (<acronym>bps</acronym>) is the rate
-	      at which data is transmitted.</para>
+	    <para>Bits per
+	      Second<indexterm><primary>bits-per-second</primary></indexterm>
+	      (<acronym>bps</acronym>) is the rate at which data is
+	      transmitted.</para>
 	  </listitem>
 	</varlistentry>
 
 	<varlistentry>
 	  <term><acronym>DTE</acronym></term>
 	  <listitem>
-	    <para>An example of a Data Terminal Equipment<indexterm><primary>DTE</primary></indexterm>
-	      (<acronym>DTE</acronym>) is a computer.</para>
+	    <para>Data Terminal
+	      Equipment<indexterm><primary>DTE</primary></indexterm>
+	      (<acronym>DTE</acronym>) is one of two endpoints in a
+	      serial communication.  An example would be a
+	      computer.</para>
 	  </listitem>
 	</varlistentry>
 
 	<varlistentry>
 	  <term><acronym>DCE</acronym></term>
 	  <listitem>
-	    <para>An example of a Data Communications Equipment<indexterm><primary>DCE</primary></indexterm>
-	      (<acronym>DTE</acronym>) is a modem.</para>
+	    <para>Data Communications
+	      Equipment<indexterm><primary>DCE</primary></indexterm>
+	      (<acronym>DTE</acronym>) is the other endpoint in a
+	      serial communication.  Typically, it is a modem.</para>
 	  </listitem>
 	</varlistentry>
 
@@ -93,9 +96,10 @@
 	  <term>RS-232</term>
 
 	  <listitem>
-	    <para>The original standard for hardware serial
-	      communications.  It is now usually referred to as
-	      <acronym>TIA</acronym>-232<indexterm><primary>RS-232C cables</primary></indexterm>.</para>
+	    <para>The original standard which defined hardware serial
+	      communications.  It has since been renamed to
+	      <acronym>TIA</acronym>-232<indexterm><primary>RS-232C
+		cables</primary></indexterm>.</para>
 	  </listitem>
 	</varlistentry>
       </variablelist>
@@ -105,10 +109,6 @@
 	number of electrical state transitions that may be made in a
 	period of time, while <acronym>bps</acronym> is the
 	<emphasis>correct</emphasis> term to use.</para>
-    </sect2>
-
-    <sect2 id="serial-cables-ports">
-      <title>Cables and Ports</title>
 
       <para>To connect a modem or serial terminal to a &os; system, a
 	serial port on the computer and the proper cable to connect to
@@ -116,412 +116,389 @@
 	with serial hardware and cabling can safely skip this
 	section.</para>
 
-      <sect3 id="term-cables">
-	<title>Cables</title>
+      <sect2 xml:id="term-cables-null">
+	<title>Serial Cables and Ports</title>
 
 	<para>There are several different kinds of serial cables.  The
 	  two most common types are null-modem cables and standard
 	  RS-232 cables.  The documentation for the hardware should
 	  describe the type of cable required.</para>
 
-	<sect4 id="term-cables-null">
-	  <title>Null-modem Cables</title>
+	<indexterm>
+	  <primary>null-modem cable</primary>
+	</indexterm>
 
-	  <indexterm>
-	    <primary>null-modem cable</primary>
-	  </indexterm>
+	<para>A null-modem cable passes some signals, such as
+	  <quote>Signal Ground</quote>, straight through, but
+	  switches other signals.  For example, the
+	  <quote>Transmitted Data</quote> pin on one end goes to the
+	  <quote>Received Data</quote> pin on the other end.</para>
 
-	  <para>A null-modem cable passes some signals, such as
-	    <quote>Signal Ground</quote>, straight through, but
-	    switches other signals.  For example, the
-	    <quote>Transmitted Data</quote> pin on one end goes to the
-	    <quote>Received Data</quote> pin on the other end.</para>
+	<para>A null-modem cable can be constructed for use with
+	  terminals.  The following table shows the RS-232C <link linkend="serialcomms-signal-names">signal names</link>
+	  and the pin numbers on a DB-25 connector.  While the
+	  standard calls for a straight-through pin 1 to pin 1
+	  <emphasis>Protective Ground</emphasis> line, it is often
+	  omitted.  Some terminals work using only pins 2, 3, and
+	  7, while others require different configurations than
+	  the examples shown below.</para>
 
-	  <para>A null-modem cable can be constructed for use with
-	    terminals.  The following table shows the RS-232C <link
-	      linkend="serialcomms-signal-names">signal names</link>
-	    and the pin numbers on a DB-25 connector.  While the
-	    standard calls for a straight-through pin 1 to pin 1
-	    <emphasis>Protective Ground</emphasis> line, it is often
-	    omitted.  Some terminals work using only pins 2, 3, and
-	    7, while others require different configurations than
-	    the examples shown below.</para>
+	<table frame="none" pgwide="1">
+	  <title>DB-25 to DB-25 Null-Modem Cable</title>
 
-	  <table frame="none" pgwide="1">
-	    <title>DB-25 to DB-25 Null-Modem Cable</title>
+	  <tgroup cols="5">
+	    <thead>
+	      <row>
+		<entry align="left">Signal</entry>
+		<entry align="left">Pin #</entry>
+		<entry/>
+		<entry align="left">Pin #</entry>
+		<entry align="left">Signal</entry>
+	      </row>
+	    </thead>
 
-	    <tgroup cols="5">
-	      <thead>
-		<row>
-		  <entry align="left">Signal</entry>
-		  <entry align="left">Pin #</entry>
-		  <entry></entry>
-		  <entry align="left">Pin #</entry>
-		  <entry align="left">Signal</entry>
-		</row>
-	      </thead>
+	    <tbody>
+	      <row>
+		<entry>SG</entry>
+		<entry>7</entry>
+		<entry>connects to</entry>
+		<entry>7</entry>
+		<entry>SG</entry>
+	      </row>
 
-	      <tbody>
-		<row>
-		  <entry>SG</entry>
-		  <entry>7</entry>
-		  <entry>connects to</entry>
-		  <entry>7</entry>
-		  <entry>SG</entry>
-		</row>
+	      <row>
+		<entry>TD</entry>
+		<entry>2</entry>
+		<entry>connects to</entry>
+		<entry>3</entry>
+		<entry>RD</entry>
+	      </row>
 
-		<row>
-		  <entry>TD</entry>
-		  <entry>2</entry>
-		  <entry>connects to</entry>
-		  <entry>3</entry>
-		  <entry>RD</entry>
-		</row>
+	      <row>
+		<entry>RD</entry>
+		<entry>3</entry>
+		<entry>connects to</entry>
+		<entry>2</entry>
+		<entry>TD</entry>
+	      </row>
 
-		<row>
-		  <entry>RD</entry>
-		  <entry>3</entry>
-		  <entry>connects to</entry>
-		  <entry>2</entry>
-		  <entry>TD</entry>
-		</row>
+	      <row>
+		<entry>RTS</entry>
+		<entry>4</entry>
+		<entry>connects to</entry>
+		<entry>5</entry>
+		<entry>CTS</entry>
+	      </row>
 
-		<row>
-		  <entry>RTS</entry>
-		  <entry>4</entry>
-		  <entry>connects to</entry>
-		  <entry>5</entry>
-		  <entry>CTS</entry>
-		</row>
+	      <row>
+		<entry>CTS</entry>
+		<entry>5</entry>
+		<entry>connects to</entry>
+		<entry>4</entry>
+		<entry>RTS</entry>
+	      </row>
 
-		<row>
-		  <entry>CTS</entry>
-		  <entry>5</entry>
-		  <entry>connects to</entry>
-		  <entry>4</entry>
-		  <entry>RTS</entry>
-		</row>
+	      <row>
+		<entry>DTR</entry>
+		<entry>20</entry>
+		<entry>connects to</entry>
+		<entry>6</entry>
+		<entry>DSR</entry>
+	      </row>
 
-		<row>
-		  <entry>DTR</entry>
-		  <entry>20</entry>
-		  <entry>connects to</entry>
-		  <entry>6</entry>
-		  <entry>DSR</entry>
-		</row>
+	      <row>
+		<entry>DTR</entry>
+		<entry>20</entry>
+		<entry>connects to</entry>
+		<entry>8</entry>
+		<entry>DCD</entry>
+	      </row>
 
-		<row>
-		  <entry>DTR</entry>
-		  <entry>20</entry>
-		  <entry>connects to</entry>
-		  <entry>8</entry>
-		  <entry>DCD</entry>
-		</row>
+	      <row>
+		<entry>DSR</entry>
+		<entry>6</entry>
+		<entry>connects to</entry>
+		<entry>20</entry>
+		<entry>DTR</entry>
+	      </row>
 
-		<row>
-		  <entry>DSR</entry>
-		  <entry>6</entry>
-		  <entry>connects to</entry>
-		  <entry>20</entry>
-		  <entry>DTR</entry>
-		</row>
+	      <row>
+		<entry>DCD</entry>
+		<entry>8</entry>
+		<entry>connects to</entry>
+		<entry>20</entry>
+		<entry>DTR</entry>
+	      </row>
+	    </tbody>
+	  </tgroup>
+	</table>
 
-		<row>
-		  <entry>DCD</entry>
-		  <entry>8</entry>
-		  <entry>connects to</entry>
-		  <entry>20</entry>
-		  <entry>DTR</entry>
-		</row>
-	      </tbody>
-	    </tgroup>
-	  </table>
+	<para>The next two tables show two other common
+	  schemes.</para>
 
-	  <para>The next two tables show two other common
-	    schemes.</para>
+	<table frame="none" pgwide="1">
+	  <title>DB-9 to DB-9 Null-Modem Cable</title>
 
-	  <table frame="none" pgwide="1">
-	    <title>DB-9 to DB-9 Null-Modem Cable</title>
+	  <tgroup cols="5">
+	    <thead>
+	      <row>
+		<entry align="left">Signal</entry>
+		<entry align="left">Pin #</entry>
+		<entry/>
+		<entry align="left">Pin #</entry>
+		<entry align="left">Signal</entry>
+	      </row>
+	    </thead>
 
-	    <tgroup cols="5">
-	      <thead>
-		<row>
-		  <entry align="left">Signal</entry>
-		  <entry align="left">Pin #</entry>
-		  <entry></entry>
-		  <entry align="left">Pin #</entry>
-		  <entry align="left">Signal</entry>
-		</row>
-	      </thead>
+	    <tbody>
+	      <row>
+		<entry>RD</entry>
+		<entry>2</entry>
+		<entry>connects to</entry>
+		<entry>3</entry>
+		<entry>TD</entry>
+	      </row>
 
-	      <tbody>
-		<row>
-		  <entry>RD</entry>
-		  <entry>2</entry>
-		  <entry>connects to</entry>
-		  <entry>3</entry>
-		  <entry>TD</entry>
-		</row>
+	      <row>
+		<entry>TD</entry>
+		<entry>3</entry>
+		<entry>connects to</entry>
+		<entry>2</entry>
+		<entry>RD</entry>
+	      </row>
 
-		<row>
-		  <entry>TD</entry>
-		  <entry>3</entry>
-		  <entry>connects to</entry>
-		  <entry>2</entry>
-		  <entry>RD</entry>
-		</row>
+	      <row>
+		<entry>DTR</entry>
+		<entry>4</entry>
+		<entry>connects to</entry>
+		<entry>6</entry>
+		<entry>DSR</entry>
+	      </row>
 
-		<row>
-		  <entry>DTR</entry>
-		  <entry>4</entry>
-		  <entry>connects to</entry>
-		  <entry>6</entry>
-		  <entry>DSR</entry>
-		</row>
+	      <row>
+		<entry>DTR</entry>
+		<entry>4</entry>
+		<entry>connects to</entry>
+		<entry>1</entry>
+		<entry>DCD</entry>
+	      </row>
 
-		<row>
-		  <entry>DTR</entry>
-		  <entry>4</entry>
-		  <entry>connects to</entry>
-		  <entry>1</entry>
-		  <entry>DCD</entry>
-		</row>
+	      <row>
+		<entry>SG</entry>
+		<entry>5</entry>
+		<entry>connects to</entry>
+		<entry>5</entry>
+		<entry>SG</entry>
+	      </row>
 
-		<row>
-		  <entry>SG</entry>
-		  <entry>5</entry>
-		  <entry>connects to</entry>
-		  <entry>5</entry>
-		  <entry>SG</entry>
-		</row>
+	      <row>
+		<entry>DSR</entry>
+		<entry>6</entry>
+		<entry>connects to</entry>
+		<entry>4</entry>
+		<entry>DTR</entry>
+	      </row>
 
-		<row>
-		  <entry>DSR</entry>
-		  <entry>6</entry>
-		  <entry>connects to</entry>
-		  <entry>4</entry>
-		  <entry>DTR</entry>
-		</row>
+	      <row>
+		<entry>DCD</entry>
+		<entry>1</entry>
+		<entry>connects to</entry>
+		<entry>4</entry>
+		<entry>DTR</entry>
+	      </row>
 
-		<row>
-		  <entry>DCD</entry>
-		  <entry>1</entry>
-		  <entry>connects to</entry>
-		  <entry>4</entry>
-		  <entry>DTR</entry>
-		</row>
+	      <row>
+		<entry>RTS</entry>
+		<entry>7</entry>
+		<entry>connects to</entry>
+		<entry>8</entry>
+		<entry>CTS</entry>
+	      </row>
 
-		<row>
-		  <entry>RTS</entry>
-		  <entry>7</entry>
-		  <entry>connects to</entry>
-		  <entry>8</entry>
-		  <entry>CTS</entry>
-		</row>
+	      <row>
+		<entry>CTS</entry>
+		<entry>8</entry>
+		<entry>connects to</entry>
+		<entry>7</entry>
+		<entry>RTS</entry>
+	      </row>
+	    </tbody>
+	  </tgroup>
+	</table>
 
-		<row>
-		  <entry>CTS</entry>
-		  <entry>8</entry>
-		  <entry>connects to</entry>
-		  <entry>7</entry>
-		  <entry>RTS</entry>
-		</row>
-	      </tbody>
-	    </tgroup>
-	  </table>
+	<table frame="none" pgwide="1">
+	  <title>DB-9 to DB-25 Null-Modem Cable</title>
 
-	  <table frame="none" pgwide="1">
-	    <title>DB-9 to DB-25 Null-Modem Cable</title>
+	  <tgroup cols="5">
+	    <thead>
+	      <row>
+		<entry align="left">Signal</entry>
+		<entry align="left">Pin #</entry>
+		<entry/>
+		<entry align="left">Pin #</entry>
+		<entry align="left">Signal</entry>
+	      </row>
+	    </thead>
 
-	    <tgroup cols="5">
-	      <thead>
-		<row>
-		  <entry align="left">Signal</entry>
-		  <entry align="left">Pin #</entry>
-		  <entry></entry>
-		  <entry align="left">Pin #</entry>
-		  <entry align="left">Signal</entry>
-		</row>
-	      </thead>
+	    <tbody>
+	      <row>
+		<entry>RD</entry>
+		<entry>2</entry>
+		<entry>connects to</entry>
+		<entry>2</entry>
+		<entry>TD</entry>
+	      </row>
 
-	      <tbody>
-		<row>
-		  <entry>RD</entry>
-		  <entry>2</entry>
-		  <entry>connects to</entry>
-		  <entry>2</entry>
-		  <entry>TD</entry>
-		</row>
+	      <row>
+		<entry>TD</entry>
+		<entry>3</entry>
+		<entry>connects to</entry>
+		<entry>3</entry>
+		<entry>RD</entry>
+	      </row>
 
-		<row>
-		  <entry>TD</entry>
-		  <entry>3</entry>
-		  <entry>connects to</entry>
-		  <entry>3</entry>
-		  <entry>RD</entry>
-		</row>
+	      <row>
+		<entry>DTR</entry>
+		<entry>4</entry>
+		<entry>connects to</entry>
+		<entry>6</entry>
+		<entry>DSR</entry>
+	      </row>
 
-		<row>
-		  <entry>DTR</entry>
-		  <entry>4</entry>
-		  <entry>connects to</entry>
-		  <entry>6</entry>
-		  <entry>DSR</entry>
-		</row>
+	      <row>
+		<entry>DTR</entry>
+		<entry>4</entry>
+		<entry>connects to</entry>
+		<entry>8</entry>
+		<entry>DCD</entry>
+	      </row>
 
-		<row>
-		  <entry>DTR</entry>
-		  <entry>4</entry>
-		  <entry>connects to</entry>
-		  <entry>8</entry>
-		  <entry>DCD</entry>
-		</row>
+	      <row>
+		<entry>SG</entry>
+		<entry>5</entry>
+		<entry>connects to</entry>
+		<entry>7</entry>
+		<entry>SG</entry>
+	      </row>
 
-		<row>
-		  <entry>SG</entry>
-		  <entry>5</entry>
-		  <entry>connects to</entry>
-		  <entry>7</entry>
-		  <entry>SG</entry>
-		</row>
+	      <row>
+		<entry>DSR</entry>
+		<entry>6</entry>
+		<entry>connects to</entry>
+		<entry>20</entry>
+		<entry>DTR</entry>
+	      </row>
 
-		<row>
-		  <entry>DSR</entry>
-		  <entry>6</entry>
-		  <entry>connects to</entry>
-		  <entry>20</entry>
-		  <entry>DTR</entry>
-		</row>
+	      <row>
+		<entry>DCD</entry>
+		<entry>1</entry>
+		<entry>connects to</entry>
+		<entry>20</entry>
+		<entry>DTR</entry>
+	      </row>
 
-		<row>
-		  <entry>DCD</entry>
-		  <entry>1</entry>
-		  <entry>connects to</entry>
-		  <entry>20</entry>
-		  <entry>DTR</entry>
-		</row>
+	      <row>
+		<entry>RTS</entry>
+		<entry>7</entry>
+		<entry>connects to</entry>
+		<entry>5</entry>
+		<entry>CTS</entry>
+	      </row>
 
-		<row>
-		  <entry>RTS</entry>
-		  <entry>7</entry>
-		  <entry>connects to</entry>
-		  <entry>5</entry>
-		  <entry>CTS</entry>
-		</row>
+	      <row>
+		<entry>CTS</entry>
+		<entry>8</entry>
+		<entry>connects to</entry>
+		<entry>4</entry>
+		<entry>RTS</entry>
+	      </row>
+	    </tbody>
+	  </tgroup>
+	</table>
 
-		<row>
-		  <entry>CTS</entry>
-		  <entry>8</entry>
-		  <entry>connects to</entry>
-		  <entry>4</entry>
-		  <entry>RTS</entry>
-		</row>
-	      </tbody>
-	    </tgroup>
-	  </table>
+	<note>
+	  <para>When one pin at one end connects to a pair of pins
+	    at the other end, it is usually implemented with one
+	    short wire between the pair of pins in their connector
+	    and a long wire to the other single pin.</para>
+	</note>
 
-	  <note>
-	    <para>When one pin at one end connects to a pair of pins
-	      at the other end, it is usually implemented with one
-	      short wire between the pair of pins in their connector
-	      and a long wire to the other single pin.</para>
-	  </note>
+	<para>The above designs seem to be the most popular.  In
+	  another variation, SG connects to SG, TD connects to RD,
+	  RTS and CTS connect to DCD, DTR connects to DSR, and
+	  vice-versa.</para>
 
-	  <para>The above designs seem to be the most popular.  In
-	    another variation, SG connects to SG, TD connects to RD,
-	    RTS and CTS connect to DCD, DTR connects to DSR, and
-	    vice-versa.</para>
-	</sect4>
+	<indexterm><primary>RS-232C cables</primary></indexterm>
 
-	<sect4 id="term-cables-std">
-	  <title>Standard RS-232C Cables</title>
-
-	  <indexterm><primary>RS-232C cables</primary></indexterm>
-
-	  <para>A standard serial cable passes all of the RS-232C
-	    signals straight through.  The <quote>Transmitted
-	      Data</quote> pin on one end of the cable goes to the
-	    <quote>Transmitted Data</quote> pin on the other end.
-	    This is the type of cable used to connect a modem to
-	    the &os; system, and is also appropriate for some
-	    terminals.</para>
-	</sect4>
-      </sect3>
-
-      <sect3 id="term-ports">
-	<title>Ports</title>
+	<para>A standard serial cable passes all of the RS-232C
+	  signals straight through.  The <quote>Transmitted
+	    Data</quote> pin on one end of the cable goes to the
+	  <quote>Transmitted Data</quote> pin on the other end.
+	  This is the type of cable used to connect a modem to
+	  the &os; system, and is also appropriate for some
+	  terminals.</para>
 
 	<para>Serial ports are the devices through which data is
 	  transferred between the &os; host computer and the
 	  terminal.  This section describes the kinds of ports that
 	  exist and how they are addressed in &os;.</para>
 
-	<sect4 id="term-portkinds">
-	  <title>Kinds of Ports</title>
+	<para>Several kinds of serial ports exist.  Before
+	  purchasing or constructing a cable, make sure it will
+	  fit the ports on the terminal and on the &os;
+	  system.</para>
 
-	  <para>Several kinds of serial ports exist.  Before
-	    purchasing or constructing a cable, make sure it will
-	    fit the ports on the terminal and on the &os;
-	    system.</para>
+	<para>Most terminals have DB-25 ports.  Personal computers
+	  may have DB-25 or DB-9 ports.  A multiport serial card may
+	  have RJ-12 or RJ-45 ports.</para>
 
-	  <para>Most terminals have DB-25 ports.  Personal computers
-	    may have DB-25 or DB-9 ports.  A multiport serial card may
-	    have RJ-12 or RJ-45 ports.</para>
+	<para>See the documentation that accompanied the hardware
+	  for specifications on the kind of port or visually verify
+	  the type of port.</para>
 
-	  <para>See the documentation that accompanied the hardware
-	    for specifications on the kind of port or visually verify
-	    the type of port.</para>
-	</sect4>
+	<para>In &os;, each serial port is accessed through an
+	  entry in <filename>/dev</filename>.
+	  There are two different kinds of entries:</para>
 
-	<sect4 id="term-portnames">
-	  <title>Port Names</title>
+	<itemizedlist>
+	  <listitem>
+	    <para>Call-in ports are named
+	      <filename>/dev/ttyuN</filename>
+	      where <replaceable>N</replaceable> is the port number,
+	      starting from zero.  Generally, the call-in port is
+	      used for terminals.  Call-in ports require that the
+	      serial line assert the Data Carrier Detect
+	      (<acronym>DCD</acronym>) signal to work
+	      correctly.</para>
+	  </listitem>
 
-	  <para>In &os;, each serial port is accessed through an
-	    entry in <filename class="directory">/dev</filename>.
-	    There are two different kinds of entries:</para>
+	  <listitem>
+	    <para>Call-out ports are named
+	      <filename>/dev/cuauN</filename>.
+	      Call-out ports are usually not used for terminals, but
+	      are used for modems.  The call-out port can be used if
+	      the serial cable or the terminal does not support the
+	      carrier detect signal.</para>
+	  </listitem>
+	</itemizedlist>
 
-	  <itemizedlist>
-	    <listitem>
-	      <para>Call-in ports are named
-		<filename>/dev/ttyu<replaceable>N</replaceable></filename>
-		where <replaceable>N</replaceable> is the port number,
-		starting from zero.  Generally, the call-in port is
-		used for terminals.  Call-in ports require that the
-		serial line assert the Data Carrier Detect
-		(<acronym>DCD</acronym>) signal to work
-		correctly.</para>
-	    </listitem>
-
-	    <listitem>
-	      <para>Call-out ports are named
-		<filename>/dev/cuau<replaceable>N</replaceable></filename>.
-		Call-out ports are usually not used for terminals, but
-		are used for modems.  The call-out port can be used if
-		the serial cable or the terminal does not support the
-		carrier detect signal.</para>
-	    </listitem>
-	  </itemizedlist>
-
-	  <para>If a terminal is connected to the first serial
-	    port(<devicename>COM1</devicename>), use
-	    <filename>/dev/ttyu0</filename> to refer to the
-	    terminal.  If the terminal is on the second serial port
-	    (<devicename>COM2</devicename>), use
-	    <filename>/dev/ttyu1</filename>, and so forth.</para>
-
-	</sect4>
-      </sect3>
-    </sect2>
+	<para>If a terminal is connected to the first serial
+	  port(<filename>COM1</filename>), use
+	  <filename>/dev/ttyu0</filename> to refer to the
+	  terminal.  If the terminal is on the second serial port
+	  (<filename>COM2</filename>), use
+	  <filename>/dev/ttyu1</filename>, and so forth.</para>
+      </sect2>
 
     <sect2>
       <title>Kernel Configuration</title>
 
       <para>&os; supports four serial ports by default.  In the
 	&ms-dos; world, these are known as
-	<devicename>COM1</devicename>,
-	<devicename>COM2</devicename>,
-	<devicename>COM3</devicename>, and
-	<devicename>COM4</devicename>.  &os; currently supports
+	<filename>COM1</filename>,
+	<filename>COM2</filename>,
+	<filename>COM3</filename>, and
+	<filename>COM4</filename>.  &os; currently supports
 	<quote>dumb</quote> multiport serial interface cards, such as
 	the BocaBoard 1008 and 2016, as well as more intelligent
 	multi-port cards such as those made by Digiboard and Stallion
@@ -563,20 +540,20 @@
 
       <para>Most devices in the kernel are accessed through
 	<quote>device special files</quote> which are located in
-	<filename class="directory">/dev</filename>.  The
-	<devicename>sio</devicename> devices are accessed through the
-	<filename>/dev/ttyu<replaceable>N</replaceable></filename>
+	<filename>/dev</filename>.  The
+	<filename>sio</filename> devices are accessed through the
+	<filename>/dev/ttyuN</filename>
 	(dial-in) and
-	<filename>/dev/cuau<replaceable>N</replaceable></filename>
+	<filename>/dev/cuauN</filename>
 	(call-out) devices.  &os; also provides initialization
 	devices
-	(<filename>/dev/ttyu<replaceable>N</replaceable>.init</filename>
+	(<filename>/dev/ttyuN.init</filename>
 	and
-	<filename>/dev/cuau<replaceable>N</replaceable>.init</filename>)
+	<filename>/dev/cuauN.init</filename>)
 	and locking devices
-	(<filename>/dev/ttyu<replaceable>N</replaceable>.lock</filename>
+	(<filename>/dev/ttyuN.lock</filename>
 	and
-	<filename>/dev/cuau<replaceable>N</replaceable>.lock</filename>).
+	<filename>/dev/cuauN.lock</filename>).
 	The initialization devices are used to initialize
 	communications port parameters each time a port is opened,
 	such as <literal>crtscts</literal> for modems which use
@@ -589,15 +566,15 @@
     </sect2>
 
 
-    <sect2 id="serial-hw-config">
+    <sect2 xml:id="serial-hw-config">
       <title>Serial Port Configuration</title>
 
-      <indexterm><primary><devicename>ttyu</devicename></primary></indexterm>
-      <indexterm><primary><devicename>cuau</devicename></primary></indexterm>
+      <indexterm><primary><filename>ttyu</filename></primary></indexterm>
+      <indexterm><primary><filename>cuau</filename></primary></indexterm>
 
       <para>The
-	<devicename>ttyu<replaceable>N</replaceable></devicename> (or
-	<devicename>cuau<replaceable>N</replaceable></devicename>)
+	<filename>ttyuN</filename> (or
+	<filename>cuauN</filename>)
 	is the regular device to open for applications.  When a
 	process opens the device, it will have a default set of
 	terminal I/O settings.  These settings can be viewed with the
@@ -612,7 +589,7 @@
 	<quote>initial state</quote> device.  For example, to turn on
 	<option>CLOCAL</option> mode, 8 bit communication, and
 	<option>XON/XOFF</option> flow control for
-	<devicename>ttyu5</devicename>, type:</para>
+	<filename>ttyu5</filename>, type:</para>
 
     <screen>&prompt.root; <userinput>stty -f /dev/ttyu5.init clocal cs8 ixon ixoff</userinput></screen>
 
@@ -628,30 +605,31 @@
       <para>To prevent certain settings from being changed by an
 	application, make adjustments to the <quote>lock state</quote>
 	device.  For example, to lock the speed of
-	<devicename>ttyu5</devicename> to 57600&nbsp;bps, type:</para>
+	<filename>ttyu5</filename> to 57600&nbsp;bps, type:</para>
 
     <screen>&prompt.root; <userinput>stty -f /dev/ttyu5.lock 57600</userinput></screen>
 
       <para>Now, an application that opens
-	<devicename>ttyu5</devicename> and tries to change the speed
+	<filename>ttyu5</filename> and tries to change the speed
 	of the port will be stuck with 57600&nbsp;bps.</para>
 
       <para>The initial state and lock state devices should only be
-	writable by <username>root</username>.</para>
+	writable by <systemitem class="username">root</systemitem>.</para>
     </sect2>
   </sect1>
 
-  <sect1 id="term">
+  <sect1 xml:id="term">
+    <!--
     <sect1info>
       <authorgroup>
 	<author>
 	  <firstname>Sean</firstname>
 	  <surname>Kelly</surname>
-	  <contrib>Contributed by </contrib>
+	  <contrib>Contributed by in July 1996</contrib>
 	</author>
-	<!-- 28 July 1996 -->
       </authorgroup>
     </sect1info>
+    -->
     <title>Terminals</title>
 
     <indexterm><primary>terminals</primary></indexterm>
@@ -661,112 +639,111 @@
       connected network.  This section describes how to use terminals
       with &os;.</para>
 
-    <sect2 id="term-uses">
-      <title>Uses and Types of Terminals</title>
+    <para>The original &unix; systems did not have consoles.
+      Instead, users logged in and ran programs through terminals
+      that were connected to the computer's serial ports.</para>
 
-      <para>The original &unix; systems did not have consoles.
-	Instead, users logged in and ran programs through terminals
-	that were connected to the computer's serial ports.</para>
+    <para>The ability to establish a login session on a serial port
+      still exists in nearly every &unix;-like operating system
+      today, including &os;.  By using a terminal attached to an
+      unused serial port, a user can log in and run any text program
+      that can normally be run on the console or in an
+      <command>xterm</command> window.</para>
 
-      <para>The ability to establish a login session on a serial port
-	still exists in nearly every &unix;-like operating system
-	today, including &os;.  By using a terminal attached to an
-	unused serial port, a user can log in and run any text program
-	that can normally be run on the console or in an
-	<command>xterm</command> window.</para>
+    <para>Many terminals can be attached to a &os; system.  An older
+      spare computer can be used as a terminal wired into a more
+      powerful computer running &os;.  This can turn what might
+      otherwise be a single-user computer into a powerful multiple
+      user system.</para>
 
-      <para>Many terminals can be attached to a &os; system.  An older
-	spare computer can be used as a terminal wired into a more
-	powerful computer running &os;.  This can turn what might
-	otherwise be a single-user computer into a powerful multiple
-	user system.</para>
+    <para>&os; supports three types of terminals:</para>
 
-      <para>This section describes three kinds of terminals supported
-	by &os;: dumb terminals, computers acting as terminals, and X
-	terminals.</para>
+    <variablelist>
+      <varlistentry>
+	<term>Dumb terminals</term>
+	<listitem>
+	  <para>Dumb terminals are specialized hardware that connect
+	    to computers over serial lines.  They are called
+	    <quote>dumb</quote> because they have only enough
+	    computational power to display, send, and receive text.
+	    No programs can be run on these devices.  Dumb terminals
+	    connect to a computer that has all the power to run text
+	    editors, compilers, email, games, and so forth.</para>
 
-      <sect3 id="term-dumb">
-	<title>Dumb Terminals</title>
+	  <para>There are hundreds of kinds of dumb terminals made
+	    by many manufacturers, and just about any kind will work
+	    with &os;.  Some high-end terminals can even display
+	    graphics, but only certain software packages can take
+	    advantage of these advanced features.</para>
 
-	<para>Dumb terminals are specialized hardware that connect to
-	  computers over serial lines.  They are called
-	  <quote>dumb</quote> because they have only enough
-	  computational power to display, send, and receive text.  No
-	  programs can be run on these devices.  Dumb terminals
-	  connect to a computer that has all the power to run text
-	  editors, compilers, email, games, and so forth.</para>
+	  <para>Dumb terminals are popular in work environments
+	    where workers do not need access to graphical
+	    applications.</para>
+	</listitem>
+      </varlistentry>
 
-	<para>There are hundreds of kinds of dumb terminals made by
-	  many manufacturers, and just about any kind will work with
-	  &os;.  Some high-end terminals can even display graphics,
-	  but only certain software packages can take advantage of
-	  these advanced features.</para>
-
-	<para>Dumb terminals are popular in work environments where
-	  workers do not need access to graphical applications.</para>
-      </sect3>
-
-      <sect3 id="term-pcs">
-	<title>Computers Acting as Terminals</title>
-
-	<para>If a <link linkend="term-dumb">dumb terminal</link> has
-	  just enough ability to display, send, and receive text,
-	  any spare computer can be a dumb terminal.  All that is
-	  needed is the proper cable and some <emphasis>terminal
+      <varlistentry>
+	<term>Computers Acting as Terminals</term>
+	<listitem>
+	  <para>If a dumb terminal has just enough ability to
+	    display, send, and receive text, any spare computer can
+	    be a dumb terminal.  All that is needed is the proper
+	    cable and some <emphasis>terminal
 	    emulation</emphasis> software to run on the
-	  computer.</para>
+	    computer.</para>
 
-	<para>This configuration can be useful.  For example, if one
-	  user is busy working at the &os; system's console, another
-	  user can do some text-only work at the same time from a
-	  less powerful personal computer hooked up as a terminal to
-	  the &os; system.</para>
+	  <para>This configuration can be useful.  For example, if one
+	    user is busy working at the &os; system's console, another
+	    user can do some text-only work at the same time from a
+	    less powerful personal computer hooked up as a terminal to
+	    the &os; system.</para>
 
-	<para>There are at least two utilities in the base-system of
-	  &os; that can be used to work through a serial connection:
-	  &man.cu.1; and &man.tip.1;.</para>
+	  <para>There are at least two utilities in the base-system of
+	    &os; that can be used to work through a serial connection:
+	    &man.cu.1; and &man.tip.1;.</para>
 
-	<para>To connect from a client system that runs &os; to the
-	  serial connection of another system, use:</para>
+	  <para>To connect from a client system that runs &os; to the
+	    serial connection of another system, use:</para>
 
-	<screen>&prompt.root; <userinput>cu -l <replaceable>serial-port-device</replaceable></userinput></screen>
+	  <screen>&prompt.root; <userinput>cu -l serial-port-device</userinput></screen>
 
-	<para>Where <quote>serial-port-device</quote> is the name of a
-	  special device file denoting a serial port on the system.
-	  These device files are called
-	  <devicename>/dev/cuau<replaceable>N</replaceable></devicename>.</para>
+	  <para>Where <quote>serial-port-device</quote> is the name of
+	    a special device file denoting a serial port on the
+	    system.  These device files are called
+	    <filename>/dev/cuauN</filename>.</para>
 
-	<para>The <quote>N</quote>-part of a device name is the serial
-	  port number.</para>
+	  <para>The <quote>N</quote>-part of a device name is the
+	    serial port number.</para>
 
-	<note>
-	  <para>Note that device numbers in &os; start from zero and
-	    not one.  This means that <devicename>COM1</devicename> is
-	    <filename>/dev/cuau0</filename> in &os;.</para>
-	</note>
+	  <note>
+	    <para>Note that device numbers in &os; start from zero and
+	      not one.  This means that <filename>COM1</filename>
+	      is <filename>/dev/cuau0</filename> in &os;.</para>
+	  </note>
 
-	<note>
-	  <para>Some people prefer to use other programs available
-	    through the Ports Collection, such as <filename
-	      role="package">comms/minicom</filename>.</para>
-	</note>
-      </sect3>
+	  <note>
+	    <para>Some people prefer to use other programs available
+	      through the Ports Collection, such as <package>comms/minicom</package>.</para>
+	  </note>
+	</listitem>
+      </varlistentry>
 
-      <sect3 id="term-x">
-	<title>X Terminals</title>
+      <varlistentry>
+	<term>X Terminals</term>
+	<listitem>
+	  <para>X terminals are the most sophisticated kind of
+	    terminal available.  Instead of connecting to a serial
+	    port, they usually connect to a network like Ethernet.
+	    Instead of being relegated to text-only applications, they
+	    can display any X application.</para>
 
-	<para>X terminals are the most sophisticated kind of terminal
-	  available.  Instead of connecting to a serial port, they
-	  usually connect to a network like Ethernet.  Instead of
-	  being relegated to text-only applications, they can display
-	  any X application.</para>
+	  <para>This chapter does <emphasis>not</emphasis> cover the
+	    setup, configuration, or use of X terminals.</para>
+	</listitem>
+      </varlistentry>
+    </variablelist>
 
-	<para>This chapter does <emphasis>not</emphasis> cover the
-	  setup, configuration, or use of X terminals.</para>
-      </sect3>
-    </sect2>
-
-    <sect2 id="term-config">
+    <sect2 xml:id="term-config">
       <title>Configuration</title>
 
       <para>This section describes how to configure a &os; system to
@@ -785,12 +762,12 @@
 	program.</para>
 
       <para>To configure terminals for a &os; system, the following
-	steps should be taken as <username>root</username>:</para>
+	steps should be taken as <systemitem class="username">root</systemitem>:</para>
 
       <procedure>
 	<step>
 	  <para>Add a line to <filename>/etc/ttys</filename> for the
-	    entry in <filename class="directory">/dev</filename> for
+	    entry in <filename>/dev</filename> for
 	    the serial port if it is not already there.</para>
 	</step>
 
@@ -826,31 +803,30 @@
 	more information, refer to &man.gettytab.5; and
 	&man.getty.8;.</para>
 
-      <sect3 id="term-etcttys">
+      <sect3 xml:id="term-etcttys">
 	<title>Adding an Entry to
 	  <filename>/etc/ttys</filename></title>
 
 	<para><filename>/etc/ttys</filename> lists all of the ports
 	  on the &os; system which allow logins.  For example, the
 	  first virtual console,
-	  <devicename>ttyv0</devicename>, has an entry in this file,
+	  <filename>ttyv0</filename>, has an entry in this file,
 	  allowing logins on the console.  This file also contains
 	  entries for the other virtual consoles, serial ports, and
 	  pseudo-ttys.  For a hardwired terminal,
-	  list the serial port's <filename
-	    class="directory">/dev</filename> entry without the
+	  list the serial port's <filename>/dev</filename> entry without the
 	  <literal>/dev</literal> part.  For example,
 	  <filename>/dev/ttyv0</filename> would be listed as
 	  <literal>ttyv0</literal>.</para>
 
 	<para>A default &os; install includes an
 	  <filename>/etc/ttys</filename> with support for the
-	  first four serial ports: <devicename>ttyu0</devicename>
-	  through <devicename>ttyu3</devicename>.  When
+	  first four serial ports: <filename>ttyu0</filename>
+	  through <filename>ttyu3</filename>.  When
 	  attaching a terminal to one of those ports, this file does
 	  not need to be edited.</para>
 
-	<example id="ex-etc-ttys">
+	<example xml:id="ex-etc-ttys">
 	  <title>Adding Terminal Entries to
 	    <filename>/etc/ttys</filename></title>
 
@@ -863,19 +839,14 @@
 	    <filename>/etc/ttys</filename> would look like
 	    this:</para>
 
-	  <programlisting>ttyu1<co
-	      id="co-ttys-line1col1"/>  "/usr/libexec/getty std.38400"<co
-	      id="co-ttys-line1col2"/>  wy50<co
-	      id="co-ttys-line1col3"/>  on<co
-	      id="co-ttys-line1col4"/>  insecure<co
-	      id="co-ttys-line1col5"/>
+	  <programlisting>ttyu1<co xml:id="co-ttys-line1col1"/>  "/usr/libexec/getty std.38400"<co xml:id="co-ttys-line1col2"/>  wy50<co xml:id="co-ttys-line1col3"/>  on<co xml:id="co-ttys-line1col4"/>  insecure<co xml:id="co-ttys-line1col5"/>
 ttyu5   "/usr/libexec/getty std.19200"  vt100  on insecure</programlisting>
 
 	  <calloutlist>
 	    <callout arearefs="co-ttys-line1col1">
 	      <para>The first field normally specifies the name of
 		the terminal special file as it is found in
-		<filename class="directory">/dev</filename>.</para>
+		<filename>/dev</filename>.</para>
 	    </callout>
 
 	    <callout arearefs="co-ttys-line1col2">
@@ -944,10 +915,10 @@ ttyu5   "/usr/libexec/getty std.19200"  vt100  on insecure</programlisting>
 	      <para>The final field is used to specify whether the
 		port is secure.  Marking a port as
 		<literal>secure</literal> means that it is trusted
-		enough to allow <username>root</username>, or any
+		enough to allow <systemitem class="username">root</systemitem>, or any
 		account with a <acronym>UID</acronym> of 0, to login
 		from that port.  Insecure ports do not allow
-		<username>root</username> logins.  On an insecure
+		<systemitem class="username">root</systemitem> logins.  On an insecure
 		port, users must login from unprivileged accounts and
 		then use &man.su.1; or a similar mechanism to gain
 		superuser privileges.</para>
@@ -962,7 +933,7 @@ ttyu5   "/usr/libexec/getty std.19200"  vt100  on insecure</programlisting>
 	</example>
       </sect3>
 
-      <sect3 id="term-hup">
+      <sect3 xml:id="term-hup">
 	<title>Force <command>init</command> to Reread
 	  <filename>/etc/ttys</filename></title>
 
@@ -987,7 +958,7 @@ ttyu5   "/usr/libexec/getty std.19200"  vt100  on insecure</programlisting>
       </sect3>
     </sect2>
 
-    <sect2 id="term-debug">
+    <sect2 xml:id="term-debug">
       <title>Troubleshooting the Connection</title>
 
       <para>Even with the most meticulous attention to detail,
@@ -995,88 +966,75 @@ ttyu5   "/usr/libexec/getty std.19200"  vt100  on insecure</programlisting>
 	Here is a list of common symptoms and some suggested
 	fixes.</para>
 
-      <sect3>
-	<title>No Login Prompt Appears</title>
+      <para>If no login prompt appears, make sure the terminal is
+	plugged in and powered up.  If it is a personal computer
+	acting as a terminal, make sure it is running terminal
+	emulation software on the correct serial port.</para>
 
-	<para>Make sure the terminal is plugged in and powered up.  If
-	  it is a personal computer acting as a terminal, make sure it
-	  is running terminal emulation software on the correct serial
-	  port.</para>
+      <para>Make sure the cable is connected firmly to both the
+	terminal and the &os; computer.  Make sure it is the
+	right kind of cable.</para>
 
-	<para>Make sure the cable is connected firmly to both the
-	  terminal and the &os; computer.  Make sure it is the
-	  right kind of cable.</para>
+      <para>Make sure the terminal and &os; agree on the
+	<acronym>bps</acronym> rate and parity settings.  For a
+	video display terminal, make sure the contrast and
+	brightness controls are turned up.  If it is a printing
+	terminal, make sure paper and ink are in good supply.</para>
 
-	<para>Make sure the terminal and &os; agree on the
-	  <acronym>bps</acronym> rate and parity settings.  For a
-	  video display terminal, make sure the contrast and
-	  brightness controls are turned up.  If it is a printing
-	  terminal, make sure paper and ink are in good supply.</para>
+      <para>Make sure that a <command>getty</command> process is
+	running and serving the terminal.  For example, to get a
+	list of running <command>getty</command> processes with
+	<command>ps</command>, type:</para>
 
-	<para>Make sure that a <command>getty</command> process is
-	  running and serving the terminal.  For example, to get a
-	  list of running <command>getty</command> processes with
-	  <command>ps</command>, type:</para>
+      <screen>&prompt.root; <userinput>ps -axww|grep getty</userinput></screen>
 
-	<screen>&prompt.root; <userinput>ps -axww|grep getty</userinput></screen>
+      <para>There should be an entry for the terminal.  For example,
+	the following display shows that a
+	<command>getty</command> is running on the second serial
+	port, <filename>ttyu1</filename>, and is using the
+	<literal>std.38400</literal> entry in
+	<filename>/etc/gettytab</filename>:</para>
 
-	<para>There should be an entry for the terminal.  For example,
-	  the following display shows that a
-	  <command>getty</command> is running on the second serial
-	  port, <devicename>ttyu1</devicename>, and is using the
-	  <literal>std.38400</literal> entry in
-	  <filename>/etc/gettytab</filename>:</para>
+      <screen>22189  d1  Is+    0:00.03 /usr/libexec/getty std.38400 ttyu1</screen>
 
-	<screen>22189  d1  Is+    0:00.03 /usr/libexec/getty std.38400 ttyu1</screen>
+      <para>If no <command>getty</command> process is running, make
+	sure the port is enabled in
+	<filename>/etc/ttys</filename>.  Remember to run
+	<command>kill -HUP 1</command> after modifying
+	<filename>/etc/ttys</filename>.</para>
 
-	<para>If no <command>getty</command> process is running, make
-	  sure the port is enabled in
-	  <filename>/etc/ttys</filename>.  Remember to run
-	  <command>kill -HUP 1</command> after modifying
-	  <filename>/etc/ttys</filename>.</para>
+      <para>If the <command>getty</command> process is running
+	but the terminal still does not display a login prompt,
+	or if it displays a prompt but will not accept typed input,
+	the terminal or cable may not support hardware handshaking.
+	Try changing the entry in <filename>/etc/ttys</filename>
+	from <literal>std.38400</literal> to
+	<literal>3wire.38400</literal>, then run
+	<command>kill -HUP 1</command> after modifying
+	<filename>/etc/ttys</filename>.  The
+	<literal>3wire</literal> entry is similar to
+	<literal>std</literal>, but ignores hardware
+	handshaking.  The baud rate may need to be reduced or
+	software flow control enabled when using
+	<literal>3wire</literal> to prevent buffer overflows.</para>
 
-	<para>If the <command>getty</command> process is running
-	  but the terminal still does not display a login prompt,
-	  or if it displays a prompt but will not accept typed input,
-	  the terminal or cable may not support hardware handshaking.
-	  Try changing the entry in <filename>/etc/ttys</filename>
-	  from <literal>std.38400</literal> to
-	  <literal>3wire.38400</literal>, then run
-	  <command>kill -HUP 1</command> after modifying
-	  <filename>/etc/ttys</filename>.  The
-	  <literal>3wire</literal> entry is similar to
-	  <literal>std</literal>, but ignores hardware
-	  handshaking.  The baud rate may need to be reduced or
-	  software flow control enabled when using
-	  <literal>3wire</literal> to prevent buffer overflows.</para>
+      <para>If garbage appears instead of a login prompt, make sure
+	the terminal and &os; agree on the <acronym>bps</acronym> rate
+	and parity settings.  Check the <command>getty</command>
+	processes to make sure the correct
+	<replaceable>getty</replaceable> type is in use.  If not, edit
+	<filename>/etc/ttys</filename> and run <command>kill
+	  -HUP 1</command>.</para>
 
-      </sect3>
-
-      <sect3>
-	<title>If Garbage Appears Instead of a Login Prompt</title>
-
-	<para>Make sure the terminal and &os; agree on the
-	  <acronym>bps</acronym> rate and parity settings.  Check the
-	  <command>getty</command> processes to make sure the correct
-	  <replaceable>getty</replaceable> type is in use.  If not,
-	  edit <filename>/etc/ttys</filename> and run <command>kill
-	    -HUP 1</command>.</para>
-
-      </sect3>
-
-      <sect3>
-	<title>Characters Appear Doubled and the Password Appears When
-	  Typed</title>
-
-	<para>Switch the terminal, or the terminal emulation software,
-	  from <quote>half duplex</quote> or <quote>local echo</quote>
-	  to <quote>full duplex.</quote></para>
-
-      </sect3>
+      <para>If characters appear doubled and the password appears when
+	typed, switch the terminal, or the terminal emulation
+	software, from <quote>half duplex</quote> or <quote>local
+	  echo</quote> to <quote>full duplex.</quote></para>
     </sect2>
   </sect1>
 
-  <sect1 id="dialup">
+  <sect1 xml:id="dialup">
+    <!--
     <sect1info>
       <authorgroup>
 	<author>
@@ -1093,111 +1051,104 @@ ttyu5   "/usr/libexec/getty std.19200"  vt100  on insecure</programlisting>
 	</author>
       </authorgroup>
     </sect1info>
+    -->
     <title>Dial-in Service</title>
 
     <indexterm><primary>dial-in service</primary></indexterm>
 
     <para>Configuring a &os; system for dial-in service is similar
       to connecting terminals except that modems are used instead of
-      terminal devices.</para>
+      terminal devices.  &os; supports both external and internal
+      modems.</para>
 
-    <sect2>
-      <title>External Versus Internal Modems</title>
+    <para>External modems are more convenient for dial-up because
+      they often can be semi-permanently configured via parameters
+      stored in non-volatile RAM and they usually provide lighted
+      indicators that display the state of important RS-232 signals,
+      indicating whether the modem is operating properly.</para>
 
-      <para>External modems are more convenient for dial-up because
-	they often can be semi-permanently configured via parameters
-	stored in non-volatile RAM and they usually provide lighted
-	indicators that display the state of important RS-232 signals,
-	indicating whether the modem is operating properly.</para>
+    <para>Internal modems usually lack non-volatile RAM, so their
+      configuration may be limited to setting DIP switches.  If the
+      internal modem has any signal indicator lights, they are
+      difficult to view when the system's cover is in place.</para>
 
-      <para>Internal modems usually lack non-volatile RAM, so their
-	configuration may be limited to setting DIP switches.  If the
-	internal modem has any signal indicator lights, they are
-	difficult to view when the system's cover is in place.</para>
+    <indexterm><primary>modem</primary></indexterm>
 
-      <sect3>
-	<title>Modems and Cables</title>
+    <para>When using an external modem, a proper cable is needed.  A
+      standard RS-232C serial cable should suffice as long as all of
+      the normal signals are wired:</para>
 
-	<indexterm><primary>modem</primary></indexterm>
+    <table frame="none" pgwide="1" xml:id="serialcomms-signal-names">
+      <title>Signal Names</title>
 
-	<para>When using an external modem, a proper cable is needed.
-	  A standard RS-232C serial cable should suffice as long as
-	  all of the normal signals are wired:</para>
+      <tgroup cols="2">
+	<thead>
+	  <row>
+	    <entry align="left">Acronyms</entry>
+	    <entry align="left">Names</entry>
+	  </row>
+	</thead>
 
-	<table frame="none" pgwide="1" id="serialcomms-signal-names">
-	  <title>Signal Names</title>
+	<tbody>
+	  <row>
+	    <entry><acronym>RD</acronym></entry>
+	    <entry>Received Data</entry>
+	  </row>
 
-	  <tgroup cols="2">
-	    <thead>
-	      <row>
-		<entry align="left">Acronyms</entry>
-		<entry align="left">Names</entry>
-	      </row>
-	    </thead>
+	  <row>
+	    <entry><acronym>TD</acronym></entry>
+	    <entry>Transmitted Data</entry>
+	  </row>
 
-	    <tbody>
-	      <row>
-		<entry><acronym>RD</acronym></entry>
-		<entry>Received Data</entry>
-	      </row>
+	  <row>
+	    <entry><acronym>DTR</acronym></entry>
+	    <entry>Data Terminal Ready</entry>
+	  </row>
 
-	      <row>
-		<entry><acronym>TD</acronym></entry>
-		<entry>Transmitted Data</entry>
-	      </row>
+	  <row>
+	    <entry><acronym>DSR</acronym></entry>
+	    <entry>Data Set Ready</entry>
+	  </row>
 
-	      <row>
-		<entry><acronym>DTR</acronym></entry>
-		<entry>Data Terminal Ready</entry>
-	      </row>
+	  <row>
+	    <entry><acronym>DCD</acronym></entry>
+	    <entry>Data Carrier Detect (RS-232's Received Line
+	      Signal Detector)</entry>
+	  </row>
 
-	      <row>
-		<entry><acronym>DSR</acronym></entry>
-		<entry>Data Set Ready</entry>
-	      </row>
+	  <row>
+	    <entry><acronym>SG</acronym></entry>
+	    <entry>Signal Ground</entry>
+	  </row>
 
-	      <row>
-		<entry><acronym>DCD</acronym></entry>
-		<entry>Data Carrier Detect (RS-232's Received Line
-		  Signal Detector)</entry>
-	      </row>
+	  <row>
+	    <entry><acronym>RTS</acronym></entry>
+	    <entry>Request to Send</entry>
+	  </row>
 
-	      <row>
-		<entry><acronym>SG</acronym></entry>
-		<entry>Signal Ground</entry>
-	      </row>
+	  <row>
+	    <entry><acronym>CTS</acronym></entry>
+	    <entry>Clear to Send</entry>
+	  </row>
+	</tbody>
+      </tgroup>
+    </table>
 
-	      <row>
-		<entry><acronym>RTS</acronym></entry>
-		<entry>Request to Send</entry>
-	      </row>
+    <para>&os; needs the <acronym>RTS</acronym> and
+      <acronym>CTS</acronym> signals for flow control at speeds
+      above 2400&nbsp;bps, the <acronym>CD</acronym> signal to
+      detect when a call has been answered or the line has been hung
+      up, and the <acronym>DTR</acronym> signal to reset the modem
+      after a session is complete.  Some cables are wired without all
+      of the needed signals, so if a login session does not go away
+      when the line hangs up, there may be a problem with the
+      cable.</para>
 
-	      <row>
-		<entry><acronym>CTS</acronym></entry>
-		<entry>Clear to Send</entry>
-	      </row>
-	    </tbody>
-	  </tgroup>
-	</table>
-
-	<para>&os; needs the <acronym>RTS</acronym> and
-	  <acronym>CTS</acronym> signals for flow control at speeds
-	  above 2400&nbsp;bps, the <acronym>CD</acronym> signal to
-	  detect when a call has been answered or the line has been
-	  hung up, and the <acronym>DTR</acronym> signal to reset the
-	  modem after a session is complete.  Some cables are wired
-	  without all of the needed signals, so if a login session
-	  does not go away when the line hangs up, there may be a
-	  problem with the cable.</para>
-
-	<para>Like other &unix;-like operating systems, &os; uses
-	  the hardware signals to find out when a call has been
-	  answered or a line has been hung up and to hangup and reset
-	  the modem after a call.  &os; avoids sending commands to
-	  the modem or watching for status reports from the
-	  modem.</para>
-      </sect3>
-    </sect2>
+    <para>Like other &unix;-like operating systems, &os; uses the
+      hardware signals to find out when a call has been answered or a
+      line has been hung up and to hangup and reset the modem after a
+      call.  &os; avoids sending commands to the modem or watching for
+      status reports from the modem.</para>
 
     <sect2>
       <title>Serial Interface Considerations</title>
@@ -1256,13 +1207,13 @@ ttyu5   "/usr/libexec/getty std.19200"  vt100  on insecure</programlisting>
       <title>Configuration Files</title>
 
       <para>There are three system configuration files in
-	<filename class="directory">/etc</filename> that probably
+	<filename>/etc</filename> that probably
 	need to be edited to allow dial-up access to the &os; system.
 	<filename>/etc/gettytab</filename> contains configuration
 	information for the <filename>/usr/libexec/getty</filename>
 	daemon.  <filename>/etc/ttys</filename> holds information that
 	tells <command>init</command> which
-	<devicename>tty</devicename>s should have
+	<filename>tty</filename>s should have
 	<command>getty</command> processes running on them.  Lastly,
 	port initialization commands can be placed in
 	<filename>/etc/rc.d/serial</filename>.</para>
@@ -1271,7 +1222,7 @@ ttyu5   "/usr/libexec/getty std.19200"  vt100  on insecure</programlisting>
 	on &unix;.  One group likes to configure their modems and
 	systems so that no matter at what speed a remote user dials
 	in, the local computer-to-modem RS-232 interface runs at a
-	locked speed. The benefit of this configuration is that the
+	locked speed.  The benefit of this configuration is that the
 	remote user always sees a system login prompt immediately.
 	The downside is that the system does not know what a user's
 	true data rate is, so full-screen programs like
@@ -1316,25 +1267,18 @@ ttyu5   "/usr/libexec/getty std.19200"  vt100  on insecure</programlisting>
 	  information on the format of the file and the list of
 	  capabilities.</para>
 
-	<sect4>
-	  <title>Locked-speed Config</title>
+	<para>When locking a modem's data communications rate at a
+	  particular speed, no changes to
+	  <filename>/etc/gettytab</filename> should be needed.</para>
 
-	  <para>When locking a modem's data communications rate at a
-	    particular speed, no changes to
-	    <filename>/etc/gettytab</filename> should be
-	    needed.</para>
-	</sect4>
+	<para>However, a change is needed to create a matching-speed
+	  configuration.  Create an entry in
+	  <filename>/etc/gettytab</filename> to give
+	  <command>getty</command> information about the speeds to use
+	  for the modem.  For a 2400&nbsp;bps modem, use the existing
+	  <literal>D2400</literal> entry.</para>
 
-	<sect4>
-	  <title>Matching-speed Config</title>
-
-	  <para>Set up an entry in
-	    <filename>/etc/gettytab</filename> to give
-	    <command>getty</command> information about the speeds to
-	    use for the modem.  For a 2400&nbsp;bps modem, use the
-	    existing <literal>D2400</literal> entry.</para>
-
-	  <programlisting>#
+	<programlisting>#
 # Fast dialup terminals, 2400/1200/300 rotary (can start either way)
 #
 D2400|d2400|Fast-Dial-2400:\
@@ -1344,12 +1288,12 @@ D2400|d2400|Fast-Dial-2400:\
 5|D300|Fast-Dial-300:\
         :nx=D2400:tc=300-baud:</programlisting>
 
-	  <para>For a higher speed modem, add an entry in
-	    <filename>/etc/gettytab</filename>.  This entry is for a
-	    14.4&nbsp;Kbps modem with a top interface speed of
-	    19.2&nbsp;Kbps:</para>
+	<para>For a higher speed modem, add an entry in
+	  <filename>/etc/gettytab</filename>.  This entry is for a
+	  14.4&nbsp;Kbps modem with a top interface speed of
+	  19.2&nbsp;Kbps:</para>
 
-	  <programlisting>#
+	<programlisting>#
 # Additions for a V.32bis Modem
 #
 um|V300|High Speed Modem at 300,8-bit:\
@@ -1363,27 +1307,26 @@ up|V9600|High Speed Modem at 9600,8-bit:\
 uq|V19200|High Speed Modem at 19200,8-bit:\
         :nx=V9600:tc=std.19200:</programlisting>
 
-	  <para>This will result in 8-bit, no parity
-	    connections.</para>
+	<para>This will result in 8-bit, no parity connections.</para>
 
-	  <para>The example above starts the communications rate at
-	    19.2&nbsp;Kbps (for a V.32bis connection), then cycles
-	    through 9600&nbsp;bps (for V.32), 2400&nbsp;bps,
-	    1200&nbsp;bps, 300&nbsp;bps, and back to 19.2&nbsp;Kbps.
-	    Communications rate cycling is implemented with the
-	    <literal>nx=</literal> (<quote>next table</quote>)
-	    capability.  Each of the lines uses a
-	    <literal>tc=</literal> (<quote>table continuation</quote>)
-	    entry to pick up the rest of the <quote>standard</quote>
-	    settings for a particular data rate.</para>
+	<para>The example above starts the communications rate at
+	  19.2&nbsp;Kbps (for a V.32bis connection), then cycles
+	  through 9600&nbsp;bps (for V.32), 2400&nbsp;bps,
+	  1200&nbsp;bps, 300&nbsp;bps, and back to 19.2&nbsp;Kbps.
+	  Communications rate cycling is implemented with the
+	  <literal>nx=</literal> (<quote>next table</quote>)
+	  capability.  Each of the lines uses a
+	  <literal>tc=</literal> (<quote>table continuation</quote>)
+	  entry to pick up the rest of the <quote>standard</quote>
+	  settings for a particular data rate.</para>
 
-	  <para>For a 28.8&nbsp;Kbps modem or to take advantage of
-	    compression on a 14.4&nbsp;Kbps modem, use a higher
-	    communications rate than 19.2&nbsp;Kbps.  Here is an
-	    example of a <filename>gettytab</filename> entry starting
-	    a 57.6&nbsp;Kbps:</para>
+	<para>For a 28.8&nbsp;Kbps modem or to take advantage of
+	  compression on a 14.4&nbsp;Kbps modem, use a higher
+	  communications rate than 19.2&nbsp;Kbps.  Here is an
+	  example of a <filename>gettytab</filename> entry starting
+	  a 57.6&nbsp;Kbps:</para>
 
-	  <programlisting>#
+	<programlisting>#
 # Additions for a V.32bis or V.34 Modem
 # Starting at 57.6 Kbps
 #
@@ -1398,14 +1341,13 @@ vp|VH9600|Very High Speed Modem at 9600,8-bit:\
 vq|VH57600|Very High Speed Modem at 57600,8-bit:\
         :nx=VH9600:tc=std.57600:</programlisting>
 
-	  <para>For a slow CPU or a heavily loaded system without
-	    16550A-based serial ports, there may be
-	    <errorname>sio</errorname>
-	    <quote>silo</quote> errors at 57.6&nbsp;Kbps.</para>
-	</sect4>
+	<para>For a slow CPU or a heavily loaded system without
+	  16550A-based serial ports, there may be
+	  <errorname>sio</errorname>
+	  <quote>silo</quote> errors at 57.6&nbsp;Kbps.</para>
       </sect3>
 
-      <sect3 id="dialup-ttys">
+      <sect3 xml:id="dialup-ttys">
 	<title><filename>/etc/ttys</filename></title>
 
 	<indexterm>
@@ -1425,7 +1367,7 @@ vq|VH57600|Very High Speed Modem at 57600,8-bit:\
 	<para>The first item in the above line is the device special
 	  file for this entry.  <literal>ttyu0</literal> indicates
 	  that <command>getty</command> is watching
-	  <devicename>/dev/ttyu0</devicename>.  The
+	  <filename>/dev/ttyu0</filename>.  The
 	  <replaceable>xxx</replaceable> will replace the initial
 	  <filename>gettytab</filename> capability and is the process
 	  <command>init</command> will run on the device.  The third
@@ -1456,40 +1398,32 @@ vq|VH57600|Very High Speed Modem at 57600,8-bit:\
 	<para>Wait until the modem is properly configured and
 	  connected before signaling <command>init</command>.</para>
 
-	<sect4>
-	  <title>Locked-speed Config</title>
+	<para>For a locked-speed configuration, the
+	  <filename>ttys</filename> entry needs to have a
+	  fixed-speed entry provided to <command>getty</command>.
+	  For a modem whose port speed is locked at 19.2&nbsp;Kbps,
+	  the <filename>ttys</filename> entry might look like
+	  this:</para>
 
-	  <para>For a locked-speed configuration, the
-	    <filename>ttys</filename> entry needs to have a
-	    fixed-speed entry provided to <command>getty</command>.
-	    For a modem whose port speed is locked at 19.2&nbsp;Kbps,
-	    the <filename>ttys</filename> entry might look like
-	    this:</para>
+	<programlisting>ttyu0   "/usr/libexec/getty std.19200"   dialup on</programlisting>
 
-	  <programlisting>ttyu0   "/usr/libexec/getty std.19200"   dialup on</programlisting>
+	<para>If the modem is locked at a different data rate,
+	  substitute the appropriate value for
+	  <literal>std.speed</literal>
+	  instead of <literal>std.19200</literal>.  Make sure to use
+	  a valid type listed in
+	  <filename>/etc/gettytab</filename>.</para>
 
-	  <para>If the modem is locked at a different data rate,
-	    substitute the appropriate value for
-	    <literal>std.<replaceable>speed</replaceable></literal>
-	    instead of <literal>std.19200</literal>.  Make sure to use
-	    a valid type listed in
-	    <filename>/etc/gettytab</filename>.</para>
-	</sect4>
+	<para>In a matching-speed configuration, the
+	  <filename>ttys</filename> entry needs to reference the
+	  appropriate beginning <quote>auto-baud</quote> entry in
+	  <filename>/etc/gettytab</filename>.  For example, for the
+	  above suggested entry for a matching-speed modem that
+	  starts at 19.2&nbsp;Kbps, the
+	  <filename>/etc/ttys</filename> entry might look like
+	  this:</para>
 
-	<sect4>
-	  <title>Matching-speed Config</title>
-
-	  <para>In a matching-speed configuration, the
-	    <filename>ttys</filename> entry needs to reference the
-	    appropriate beginning <quote>auto-baud</quote> entry
-	    in <filename>/etc/gettytab</filename>.  For example, for
-	    the above suggested entry for a matching-speed modem that
-	    starts at 19.2&nbsp;Kbps, the
-	    <filename>/etc/ttys</filename> entry might look like
-	    this:</para>
-
-	  <programlisting>ttyu0   "/usr/libexec/getty V19200"   dialup on</programlisting>
-	</sect4>
+	<programlisting>ttyu0   "/usr/libexec/getty V19200"   dialup on</programlisting>
       </sect3>
 
       <sect3>
@@ -1508,7 +1442,7 @@ vq|VH57600|Very High Speed Modem at 57600,8-bit:\
 
 	<para>For example, to set the <literal>termios</literal> flag
 	  <varname>crtscts</varname> on
-	  <devicename>COM2</devicename>'s dial-in and dial-out
+	  <filename>COM2</filename>'s dial-in and dial-out
 	  initialization devices, the following lines could be added
 	  to <filename>/etc/rc.d/serial</filename>:</para>
 
@@ -1627,34 +1561,26 @@ AT&amp;C1&amp;D2&amp;H1&amp;I0&amp;R2&amp;W</programlisting>
 	conversation between <command>getty</command> and the
 	modem.</para>
 
-      <sect3>
-	<title>Locked-speed Config</title>
+      <para>For a locked-speed configuration, configure the modem to
+	maintain a constant modem-to-computer data rate independent
+	of the communications rate.  On a &usrobotics; &sportster;
+	14,400 external modem, these commands will lock the
+	modem-to-computer data rate at the speed used to issue the
+	commands:</para>
 
-	<para>For a locked-speed configuration, configure the modem to
-	  maintain a constant modem-to-computer data rate independent
-	  of the communications rate.  On a &usrobotics; &sportster;
-	  14,400 external modem, these commands will lock the
-	  modem-to-computer data rate at the speed used to issue the
-	  commands:</para>
-
-	<programlisting>ATZ
+      <programlisting>ATZ
 AT&amp;B1&amp;W</programlisting>
-      </sect3>
 
-      <sect3>
-	<title>Matching-speed Config</title>
+      <para>For a variable-speed configuration, configure the modem
+	to adjust its serial port data rate to match the incoming
+	call rate.  On a &usrobotics; &sportster; 14,400 external
+	modem, these commands will lock the modem's error-corrected
+	data rate to the speed used to issue the commands, while
+	allowing the serial port rate to vary for
+	non-error-corrected connections:</para>
 
-	<para>For a variable-speed configuration, configure the modem
-	  to adjust its serial port data rate to match the incoming
-	  call rate.  On a &usrobotics; &sportster; 14,400 external
-	  modem, these commands will lock the modem's error-corrected
-	  data rate to the speed used to issue the commands, while
-	  allowing the serial port rate to vary for
-	  non-error-corrected connections:</para>
-
-	<programlisting>ATZ
+      <programlisting>ATZ
 AT&amp;B2&amp;W</programlisting>
-      </sect3>
 
       <sect3>
 	<title>Checking the Modem's Configuration</title>
@@ -1680,108 +1606,96 @@ AT&amp;B2&amp;W</programlisting>
       <para>Here are a few steps for troubleshooting a dial-up modem
 	on a &os; system.</para>
 
-      <sect3>
-	<title>Checking Out the &os; System</title>
+      <para>Hook up the modem to the &os; system, boot the system,
+	and, if the modem has status indication lights, watch to see
+	whether the modem's <acronym>DTR</acronym> indicator lights
+	when the <prompt>login:</prompt> prompt appears on the
+	system's console.  If it lights up, that should mean that &os;
+	has started a <command>getty</command> process on the
+	appropriate communications port and is waiting for the modem
+	to accept a call.</para>
 
-	<para>Hook up the modem to the &os; system, boot the
-	  system, and, if the modem has status indication lights,
-	  watch to see whether the modem's <acronym>DTR</acronym>
-	  indicator lights when the <prompt>login:</prompt> prompt
-	  appears on the system's console.  If it lights up, that
-	  should mean that &os; has started a
-	  <command>getty</command> process on the appropriate
-	  communications port and is waiting for the modem to accept a
-	  call.</para>
+      <para>If the <acronym>DTR</acronym> indicator does not light,
+	login to the &os; system through the console and type
+	<command>ps ax</command> to see if &os; is trying to run a
+	<command>getty</command> process on the correct port:</para>
 
-	<para>If the <acronym>DTR</acronym> indicator does not light,
-	  login to the &os; system through the console and type
-	  <command>ps ax</command> to see if &os; is trying to run
-	  a <command>getty</command> process on the correct
-	  port:</para>
-
-	<screen>  114 ??  I      0:00.10 /usr/libexec/getty V19200 ttyu0
+      <screen>  114 ??  I      0:00.10 /usr/libexec/getty V19200 ttyu0
   115 ??  I      0:00.10 /usr/libexec/getty V19200 ttyu1</screen>
 
-	<para>If something like this is displayed instead:</para>
+      <para>If something like this is displayed instead:</para>
 
-	  <screen>  114 d0  I      0:00.10 /usr/libexec/getty V19200 ttyu0</screen>
+      <screen>  114 d0  I      0:00.10 /usr/libexec/getty V19200 ttyu0</screen>
 
-	<para>and the modem has not accepted a call yet, this means
-	  that <command>getty</command> has completed its open on the
-	  communications port.  This could indicate a problem with the
-	  cabling or a misconfigured modem, because
-	  <command>getty</command> should not be able to open the
-	  communications port until carrier detect has been asserted
-	  by the modem.</para>
+      <para>and the modem has not accepted a call yet, this means
+	that <command>getty</command> has completed its open on the
+	communications port.  This could indicate a problem with the
+	cabling or a misconfigured modem, because
+	<command>getty</command> should not be able to open the
+	communications port until carrier detect has been asserted by
+	the modem.</para>
 
-	<para>If no <command>getty</command> processes are waiting to
-	  open the desired
-	  <devicename>ttyu<replaceable>N</replaceable></devicename>
-	  port, double-check the entries in
-	  <filename>/etc/ttys</filename> to see if there are any
-	  mistakes.  Also, check
-	  <filename>/var/log/messages</filename> to see if there are
-	  any log messages from <command>init</command> or
-	  <command>getty</command>.  If there are any messages,
-	  triple-check <filename>/etc/ttys</filename> and
-	  <filename>/etc/gettytab</filename>, as well as the
-	  appropriate device special files,
-	  <filename>/dev/ttyuN</filename>, for any mistakes, missing
-	  entries, or missing device special files.</para>
-      </sect3>
+      <para>If no <command>getty</command> processes are waiting to
+	open the desired
+	<filename>ttyuN</filename>
+	port, double-check the entries in
+	<filename>/etc/ttys</filename> to see if there are any
+	mistakes.  Also, check
+	<filename>/var/log/messages</filename> to see if there are
+	any log messages from <command>init</command> or
+	<command>getty</command>.  If there are any messages,
+	triple-check <filename>/etc/ttys</filename> and
+	<filename>/etc/gettytab</filename>, as well as the
+	appropriate device special files,
+	<filename>/dev/ttyuN</filename>, for any mistakes, missing
+	entries, or missing device special files.</para>
 
-      <sect3>
-	<title>Try Dialing In</title>
+      <para>Next, try dialing into the system.  Be sure to use 8 bits,
+	no parity, and 1 stop bit on the remote system.  If a prompt
+	does not appear right away, or the prompt shows garbage, try
+	pressing <keycap>Enter</keycap> about once per second.  If
+	there is still no <prompt>login:</prompt> prompt after a
+	while, try sending a <command>BREAK</command>. When using a
+	high-speed modem, try dialing again after locking the
+	dialing modem's interface speed.</para>
 
-	<para>Try dialing into the system.  Be sure to use 8 bits, no
-	  parity, and 1 stop bit on the remote system.  If a prompt
-	  does not appear right away, or the prompt shows garbage, try
-	  pressing <keycap>Enter</keycap> about once per second.  If
-	  there is still no <prompt>login:</prompt> prompt after a
-	  while, try sending a <command>BREAK</command>. When using a
-	  high-speed modem, try dialing again after locking the
-	  dialing modem's interface speed.</para>
+      <para>If there is still no <prompt>login:</prompt> prompt, check
+	<filename>/etc/gettytab</filename> again and double-check
+	that:</para>
 
-	<para>If there is still no <prompt>login:</prompt>
-	  prompt, check <filename>/etc/gettytab</filename> again and
-	  double-check that:</para>
+      <itemizedlist>
+	<listitem>
+	  <para>The initial capability name specified in the entry in
+	    <filename>/etc/ttys</filename> matches the name of a
+	    capability in <filename>/etc/gettytab</filename>.</para>
+	</listitem>
 
-	<itemizedlist>
-	  <listitem>
-	    <para>The initial capability name specified in the entry
-	      in <filename>/etc/ttys</filename> matches the name of
-	      a capability in
-	      <filename>/etc/gettytab</filename>.</para>
-	  </listitem>
+	<listitem>
+	  <para>Each <literal>nx=</literal> entry matches another
+	    <filename>gettytab</filename> capability name.</para>
+	</listitem>
 
-	  <listitem>
-	    <para>Each <literal>nx=</literal> entry matches another
-	      <filename>gettytab</filename> capability name.</para>
-	  </listitem>
+	<listitem>
+	  <para>Each <literal>tc=</literal> entry matches another
+	    <filename>gettytab</filename> capability name.</para>
+	</listitem>
+      </itemizedlist>
 
-	  <listitem>
-	    <para>Each <literal>tc=</literal> entry matches another
-	      <filename>gettytab</filename> capability name.</para>
-	  </listitem>
-	</itemizedlist>
+      <para>If the modem on the &os; system will not answer, make
+	sure that the modem is configured to answer the phone when
+	<acronym>DTR</acronym> is asserted.  If the modem seems to be
+	configured correctly, verify that the
+	<acronym>DTR</acronym> line is asserted by checking the
+	modem's indicator lights.</para>
 
-	<para>If the modem on the &os; system will not answer, make
-	  sure that the modem is configured to answer the phone when
-	  <acronym>DTR</acronym> is asserted.  If the modem seems to
-	  be configured correctly, verify that the
-	  <acronym>DTR</acronym> line is asserted by checking the
-	  modem's indicator lights.</para>
-
-	<para>If it still does not work, take a break and come back to
-	  it later.  If it still does not work, try sending an
-	  email message to the &a.questions; describing the modem
-	  and the problem.</para>
-      </sect3>
+      <para>If it still does not work, take a break and come back to
+	it later.  If it still does not work, try sending an email
+	message to the &a.questions; describing the modem and the
+	problem.</para>
     </sect2>
-
   </sect1>
 
-  <sect1 id="dialout">
+  <sect1 xml:id="dialout">
     <title>Dial-out Service</title>
 
     <indexterm><primary>dial-out service</primary></indexterm>
@@ -1795,7 +1709,7 @@ AT&amp;B2&amp;W</programlisting>
       working, use the terminal session to FTP the needed file.  Then
       use zmodem to transfer it to the machine.</para>
 
-    <sect2 id="hayes-unsupported">
+    <sect2 xml:id="hayes-unsupported">
       <title>Using a Stock Hayes Modem</title>
 
       <para>A generic Hayes dialer is built into
@@ -1815,7 +1729,7 @@ AT&amp;B2&amp;W</programlisting>
 	problem.  Try <command>ATS7=45&amp;W</command>.</para>
     </sect2>
 
-    <sect2 id="direct-at">
+    <sect2 xml:id="direct-at">
       <title>Using <literal>AT</literal> Commands</title>
 
       <indexterm>
@@ -1833,10 +1747,10 @@ AT&amp;B2&amp;W</programlisting>
 	supports in the <literal>br</literal> capability.  Then, type
 	<command>tip cuau0</command> to connect to the modem.</para>
 
-      <para>Or, use <command>cu</command> as <username>root</username>
+      <para>Or, use <command>cu</command> as <systemitem class="username">root</systemitem>
 	with the following command:</para>
 
-      <screen>&prompt.root; <userinput>cu -l<replaceable>line</replaceable> -s<replaceable>speed</replaceable></userinput></screen>
+      <screen>&prompt.root; <userinput>cu -lline -sspeed</userinput></screen>
 
       <para><replaceable>line</replaceable> is the serial port, such
 	as <filename>/dev/cuau0</filename>, and
@@ -1845,7 +1759,7 @@ AT&amp;B2&amp;W</programlisting>
 	commands, type <command>~.</command> to exit.</para>
     </sect2>
 
-    <sect2 id="gt-failure">
+    <sect2 xml:id="gt-failure">
       <title>The <literal>@</literal> Sign Does Not Work</title>
 
       <para>The <literal>@</literal> sign in the phone number
@@ -1858,7 +1772,7 @@ AT&amp;B2&amp;W</programlisting>
       <programlisting>pn=\@</programlisting>
     </sect2>
 
-    <sect2 id="dial-command-line">
+    <sect2 xml:id="dial-command-line">
       <title>Dialing from the Command Line</title>
 
       <para>Put a <quote>generic</quote> entry in
@@ -1885,7 +1799,7 @@ tip57600|Dial any phone number at 57600 bps:\
       <screen>&prompt.root; <userinput>cu 5551234 -s 115200</userinput></screen>
     </sect2>
 
-    <sect2 id="set-bps">
+    <sect2 xml:id="set-bps">
       <title>Setting the <acronym>bps</acronym> Rate</title>
 
       <para>Put in an entry for <literal>tip1200</literal> or
@@ -1897,18 +1811,18 @@ tip57600|Dial any phone number at 57600 bps:\
 	1200&nbsp;bps does not have to be used, though.</para>
     </sect2>
 
-    <sect2 id="terminal-server">
+    <sect2 xml:id="terminal-server">
       <title>Accessing a Number of Hosts Through a Terminal
 	Server</title>
 
       <para>Rather than waiting until connected and typing
-	<command>CONNECT <replaceable>host</replaceable></command>
+	<command>CONNECT host</command>
 	each time, use <command>tip</command>'s <literal>cm</literal>
 	capability.  For example, these entries in
 	<filename>/etc/remote</filename> will let you type
 	<command>tip pain</command> or
 	<command>tip muffin</command> to connect to the hosts
-	<hostid>pain</hostid> or <hostid>muffin</hostid>, and
+	<systemitem>pain</systemitem> or <systemitem>muffin</systemitem>, and
 	<command>tip deep13</command> to connect to the terminal
 	server.</para>
 
@@ -1921,7 +1835,7 @@ deep13:Gizmonics Institute terminal server:\
 
     </sect2>
 
-    <sect2 id="tip-multiline">
+    <sect2 xml:id="tip-multiline">
       <title>Using More Than One Line with
 	<command>tip</command></title>
 
@@ -1952,7 +1866,7 @@ big-university 5551114</programlisting>
 	loop.</para>
     </sect2>
 
-    <sect2 id="multi-controlp">
+    <sect2 xml:id="multi-controlp">
       <title>Using the Force Character</title>
 
       <para><keycombo action="simul">
@@ -1965,7 +1879,7 @@ big-university 5551114</programlisting>
 	<quote>set a variable.</quote></para>
 
       <para>Type
-	<command>~sforce=<replaceable>single-char</replaceable></command>
+	<command>~sforce=single-char</command>
 	followed by a newline.  <replaceable>single-char</replaceable>
 	is any single character.  If
 	<replaceable>single-char</replaceable> is left out, then the
@@ -1991,7 +1905,7 @@ big-university 5551114</programlisting>
       <programlisting>force=<replaceable>single-char</replaceable></programlisting>
     </sect2>
 
-    <sect2 id="uppercase">
+    <sect2 xml:id="uppercase">
       <title>Upper Case Characters</title>
 
       <para>This happens when
@@ -2025,7 +1939,7 @@ raisechar=^^</programlisting>
 
     </sect2>
 
-    <sect2 id="tip-filetransfer">
+    <sect2 xml:id="tip-filetransfer">
       <title>File Transfers with <command>tip</command></title>
 
       <para>When talking to another &unix;-like operating system,
@@ -2050,7 +1964,7 @@ raisechar=^^</programlisting>
 	zmodem, should probably be used.</para>
     </sect2>
 
-    <sect2 id="zmodem-tip">
+    <sect2 xml:id="zmodem-tip">
       <title>Using <application>zmodem</application> with
 	<command>tip</command>?</title>
 
@@ -2060,12 +1974,13 @@ raisechar=^^</programlisting>
 
       <para>To send files, start the receiving program on the remote
 	end.  Then, type <command>~C sz
-	<replaceable>files</replaceable></command> to send them to the
+	files</command> to send them to the
 	remote system.</para>
     </sect2>
   </sect1>
 
-  <sect1 id="serialconsole-setup">
+  <sect1 xml:id="serialconsole-setup">
+    <!--
     <sect1info>
       <authorgroup>
 	<author>
@@ -2082,33 +1997,29 @@ raisechar=^^</programlisting>
 	</author>
       </authorgroup>
     </sect1info>
+    -->
     <title>Setting Up the Serial Console</title>
 
     <indexterm><primary>serial console</primary></indexterm>
 
-    <sect2 id="serialconsole-intro">
-      <title>Introduction</title>
+    <para>&os; has the ability to boot a system with a dumb
+      terminal on a serial port as a console.  This configuration is
+      useful for system administrators who wish to install &os; on
+      machines that have no keyboard or monitor attached, and
+      developers who want to debug the kernel or device
+      drivers.</para>
 
-      <para>&os; has the ability to boot a system with a dumb
-	terminal on a serial port as a console.  This configuration is
-	useful for system administrators who wish to install &os; on
-	machines that have no keyboard or monitor attached, and
-	developers who want to debug the kernel or device
-	drivers.</para>
+    <para>As described in <xref linkend="boot"/>, &os; employs a three
+      stage bootstrap.  The first two stages are in the boot block
+      code which is stored at the beginning of the &os; slice on the
+      boot disk.  The boot block then loads and runs the boot loader
+      as the third stage code.</para>
 
-      <para>As described in <xref linkend="boot"/>, &os; employs
-	a three stage bootstrap.  The first two stages are in the boot
-	block code which is stored at the beginning of the &os;
-	slice on the boot disk.  The boot block then loads and runs
-	the boot loader as the third stage code.</para>
+    <para>In order to set up booting from a serial console, the boot
+      block code, the boot loader code, and the kernel need to be
+      configured.</para>
 
-      <para>In order to set up booting from a serial console, the
-	boot block code, the boot loader code, and the kernel need to
-	be configured.</para>
-
-    </sect2>
-
-    <sect2 id="serialconsole-howto-fast">
+    <sect2 xml:id="serialconsole-howto-fast">
       <title>Quick Serial Console Configuration</title>
 
       <para>This section assumes the default setup and provides a fast
@@ -2118,7 +2029,7 @@ raisechar=^^</programlisting>
 
 	<step>
 	  <para>Connect the serial cable to
-	    <devicename>COM1</devicename> and the controlling
+	    <filename>COM1</filename> and the controlling
 	    terminal.</para>
 	</step>
 
@@ -2133,7 +2044,7 @@ raisechar=^^</programlisting>
 	  <para>Edit <filename>/etc/ttys</filename> and change
 	    <literal>off</literal> to <literal>on</literal> and
 	    <literal>dialup</literal> to <literal>vt100</literal> for
-	    the <devicename>ttyu0</devicename> entry.  Otherwise, a
+	    the <filename>ttyu0</filename> entry.  Otherwise, a
 	    password will not be required to connect via the serial
 	    console, resulting in a potential security hole.</para>
 	</step>
@@ -2149,7 +2060,7 @@ raisechar=^^</programlisting>
 	section for a more in-depth configuration explanation.</para>
     </sect2>
 
-    <sect2 id="serialconsole-howto">
+    <sect2 xml:id="serialconsole-howto">
       <title>In-Depth Serial Console Configuration</title>
 
       <procedure>
@@ -2159,8 +2070,7 @@ raisechar=^^</programlisting>
 	  <indexterm><primary>null-modem cable</primary></indexterm>
 
 	  <para>Use either a null-modem cable or a standard serial
-	    cable and a null-modem adapter.  See <xref
-	      linkend="serial-cables-ports"/> for a discussion
+	    cable and a null-modem adapter.  See <xref linkend="term-cables-null"/> for a discussion
 	    on serial cables.</para>
 	</step>
 
@@ -2208,18 +2118,18 @@ raisechar=^^</programlisting>
 
 	<step>
 	  <para>Plug a dumb terminal into
-	    <devicename>COM1</devicename>
-	    (<devicename>sio0</devicename>).</para>
+	    <filename>COM1</filename>
+	    (<filename>sio0</filename>).</para>
 
 	  <para>If a dumb terminal is not available, use an old
 	    computer with a modem program, or the serial port on
 	    another &unix; box.  If there is no
-	    <devicename>COM1</devicename>
-	    (<devicename>sio0</devicename>), get one.  At this time,
+	    <filename>COM1</filename>
+	    (<filename>sio0</filename>), get one.  At this time,
 	    there is no way to select a port other than
-	    <devicename>COM1</devicename> for the boot blocks without
+	    <filename>COM1</filename> for the boot blocks without
 	    recompiling the boot blocks.  If
-	    <devicename>COM1</devicename> is being used by another
+	    <filename>COM1</filename> is being used by another
 	    device, temporarily remove that device and install a new
 	    boot block and kernel once &os; is up and running.</para>
 	</step>
@@ -2227,8 +2137,8 @@ raisechar=^^</programlisting>
 	<step>
 	  <para>Make sure the configuration file of the custom kernel
 	    has appropriate flags set for
-	    <devicename>COM1</devicename>
-	    (<devicename>sio0</devicename>).</para>
+	    <filename>COM1</filename>
+	    (<filename>sio0</filename>).</para>
 
 	  <para>Relevant flags are:</para>
 
@@ -2269,9 +2179,8 @@ raisechar=^^</programlisting>
 		  unavailable for normal access.  This flag should
 		  not be set to the serial port to use as the serial
 		  console.  The only use of this flag is to designate
-		  the unit for kernel remote debugging.  See <ulink
-		    url="&url.books.developers-handbook;/index.html">The
-		  Developer's Handbook</ulink> for more information on
+		  the unit for kernel remote debugging.  See <link xlink:href="&url.books.developers-handbook;/index.html">The
+		  Developer's Handbook</link> for more information on
 		  remote debugging.</para>
 	      </listitem>
 	    </varlistentry>
@@ -2479,142 +2388,134 @@ boot:</screen>
 	information.</para>
     </sect2>
 
-    <sect2 id="serialconsole-summary">
+    <sect2 xml:id="serialconsole-summary">
       <title>Summary</title>
 
-      <para>Here is the summary of the various settings discussed in
-	this section:</para>
+      <para>The following tables provide a summary of the various
+	settings discussed in this section.</para>
 
-      <sect3>
+      <table frame="none" pgwide="1">
 	<title>Case 1: Set the Flags to 0x10 for
-	  <devicename>sio0</devicename></title>
+	  <filename>sio0</filename></title>
 
-	<programlisting>device sio0 flags 0x10</programlisting>
+	<tgroup cols="4">
+	  <thead>
+	    <row>
+	      <entry align="left">Options in /boot.config</entry>
+	      <entry align="left">Console during boot blocks</entry>
+	      <entry align="left">Console during boot loader</entry>
+	      <entry align="left">Console in kernel</entry>
+	    </row>
+	  </thead>
 
-	<informaltable frame="none" pgwide="1">
-	  <tgroup cols="4">
-	    <thead>
-	      <row>
-		<entry align="left">Options in /boot.config</entry>
-		<entry align="left">Console during boot blocks</entry>
-		<entry align="left">Console during boot loader</entry>
-		<entry align="left">Console in kernel</entry>
-	      </row>
-	    </thead>
+	  <tbody>
+	    <row>
+	      <entry>nothing</entry>
+	      <entry>internal</entry>
+	      <entry>internal</entry>
+	      <entry>internal</entry>
+	    </row>
 
-	    <tbody>
-	      <row>
-		<entry>nothing</entry>
-		<entry>internal</entry>
-		<entry>internal</entry>
-		<entry>internal</entry>
-	      </row>
+	    <row>
+	      <entry><option>-h</option></entry>
+	      <entry>serial</entry>
+	      <entry>serial</entry>
+	      <entry>serial</entry>
+	    </row>
 
-	      <row>
-		<entry><option>-h</option></entry>
-		<entry>serial</entry>
-		<entry>serial</entry>
-		<entry>serial</entry>
-	      </row>
+	    <row>
+	      <entry><option>-D</option></entry>
+	      <entry>serial and internal</entry>
+	      <entry>internal</entry>
+	      <entry>internal</entry>
+	    </row>
 
-	      <row>
-		<entry><option>-D</option></entry>
-		<entry>serial and internal</entry>
-		<entry>internal</entry>
-		<entry>internal</entry>
-	      </row>
+	    <row>
+	      <entry><option>-Dh</option></entry>
+	      <entry>serial and internal</entry>
+	      <entry>serial</entry>
+	      <entry>serial</entry>
+	    </row>
 
-	      <row>
-		<entry><option>-Dh</option></entry>
-		<entry>serial and internal</entry>
-		<entry>serial</entry>
-		<entry>serial</entry>
-	      </row>
+	    <row>
+	      <entry><option>-P</option>, keyboard present</entry>
+	      <entry>internal</entry>
+	      <entry>internal</entry>
+	      <entry>internal</entry>
+	    </row>
 
-	      <row>
-		<entry><option>-P</option>, keyboard present</entry>
-		<entry>internal</entry>
-		<entry>internal</entry>
-		<entry>internal</entry>
-	      </row>
+	    <row>
+	      <entry><option>-P</option>, keyboard absent</entry>
+	      <entry>serial and internal</entry>
+	      <entry>serial</entry>
+	      <entry>serial</entry>
+	    </row>
+	  </tbody>
+	</tgroup>
+      </table>
 
-	      <row>
-		<entry><option>-P</option>, keyboard absent</entry>
-		<entry>serial and internal</entry>
-		<entry>serial</entry>
-		<entry>serial</entry>
-	      </row>
-	    </tbody>
-	  </tgroup>
-	</informaltable>
-      </sect3>
-
-      <sect3>
+      <table frame="none" pgwide="1">
 	<title>Case 2: Set the Flags to 0x30 for
-	  <devicename>sio0</devicename></title>
+	  <filename>sio0</filename></title>
 
-	<programlisting>device sio0 flags 0x30</programlisting>
+	<tgroup cols="4">
+	  <thead>
+	    <row>
+	      <entry align="left">Options in /boot.config</entry>
+	      <entry align="left">Console during boot blocks</entry>
+	      <entry align="left">Console during boot loader</entry>
+	      <entry align="left">Console in kernel</entry>
+	    </row>
+	  </thead>
 
-	<informaltable frame="none" pgwide="1">
-	  <tgroup cols="4">
-	    <thead>
-	      <row>
-		<entry align="left">Options in /boot.config</entry>
-		<entry align="left">Console during boot blocks</entry>
-		<entry align="left">Console during boot loader</entry>
-		<entry align="left">Console in kernel</entry>
-	      </row>
-	    </thead>
+	  <tbody>
+	    <row>
+	      <entry>nothing</entry>
+	      <entry>internal</entry>
+	      <entry>internal</entry>
+	      <entry>serial</entry>
+	    </row>
 
-	    <tbody>
-	      <row>
-		<entry>nothing</entry>
-		<entry>internal</entry>
-		<entry>internal</entry>
-		<entry>serial</entry>
-	      </row>
+	    <row>
+	      <entry><option>-h</option></entry>
+	      <entry>serial</entry>
+	      <entry>serial</entry>
+	      <entry>serial</entry>
+	    </row>
 
-	      <row>
-		<entry><option>-h</option></entry>
-		<entry>serial</entry>
-		<entry>serial</entry>
-		<entry>serial</entry>
-	      </row>
+	    <row>
+	      <entry><option>-D</option></entry>
+	      <entry>serial and internal</entry>
+	      <entry>internal</entry>
+	      <entry>serial</entry>
+	    </row>
 
-	      <row>
-		<entry><option>-D</option></entry>
-		<entry>serial and internal</entry>
-		<entry>internal</entry>
-		<entry>serial</entry>
-	      </row>
+	    <row>
+	      <entry><option>-Dh</option></entry>
+	      <entry>serial and internal</entry>
+	      <entry>serial</entry>
+	      <entry>serial</entry>
+	    </row>
 
-	      <row>
-		<entry><option>-Dh</option></entry>
-		<entry>serial and internal</entry>
-		<entry>serial</entry>
-		<entry>serial</entry>
-	      </row>
+	    <row>
+	      <entry><option>-P</option>, keyboard present</entry>
+	      <entry>internal</entry>
+	      <entry>internal</entry>
+	      <entry>serial</entry>
+	    </row>
 
-	      <row>
-		<entry><option>-P</option>, keyboard present</entry>
-		<entry>internal</entry>
-		<entry>internal</entry>
-		<entry>serial</entry>
-	      </row>
-
-	      <row>
-		<entry><option>-P</option>, keyboard absent</entry>
-		<entry>serial and internal</entry>
-		<entry>serial</entry>
-		<entry>serial</entry>
-	      </row>
-	    </tbody>
-	  </tgroup>
-	</informaltable>
-      </sect3>
+	    <row>
+	      <entry><option>-P</option>, keyboard absent</entry>
+	      <entry>serial and internal</entry>
+	      <entry>serial</entry>
+	      <entry>serial</entry>
+	    </row>
+	  </tbody>
+	</tgroup>
+      </table>
     </sect2>
 
-    <sect2 id="serialconsole-tips">
+    <sect2 xml:id="serialconsole-tips">
       <title>Tips for the Serial Console</title>
 
       <sect3>
@@ -2627,9 +2528,8 @@ boot:</screen>
 	<itemizedlist>
 	  <listitem>
 	    <para>Recompile the boot blocks with
-	      <makevar>BOOT_COMCONSOLE_SPEED</makevar> set to the
-	      new console speed.  See <xref
-		linkend="serialconsole-com2"/> for detailed
+	      <varname>BOOT_COMCONSOLE_SPEED</varname> set to the
+	      new console speed.  See <xref linkend="serialconsole-com2"/> for detailed
 	      instructions about building and installing new boot
 	      blocks.</para>
 
@@ -2669,28 +2569,27 @@ console="comconsole,vidconsole"</programlisting>
 	</itemizedlist>
       </sect3>
 
-      <sect3 id="serialconsole-com2">
+      <sect3 xml:id="serialconsole-com2">
 	<title>Using a Serial Port Other Than
-	  <devicename>sio0</devicename> for the Console</title>
+	  <filename>sio0</filename> for the Console</title>
 
-	<para>Using a port other than <devicename>sio0</devicename> as
+	<para>Using a port other than <filename>sio0</filename> as
 	  the console requires the boot blocks, the boot loader, and
 	  the kernel to be recompiled as follows.</para>
 
 	<procedure>
 	  <step>
-	    <para>Get the kernel source as described in <xref
-		linkend="updating-upgrading"/>.</para>
+	    <para>Get the kernel source as described in <xref linkend="updating-upgrading"/>.</para>
 	  </step>
 
 	  <step>
 	    <para>Edit <filename>/etc/make.conf</filename> and set
 	      <literal>BOOT_COMCONSOLE_PORT</literal> to the address
 	      of the port to use: 0x3F8, 0x2F8, 0x3E8 or 0x2E8.  Only
-	      <devicename>sio0</devicename> through
-	      <devicename>sio3</devicename>
-	      (<devicename>COM1</devicename> through
-	      <devicename>COM4</devicename>) can be used as multiport
+	      <filename>sio0</filename> through
+	      <filename>sio3</filename>
+	      (<filename>COM1</filename> through
+	      <filename>COM4</filename>) can be used as multiport
 	      serial cards will not work.  No interrupt setting is
 	      needed.</para>
 	  </step>
@@ -2698,8 +2597,8 @@ console="comconsole,vidconsole"</programlisting>
 	  <step>
 	    <para>Create a custom kernel configuration file and add
 	      appropriate flags for the serial port to use.  For
-	      example, to make <devicename>sio1</devicename>
-	      (<devicename>COM2</devicename>) the console:</para>
+	      example, to make <filename>sio1</filename>
+	      (<filename>COM2</filename>) the console:</para>
 
 	    <programlisting>device sio1 flags 0x10</programlisting>
 
@@ -2732,7 +2631,7 @@ console="comconsole,vidconsole"</programlisting>
 	</procedure>
       </sect3>
 
-      <sect3 id="serialconsole-ddb">
+      <sect3 xml:id="serialconsole-ddb">
 	<title>Entering the DDB Debugger from the Serial Line</title>
 
 	<para>To drop into the kernel debugger from the serial
@@ -2762,10 +2661,10 @@ ttyu1 "/usr/libexec/getty std.9600" unknown off secure
 ttyu2 "/usr/libexec/getty std.9600" unknown off secure
 ttyu3 "/usr/libexec/getty std.9600" unknown off secure</programlisting>
 
-	<para><devicename>ttyu0</devicename> through
-	  <devicename>ttyu3</devicename> correspond to
-	  <devicename>COM1</devicename> through
-	  <devicename>COM4</devicename>.  Change
+	<para><filename>ttyu0</filename> through
+	  <filename>ttyu3</filename> correspond to
+	  <filename>COM1</filename> through
+	  <filename>COM4</filename>.  Change
 	  <literal>off</literal> to <literal>on</literal> for the
 	  desired port.  If the speed of the serial port has been
 	  changed, change <literal>std.9600</literal> to match the
@@ -2780,7 +2679,7 @@ ttyu3 "/usr/libexec/getty std.9600" unknown off secure</programlisting>
       </sect3>
     </sect2>
 
-    <sect2 id="serialconsole-loader">
+    <sect2 xml:id="serialconsole-loader">
       <title>Changing Console from the Boot Loader</title>
 
       <para>Previous sections described how to set up the serial
@@ -2833,16 +2732,15 @@ ttyu3 "/usr/libexec/getty std.9600" unknown off secure</programlisting>
 
       <sect3>
 	<title>Using a Serial Port Other Than
-	  <devicename>sio0</devicename> for the Console</title>
+	  <filename>sio0</filename> for the Console</title>
 
 	<para>The boot loader needs to be compiled in order to use a
-	  serial port other than <devicename>sio0</devicename> for the
-	  serial console.  Follow the procedure described in <xref
-	    linkend="serialconsole-com2"/>.</para>
+	  serial port other than <filename>sio0</filename> for the
+	  serial console.  Follow the procedure described in <xref linkend="serialconsole-com2"/>.</para>
       </sect3>
     </sect2>
 
-    <sect2 id="serialconsole-caveats">
+    <sect2 xml:id="serialconsole-caveats">
       <title>Caveats</title>
 
       <para>While most systems will boot without a keyboard, quite a

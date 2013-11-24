@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <!DOCTYPE html PUBLIC "-//FreeBSD//DTD XHTML 1.0 Transitional-Based Extension//EN"
-"http://www.FreeBSD.org/XML/doc/share/sgml/xhtml10-freebsd.dtd" [
+"http://www.FreeBSD.org/XML/share/sgml/xhtml10-freebsd.dtd" [
 <!ENTITY email 'freebsd-qa'>
 <!ENTITY local.rel "10.0">
 <!ENTITY local.branch.head "head">
@@ -103,7 +103,7 @@
     <tr>
       <td>&local.branch.stable; branch</td>
       <td>10&nbsp;October&nbsp;2013</td>
-      <td>-</td>
+      <td>10&nbsp;October&nbsp;2013</td>
       <td>Subversion branch created; release engineering continues
 	on this branch.</td>
     </tr>
@@ -111,15 +111,29 @@
     <tr>
       <td>BETA1 builds begin</td>
       <td>12&nbsp;October&nbsp;2013</td>
-      <td>-</td>
+      <td>12&nbsp;October&nbsp;2013</td>
       <td>First beta test snapshot.</td>
     </tr>
 
     <tr>
       <td>BETA2 builds begin</td>
       <td>18&nbsp;October&nbsp;2013</td>
-      <td>-</td>
+      <td>26&nbsp;October&nbsp;2013</td>
       <td>Second beta test snapshot.</td>
+    </tr>
+
+    <tr>
+      <td>BETA3 builds begin</td>
+      <td>-</td>
+      <td>3&nbsp;November&nbsp;2013</td>
+      <td>Third beta test snapshot.</td>
+    </tr>
+
+    <tr>
+      <td>BETA4 builds begin</td>
+      <td>24&nbsp;November&nbsp;2013</td>
+      <td>-</td>
+      <td>Fourth beta test snapshot.</td>
     </tr>
 
     <tr>

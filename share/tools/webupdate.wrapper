@@ -1,0 +1,51 @@
+#!/bin/sh
+#
+# NOTE: Changes to this file is NOT automatically used for the web
+# site build on www.FreeBSD.org.  If an update to the main build
+# script is required, please contact webmaster@FreeBSD.org or a member
+# of the wwwadm team.
+#
+# $FreeBSD$
+
+PATH=/bin:/usr/bin:/usr/local/bin
+SVNROOT=svn://svn.FreeBSD.org
+DESTDIR=/usr/local/www/www.freebsd.org
+PINDEX_OVERRIDE=/usr/ports/INDEX-9
+GEN_INDEX=yes
+export USER=www-data
+export PATH DESTDIR PINDEX_OVERRIDE GEN_INDEX
+
+WEBMAILTO=freebsd-doc@FreeBSD.org
+export WEBMAILTO
+
+FLAGDIR=/usr/local/www/build
+
+# We always build these - they are fast
+export WITH_PORTS_GROWTH=YES
+export WITH_PRSTATS=YES
+
+# Flags are ordered by more extensive to less
+if [ -e $FLAGDIR/fullbuild-clean.flag ]; then
+	export BUILD_RELNOTES=YES
+	# TODO - tell webupdate to do clean via env variable
+	# webupdate will remove flag file
+elif [ -e $FLAGDIR/fullbuild-all-lang.flag ]; then
+	export BUILD_RELNOTES=YES
+elif [ -e $FLAGDIR/fullbuild-en.flag ]; then
+	export BUILD_RELNOTES=YES
+	export ENGLISH_ONLY=YES
+else
+	export WEB_ONLY=YES
+fi
+rm -f $FLAGDIR/fullbuild-all-lang.flag $FLAGDIR/fullbuild-en.flag
+
+# 30m
+LOCKF_WAIT=1800
+if [ "$1" = "-f" ]; then
+	LOCKF_WAIT=0
+fi
+
+nice -5 lockf -s -t $LOCKF_WAIT /usr/local/www/build/lock.webupdate \
+	sh -c "/usr/local/www/bin/webupdate ; \
+		/usr/sbin/newsyslog -f /home/www/etc/webupdate_newsyslog.conf -Fr -t ''"
+
