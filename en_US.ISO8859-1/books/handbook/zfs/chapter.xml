@@ -566,7 +566,7 @@ errors: No known data errors</screen>
       <para>When adding disks to the existing vdev is not an option,
 	as in the case of RAID-Z, the other option is to add a vdev to
 	the pool.  It is possible, but discouraged, to mix vdev types.
-	ZFS stripes data across each of the vdevs.  For example, if
+	<acronym>ZFS</acronym> stripes data across each of the vdevs.  For example, if
 	there are two mirror vdevs, then this is effectively a
 	<acronym>RAID</acronym> 10, striping the writes across the two
 	sets of mirrors.  Because of the way that space is allocated
@@ -694,7 +694,7 @@ errors: No known data errors</screen>
 	datasets, changing properties, or when a disk has been
 	replaced in the pool.  This history is useful for reviewing
 	how a pool was created and which user did a specific action
-	and when.  History is not kept in a log file, but is a part of
+	and when.  History is not kept in a log file, but is part of
 	the pool itself.  Because of that, history cannot be altered
 	after the fact unless the pool is destroyed.  The command to
 	review this history is aptly named
@@ -840,7 +840,7 @@ data                      288G  1.53T      2     12  9.23K  61.5K
       <title>Creating &amp; Destroying Datasets</title>
 
       <para>Unlike traditional disks and volume managers, space
-	in <acronym>ZFS</acronym> is not preallocated.  Wtraditional
+	in <acronym>ZFS</acronym> is not preallocated.  With traditional
 	file systems, once all of the space was partitioned and
 	assigned, there was no way to add an additional file system
 	without adding a new disk.  With <acronym>ZFS</acronym>, new
