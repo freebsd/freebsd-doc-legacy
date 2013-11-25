@@ -4,9 +4,13 @@
      $FreeBSD$
 -->
 
-<chapter xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0" xml:id="zfs">
+<chapter xmlns="http://docbook.org/ns/docbook"
+  xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0"
+  xml:id="zfs">
+
   <info>
     <title>The Z File System (<acronym>ZFS</acronym>)</title>
+
     <authorgroup>
       <author>
 	<personname>
@@ -54,15 +58,14 @@
 
   <itemizedlist>
     <listitem>
-      <para>Data integrity: All data
-	includes a <link
-	linkend="zfs-term-checksum">checksum</link> of the data.  When
-	data is written, the checksum is calculated and written along
-	with it.  When that data is later read back, the
-	checksum is calculated again.  If the checksums do not match, a
-	data error has been detected.  <acronym>ZFS</acronym> will attempt to
-	automatically correct errors when data
-	redundancy is available.</para>
+      <para>Data integrity: All data includes a
+	<link linkend="zfs-term-checksum">checksum</link> of the data.
+	When data is written, the checksum is calculated and written
+	along with it.  When that data is later read back, the
+	checksum is calculated again.  If the checksums do not match,
+	a data error has been detected.  <acronym>ZFS</acronym> will
+	attempt to automatically correct errors when data redundancy
+	is available.</para>
     </listitem>
 
     <listitem>
@@ -73,13 +76,12 @@
     </listitem>
 
     <listitem>
-      <para>Performance: multiple
-	caching mechanisms provide increased performance.
-	<link linkend="zfs-term-arc">ARC</link> is an advanced
-	memory-based read cache.  A second level of
+      <para>Performance: multiple caching mechanisms provide increased
+	performance.  <link linkend="zfs-term-arc">ARC</link> is an
+	advanced memory-based read cache.  A second level of
 	disk-based read cache can be added with
-	<link linkend="zfs-term-l2arc">L2ARC</link>, and disk-based synchronous
-	write cache is available with
+	<link linkend="zfs-term-l2arc">L2ARC</link>, and disk-based
+	synchronous write cache is available with
 	<link linkend="zfs-term-zil">ZIL</link>.</para>
     </listitem>
   </itemizedlist>
@@ -91,34 +93,33 @@
     <title>What Makes <acronym>ZFS</acronym> Different</title>
 
     <para><acronym>ZFS</acronym> is significantly different from any
-      previous file system because it is more than just
-      a file system.  Combining the
-      traditionally separate roles of volume manager and file system
-      provides <acronym>ZFS</acronym> with unique advantages.  The file system is now
-      aware of the underlying structure of the disks.  Traditional
-      file systems could only be created on a single disk at a time.
-      If there were two disks then two separate file systems would
-      have to be created.  In a traditional hardware
-      <acronym>RAID</acronym> configuration, this problem was worked
-      around by presenting the operating system with a single logical
-      disk made up of the space provided by a number of disks, on top
-      of which the operating system placed its file system.  Even in
-      the case of software <acronym>RAID</acronym> solutions like
-      <acronym>GEOM</acronym>, the <acronym>UFS</acronym> file system
-      living on top of the <acronym>RAID</acronym> transform believed
-      that it was dealing with a single device.
-      <acronym>ZFS</acronym>'s combination of the volume manager and
-      the file system solves this and allows the creation of many file
-      systems all sharing a pool of available storage.  One of the
-      biggest advantages to <acronym>ZFS</acronym>'s awareness of the
-      physical layout of the disks is that <acronym>ZFS</acronym> can
-      grow the existing file systems automatically when additional
-      disks are added to the pool.  This new space is then made
-      available to all of the file systems.  <acronym>ZFS</acronym>
-      also has a number of different properties that can be applied to
-      each file system, creating many advantages to creating a number
-      of different filesystems and datasets rather than a single
-      monolithic filesystem.</para>
+      previous file system because it is more than just a file system.
+      Combining the traditionally separate roles of volume manager and
+      file system provides <acronym>ZFS</acronym> with unique
+      advantages.  The file system is now aware of the underlying
+      structure of the disks.  Traditional file systems could only be
+      created on a single disk at a time.  If there were two disks
+      then two separate file systems would have to be created.  In a
+      traditional hardware <acronym>RAID</acronym> configuration, this
+      problem was worked around by presenting the operating system
+      with a single logical disk made up of the space provided by a
+      number of disks, on top of which the operating system placed its
+      file system.  Even in the case of software
+      <acronym>RAID</acronym> solutions like <acronym>GEOM</acronym>,
+      the <acronym>UFS</acronym> file system living on top of the
+      <acronym>RAID</acronym> transform believed that it was dealing
+      with a single device.  <acronym>ZFS</acronym>'s combination of
+      the volume manager and the file system solves this and allows
+      the creation of many file systems all sharing a pool of
+      available storage.  One of the biggest advantages to
+      <acronym>ZFS</acronym>'s awareness of the physical layout of the
+      disks is that <acronym>ZFS</acronym> can grow the existing file
+      systems automatically when additional disks are added to the
+      pool.  This new space is then made available to all of the file
+      systems.  <acronym>ZFS</acronym> also has a number of different
+      properties that can be applied to each file system, creating
+      many advantages to creating a number of different filesystems
+      and datasets rather than a single monolithic filesystem.</para>
   </sect1>
 
   <sect1 xml:id="zfs-quickstart">
@@ -473,10 +474,10 @@ errors: No known data errors</screen>
 	  checksums disabled.  There is also no noticeable performance
 	  gain from disabling these checksums.</para>
       </warning>
-	
-      <para>Checksum verification is known as <quote>scrubbing</quote>.
-	Verify the data integrity of the <literal>storage</literal>
-	pool, with this command:</para>
+
+      <para>Checksum verification is known as
+	<quote>scrubbing</quote>.  Verify the data integrity of the
+	<literal>storage</literal> pool, with this command:</para>
 
       <screen>&prompt.root; <userinput>zpool scrub storage</userinput></screen>
 
@@ -699,9 +700,9 @@ errors: No known data errors</screen>
 	history is not kept in a log file, but is a part of the pool
 	itself.  That is the reason why the history cannot be altered
 	after the fact unless the pool is destroyed.  The command to
-	review this history is aptly named <command>zpool
-	history</command>:</para>
-      
+	review this history is aptly named
+	<command>zpool history</command>:</para>
+
       <screen>&prompt.root; <userinput>zpool history</userinput>
 History for 'tank':
 2013-02-26.23:02:35 zpool create tank mirror /dev/ada0 /dev/ada1
@@ -709,13 +710,13 @@ History for 'tank':
 2013-02-27.18:51:09 zfs set checksum=fletcher4 tank
 2013-02-27.18:51:18 zfs create tank/backup</screen>
 
-      <para>The output shows
-	<command>zpool</command> and
-	<command>zfs</command> commands that were executed on the pool along with a timestamp.
-	Note that only commands that altered the pool in some way are
-	being recorded.  Commands like <command>zfs list</command> are
-	not part of the history.  When there is no pool name provided
-	for <command>zpool history</command>, then the history of all
+      <para>The output shows <command>zpool</command> and
+	<command>zfs</command> commands that were executed on the pool
+	along with a timestamp.  Note that only commands that altered
+	the pool in some way are being recorded.  Commands like
+	<command>zfs list</command> are not part of the history.  When
+	there is no pool name provided for
+	<command>zpool history</command>, then the history of all
 	pools will be displayed.</para>
 
       <para>The <command>zpool history</command> can show even more
@@ -728,7 +729,7 @@ History for 'tank':
 History for 'tank':
 2013-02-26.23:02:35 [internal pool create txg:5] pool spa 28; zfs spa 28; zpl 5;uts  9.1-RELEASE 901000 amd64
 2013-02-27.18:50:53 [internal property set txg:50] atime=0 dataset = 21
-2013-02-27.18:50:58 zfs set atime=off tank 
+2013-02-27.18:50:58 zfs set atime=off tank
 2013-02-27.18:51:04 [internal property set txg:53] checksum=7 dataset = 21
 2013-02-27.18:51:09 zfs set checksum=fletcher4 tank
 2013-02-27.18:51:13 [internal create txg:55] dataset = 39
@@ -795,16 +796,15 @@ data         288G  1.53T      2     11  11.3K  57.1K</screen>
 	second number on the command line after the interval to
 	specify the total number of statistics to display.</para>
 
-      <para>Even more detailed pool I/O statistics can be
-	displayed with <option>-v</option>.  In this case 
-	each storage device in the pool will be shown with a
-	corresponding statistics line.  This is helpful to
-	determine how many read and write operations are being
-	performed on each device, and can help determine if any
-	specific device is slowing down I/O on the entire pool.  The
-	following example shows a mirrored pool consisting of two
-	devices.  For each of these, a separate line is shown with
-	the current I/O activity.</para>
+      <para>Even more detailed pool I/O statistics can be displayed
+	with <option>-v</option>.  In this case each storage device in
+	the pool will be shown with a corresponding statistics line.
+	This is helpful to determine how many read and write
+	operations are being performed on each device, and can help
+	determine if any specific device is slowing down I/O on the
+	entire pool.  The following example shows a mirrored pool
+	consisting of two devices.  For each of these, a separate line
+	is shown with the current I/O activity.</para>
 
       <screen>&prompt.root; <userinput>zpool iostat -v </userinput>
                             capacity     operations    bandwidth
@@ -1119,8 +1119,8 @@ tank    custom:costcenter  -                  -
       <note>
 	<para>User quota properties are not displayed by
 	  <command>zfs get all</command>.
-	  Non-<systemitem class="username">root</systemitem> users can only see their own
-	  quotas unless they have been granted the
+	  Non-<systemitem class="username">root</systemitem> users can
+	  only see their own quotas unless they have been granted the
 	  <literal>userquota</literal> privilege.  Users with this
 	  privilege are able to view and set everyone's quota.</para>
       </note>
@@ -1141,11 +1141,12 @@ tank    custom:costcenter  -                  -
       <screen>&prompt.root; <userinput>zfs set groupquota@firstgroup=none</userinput></screen>
 
       <para>As with the user quota property,
-	non-<systemitem class="username">root</systemitem> users can only see the quotas
-	associated with the groups that they belong to.  However,
-	<systemitem class="username">root</systemitem> or a user with the
-	<literal>groupquota</literal> privilege can view and set all
-	quotas for all groups.</para>
+	non-<systemitem class="username">root</systemitem> users can
+	only see the quotas associated with the groups that they
+	belong to.  However,
+	<systemitem class="username">root</systemitem> or a user with
+	the <literal>groupquota</literal> privilege can view and set
+	all quotas for all groups.</para>
 
       <para>To display the amount of space consumed by each user on
 	the specified filesystem or snapshot, along with any specified
@@ -1155,8 +1156,8 @@ tank    custom:costcenter  -                  -
 	specific options, refer to &man.zfs.1;.</para>
 
       <para>Users with sufficient privileges and
-	<systemitem class="username">root</systemitem> can list the quota for
-	<filename>storage/home/bob</filename> using:</para>
+	<systemitem class="username">root</systemitem> can list the
+	quota for <filename>storage/home/bob</filename> using:</para>
 
       <screen>&prompt.root; <userinput>zfs get quota storage/home/bob</userinput></screen>
     </sect2>
@@ -1259,7 +1260,7 @@ NAME SIZE  ALLOC FREE CAP DEDUP HEALTH ALTROOT
 pool 2.84G 20.9M 2.82G 0% 3.00x ONLINE -</screen>
 
       <para>The <literal>DEDUP</literal> column now contains the
-	value <literal>3.00x</literal>. This indicates that ZFS
+	value <literal>3.00x</literal>.  This indicates that ZFS
 	detected the copies of the ports tree data and was able to
 	deduplicate it at a ratio of 1/3.  The space savings that this
 	yields can be enormous, but only when there is enough memory
@@ -1293,8 +1294,8 @@ refcnt   blocks   LSIZE   PSIZE   DSIZE   blocks   LSIZE   PSIZE   DSIZE
 dedup = 1.05, compress = 1.11, copies = 1.00, dedup * compress / copies = 1.16</screen>
 
       <para>After <command>zdb -S</command> finishes analyzing the
-	pool, it shows the space reduction ratio that would be achieved by
-	activating deduplication.  In this case,
+	pool, it shows the space reduction ratio that would be
+	achieved by activating deduplication.  In this case,
 	<literal>1.16</literal> is a very poor rate that is mostly
 	influenced by compression.  Activating deduplication on this
 	pool would not save any significant amount of space.  Keeping
@@ -1327,18 +1328,16 @@ dedup = 1.05, compress = 1.11, copies = 1.00, dedup * compress / copies = 1.16</
   <sect1 xml:id="zfs-zfs-allow">
     <title>Delegated Administration</title>
 
-    <para>A comprehensive permission delegation system allows unprivileged
-      users to perform ZFS administration functions.
-      For example, if each user's home
-      directory is a dataset, users can be given
-      permission to create and destroy snapshots of their home
-      directories.  A backup user can be given permission
-      to use ZFS replication features.
-      A usage statistics script can be allowed to
-      run with access only to the space
-      utilization data for all users.  It is even possible to delegate
-      the ability to delegate permissions.  Permission delegation is
-      possible for each subcommand and most ZFS properties.</para>
+    <para>A comprehensive permission delegation system allows
+      unprivileged users to perform ZFS administration functions.  For
+      example, if each user's home directory is a dataset, users can
+      be given permission to create and destroy snapshots of their
+      home directories.  A backup user can be given permission to use
+      ZFS replication features.  A usage statistics script can be
+      allowed to run with access only to the space utilization data
+      for all users.  It is even possible to delegate the ability to
+      delegate permissions.  Permission delegation is possible for
+      each subcommand and most ZFS properties.</para>
 
     <sect2 xml:id="zfs-zfs-allow-create">
       <title>Delegating Dataset Creation</title>
@@ -1346,13 +1345,14 @@ dedup = 1.05, compress = 1.11, copies = 1.00, dedup * compress / copies = 1.16</
       <para><userinput>zfs allow
 	<replaceable>someuser</replaceable> create
 	<replaceable>mydataset</replaceable></userinput>
-	gives the specified user permission to create
-	child datasets under the selected parent dataset.  There is a
-	caveat: creating a new dataset involves mounting it.
-	That requires setting the <literal>vfs.usermount</literal> &man.sysctl.8; to <literal>1</literal>
-	to allow non-root users to mount a
-	filesystem.  There is another restriction aimed at preventing abuse: non-root users
-	must own the mountpoint where the file system is being mounted.</para>
+	gives the specified user permission to create child datasets
+	under the selected parent dataset.  There is a caveat:
+	creating a new dataset involves mounting it.  That requires
+	setting the <literal>vfs.usermount</literal> &man.sysctl.8; to
+	<literal>1</literal> to allow non-root users to mount a
+	filesystem.  There is another restriction aimed at preventing
+	abuse: non-root users must own the mountpoint where the file
+	system is being mounted.</para>
     </sect2>
 
     <sect2 xml:id="zfs-zfs-allow-allow">
@@ -1365,8 +1365,8 @@ dedup = 1.05, compress = 1.11, copies = 1.00, dedup * compress / copies = 1.16</
 	they have on the target dataset (or its children) to other
 	users.  If a user has the <literal>snapshot</literal>
 	permission and the <literal>allow</literal> permission, that
-	user can then grant the <literal>snapshot</literal> permission to some other
-	users.</para>
+	user can then grant the <literal>snapshot</literal> permission
+	to some other users.</para>
     </sect2>
   </sect1>
 
@@ -1470,14 +1470,14 @@ vfs.zfs.vdev.cache.size="5M"</programlisting>
 
     <itemizedlist>
       <listitem>
-	<para><link xlink:href="https://wiki.freebsd.org/ZFS">FreeBSD Wiki -
-	    ZFS</link></para>
+	<para><link xlink:href="https://wiki.freebsd.org/ZFS">FreeBSD
+	    Wiki - ZFS</link></para>
       </listitem>
 
       <listitem>
 	<para><link
-	    xlink:href="https://wiki.freebsd.org/ZFSTuningGuide">FreeBSD Wiki
-	    - ZFS Tuning</link></para>
+	    xlink:href="https://wiki.freebsd.org/ZFSTuningGuide">FreeBSD
+	    Wiki - ZFS Tuning</link></para>
       </listitem>
 
       <listitem>
@@ -1489,8 +1489,7 @@ vfs.zfs.vdev.cache.size="5M"</programlisting>
       <listitem>
 	<para><link
 	    xlink:href="http://docs.oracle.com/cd/E19253-01/819-5461/index.html">Oracle
-	    Solaris ZFS Administration
-	    Guide</link></para>
+	    Solaris ZFS Administration Guide</link></para>
       </listitem>
 
       <listitem>
@@ -1637,7 +1636,8 @@ vfs.zfs.vdev.cache.size="5M"</programlisting>
 		    <acronym>RAID-Z1</acronym> through
 		    <acronym>RAID-Z3</acronym> based on the number of
 		    parity devices in the array and the number of
-		    disks which can fail while the pool remains operational.</para>
+		    disks which can fail while the pool remains
+		    operational.</para>
 
 		  <para>In a <acronym>RAID-Z1</acronym> configuration
 		    with 4 disks, each 1&nbsp;TB, usable storage is
@@ -1823,11 +1823,11 @@ vfs.zfs.vdev.cache.size="5M"</programlisting>
 	  <row>
 	    <entry xml:id="zfs-term-dataset">Dataset</entry>
 
-	    <entry><emphasis>Dataset</emphasis> is the generic term for a
-	      <acronym>ZFS</acronym> file system, volume, snapshot or
-	      clone.  Each dataset has a unique name in the
-	      format: <literal>poolname/path@snapshot</literal>.  The
-	      root of the pool is technically a dataset as well.
+	    <entry><emphasis>Dataset</emphasis> is the generic term
+	      for a <acronym>ZFS</acronym> file system, volume,
+	      snapshot or clone.  Each dataset has a unique name in
+	      the format: <literal>poolname/path@snapshot</literal>.
+	      The root of the pool is technically a dataset as well.
 	      Child datasets are named hierarchically like
 	      directories.  For example,
 	      <literal>mypool/home</literal>, the home dataset, is a
@@ -1835,12 +1835,11 @@ vfs.zfs.vdev.cache.size="5M"</programlisting>
 	      properties from it.  This can be expanded further by
 	      creating <literal>mypool/home/user</literal>.  This
 	      grandchild dataset will inherity properties from the
-	      parent and grandparent.
-	      Properties on a child can be set to override the defaults inherited
-	      from the parents and grandparents.
-	      Administration of
-	      datasets and their children can be <link
-	        linkend="zfs-zfs-allow">delegated</link>.</entry>
+	      parent and grandparent.  Properties on a child can be
+	      set to override the defaults inherited from the parents
+	      and grandparents.  Administration of datasets and their
+	      children can be
+	      <link linkend="zfs-zfs-allow">delegated</link>.</entry>
 	  </row>
 
 	  <row>
@@ -1901,8 +1900,8 @@ vfs.zfs.vdev.cache.size="5M"</programlisting>
 	      space.  Snapshots can also be marked with a
 	      <link linkend="zfs-zfs-snapshot">hold</link>, once a
 	      snapshot is held, any attempt to destroy it will return
-	      an <literal>EBUSY</literal> error.  Each snapshot can have multiple holds,
-	      each with a unique name.  The
+	      an <literal>EBUSY</literal> error.  Each snapshot can
+	      have multiple holds, each with a unique name.  The
 	      <link linkend="zfs-zfs-snapshot">release</link> command
 	      removes the hold so the snapshot can then be deleted.
 	      Snapshots can be taken on volumes, however they can only
@@ -1988,12 +1987,12 @@ vfs.zfs.vdev.cache.size="5M"</programlisting>
 	  </row>
 
 	  <row>
-	    <entry xml:id="zfs-term-deduplication">Deduplication</entry>
+	    <entry
+	      xml:id="zfs-term-deduplication">Deduplication</entry>
 
-	    <entry>Checksums make it possible to detect
-	      duplicate blocks of data as they are written.
-	      If deduplication is enabled,
-	      instead of writing the block a second time, the
+	    <entry>Checksums make it possible to detect duplicate
+	      blocks of data as they are written.  If deduplication is
+	      enabled, instead of writing the block a second time, the
 	      reference count of the existing block will be increased,
 	      saving storage space.  To do this,
 	      <acronym>ZFS</acronym> keeps a deduplication table
@@ -2009,25 +2008,23 @@ vfs.zfs.vdev.cache.size="5M"</programlisting>
 	      matching checksum is assumed to mean that the data is
 	      identical.  If dedup is set to verify, then the data in
 	      the two blocks will be checked byte-for-byte to ensure
-	      it is actually identical.  If the data is not identical, the hash
-	      collision will be noted and
-	      the two blocks will be stored separately.  Because
-	      <acronym>DDT</acronym> must store
-	      the hash of each unique block, it consumes a very large
-	      amount of memory (a general rule of thumb is 5-6&nbsp;GB
-	      of ram per 1&nbsp;TB of deduplicated data).  In
-	      situations where it is not practical to have enough
+	      it is actually identical.  If the data is not identical,
+	      the hash collision will be noted and the two blocks will
+	      be stored separately.  Because <acronym>DDT</acronym>
+	      must store the hash of each unique block, it consumes a
+	      very large amount of memory (a general rule of thumb is
+	      5-6&nbsp;GB of ram per 1&nbsp;TB of deduplicated data).
+	      In situations where it is not practical to have enough
 	      <acronym>RAM</acronym> to keep the entire
 	      <acronym>DDT</acronym> in memory, performance will
-	      suffer greatly as the <acronym>DDT</acronym> must
-	      be read from disk before each new block is written.
-	      Deduplication can use
-	      <acronym>L2ARC</acronym> to store the
-	      <acronym>DDT</acronym>, providing a middle ground
+	      suffer greatly as the <acronym>DDT</acronym> must be
+	      read from disk before each new block is written.
+	      Deduplication can use <acronym>L2ARC</acronym> to store
+	      the <acronym>DDT</acronym>, providing a middle ground
 	      between fast system memory and slower disks.  Consider
-	      using compression instead, which
-	      often provides nearly as much space savings without the
-	      additional memory requirement.</entry>
+	      using compression instead, which often provides nearly
+	      as much space savings without the additional memory
+	      requirement.</entry>
 	  </row>
 
 	  <row>
@@ -2035,17 +2032,17 @@ vfs.zfs.vdev.cache.size="5M"</programlisting>
 
 	    <entry>Instead of a consistency check like &man.fsck.8;,
 	      <acronym>ZFS</acronym> has the <command>scrub</command>.
-	      <command>scrub</command> reads all data blocks stored on the pool
-	      and verifies their checksums against the known good
-	      checksums stored in the metadata.  This periodic check
-	      of all the data stored on the pool ensures the recovery
-	      of any corrupted blocks before they are needed.  A scrub
-	      is not required after an unclean shutdown, but it is
-	      recommended that you run a scrub at least once each
-	      quarter.  Checksums
-	      of each block are tested as they are read in normal
-	      use, but a scrub operation makes sure even infrequently
-	      used blocks are checked for silent corruption.</entry>
+	      <command>scrub</command> reads all data blocks stored on
+	      the pool and verifies their checksums against the known
+	      good checksums stored in the metadata.  This periodic
+	      check of all the data stored on the pool ensures the
+	      recovery of any corrupted blocks before they are needed.
+	      A scrub is not required after an unclean shutdown, but
+	      it is recommended that you run a scrub at least once
+	      each quarter.  Checksums of each block are tested as
+	      they are read in normal use, but a scrub operation makes
+	      sure even infrequently used blocks are checked for
+	      silent corruption.</entry>
 	  </row>
 
 	  <row>
@@ -2113,9 +2110,9 @@ vfs.zfs.vdev.cache.size="5M"</programlisting>
 	      Reservation</entry>
 
 	    <entry>The <literal>reservation</literal> property makes
-	      it possible to guarantee a minimum amount of space for
-	      a specific dataset and its descendants.  This
-	      means that if a 10&nbsp;GB reservation is set on
+	      it possible to guarantee a minimum amount of space for a
+	      specific dataset and its descendants.  This means that
+	      if a 10&nbsp;GB reservation is set on
 	      <filename>storage/home/bob</filename>, and another
 	      dataset tries to use all of the free space, at least
 	      10&nbsp;GB of space is reserved for this dataset.  If a
@@ -2167,9 +2164,9 @@ vfs.zfs.vdev.cache.size="5M"</programlisting>
 
 	    <entry>When a disk fails and must be replaced, the new
 	      disk must be filled with the data that was lost.  The
-	      process of using the parity information distributed across the remaining drives
-	      to calculate and write the missing data to the new drive
-	      is called
+	      process of using the parity information distributed
+	      across the remaining drives to calculate and write the
+	      missing data to the new drive is called
 	      <emphasis>resilvering</emphasis>.</entry>
 	  </row>
 
@@ -2202,13 +2199,13 @@ vfs.zfs.vdev.cache.size="5M"</programlisting>
 	    <entry>A ZFS pool or vdev that is in the
 	      <literal>Degraded</literal> state has one or more disks
 	      that have been disconnected or have failed.  The pool is
-	      still usable, however if additional devices fail, the pool
-	      could become unrecoverable.  Reconnecting the missing
-	      devices or replacing the failed disks will return the
-	      pool to an <link
-	      linkend="zfs-term-online">Online</link> state after
-	      the reconnected or new device has completed the <link
-	      linkend="zfs-term-resilver">Resilver</link>
+	      still usable, however if additional devices fail, the
+	      pool could become unrecoverable.  Reconnecting the
+	      missing devices or replacing the failed disks will
+	      return the pool to an
+	      <link linkend="zfs-term-online">Online</link> state
+	      after the reconnected or new device has completed the
+	      <link linkend="zfs-term-resilver">Resilver</link>
 	      process.</entry>
 	  </row>
 
@@ -2217,17 +2214,16 @@ vfs.zfs.vdev.cache.size="5M"</programlisting>
 
 	    <entry>A ZFS pool or vdev that is in the
 	      <literal>Faulted</literal> state is no longer
-	      operational and the data residing on it can no longer
-	      be accessed.  A pool or vdev enters the
+	      operational and the data residing on it can no longer be
+	      accessed.  A pool or vdev enters the
 	      <literal>Faulted</literal> state when the number of
 	      missing or failed devices exceeds the level of
 	      redundancy in the vdev.  If missing devices can be
-	      reconnected the pool will return to a <link
-	      linkend="zfs-term-online">Online</link> state.  If
+	      reconnected the pool will return to a
+	      <link linkend="zfs-term-online">Online</link> state.  If
 	      there is insufficient redundancy to compensate for the
 	      number of failed disks, then the contents of the pool
-	      are lost and must be restored from
-	      backups.</entry>
+	      are lost and must be restored from backups.</entry>
 	  </row>
 	</tbody>
       </tgroup>
