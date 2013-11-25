@@ -1342,9 +1342,9 @@ dedup = 1.05, compress = 1.11, copies = 1.00, dedup * compress / copies = 1.16</
     <sect2 xml:id="zfs-zfs-allow-create">
       <title>Delegating Dataset Creation</title>
 
-      <para><userinput>zfs allow
+      <para><command>zfs allow
 	<replaceable>someuser</replaceable> create
-	<replaceable>mydataset</replaceable></userinput>
+	<replaceable>mydataset</replaceable></command>
 	gives the specified user permission to create child datasets
 	under the selected parent dataset.  There is a caveat:
 	creating a new dataset involves mounting it.  That requires
@@ -1358,9 +1358,9 @@ dedup = 1.05, compress = 1.11, copies = 1.00, dedup * compress / copies = 1.16</
     <sect2 xml:id="zfs-zfs-allow-allow">
       <title>Delegating Permission Delegation</title>
 
-      <para><userinput>zfs allow
+      <para><command>zfs allow
 	<replaceable>someuser</replaceable> allow
-	<replaceable>mydataset</replaceable></userinput>
+	<replaceable>mydataset</replaceable></command>
 	gives the specified user the ability to assign any permission
 	they have on the target dataset (or its children) to other
 	users.  If a user has the <literal>snapshot</literal>
