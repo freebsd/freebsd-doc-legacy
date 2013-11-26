@@ -732,8 +732,8 @@ History for 'tank':
 2013-02-27.18:51:13 [internal create txg:55] dataset = 39
 2013-02-27.18:51:18 zfs create tank/backup</screen>
 
-      <para>A more-detailed history is invoked by adding
-	<literal>-l</literal>.  Log records are shown in long format,
+      <para>More details can be shown by adding
+	<literal>-l</literal>.  History records are shown in a long format,
 	including information like the name of the user who issued the
 	command and the hostname on which the change was made.</para>
 
@@ -1202,9 +1202,9 @@ tank    custom:costcenter  -                  -
 	uses the checksum of each block to detect duplicate blocks.
 	When a new block is a duplicate of an existing block,
 	<acronym>ZFS</acronym> writes an additional reference to the
-	existing data instead of the whole duplicate block.  This can
-	offer tremendous space savings if the data contains many
-	discreet copies of the file information.  Be warned:
+	existing data instead of the whole duplicate block.
+	Tremendous space savings are possible if the data contains many
+	duplicated files or repeated information.  Be warned:
 	deduplication requires an extremely large amount of memory,
 	and most of the space savings can be had without the extra
 	cost by enabling compression instead.</para>
