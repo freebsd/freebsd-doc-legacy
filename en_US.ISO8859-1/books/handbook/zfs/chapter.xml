@@ -620,6 +620,217 @@ errors: No known data errors</screen>
 	restored from backups.</para>
     </sect2>
 
+    <sect2 xml:id="zfs-zpool-selfheal">
+      <title>ZFS Self-Healing</title>
+
+      <para><acronym>ZFS</acronym> utilizes the checkums stored with
+	each data block to provide a feature called self-healing.
+	This feature will automatically repair data whose checksum
+	does not match the one recorded on another device that is part
+	of the storage pool.  For example, a mirror with two disks
+	where one drive is starting to malfunction and cannot properly
+	store the data anymore.  This is even worse when the data has
+	not been accessed for a long time in long term archive storage
+	for example.  Traditional file systems need to run algorithms
+	that check and repair the data like the &man.fsck.8; program.
+	These commands take time and in severe cases, an administrator
+	has to manually decide which repair operation has to be
+	performed.  When <acronym>ZFS</acronym> detects that a data
+	block is being read whose checksum does not match, it will try
+	to read the data from the mirror disk.  If that disk can
+	provide the correct data, it will not only give that data to
+	the application requesting it, but also correct the wrong data
+	on the disk that had the bad checksum.  This happens without
+	any interaction of a system administrator during normal pool
+	operation.</para>
+
+      <para>The following example will demonstrate this self-healing
+	behavior in ZFS.  First, a mirrored pool of two disks
+	<filename>/dev/ada0</filename> and
+	<filename>/dev/ada1</filename> is created.</para>
+
+      <screen>&prompt.root; <userinput>zpool create <replaceable>healer</replaceable> mirror <replaceable>/dev/ada0</replaceable> <replaceable>/dev/ada1</replaceable></userinput>
+&prompt.root; <userinput>zpool status <replaceable>healer</replaceable></userinput>
+  pool: healer
+ state: ONLINE
+  scan: none requested
+config:
+
+    NAME        STATE     READ WRITE CKSUM
+    healer      ONLINE       0     0     0
+      mirror-0  ONLINE       0     0     0
+       ada0     ONLINE       0     0     0
+       ada1     ONLINE       0     0     0
+
+errors: No known data errors
+&prompt.root; <userinput>zpool list</userinput>
+NAME     SIZE  ALLOC   FREE    CAP  DEDUP  HEALTH  ALTROOT
+healer   960M  92.5K   960M     0%  1.00x  ONLINE  -</screen>
+
+      <para>Now, some important data that we want to protect from data
+	errors using the self-healing feature is copied to the pool.
+	A checksum of the pool is then created to compare it against
+	the pool later on.</para>
+
+      <screen>&prompt.root; <userinput>cp /some/important/data /healer</userinput>
+&prompt.root; <userinput>zfs list</userinput>
+NAME     SIZE  ALLOC   FREE    CAP  DEDUP  HEALTH  ALTROOT
+healer   960M  67.7M   892M     7%  1.00x  ONLINE  -
+&prompt.root; <userinput>sha1 /healer > checksum.txt</userinput>
+&prompt.root; <userinput>cat checksum.txt</userinput>
+SHA1 (/healer) = 2753eff56d77d9a536ece6694bf0a82740344d1f</screen>
+
+      <para>Next, data corruption is simulated by writing random data
+	to the beginning of one of the disks that make up the mirror.
+	To prevent ZFS from healing the data as soon as it detects it,
+	we export the pool first and import it again
+	afterwards.</para>
+
+      <warning>
+	<para>This is a dangerous operation that can destroy vital
+	  data.  It is shown here for demonstrational purposes only
+	  and should not be attempted during normal operation of a ZFS
+	  storage pool.  Nor should this <command>dd</command> example
+	  be run on a disk with a different filesystem on it.  Do not
+	  use any other disk device names other than the ones that are
+	  part of the ZFS pool.  Make sure that proper backups of the
+	  pool are created before running the command!</para>
+      </warning>
+
+      <screen>&prompt.root; <userinput>zpool export <replaceable>healer</replaceable></userinput>
+&prompt.root; <userinput>dd if=/dev/random of=/dev/ada1 bs=1m count=200</userinput>
+200+0 records in
+200+0 records out
+209715200 bytes transferred in 62.992162 secs (3329227 bytes/sec)
+&prompt.root; <userinput>zpool import healer</userinput></screen>
+
+      <para>The ZFS pool status shows that one device has experienced
+	an error.  It is important to know that applications reading
+	data from the pool did not receive any data with a wrong
+	checksum.  ZFS did provide the application with the data from
+	the <filename>ada0</filename> device that has the correct
+	checksums.  The device with the wrong checksum can be found
+	easily as the <literal>CKSUM</literal> column contains a value
+	greater than zero.</para>
+
+      <screen>&prompt.root; <userinput>zpool status <replaceable>healer</replaceable></userinput>
+    pool: healer
+   state: ONLINE
+  status: One or more devices has experienced an unrecoverable error.  An
+          attempt was made to correct the error.  Applications are unaffected.
+  action: Determine if the device needs to be replaced, and clear the errors
+          using 'zpool clear' or replace the device with 'zpool replace'.
+     see: http://www.sun.com/msg/ZFS-8000-9P
+    scan: none requested
+  config:
+
+      NAME        STATE     READ WRITE CKSUM
+      healer      ONLINE       0     0     0
+        mirror-0  ONLINE       0     0     0
+         ada0     ONLINE       0     0     0
+         ada1     ONLINE       0     0     1
+
+errors: No known data errors</screen>
+
+      <para>ZFS has detected the error and took care of it by using
+	the redundancy present in the unaffected
+	<filename>ada0</filename> mirror disk.  A checksum comparison
+	with the original one should reveal whether the pool is
+	consistent again.</para>
+
+      <screen>&prompt.root; <userinput>sha1 /healer >> checksum.txt</userinput>
+&prompt.root; <userinput>cat checksum.txt</userinput>
+SHA1 (/healer) = 2753eff56d77d9a536ece6694bf0a82740344d1f
+SHA1 (/healer) = 2753eff56d77d9a536ece6694bf0a82740344d1f</screen>
+
+      <para>The two checksums that were generated before and after the
+	intentional tampering with the pool data still match.  This
+	shows how ZFS is capable of detecting and correcting any
+	errors automatically when the checksums do not match anymore.
+	Note that this is only possible when there is enough
+	redundancy present in the pool.  A pool consisting of a single
+	device has no self-healing capabilities.  That is also the
+	reason why checksums are so important in ZFS and should not be
+	disabled for any reason.  No &man.fsck.8; or similar
+	filesystem consistency check program is required to detect and
+	correct this and the pool was available the whole time.  A
+	scrub operation is now required to remove the falsely written
+	data from <filename>ada1</filename>.</para>
+
+      <screen>&prompt.root; <userinput>zpool scrub <replaceable>healer</replaceable></userinput>
+&prompt.root; <userinput>zpool status <replaceable>healer</replaceable></userinput>
+  pool: healer
+ state: ONLINE
+status: One or more devices has experienced an unrecoverable error.  An
+            attempt was made to correct the error.  Applications are unaffected.
+action: Determine if the device needs to be replaced, and clear the errors
+            using 'zpool clear' or replace the device with 'zpool replace'.
+   see: http://www.sun.com/msg/ZFS-8000-9P
+  scan: scrub in progress since Mon Dec 10 12:23:30 2012
+        10.4M scanned out of 67.0M at 267K/s, 0h3m to go
+        9.63M repaired, 15.56% done
+config:
+
+    NAME        STATE     READ WRITE CKSUM
+    healer      ONLINE       0     0     0
+      mirror-0  ONLINE       0     0     0
+       ada0     ONLINE       0     0     0
+       ada1     ONLINE       0     0   627  (repairing)
+
+errors: No known data errors</screen>
+
+      <para>The scrub operation is reading the data from
+	<filename>ada0</filename> and corrects all data that has a
+	wrong checksum on <filename>ada1</filename>.  This is
+	indicated by the <literal>(repairing)</literal> output from
+	the <command>zpool status</command> command.  After the
+	operation is complete, the pool status has changed to the
+	following:</para>
+
+      <screen>&prompt.root; <userinput>zpool status <replaceable>healer</replaceable></userinput>
+  pool: healer
+ state: ONLINE
+status: One or more devices has experienced an unrecoverable error.  An
+        attempt was made to correct the error.  Applications are unaffected.
+action: Determine if the device needs to be replaced, and clear the errors
+             using 'zpool clear' or replace the device with 'zpool replace'.
+   see: http://www.sun.com/msg/ZFS-8000-9P
+  scan: scrub repaired 66.5M in 0h2m with 0 errors on Mon Dec 10 12:26:25 2012
+config:
+
+    NAME        STATE     READ WRITE CKSUM
+    healer      ONLINE       0     0     0
+      mirror-0  ONLINE       0     0     0
+       ada0     ONLINE       0     0     0
+       ada1     ONLINE       0     0 2.72K
+
+errors: No known data errors</screen>
+
+      <para>After the scrub operation has completed and all the data
+	has been synchronized from <filename>ada0</filename> to
+	<filename>ada1</filename>, the error messages can be cleared
+	from the pool status by running <command>zpool
+	clear</command>.</para>
+
+      <screen>&prompt.root; <userinput>zpool clear <replaceable>healer</replaceable></userinput>
+&prompt.root; <userinput>zpool status <replaceable>healer</replaceable></userinput>
+  pool: healer
+ state: ONLINE
+  scan: scrub repaired 66.5M in 0h2m with 0 errors on Mon Dec 10 12:26:25 2012
+config:
+
+    NAME        STATE     READ WRITE CKSUM
+    healer      ONLINE       0     0     0
+      mirror-0  ONLINE       0     0     0
+       ada0     ONLINE       0     0     0
+       ada1     ONLINE       0     0     0
+
+errors: No known data errors</screen>
+
+      <para>Our pool is now back to a fully working state and all the
+	errors have been cleared.</para>
+    </sect2>
+
     <sect2 xml:id="zfs-zpool-online">
       <title>Growing a Pool</title>
 
