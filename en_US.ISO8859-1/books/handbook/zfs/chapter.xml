@@ -1250,7 +1250,243 @@ tank    custom:costcenter  -                  -
     <sect2 xml:id="zfs-zfs-send">
       <title>ZFS Replication</title>
 
-      <para></para>
+      <para>Keeping the data on a single pool in one location exposes
+	it to risks like theft, natural and human desasters.  Keeping
+	regular backups of the entire pool is vital when data needs to
+	be restored.  ZFS provides a built-in serialization feature
+	that can send a stream representation of the data to standard
+	output.  Using this technique, it is possible to not only
+	store the data on another pool connected to the local system,
+	but also to send it over a network to another system that runs
+	ZFS.  To achieve this replication, ZFS uses the filesystem
+	snapshots (see the section on <link
+	  linkend="zfs-zfs-snapshot">ZFS snapshots</link> on how they
+	work) to send them from one location to another.  The commands
+	for this operation are <literal>zfs send</literal> and
+	<literal>zfs receive</literal>, respectively.</para>
+
+      <para>The following examples will demonstrate the functionality
+	of ZFS replication using these two pools:</para>
+
+      <screen>&prompt.root; <userinput>zpool list</userinput>
+NAME    SIZE  ALLOC   FREE    CAP  DEDUP  HEALTH  ALTROOT
+backup  960M    77K   896M     0%  1.00x  ONLINE  -
+mypool  984M  43.7M   940M     4%  1.00x  ONLINE  -</screen>
+
+      <para>The pool named <replaceable>mypool</replaceable> is the
+	primary pool where data is written to and read from on a
+	regular basis.  A second pool,
+	<replaceable>backup</replaceable> is used as a standby in case
+	the primary pool becomes offline.  Note that this is not done
+	automatically by ZFS, but rather done by a system
+	administrator in case it is needed.  First, a snapshot is
+	created on <replaceable>mypool</replaceable> to have a backup
+	of the current state of the data to send to the pool
+	<replaceable>backup</replaceable>.</para>
+
+      <screen>&prompt.root; <userinput>zfs snapshot <replaceable>mypool</replaceable>@<replaceable>backup1</replaceable></userinput>
+&prompt.root; <userinput>zfs list -t snapshot</userinput>
+NAME                    USED  AVAIL  REFER  MOUNTPOINT
+mypool@backup1             0      -  43.6M  -</screen>
+
+      <para>Now that a snapshot exists, <command>zfs send</command>
+	can be used to create a stream representing the contents of
+	the snapshot locally or remote to another pool.  The stream
+	must be written to the standard output, otherwise ZFS will
+	produce an error like in this example:</para>
+
+      <screen>&prompt.root; <userinput>zfs send <replaceable>mypool</replaceable>@<replaceable>backup1</replaceable></userinput>
+Error: Stream can not be written to a terminal.
+You must redirect standard output.</screen>
+
+      <para>The correct way to use <command>zfs send</command> is to
+	redirect it to a location like the mounted backup pool.
+	Afterwards, that pool should have the size of the snapshot
+	allocated, which means all the data contained in the snapshot
+	was stored on the backup pool.</para>
+
+      <screen>&prompt.root; <userinput>zfs send <replaceable>mypool</replaceable>@<replaceable>backup1</replaceable> > <replaceable>/backup/backup1</replaceable></userinput>
+&prompt.root; <userinput>zpool list</userinput>
+NAME    SIZE  ALLOC   FREE    CAP  DEDUP  HEALTH  ALTROOT
+backup  960M  63.7M   896M     6%  1.00x  ONLINE  -
+mypool  984M  43.7M   940M     4%  1.00x  ONLINE  -</screen>
+
+      <para>The <command>zfs send</command> transferred all the data
+	in the snapshot called <replaceable>backup1</replaceable> to
+	the pool named <replaceable>backup</replaceable>.  Creating
+	and sending these snapshots could be done automatically by a
+	cron job.</para>
+
+      <sect3 xml:id="zfs-send-incremental">
+	<title>ZFS Incremental Backups</title>
+
+	<para>Another feature of <command>zfs send</command> is that
+	  it can determine the difference between two snapshots to
+	  only send what has changed between the two.  This results in
+	  saving disk space and time for the transfer to another pool.
+	  The following example demonstrates this:</para>
+
+	<screen>&prompt.root; <userinput>zfs snapshot <replaceable>mypool</replaceable>@<replaceable>backup2</replaceable></userinput>
+&prompt.root; <userinput>zfs list -t snapshot</userinput>
+NAME                    USED  AVAIL  REFER  MOUNTPOINT
+mypool@backup1         5.72M      -  43.6M  -
+mypool@backup2             0      -  44.1M  -
+&prompt.root; <userinput>zpool list</userinput>
+NAME    SIZE  ALLOC   FREE    CAP  DEDUP  HEALTH  ALTROOT
+backup  960M  61.7M   898M     6%  1.00x  ONLINE  -
+mypool  960M  50.2M   910M     5%  1.00x  ONLINE  -</screen>
+
+	<para>A second snapshot called
+	  <replaceable>backup2</replaceable> was created.  This second
+	  snapshot contains only the changes on the ZFS filesystem
+	  between now and the last snapshot,
+	  <replaceable>backup1</replaceable>.  Using the
+	  <literal>-i</literal> flag to <command>zfs send</command>
+	  and providing both snapshots, an incremental snapshot can be
+	  transferred, containing only the data that has
+	  changed.</para>
+
+	<screen>&prompt.root; <userinput>zfs send -i <replaceable>mypool</replaceable>@<replaceable>backup1</replaceable> <replaceable>mypool</replaceable>@<replaceable>backup2</replaceable> > <replaceable>/backup/incremental</replaceable></userinput>
+&prompt.root; <userinput>zpool list</userinput>
+NAME    SIZE  ALLOC   FREE    CAP  DEDUP  HEALTH  ALTROOT
+backup  960M  80.8M   879M     8%  1.00x  ONLINE  -
+mypool  960M  50.2M   910M     5%  1.00x  ONLINE  -
+&prompt.root; <userinput>ls -lh /backup</userinput>
+total 82247
+drwxr-xr-x     1 root   wheel      61M Dec  3 11:36 backup1
+drwxr-xr-x     1 root   wheel      18M Dec  3 11:36 incremental</screen>
+
+	<para>The incremental stream was successfully transferred and
+	  the file on disk is smaller than any of the two snapshots
+	  <replaceable>backup1</replaceable> or
+	  <replaceable>backup2</replaceable>.  This shows that it only
+	  contains the differences, which is much faster to transfer
+	  and saves disk space by not copying the complete pool each
+	  time.  This is useful when having to rely on slow networks
+	  or when costs per transferred byte have to be
+	  considered.</para>
+      </sect3>
+
+      <sect3 xml:id="zfs-send-recv">
+	<title>Receiving ZFS Data Streams</title>
+
+	<para>Up until now, only the data streams in binary form were
+	  sent to other pools.  To get to the actual data contained in
+	  those streams, the reverse operation of <command>zfs
+	    send</command> has to be used to transform the streams
+	  back into files and directories.  The command is called
+	  <command>zfs receive</command> and has also a short version:
+	  <command>zfs recv</command>.  The example below combines
+	  <command>zfs send</command> and <command>zfs
+	    receive</command> using a pipe to copy the data from one
+	  pool to another.  This way, the data can be used directly on
+	  the receiving pool after the transfer is complete.</para>
+
+	<screen>&prompt.root; <userinput>zfs send <replaceable>mypool</replaceable>@<replaceable>backup1</replaceable> | zfs receive <replaceable>backup/backup1</replaceable></userinput>
+&prompt.root; <userinput>ls -lh /backup</userinput>
+total 431
+drwxr-xr-x     4219 root   wheel      4.1k Dec  3 11:34 backup1</screen>
+
+	<para>The directory <replaceable>backup1</replaceable> does
+	  contain all the data, which were part of the snapshot of the
+	  same name.  Since this originally was a complete filesystem
+	  snapshot, the listing of all ZFS filesystems for this pool
+	  is also updated and shows the
+	  <replaceable>backup1</replaceable> entry.</para>
+
+	<screen>&prompt.root; <userinput>zfs list</userinput>
+NAME                    USED  AVAIL  REFER  MOUNTPOINT
+backup                 43.7M   884M    32K  /backup
+backup/backup1         43.5M   884M  43.5M  /backup/backup1
+mypool                 50.0M   878M  44.1M  /mypool</screen>
+
+	<para>A new filesystem, <replaceable>backup1</replaceable> is
+	  available and has the same size as the snapshot it was
+	  created from.  It is up to the user to decide whether the
+	  streams should be transformed back into filesystems directly
+	  to have a cold-standby for emergencies or to just keep the
+	  streams and transform them later when required.  Sending and
+	  receiving can be automated so that regular backups are
+	  created on a second pool for backup purposes.</para>
+      </sect3>
+
+      <sect3 xml:id="zfs-send-ssh">
+	<title>Sending Encrypted Backups over SSH</title>
+
+	<para>Although sending streams to another system over the
+	  network is a good way to keep a remote backup, it does come
+	  with a drawback.  All the data sent over the network link is
+	  not encrypted, allowing anyone to intercept and transform
+	  the streams back into data without the knowledge of the
+	  sending user.  This is an unacceptable situation, especially
+	  when sending the streams over the internet to a remote host
+	  with multiple hops in between where such malicious data
+	  collection can occur.  Fortunately, there is a solution
+	  available to the problem that does not require the
+	  encryption of the data on the pool itself.  To make sure the
+	  network connection between both systems is securely
+	  encrypted, <application>SSH</application> can be used.
+	  Since ZFS only requires the stream to be redirected from
+	  standard output, it is relatively easy to pipe it through
+	  SSH.</para>
+
+	<para>A few settings and security precautions have to be made
+	  before this can be done.  Since this chapter is about ZFS
+	  and not about configuring SSH, it only lists the things
+	  required to perform the encrypted <command>zfs
+	  send</command> operation.  The following settings should
+	  be made:</para>
+
+	<itemizedlist>
+	  <listitem>
+	    <para>Passwordless SSH access between sending and
+	      receiving host using SSH keys</para>
+	  </listitem>
+
+	  <listitem>
+	    <para>The <literal>root</literal> user needs to be able to
+	      log into the receiving system because only that user can
+	      send streams from the pool.  SSH should be configured so
+	      that <literal>root</literal> can only execute
+	      <command>zfs recv</command> and nothing else to prevent
+	      users that might have hijacked this account from doing
+	      any harm on the system.</para>
+	  </listitem>
+	</itemizedlist>
+
+	<para>After these security measures have been put into place
+	  and <literal>root</literal> can connect passwordless via SSH
+	  to the receiving system, the encrypted stream can be sent
+	  using the following commands:</para>
+
+	<screen>&prompt.root; <userinput>zfs snapshot -r <replaceable>mypool/home</replaceable>@<replaceable>monday</replaceable></userinput>
+&prompt.root; <userinput>zfs send -R <replaceable>mypool/home</replaceable>@<replaceable>monday</replaceable> | ssh <replaceable>backuphost</replaceable> zfs recv -dvu <replaceable>backuppool</replaceable></userinput></screen>
+
+	<para>The first command creates a recursive snapshot (option
+	  <literal>-r</literal>) called
+	  <replaceable>monday</replaceable> of the filesystem named
+	  <replaceable>home</replaceable> that resides on the pool
+	  <replaceable>mypool</replaceable>.  The second command uses
+	  the <literal>-R</literal> option to <command>zfs
+	    send</command>, which makes sure that all datasets and
+	  filesystems along with their children are included in the
+	  transmission of the data stream.  This also includes
+	  snaphots, clones and settings on individual filesystems as
+	  well.  The output is piped directly to SSH that uses a short
+	  name for the receiving host called
+	  <replaceable>backuphost</replaceable>.  A fully qualified
+	  domain name or IP address can also be used here.  The SSH
+	  command to execute is <command>zfs recv</command> to a pool
+	  called <replaceable>backuppool</replaceable>.  Using the
+	  <literal>-d</literal> option with <command>zfs
+	    recv</command> will remove the original name of the pool
+	  on the receiving side and just takes the name of the
+	  snapshot instead.  The <literal>-u</literal> option makes
+	  sure that the filesystem is not mounted on the receiving
+	  side.  More information about the transfer&mdash;like the
+	  time that has passed&mdash;is displayed when the
+	  <literal>-v</literal> option is provided.</para>
+      </sect3>
     </sect2>
 
     <sect2 xml:id="zfs-zfs-quota">
