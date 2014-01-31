@@ -1455,7 +1455,7 @@ mypool                 50.0M   878M  44.1M  /mypool</screen>
 	</itemizedlist>
 
 	<para>After these security measures have been put into place
-	  and <literal>root</literal> can connect via passwordless via
+	  and <literal>root</literal> can connect via passwordless
 	  <application>SSH</application> to the receiving system, the
 	  encrypted stream can be sent using the following
 	  commands:</para>
