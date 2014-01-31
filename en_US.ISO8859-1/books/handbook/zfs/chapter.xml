@@ -1251,16 +1251,16 @@ tank    custom:costcenter  -                  -
       <title>ZFS Replication</title>
 
       <para>Keeping the data on a single pool in one location exposes
-	it to risks like theft, natural and human desasters.  Keeping
+	it to risks like theft, natural and human disasters.  Keeping
 	regular backups of the entire pool is vital when data needs to
 	be restored.  ZFS provides a built-in serialization feature
 	that can send a stream representation of the data to standard
 	output.  Using this technique, it is possible to not only
 	store the data on another pool connected to the local system,
 	but also to send it over a network to another system that runs
-	ZFS.  To achieve this replication, ZFS uses the filesystem
+	ZFS.  To achieve this replication, ZFS uses filesystem
 	snapshots (see the section on <link
-	  linkend="zfs-zfs-snapshot">ZFS snapshots</link> on how they
+	  linkend="zfs-zfs-snapshot">ZFS snapshots</link> for how they
 	work) to send them from one location to another.  The commands
 	for this operation are <literal>zfs send</literal> and
 	<literal>zfs receive</literal>, respectively.</para>
@@ -1280,7 +1280,7 @@ mypool  984M  43.7M   940M     4%  1.00x  ONLINE  -</screen>
 	the primary pool becomes offline.  Note that this is not done
 	automatically by ZFS, but rather done by a system
 	administrator in case it is needed.  First, a snapshot is
-	created on <replaceable>mypool</replaceable> to have a backup
+	created on <replaceable>mypool</replaceable> to have a copy
 	of the current state of the data to send to the pool
 	<replaceable>backup</replaceable>.</para>
 
@@ -1291,7 +1291,7 @@ mypool@backup1             0      -  43.6M  -</screen>
 
       <para>Now that a snapshot exists, <command>zfs send</command>
 	can be used to create a stream representing the contents of
-	the snapshot locally or remote to another pool.  The stream
+	the snapshot locally or remotely to another pool.  The stream
 	must be written to the standard output, otherwise ZFS will
 	produce an error like in this example:</para>
 
@@ -1324,7 +1324,7 @@ mypool  984M  43.7M   940M     4%  1.00x  ONLINE  -</screen>
 	  it can determine the difference between two snapshots to
 	  only send what has changed between the two.  This results in
 	  saving disk space and time for the transfer to another pool.
-	  The following example demonstrates this:</para>
+	  For example:</para>
 
 	<screen>&prompt.root; <userinput>zfs snapshot <replaceable>mypool</replaceable>@<replaceable>backup2</replaceable></userinput>
 &prompt.root; <userinput>zfs list -t snapshot</userinput>
@@ -1455,9 +1455,10 @@ mypool                 50.0M   878M  44.1M  /mypool</screen>
 	</itemizedlist>
 
 	<para>After these security measures have been put into place
-	  and <literal>root</literal> can connect passwordless via SSH
-	  to the receiving system, the encrypted stream can be sent
-	  using the following commands:</para>
+	  and <literal>root</literal> can connect via passwordless via
+	  <application>SSH</application> to the receiving system, the
+	  encrypted stream can be sent using the following
+	  commands:</para>
 
 	<screen>&prompt.root; <userinput>zfs snapshot -r <replaceable>mypool/home</replaceable>@<replaceable>monday</replaceable></userinput>
 &prompt.root; <userinput>zfs send -R <replaceable>mypool/home</replaceable>@<replaceable>monday</replaceable> | ssh <replaceable>backuphost</replaceable> zfs recv -dvu <replaceable>backuppool</replaceable></userinput></screen>
