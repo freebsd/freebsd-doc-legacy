@@ -955,9 +955,9 @@ History for 'tank':
 2013-02-27.18:51:09 zfs set checksum=fletcher4 tank [user 0 (root) on myzfsbox:global]
 2013-02-27.18:51:18 zfs create tank/backup [user 0 (root) on myzfsbox:global]</screen>
 
-      <para>This output clearly shows that the <literal>root</literal>
-	user created the mirrored pool (consisting of
-	<filename>/dev/ada0</filename> and
+      <para>This output clearly shows that the <systemitem
+	  class="username">root</systemitem> user created the mirrored
+	pool (consisting of <filename>/dev/ada0</filename> and
 	<filename>/dev/ada1</filename>).  In addition to that, the
 	hostname (<literal>myzfsbox</literal>) is also shown in the
 	commands following the pool's creation.  The hostname display
@@ -1444,21 +1444,22 @@ mypool                 50.0M   878M  44.1M  /mypool</screen>
 	  </listitem>
 
 	  <listitem>
-	    <para>The <literal>root</literal> user needs to be able to
-	      log into the receiving system because only that user can
-	      send streams from the pool.  SSH should be configured so
-	      that <literal>root</literal> can only execute
-	      <command>zfs recv</command> and nothing else to prevent
-	      users that might have hijacked this account from doing
-	      any harm on the system.</para>
+	    <para>The <systemitem class="username">root</systemitem>
+	      user needs to be able to log into the receiving system
+	      because only that user can send streams from the pool.
+	      <application>SSH</application> should be configured so
+	      that <systemitem class="username">root</systemitem> can
+	      only execute <command>zfs recv</command> and nothing
+	      else to prevent users that might have hijacked this
+	      account from doing any harm on the system.</para>
 	  </listitem>
 	</itemizedlist>
 
 	<para>After these security measures have been put into place
-	  and <literal>root</literal> can connect via passwordless
-	  <application>SSH</application> to the receiving system, the
-	  encrypted stream can be sent using the following
-	  commands:</para>
+	  and <systemitem class="username">root</systemitem> can
+	  connect via passwordless <application>SSH</application> to
+	  the receiving system, the encrypted stream can be sent using
+	  the following commands:</para>
 
 	<screen>&prompt.root; <userinput>zfs snapshot -r <replaceable>mypool/home</replaceable>@<replaceable>monday</replaceable></userinput>
 &prompt.root; <userinput>zfs send -R <replaceable>mypool/home</replaceable>@<replaceable>monday</replaceable> | ssh <replaceable>backuphost</replaceable> zfs recv -dvu <replaceable>backuppool</replaceable></userinput></screen>
