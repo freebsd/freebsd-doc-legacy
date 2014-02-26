@@ -675,7 +675,11 @@ errors: No known data errors</screen>
 	ideally at least once every three months.  The
 	<command>scrub</command> operating is very disk-intensive and
 	will reduce performance while running.  Avoid high-demand
-	periods when scheduling <command>scrub</command>.</para>
+	periods when scheduling <command>scrub</command> or use <link
+	linkend="zfs-advanced-tuning-scrub_delay"><varname>vfs.zfs.scrub_delay</varname></link>
+	to adjust the relative priority of the
+	<command>scrub</command> to prevent it interfering with other
+	workloads.</para>
 
       <screen>&prompt.root; <userinput>zpool scrub <replaceable>mypool</replaceable></userinput>
 &prompt.root; <userinput>zpool status</userinput>
@@ -890,7 +894,8 @@ errors: No known data errors</screen>
 
       <para>After the scrub operation has completed and all the data
 	has been synchronized from <filename>ada0</filename> to
-	<filename>ada1</filename>, the error messages can be cleared
+	<filename>ada1</filename>, the error messages can be <link
+	linkend="zfs-zpool-clear">cleared</link>
 	from the pool status by running <command>zpool
 	  clear</command>.</para>
 
@@ -2014,7 +2019,258 @@ mypool/compressed_dataset  logicalused       496G      -</screen>
     <sect2 xml:id="zfs-advanced-tuning">
       <title><acronym>ZFS</acronym> Tuning</title>
 
-      <para></para>
+      <para>There are a number of tunables that can be adjusted to
+	make <acronym>ZFS</acronym> perform best for different
+	workloads.</para>
+
+      <itemizedlist>
+	<listitem>
+	  <para xml:id="zfs-advanced-tuning-arc_max">
+	    <emphasis><varname>vfs.zfs.arc_max</varname></emphasis> -
+	    Sets the maximum size of the <link
+	    linkend="zfs-term-arc"><acronym>ARC</acronym></link>.
+	    The default is all <acronym>RAM</acronym> less 1&nbsp;GB,
+	    or 1/2 of ram, whichever is more.  However a lower value
+	    should be used if the system will be running any other
+	    daemons or processes that may require memory.  This value
+	    can only be adjusted at boot time, and is set in
+	    <filename>/boot/loader.conf</filename>.</para>
+	</listitem>
+
+	<listitem>
+	  <para xml:id="zfs-advanced-tuning-arc_meta_limit">
+	    <emphasis><varname>vfs.zfs.arc_meta_limit</varname></emphasis>
+	    - Limits the portion of the <link
+	    linkend="zfs-term-arc"><acronym>ARC</acronym></link>
+	    that can be used to store metadata.  The default is 1/4 of
+	    <varname>vfs.zfs.arc_max</varname>.  Increasing this value
+	    will improve performance if the workload involves
+	    operations on a large number of files and directories, or
+	    frequent metadata operations, at the cost of less file
+	    data fitting in the <link
+	    linkend="zfs-term-arc"><acronym>ARC</acronym></link>.
+	    This value can only be adjusted at boot time, and is set
+	    in <filename>/boot/loader.conf</filename>.</para>
+	</listitem>
+
+	<listitem>
+	  <para xml:id="zfs-advanced-tuning-arc_min">
+	    <emphasis><varname>vfs.zfs.arc_min</varname></emphasis> -
+	    Sets the minimum size of the <link
+	    linkend="zfs-term-arc"><acronym>ARC</acronym></link>.
+	    The default is 1/2 of
+	    <varname>vfs.zfs.arc_meta_limit</varname>.  Adjust this
+	    value to prevent other applications from pressuring out
+	    the entire <link
+	    linkend="zfs-term-arc"><acronym>ARC</acronym></link>.
+	    This value can only be adjusted at boot time, and is set
+	    in <filename>/boot/loader.conf</filename>.</para>
+	</listitem>
+
+	<listitem>
+	  <para xml:id="zfs-advanced-tuning-vdev-cache-size">
+	    <emphasis><varname>vfs.zfs.vdev.cache.size</varname></emphasis>
+	    - A preallocated amount of memory reserved as a cache for
+	    each device in the pool.  The total amount of memory used
+	    will be this value multiplied by the number of devices.
+	    This value can only be adjusted at boot time, and is set
+	    in <filename>/boot/loader.conf</filename>.</para>
+	</listitem>
+
+	<listitem>
+	  <para xml:id="zfs-advanced-tuning-prefetch_disable">
+	    <emphasis><varname>vfs.zfs.prefetch_disable</varname></emphasis>
+	    - Toggles prefetch, a value of 0 is enabled and 1 is
+	    disabled.  The default is 0, unless the system has less
+	    than 4&nbsp;GB of <acronym>RAM</acronym>.  Prefetch works
+	    by reading larged blocks than were requested into the
+	    <link linkend="zfs-term-arc"><acronym>ARC</acronym></link>
+	    in hopes that the data will be needed soon.  If the
+	    workload has a large number of random reads, disabling
+	    prefetch may actually improve performance by reducing
+	    unnecessary reads.  This value can be adjusted at any time
+	    with &man.sysctl.8;.</para>
+	</listitem>
+
+	<listitem>
+	  <para xml:id="zfs-advanced-tuning-vdev-trim_on_init">
+	    <emphasis><varname>vfs.zfs.vdev.trim_on_init</varname></emphasis>
+	    - Controls whether new devices added to the pool have the
+	    <literal>TRIM</literal> command run on them.  This ensures
+	    the best performance and longevity for
+	    <acronym>SSD</acronym>s, but takes extra time.  If the
+	    device has already been secure erased, disabling this
+	    setting will make the addition of the new device faster.
+	    This value can be adjusted at any time with
+	    &man.sysctl.8;.</para>
+	</listitem>
+
+	<listitem>
+	  <para xml:id="zfs-advanced-tuning-write_to_degraded">
+	    <emphasis><varname>vfs.zfs.write_to_degraded</varname></emphasis>
+	    - Controls whether new data is written to a vdev that is
+	    in the <link linkend="zfs-term-degraded">DEGRADED</link>
+	    state.  Defaults to 0, preventing writes to any top level
+	    vdev that is in a degraded state.  The administrator may
+	    with to allow writing to degraded vdevs to prevent the
+	    amount of free space across the vdevs from becoming
+	    unbalanced, which will reduce read and write performance.
+	    This value can be adjusted at any time with
+	    &man.sysctl.8;.</para>
+	</listitem>
+
+	<listitem>
+	  <para xml:id="zfs-advanced-tuning-vdev-max_pending">
+	    <emphasis><varname>vfs.zfs.vdev.max_pending</varname></emphasis>
+	    - Limits the number of pending I/O requests per device.
+	    A higher value will keep the device command queue full
+	    and may give higher throughput.  A lower value will reduce
+	    latency.  This value can be adjusted at any time with
+	    &man.sysctl.8;.</para>
+	</listitem>
+
+	<listitem>
+	  <para xml:id="zfs-advanced-tuning-top_maxinflight">
+	    <emphasis><varname>vfs.zfs.top_maxinflight</varname></emphasis>
+	    - The maxmimum number of outstanding I/Os per top-level
+	    <link linkend="zfs-term-vdev">vdev</link>.  Limits the
+	    depth of the command queue to prevent high latency.  The
+	    limit is per top-level vdev, meaning the limit applies to
+	    each <link linkend="zfs-term-vdev-mirror">mirror</link>,
+	    <link linkend="zfs-term-vdev-raidz">RAID-Z</link>, or
+	    other vdev independantly.  This value can be adjusted at
+	    any time with &man.sysctl.8;.</para>
+	</listitem>
+
+	<listitem>
+	  <para xml:id="zfs-advanced-tuning-l2arc_write_max">
+	    <emphasis><varname>vfs.zfs.l2arc_write_max</varname></emphasis>
+	    - Limits the amount of data written to the <link
+	    linkend="zfs-term-l2arc"><acronym>L2ARC</acronym></link>
+	    per second.  This tunable is designed to extend the
+	    longevity of <acronym>SSD</acronym>s by limiting the
+	    amount of data written to the device.  This value can be
+	    adjusted at any time with &man.sysctl.8;.</para>
+	</listitem>
+
+	<listitem>
+	  <para xml:id="zfs-advanced-tuning-l2arc_write_boost">
+	    <emphasis><varname>vfs.zfs.l2arc_write_boost</varname></emphasis>
+	    - The value of this tunable is added to <link
+	    linkend="zfs-advanced-tuning-l2arc_write_max"><varname>vfs.zfs.l2arc_write_max</varname></link>
+	    and increases the write speed to the
+	    <acronym>SSD</acronym> until the first block is evicted
+	    from the <link
+	    linkend="zfs-term-l2arc"><acronym>L2ARC</acronym></link>.
+	    This "Turbo Warmup Phase" is designed to reduce the
+	    performance loss from an empty <link
+	    linkend="zfs-term-l2arc"><acronym>L2ARC</acronym></link>
+	    after a reboot.  This value can be adjusted at any time
+	    with &man.sysctl.8;.</para>
+	</listitem>
+
+	<listitem>
+	  <para xml:id="zfs-advanced-tuning-no_scrub_io">
+	    <emphasis><varname>vfs.zfs.no_scrub_io</varname></emphasis>
+	    - Disable <link
+	    linkend="zfs-term-scrub"><command>scrub</command></link>
+	    I/O.  Causes <command>scrub</command> to not actually read
+	    the data blocks and verify their checksums, effectively
+	    turning any <command>scrub</command> in progress into a
+	    no-op.  This may be useful if a <command>scrub</command>
+	    is interferring with other operations on the pool.  This
+	    value can be adjusted at any time with
+	    &man.sysctl.8;.</para>
+
+	  <warning><para>If this tunable is set to cancel an
+	    in-progress <command>scrub</command>, be sure to unset
+	    it afterwards or else all future
+	    <link linkend="zfs-term-scrub">scrub</link> and <link
+	    linkend="zfs-term-resilver">resilver</link> operations
+	    will be ineffective.</para></warning>
+	</listitem>
+
+	<listitem>
+	  <para xml:id="zfs-advanced-tuning-scrub_delay">
+	    <emphasis><varname>vfs.zfs.scrub_delay</varname></emphasis>
+	    - Determines the milliseconds of delay inserted between
+	    each I/O during a <link
+	    linkend="zfs-term-scrub"><command>scrub</command></link>.
+	    To ensure that a <command>scrub</command> does not
+	    interfere with the normal operation of the pool, if any
+	    other I/O is happening the <command>scrub</command> will
+	    delay between each command.  This value allows you to
+	    limit the total <acronym>IOPS</acronym> (I/Os Per Second)
+	    generated by the <command>scrub</command>.  The default
+	    value is 4, resulting in a limit of: 1000&nbsp; ms / 4 =
+	    250&nbsp;<acronym>IOPS</acronym>.  Using a value of
+	    <replaceable>20</replaceable> would give a limit of:
+	    1000&nbsp;ms / 20 = 50&nbsp;<acronym>IOPS</acronym>.  The
+	    speed of <command>scrub</command> is only limited when
+	    there has been only recent activity on the pool, as
+	    determined by <link
+	    linkend="zfs-advanced-tuning-scan_idle"><varname>vfs.zfs.scan_idle</varname></link>.
+	    This value can be adjusted at any time with
+	    &man.sysctl.8;.</para>
+	</listitem>
+
+	<listitem>
+	  <para xml:id="zfs-advanced-tuning-resilver_delay">
+	    <emphasis><varname>vfs.zfs.resilver_delay</varname></emphasis>
+	    - Determines the milliseconds of delay inserted between
+	    each I/O during a <link
+	    linkend="zfs-term-resilver">resilver</link>.  To ensure
+	    that a <literal>resilver</literal> does not interfere with
+	    the normal operation of the pool, if any other I/O is
+	    happening the <literal>resilver</literal> will delay
+	    between each command.  This value allows you to limit the
+	    total <acronym>IOPS</acronym> (I/Os Per Second) generated
+	    by the <literal>resilver</literal>.  The default value is
+	    2, resulting in a limit of: 1000&nbsp; ms / 2 =
+	    500&nbsp;<acronym>IOPS</acronym>.  Returning the pool to
+	    an <link linkend="zfs-term-online">Online</link> state may
+	    be more important if another device failing could <link
+	    linkend="zfs-term-faulted">Fault</link> the pool, causing
+	    data loss.  A value of 0 will give the
+	    <literal>resilver</literal> operation the same priority as
+	    other operations, speeding the healing process.  The speed
+	    of <literal>resilver</literal> is only limited when there
+	    has been other recent activity on the pool, as determined
+	    by <link
+	    linkend="zfs-advanced-tuning-scan_idle"><varname>vfs.zfs.scan_idle</varname></link>.
+	    This value can be adjusted at any time with
+	    &man.sysctl.8;.</para>
+	</listitem>
+
+	<listitem>
+	  <para xml:id="zfs-advanced-tuning-scan_idle">
+	    <emphasis><varname>vfs.zfs.scan_idle</varname></emphasis>
+	    - How many milliseconds since the last operation before
+	    the pool is considered idle.  When the pool is idle the
+	    rate limiting for <link
+	    linkend="zfs-term-scrub"><command>scrub</command></link>
+	    and <link
+	    linkend="zfs-term-resilver">resilver</link> are disabled.
+	    This value can be adjusted at any time with
+	    &man.sysctl.8;.</para>
+	</listitem>
+
+	<listitem>
+	  <para xml:id="zfs-advanced-tuning-txg-timeout">
+	    <emphasis><varname>vfs.zfs.txg.timeout</varname></emphasis>
+	    - Maximum seconds between <link
+	    linkend="zfs-term-txg">transaction group</link>s.  The
+	    current transaction group will be written to the pool and
+	    a fresh transaction group started if this amount of time
+	    has elapsed since the previous transaction group.  A
+	    transaction group my be triggered earlier if enough data
+	    is written.  The default value is 5 seconds.  A larger
+	    value may improve read performance by delaying
+	    asynchronous writes, but this may cause uneven performance
+	    when the transaction group is written.  This value can be
+	    adjusted at any time with &man.sysctl.8;.</para>
+	</listitem>
+      </itemizedlist>
     </sect2>
 
     <sect2 xml:id="zfs-advanced-booting">
@@ -2356,6 +2612,76 @@ vfs.zfs.vdev.cache.size="5M"</programlisting>
 	  </row>
 
 	  <row>
+	    <entry xml:id="zfs-term-txg">Transaction Group
+	      (<acronym>TXG</acronym>)</entry>
+
+	    <entry>Transaction Groups are the way changed blocks are
+	      grouped together and eventually written to the pool.
+	      Transaction groups are the atomic unit that
+	      <acronym>ZFS</acronym> uses to assert consistency.  Each
+	      transaction group is assigned a unique 64-bit
+	      consecutive identifier.  There can be up to three active
+	      transaction groups at a time, one in each of these three
+	      states:
+
+	      <itemizedlist>
+		<listitem>
+		  <para><emphasis>Open</emphasis> - When a new
+		    transaction group is created, it is in the open
+		    state, and accepts new writes.  There is always
+		    a transaction group in the open state, however the
+		    transaction group may refuse new writes if it has
+		    reached a limit.  Once the open transaction group
+		    has reached a limit, or the <link
+		    linkend="zfs-advanced-tuning-txg-timeout"><varname>vfs.zfs.txg.timeout</varname></link>
+		    has been reached, the transaction group advances
+		    to the next state.</para>
+		</listitem>
+
+		<listitem>
+		  <para><emphasis>Quiescing</emphasis> - A short state
+		    that allows any pending operations to finish while
+		    not blocking the creation of a new open
+		    transaction group.  Once all of the transactions
+		    in the group have completed, the transaction group
+		    advances to the final state.</para>
+		</listitem>
+
+		<listitem>
+		  <para><emphasis>Syncing</emphasis> - All of the data
+		    in the transaction group is written to stable
+		    storage.  This process will in turn modify other
+		    data, such as metadata and space maps, that will
+		    also need to be written to stable storage.  The
+		    process of syncing involves multiple passes.  The
+		    first, all of the changed data blocks, is the
+		    biggest, followed by the metadata, which may take
+		    multiple passes to complete.  Since allocating
+		    space for the data blocks generates new metadata,
+		    the syncing state cannot finish until a pass
+		    completes that does not allocate any additional
+		    space.  The syncing state is also where
+		    <literal>synctasks</literal> are completed.
+		    <literal>Synctasks</literal> are administrative
+		    operations, such as creating or destroying
+		    snapshots and datasets, that modify the uberblock
+		    are completed.  Once the sync state is complete,
+		    the transaction group in the quiescing state is
+		    advanced to the syncing state.</para>
+		</listitem>
+	      </itemizedlist>
+
+	      All administrative functions, such as <link
+	      linkend="zfs-term-snapshot"><command>snapshot</command></link>
+	      are written as part of the transaction group.  When a
+	      <literal>synctask</literal> is created, it is added to
+	      the currently open transaction group, and that group is
+	      advances as quickly as possible to the syncing state in
+	      order to reduce the latency of administrative
+	      commands.</entry>
+	  </row>
+
+	  <row>
 	    <entry xml:id="zfs-term-arc">Adaptive Replacement
 	      Cache (<acronym>ARC</acronym>)</entry>
 
@@ -2419,12 +2745,13 @@ vfs.zfs.vdev.cache.size="5M"</programlisting>
 	      room), writing to the <acronym>L2ARC</acronym> is
 	      limited to the sum of the write limit and the boost
 	      limit, then after that limited to the write limit.  A
-	      pair of sysctl values control these rate limits;
-	      <literal>vfs.zfs.l2arc_write_max</literal> controls how
-	      many bytes are written to the cache per second, while
-	      <literal>vfs.zfs.l2arc_write_boost</literal> adds to
-	      this limit during the "Turbo Warmup Phase" (Write
-	      Boost).</entry>
+	      pair of sysctl values control these rate limits; <link
+	      linkend="zfs-advanced-tuning-l2arc_write_max"><varname>vfs.zfs.l2arc_write_max</varname></link>
+	      controls how many bytes are written to the cache per
+	      second, while <link
+	      linkend="zfs-advanced-tuning-l2arc_write_boost"><varname>vfs.zfs.l2arc_write_boost</varname></link>
+	      adds to this limit during the "Turbo Warmup Phase"
+	      (Write Boost).</entry>
 	  </row>
 
 	  <row>
@@ -2682,7 +3009,7 @@ vfs.zfs.vdev.cache.size="5M"</programlisting>
 		    (zero length encoding) is a special compression
 		    algorithm that only compresses continuous runs of
 		    zeros.  This compression algorithm is only useful
-		    when the dataset contains large, continous runs of
+		    when the dataset contains large, continuous runs of
 		    zeros.</para>
 		</listitem>
 	      </itemizedlist></entry>
@@ -2746,7 +3073,12 @@ vfs.zfs.vdev.cache.size="5M"</programlisting>
 	      but a <command>scrub</command> makes sure even
 	      infrequently used blocks are checked for silent
 	      corruption.  This improves the security of the data,
-	      especially in archival storage situations.</entry>
+	      especially in archival storage situations.  The relative
+	      priority of <command>scrub</command> can be adjusted
+	      with <link
+	      linkend="zfs-advanced-tuning-scrub_delay"><varname>vfs.zfs.scrub_delay</varname></link>
+	      to prevent the scrub from degrading the performance of
+	      other workloads on your pool.</entry>
 	  </row>
 
 	  <row>
