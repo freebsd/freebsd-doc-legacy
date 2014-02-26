@@ -2604,7 +2604,7 @@ Do you want to configure inetd and the network services that it provides?
 	will not be enabled.  These services can be enabled after
 	installation by editing
 	<filename>/etc/inetd.conf</filename> with a text editor.
-	See <xref linkend="network-inetd-overview"/> for more information.</para>
+	See <xref linkend="network-inetd-conf"/> for more information.</para>
 
       <para>Otherwise, select &gui.yes; to
 	configure these services during install.  An additional
@@ -4521,12 +4521,24 @@ Please press any key to reboot.</screen>
 		<row>
 		  <entry><filename>&os;-version-RELEASE-arch-memstick.img</filename></entry>
 
-		  <entry>This image can be written to an USB memory stick
+		  <entry>This image can be written to a USB memory stick
 		    in order to install machines capable of booting
 		    from USB drives.  It also supports booting into a
 		    <quote>livefs</quote> based rescue mode.  The only
 		    included package is the documentation
 		    package.</entry>
+		</row>
+
+		<row>
+		  <entry><filename>&os;-version-RELEASE-arch-mini-memstick.img</filename></entry>
+
+		  <entry>This image can be written to a USB memory
+		    stick in order to install machines capable of
+		    booting from USB drives.  Similar to the
+		    <filename>bootonly.iso</filename> image, it does
+		    not contain the distribution sets on the medium
+		    itself, but does support network-based
+		    installations (for example, via ftp).</entry>
 		</row>
 
 		<row>

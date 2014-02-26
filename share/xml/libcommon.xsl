@@ -463,7 +463,6 @@
       be checked for project specific updates.</p>
 
     <ul>
-      <li><a href="&base;/java/newsflash.html">&java; on FreeBSD</a></li>
       <li><a href="http://freebsd.kde.org/">KDE on FreeBSD</a></li>
       <li><a href="&base;/gnome/newsflash.html">GNOME on FreeBSD</a></li>
     </ul>
@@ -867,7 +866,7 @@
 
     <xsl:choose>
       <xsl:when test="$type = 'advisory'">
-	<xsl:for-each select="document($advisories.xml)/descendant::advisory[position() &lt;= 3]">
+	<xsl:for-each select="document($advisories.xml)/descendant::advisory[position() &lt;= 4]">
 	  <xsl:variable name="year" select="../../../name" />
           <xsl:variable name="month" select="../../name" />
           <xsl:variable name="day" select="../name" />
@@ -1197,6 +1196,10 @@
 	    </span><br />
 	    <a>
 	      <xsl:attribute name="href">
+		<xsl:choose>
+		  <xsl:when test="$news.project.xml = $news.project.xml-master">&enbase;/</xsl:when>
+		  <xsl:otherwise>&base;/</xsl:otherwise>
+		</xsl:choose>
 		<xsl:text>news/newsflash.html#</xsl:text>
 		<xsl:call-template name="html-news-generate-anchor">
 		  <xsl:with-param name="label" select="'event'" />
@@ -1311,6 +1314,10 @@
       </span><br />
       <a>
 	<xsl:attribute name="href">
+	  <xsl:choose>
+	    <xsl:when test="$news.press.xml = $news.press.xml-master">&enbase;/</xsl:when>
+	    <xsl:otherwise>&base;/</xsl:otherwise>
+	  </xsl:choose>
 	  <xsl:text>news/press.html#</xsl:text>
 	  <xsl:call-template name="html-news-generate-anchor">
 	    <xsl:with-param name="label" select="'story'" />
@@ -1429,7 +1436,7 @@
       <a>
         <xsl:attribute name="href">
 	  <xsl:choose>
-	    <xsl:when test="$events.xml = 'none'">&enbase;/</xsl:when>
+	    <xsl:when test="$events.xml = $events.xml-master">&enbase;/</xsl:when>
 	    <xsl:otherwise>&base;/</xsl:otherwise>
 	  </xsl:choose>
 	  <xsl:text>events/#</xsl:text>

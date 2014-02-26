@@ -321,6 +321,11 @@
       &pgpkey.davidch;
     </sect2>
 
+    <sect2 xmlns="http://docbook.org/ns/docbook" xml:id="pgpkey-milki">
+      <title>&a.milki.email;</title>
+      &pgpkey.milki;
+    </sect2>
+
     <sect2 xmlns='http://docbook.org/ns/docbook' xml:id="pgpkey-cjc">
       <title>&a.cjc.email;</title>
       &pgpkey.cjc;
@@ -1081,6 +1086,11 @@
       &pgpkey.cel;
     </sect2>
 
+    <sect2 xmlns="http://docbook.org/ns/docbook" xml:id="pgpkey-truckman">
+      <title>&a.truckman.email;</title>
+      &pgpkey.truckman;
+    </sect2>
+
     <sect2 xmlns="http://docbook.org/ns/docbook" xml:id="pgpkey-glewis">
       <title>&a.glewis.email;</title>
       &pgpkey.glewis;
@@ -1431,9 +1441,19 @@
       &pgpkey.np;
     </sect2>
 
+    <sect2 xmlns="http://docbook.org/ns/docbook" xml:id="pgpkey-royger">
+      <title>&a.royger.email;</title>
+      &pgpkey.royger;
+    </sect2>
+
     <sect2 xmlns="http://docbook.org/ns/docbook" xml:id="pgpkey-rpaulo">
       <title>&a.rpaulo.email;</title>
       &pgpkey.rpaulo;
+    </sect2>
+
+    <sect2 xmlns="http://docbook.org/ns/docbook" xml:id="pgpkey-dumbbell">
+      <title>&a.dumbbell.email;</title>
+      &pgpkey.dumbbell;
     </sect2>
 
     <sect2 xmlns="http://docbook.org/ns/docbook" xml:id="pgpkey-mp">
@@ -1951,6 +1971,11 @@
       &pgpkey.ume;
     </sect2>
 
+    <sect2 xmlns="http://docbook.org/ns/docbook" xml:id="pgpkey-gonzo">
+      <title>&a.gonzo.email;</title>
+      &pgpkey.gonzo;
+    </sect2>
+
     <sect2 xmlns="http://docbook.org/ns/docbook" xml:id="pgpkey-ups">
       <title>&a.ups.email;</title>
       &pgpkey.ups;
@@ -2044,6 +2069,11 @@
     <sect2 xmlns="http://docbook.org/ns/docbook" xml:id="pgpkey-emax">
       <title>&a.emax.email;</title>
       &pgpkey.emax;
+    </sect2>
+
+    <sect2 xmlns="http://docbook.org/ns/docbook" xml:id="pgpkey-riggs">
+          <title>&a.riggs.email;</title>
+          &pgpkey.riggs;
     </sect2>
 
     <sect2 xmlns="http://docbook.org/ns/docbook" xml:id="pgpkey-bz">

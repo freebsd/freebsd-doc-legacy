@@ -4309,6 +4309,44 @@ it was never committed:
 </row>
 
 <row>
+  <entry>902502</entry>
+  <entry>August 26, 2013</entry>
+  <entry>9.2-STABLE after inclusion of the
+    <literal>PIM_RESCAN</literal> CAM path inquiry flag
+    (rev <revnumber>254938</revnumber>).</entry>
+</row>
+
+<row>
+  <entry>902503</entry>
+  <entry>August 27, 2013</entry>
+  <entry>9.2-STABLE after inclusion of the
+    <literal>SI_UNMAPPED</literal> cdev flag
+    (rev <revnumber>254979</revnumber>).</entry>
+</row>
+
+<row>
+  <entry>902504</entry>
+  <entry>October 22, 2013</entry>
+  <entry>9.2-STABLE after inclusion of support for
+    <quote>first boot</quote> &man.rc.8; scripts
+    (rev <revnumber>256917</revnumber>).</entry>
+</row>
+
+<row>
+  <entry>902505</entry>
+  <entry>December 12, 2013</entry>
+  <entry>9.2-STABLE after Heimdal encoding fix
+    (rev <revnumber>259448</revnumber>).</entry>
+</row>
+
+<row>
+  <entry>902506</entry>
+  <entry>December 31, 2013</entry>
+  <entry>9-STABLE after MAP_STACK fixes
+    (rev <revnumber>260082</revnumber>).</entry>
+</row>
+
+<row>
   <entry>1000000</entry>
   <entry>September 26, 2011</entry>
   <entry>10.0-CURRENT.</entry>
@@ -4817,6 +4855,14 @@ it was never committed:
 </row>
 
 <row>
+  <entry>1000100</entry>
+  <entry>December 7, 2013</entry>
+  <entry><literal>releng/10.0</literal> branched from
+    <literal>stable/10</literal>
+    (rev <revnumber>259065</revnumber>).</entry>
+</row>
+
+<row>
   <entry>1000500</entry>
   <entry>October 10, 2013</entry>
   <entry>10-STABLE after branch from <literal>head/</literal>
@@ -4824,8 +4870,118 @@ it was never committed:
 </row>
 
 <row>
+  <entry>1000501</entry>
+  <entry>October 22, 2013</entry>
+  <entry>10-STABLE after addition of first-boot &man.rc.8; support
+    (rev <revnumber>256916</revnumber>).</entry>
+</row>
+
+<row>
+  <entry>1000502</entry>
+  <entry>November 20, 2013</entry>
+  <entry>10-STABLE after removal of iconv symbols from
+    <literal>libc.so.7</literal>
+    (rev <revnumber>258398</revnumber>).</entry>
+</row>
+
+<row>
+  <entry>1000510</entry>
+  <entry>December 7, 2013</entry>
+  <entry><literal>releng/10.0</literal> __FreeBSD_version
+    update to prevent the value from going backwards
+    (rev <revnumber>259067</revnumber>).</entry>
+</row>
+
+<row>
+  <entry>1000700</entry>
+  <entry>December 7, 2013</entry>
+  <entry>10-STABLE after <literal>releng/10.0</literal> branch
+    (rev <revnumber>259069</revnumber>).</entry>
+</row>
+
+<row>
+  <entry>1000701</entry>
+  <entry>December 15, 2013</entry>
+  <entry>10.0-STABLE after Heimdal encoding fix
+    (rev <revnumber>259447</revnumber>).</entry>
+</row>
+
+<row>
+  <entry>1000702</entry>
+  <entry>December 31, 2013</entry>
+  <entry>10-STABLE after MAP_STACK fixes
+    (rev <revnumber>260135</revnumber>).</entry>
+</row>
+
+<row>
   <entry>1100000</entry>
   <entry>October 10, 2013</entry>
-  <entry>11.0-CURRENT.
+  <entry>11.0-CURRENT
     (rev <revnumber>256284</revnumber>).</entry>
+</row>
+
+<row>
+  <entry>1100001</entry>
+  <entry>October 19, 2013</entry>
+  <entry>11.0-CURRENT after addition of support for "first boot"
+    <filename>rc.d</filename> scripts, so ports can make use of this
+    (rev <revnumber>256776</revnumber>).</entry>
+</row>
+
+<row>
+  <entry>1100002</entry>
+  <entry>November 5, 2013</entry>
+  <entry>11.0-CURRENT after dropping support for historic ioctls
+    (rev <revnumber>257696</revnumber>).</entry>
+</row>
+
+<row>
+  <entry>1100003</entry>
+  <entry>November 17, 2013</entry>
+  <entry>11.0-CURRENT after iconv changes
+    (rev <revnumber>258284</revnumber>).</entry>
+</row>
+
+<row>
+  <entry>1100004</entry>
+  <entry>December 15, 2013</entry>
+  <entry>11.0-CURRENT after the behavior change of
+    <function>gss_pseudo_random</function> introduced in r259286.
+    (rev <revnumber>259424</revnumber>)</entry>
+</row>
+
+<row>
+  <entry>1100005</entry>
+  <entry>December 28, 2013</entry>
+  <entry>11.0-CURRENT after r259951 - Do not coalesce entries in
+    <function>vm_map_stack()</function> (rev
+    <revnumber>260010</revnumber>).</entry>
+</row>
+
+<row>
+  <entry>1100006</entry>
+  <entry>January 28, 2014</entry>
+  <entry>11.0-CURRENT after upgrades of libelf and libdwarf
+    (rev <revnumber>261246</revnumber>).</entry>
+</row>
+
+<row>
+  <entry>1100007</entry>
+  <entry>January 30, 2014</entry>
+  <entry>11.0-CURRENT after upgrade of libc++ to 3.4 release
+    (rev <revnumber>261283</revnumber>).</entry>
+</row>
+
+<row>
+  <entry>1100008</entry>
+  <entry>February 14, 2014</entry>
+  <entry>11.0-CURRENT after libc++ 3.4 ABI compatibility fix
+    (rev <revnumber>261801</revnumber>).</entry>
+</row>
+
+<row>
+  <entry>1100009</entry>
+  <entry>February 16, 2014</entry>
+  <entry>11.0-CURRENT after upgrade of llvm/clang to 3.4 release
+    (rev <revnumber>261991</revnumber>).</entry>
 </row>

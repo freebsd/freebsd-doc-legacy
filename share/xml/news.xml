@@ -28,10 +28,257 @@
     </cvs:keyword>
 
   <year>
+    <name>2014</name>
+
+    <month>
+      <name>2</name>
+
+      <day>
+	<name>10</name>
+
+	<event>
+	  <title>&os;&nbsp;Journal First Edition Available</title>
+
+	  <p>We are pleased to announce the availability of the
+	    &os;&nbsp;Journal!  It is the new online Journal, that the
+	    &os;&nbsp;Foundation is publishing, that is all about
+	    &os;.  Click <a href="http://freebsdjournal.com/">here</a>
+	    to find out how to get the first issue that is focused on
+	    &os;&nbsp;10.</p>
+	</event>
+      </day>
+    </month>
+
+    <month>
+      <name>1</name>
+
+      <day>
+	<name>25</name>
+
+	<event>
+	  <title>October-December, 2013 Status Report</title>
+
+	    <p>The <a
+		href="&enbase;/news/status/report-2013-10-2013-12.html">October-December, 2013 Status Report</a>
+	      is now available with 37 entries.</p>
+	</event>
+      </day>
+
+      <day>
+        <name>23</name>
+	<event>
+	  <p>New committer:
+	      <a href="mailto:rodrigo@FreeBSD.org">Rodrigo Osorio</a> (ports)</p>
+	</event>
+      </day>
+
+      <day>
+        <name>21</name>
+	<event>
+	  <p>New committer:
+	      <a href="mailto:tychon@FreeBSD.org">Tycho Nightingale</a> (src)</p>
+	</event>
+
+	<event>
+	  <p>New committer:
+	      <a href="mailto:grembo@FreeBSD.org">Michael Gmelin</a> (ports)</p>
+	</event>
+      </day>
+
+      <day>
+	<name>20</name>
+
+	<event>
+	  <title>&os; 10.0-RELEASE Available</title>
+
+	  <p><a href="&enbase;/releases/10.0R/announce.html">FreeBSD
+	      10.0-RELEASE</a> is now available.  Please be sure to
+		check the <a
+		  href="&enbase;/releases/10.0R/relnotes.html">Release
+		  Notes</a> and <a
+		  href="&enbase;/releases/10.0R/errata.html">Release
+		  Errata</a> before installation for any late-breaking
+		news and/or issues with 10.0.  More information about
+		FreeBSD releases can be found on the <a
+		  href="&enbase;/releases/index.html">Release
+		  Information</a> page.</p>
+	</event>
+
+	<event>
+	  <p>Enhanced commit privileges: <a
+	      href="mailto:jgh@FreeBSD.org">Jason Helfman</a>
+	    (ports, doc)</p>
+	</event>
+      </day>
+
+      <day>
+        <name>15</name>
+
+	<event>
+	  <p>Enhanced commit privileges: <a
+	      href="mailto:skreuzer@FreeBSD.org">Steven Kreuzer</a>
+	    (ports, doc)</p>
+	</event>
+      </day>
+
+      <day>
+        <name>13</name>
+
+	<event>
+	  <p>Returning committer:
+	      <a href="mailto:bmah@FreeBSD.org">Bruce A. Mah</a> (ports)</p>
+	</event>
+      </day>
+
+      <day>
+	<name>10</name>
+
+	<event>
+	  <p>New committer:
+	      <a href="mailto:riggs@FreeBSD.org">Thomas Zander</a> (ports)</p>
+	</event>
+      </day>
+
+      <day>
+	<name>9</name>
+	<event>
+	  <title>&os;&nbsp;10.0-RC5 Available</title>
+
+	  <p>The fifth RC build for the &os;-10.0 release cycle is
+	    now available.  ISO images for the amd64, i386, ia64,
+	    powerpc, powerpc64 and sparc64 architectures are <a
+	      href="&lists.stable;/2014-January/076800.html">available</a>
+	    on most of our <a
+	      href="&url.doc.base-en;/books/handbook/mirrors-ftp.html">&os;
+	    mirror sites</a>.</p>
+	</event>
+      </day>
+
+      <day>
+	<name>2</name>
+	<event>
+	  <title>&os;&nbsp;10.0-RC4 Available</title>
+
+	  <p>The fourth RC build for the &os;-10.0 release cycle is
+	    now available.  ISO images for the amd64, i386, ia64,
+	    powerpc, powerpc64 and sparc64 architectures are <a
+	      href="&lists.stable;/2014-January/076681.html">available</a>
+	    on most of our <a
+	      href="&url.doc.base-en;/books/handbook/mirrors-ftp.html">&os;
+	    mirror sites</a>.</p>
+	</event>
+      </day>
+    </month>
+  </year>
+
+  <year>
     <name>2013</name>
 
     <month>
+      <name>12</name>
+
+      <day>
+	<name>26</name>
+	<event>
+	  <title>&os;&nbsp;10.0-RC3 Available</title>
+
+	  <p>The third RC build for the &os;-10.0 release cycle is
+	    now available.  ISO images for the amd64, i386, ia64,
+	    powerpc, powerpc64 and sparc64 architectures are <a
+	      href="&lists.stable;/2013-December/076590.html">available</a>
+	    on most of our <a
+	      href="&url.doc.base-en;/books/handbook/mirrors-ftp.html">&os;
+	    mirror sites</a>.</p>
+	</event>
+      </day>
+
+      <day>
+	<name>18</name>
+
+	<event>
+	  <p>Enhanced commit privileges: <a
+	      href="mailto:ganbold@FreeBSD.org">Ganbold Tsagaankhuu</a>
+	    (doc, src)</p>
+	</event>
+      </day>
+
+      <day>
+	<name>16</name>
+
+	<event>
+	  <p>New committer: <a href="mailto:milki@FreeBSD.org">Jonathan Chu</a> (ports)</p>
+	</event>
+
+	<event>
+	  <p>Enhanced commit privileges: <a
+	      href="mailto:bdrewery@FreeBSD.org">Bryan Drewery</a>
+	    (ports, src)</p>
+	</event>
+
+	<event>
+	  <title>&os;&nbsp;10.0-RC2 Available</title>
+
+	  <p>The second RC build for the &os;-10.0 release cycle is
+	    now available.  ISO images for the amd64, i386, ia64,
+	    powerpc, powerpc64 and sparc64 architectures are <a
+	      href="&lists.stable;/2013-December/076480.html">available</a>
+	    on most of our <a
+	      href="&url.doc.base-en;/books/handbook/mirrors-ftp.html">&os;
+	    mirror sites</a>.</p>
+	</event>
+      </day>
+
+      <day>
+	<name>9</name>
+
+	<event>
+	  <title>&os;&nbsp;10.0-RC1 Available</title>
+
+	  <p>The first RC build for the &os;-10.0 release cycle is
+	    now available.  ISO images for the amd64, i386, ia64,
+	    powerpc, powerpc64 and sparc64 architectures are <a
+	      href="&lists.stable;/2013-December/076231.html">available</a>
+	    on most of our <a
+	      href="&url.doc.base-en;/books/handbook/mirrors-ftp.html">&os;
+	    mirror sites</a>.</p>
+	</event>
+
+	<event>
+	  <title>EuroBSDcon 2013 Developer Summit Report</title>
+	    <p>A <a
+		href="&enbase;/news/status/report-2013-09-devsummit.html">special status report on the EuroBSDcon 2013 &os; Developer Summit</a>
+	      is now available with 13 entries.</p>
+	</event>
+      </day>
+
+      <day>
+	<name>3</name>
+
+	<event>
+	  <title>&os;&nbsp;10.0-BETA4 Available</title>
+
+	  <p>The fourth BETA build for the &os;-10.0 release cycle is
+	    now available.  ISO images for the amd64, i386, ia64,
+	    powerpc, powerpc64 and sparc64 architectures are <a
+	      href="&lists.stable;/2013-December/076040.html">available</a>
+	    on most of our <a
+	      href="&url.doc.base-en;/books/handbook/mirrors-ftp.html">&os;
+	    mirror sites</a>.</p>
+	</event>
+      </day>
+    </month>
+
+    <month>
       <name>11</name>
+
+      <day>
+	<name>27</name>
+
+	<event>
+	  <p>New committer:
+	      <a href="mailto:royger@FreeBSD.org">Roger Pau Monn&eacute;</a> (src)</p>
+	</event>
+      </day>
 
       <day>
 	<name>8</name>

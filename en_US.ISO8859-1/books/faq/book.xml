@@ -2,25 +2,26 @@
 <!DOCTYPE book PUBLIC "-//FreeBSD//DTD DocBook XML V5.0-Based Extension//EN"
 	"http://www.FreeBSD.org/XML/share/xml/freebsd50.dtd" [
 <!ENTITY bibliography SYSTEM "../../../share/xml/bibliography.xml">
-<!ENTITY rel.numbranch "3">  <!-- number of branches that follow in this list -->
-<!ENTITY rel.head "<emphasis xmlns='http://docbook.org/ns/docbook'>10-CURRENT</emphasis>">
-<!ENTITY rel.head.relx "10.<replaceable xmlns='http://docbook.org/ns/docbook'>X</replaceable>">
+<!ENTITY rel.numbranch "4">  <!-- number of branches that follow in this list -->
+<!ENTITY rel.head "<emphasis xmlns='http://docbook.org/ns/docbook'>11-CURRENT</emphasis>">
+<!ENTITY rel.head.relx "11.<replaceable xmlns='http://docbook.org/ns/docbook'>X</replaceable>">
 <!ENTITY rel.head.releng "<symbol xmlns='http://docbook.org/ns/docbook'>head/</symbol>">
-<!ENTITY rel.head.packages "packages-10-current">
-<!ENTITY rel.relx "9.<replaceable xmlns='http://docbook.org/ns/docbook'>X</replaceable>">
-<!ENTITY rel.stable "<emphasis xmlns='http://docbook.org/ns/docbook'>9-STABLE</emphasis>">
-<!ENTITY rel.releng "<symbol xmlns='http://docbook.org/ns/docbook'>stable/9/</symbol>">
-<!ENTITY rel.relengdate "September 2011">
-<!ENTITY rel.packages "packages-9-stable">
-<!ENTITY rel2.relx "8.<replaceable xmlns='http://docbook.org/ns/docbook'>X</replaceable>">
-<!ENTITY rel2.stable "<emphasis xmlns='http://docbook.org/ns/docbook'>8-STABLE</emphasis>">
-<!ENTITY rel2.releng "<symbol xmlns='http://docbook.org/ns/docbook'>stable/8/</symbol>">
-<!ENTITY rel2.relengdate "August 2009">
-<!ENTITY rel2.packages "packages-8-stable">
+<!ENTITY rel.relx "10.<replaceable xmlns='http://docbook.org/ns/docbook'>X</replaceable>">
+<!ENTITY rel.stable "<emphasis xmlns='http://docbook.org/ns/docbook'>10-STABLE</emphasis>">
+<!ENTITY rel.releng "<symbol xmlns='http://docbook.org/ns/docbook'>stable/10/</symbol>">
+<!ENTITY rel.relengdate "January 2014">
+<!ENTITY rel2.relx "9.<replaceable xmlns='http://docbook.org/ns/docbook'>X</replaceable>">
+<!ENTITY rel2.stable "<emphasis xmlns='http://docbook.org/ns/docbook'>9-STABLE</emphasis>">
+<!ENTITY rel2.releng "<symbol xmlns='http://docbook.org/ns/docbook'>stable/9/</symbol>">
+<!ENTITY rel2.relengdate "September 2011">
+<!ENTITY rel3.relx "8.<replaceable xmlns='http://docbook.org/ns/docbook'>X</replaceable>">
+<!ENTITY rel3.stable "<emphasis xmlns='http://docbook.org/ns/docbook'>8-STABLE</emphasis>">
+<!ENTITY rel3.releng "<symbol xmlns='http://docbook.org/ns/docbook'>stable/8/</symbol>">
+<!ENTITY rel3.relengdate "August 2009">
 ]>
 <book xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0" xml:lang="en">
   <info><title>Frequently Asked Questions for &os;
-      &rel2.relx;, and &rel.relx;</title>
+      &rel3.relx;, &rel2.relx; and &rel.relx;</title>
     
 
     <author><orgname>The &os; Documentation Project</orgname></author>
@@ -45,6 +46,7 @@
       <year>2011</year>
       <year>2012</year>
       <year>2013</year>
+      <year>2014</year>
       <holder>The &os; Documentation Project</holder>
     </copyright>
 
@@ -68,7 +70,7 @@
     <releaseinfo>$FreeBSD$</releaseinfo>
 
     <abstract>
-      <para>This is the FAQ for &os; versions &rel2.relx; and
+      <para>This is the FAQ for &os; versions &rel3.relx;, &rel2.relx; and
 	&rel.relx;.  Every effort has been made to make this FAQ as
 	informative as possible; if you have any suggestions as to how
 	it may be improved, please feel free to mail them to the
@@ -1338,92 +1340,25 @@
 	</question>
 
 	<answer>
-	  <para>For FFS file systems, the maximum theoretical limit is
-	    8&nbsp;TB (2&nbsp;G blocks), or 16&nbsp;TB for the default
-	    block size of 8&nbsp;KB.  In practice, there is a soft limit
-	    of 1&nbsp;TB, but with modifications file systems with
-	    4&nbsp;TB are possible (and exist).</para>
+	  <para>For FFS file systems, the largest file system is practically
+	    limited by the amount of memory required to &man.fsck.8; the file
+	    system.  &man.fsck.8; requires one bit per fragment, which with
+	    the default fragment size of 4&nbsp;KB equates to 32&nbsp;MB
+	    of memory per TB of disk.  This does mean that on architectures
+	    which limit userland processes to 2&nbsp;GB (e.g., &i386;),
+	    the maximum &man.fsck.8;'able filesystem is ~60&nbsp;TB.</para>
+
+	  <para>If there was not a &man.fsck.8; memory limit the maximum
+	    filesystem size would be 2&nbsp;^&nbsp;64 (blocks) * 32&nbsp;KB
+	    => 16 Exa * 32&nbsp;KB => 512 ZettaBytes.</para>
 
 	  <para>The maximum size of a single FFS file is approximately
-	    1&nbsp;G blocks, or 4&nbsp;TB with a block size of
-	    4&nbsp;KB.</para>
-
-	  <table>
-	    <title>Maximum File Sizes</title>
-
-	    <tgroup cols="3">
-	      <thead>
-		<row>
-		  <entry>FS Block Size</entry>
-
-		  <entry>Works</entry>
-
-		  <entry>Should Work</entry>
-		</row>
-	      </thead>
-
-	      <tbody>
-		<row>
-		  <entry>4&nbsp;KB</entry>
-
-		  <entry>&gt;&nbsp;4&nbsp;GB</entry>
-
-		  <entry>4&nbsp;TB&nbsp;-&nbsp;1</entry>
-		</row>
-
-		<row>
-		  <entry>8&nbsp;KB</entry>
-
-		  <entry>&gt;&nbsp;32&nbsp;GB</entry>
-
-		  <entry>32&nbsp;TB&nbsp;-&nbsp;1</entry>
-		</row>
-
-		<row>
-		  <entry>16&nbsp;KB</entry>
-
-		  <entry>&gt;&nbsp;128&nbsp;GB</entry>
-
-		  <entry>32&nbsp;TB&nbsp;-&nbsp;1</entry>
-		</row>
-
-		<row>
-		  <entry>32&nbsp;KB</entry>
-
-		  <entry>&gt;&nbsp;512&nbsp;GB</entry>
-
-		  <entry>64&nbsp;TB&nbsp;-&nbsp;1</entry>
-		</row>
-
-		<row>
-		  <entry>64&nbsp;KB</entry>
-
-		  <entry>&gt;&nbsp;2048&nbsp;GB</entry>
-
-		  <entry>128&nbsp;TB&nbsp;-&nbsp;1</entry>
-		</row>
-	      </tbody>
-	    </tgroup>
-	  </table>
-
-	  <para>When the FS block size is 4&nbsp;KB, triple indirect
-	    blocks work and everything should be limited by the maximum FS
-	    block number that can be represented using triple indirect
-	    blocks (approx.
-	    1024<superscript>3</superscript>&nbsp;+&nbsp;1024<superscript>2</superscript>&nbsp;+&nbsp;1024),
-	    but everything is limited by a (wrong) limit of
-	    1&nbsp;G&nbsp;-&nbsp;1 on FS block numbers.  The limit on FS
-	    block numbers should be 2&nbsp;G&nbsp;-&nbsp;1.  There are
-	    some bugs for FS block numbers near 2&nbsp;G&nbsp;-&nbsp;1,
-	    but such block numbers are unreachable when the FS block
-	    size is 4&nbsp;KB.</para>
-
-	  <para>For block sizes of 8&nbsp;KB and larger, everything
-	    should be limited by the 2&nbsp;G&nbsp;-&nbsp;1 limit on FS
-	    block numbers, but is actually limited by the
-	    1&nbsp;G&nbsp;-&nbsp;1 limit on FS block numbers.  Using the
-	    correct limit of 2&nbsp;G&nbsp;-&nbsp;1 blocks does cause
-	    problems.</para>
+	    2&nbsp;PB with the default block size of 32&nbsp;KB.  Each
+	    32&nbsp;KB block can point to 4096 blocks.  With triple
+	    indirect blocks, the calculation is 32&nbsp;KB * 12 +
+	    32&nbsp;KB * 4096 + 32&nbsp;KB * 4096^2 + 32&nbsp;KB *
+	    4096^3.  Increasing the block size to 64&nbsp;KB will increase
+	    the max file size by a factor of 16.</para>
 	</answer>
       </qandaentry>
 
@@ -2448,7 +2383,7 @@ kern.timecounter.hardware: TSC -&gt; i8254</screen>
 	    periodic updates on new entries.</para>
 
 	  <para>Most ports should work on the
-	    &rel2.relx;, and &rel.relx; branches.
+	    &rel3.relx;, &rel2.relx;, and &rel.relx; branches.
 	    Each time a &os;
 	    release is made, a snapshot of the ports tree at the time of
 	    release in also included in the <filename>ports/</filename>
@@ -2462,40 +2397,13 @@ kern.timecounter.hardware: TSC -&gt; i8254</screen>
 	    to know the gory details of which files it includes.</para>
 
 	  <para>Use
-	    &man.pkg.add.1; on the specific package files
+	    &man.pkg.7; on the specific package files
 	    you are interested in installing.  Package files can usually
-	    be identified by their <filename>.tbz</filename> suffix and
+	    be identified by their <filename>.txz</filename> suffix and
 	    CD-ROM distribution people will have a
 	    <filename>packages/All</filename> directory on their CD
 	    which contains such files.  They can also be downloaded over
-	    the net for various versions of &os; at the following
-	    locations:</para>
-
-	  <variablelist>
-	    <varlistentry>
-	      <term>for &rel2.relx;&nbsp;-RELEASE/&rel2.stable;</term>
-
-	      <listitem>
-		<para><link xlink:href="ftp://ftp.FreeBSD.org/pub/FreeBSD/ports/i386/&rel2.packages;/">ftp://ftp.FreeBSD.org/pub/FreeBSD/ports/i386/&rel2.packages;</link></para>
-	      </listitem>
-	    </varlistentry>
-
-	    <varlistentry>
-	      <term>for &rel.relx;&nbsp;-RELEASE/&rel.stable;</term>
-
-	      <listitem>
-		<para><link xlink:href="ftp://ftp.FreeBSD.org/pub/FreeBSD/ports/i386/&rel.packages;/">ftp://ftp.FreeBSD.org/pub/FreeBSD/ports/i386/&rel.packages;</link></para>
-	      </listitem>
-	    </varlistentry>
-	  </variablelist>
-
-	  <para>or your nearest local mirror site.</para>
-
-	  <para>Note that all ports may not be available as packages
-	    since new ones are constantly being added.  It is always a
-	    good idea to check back periodically to see which packages
-	    are available at the <link xlink:href="ftp://ftp.FreeBSD.org/pub/FreeBSD/">ftp.FreeBSD.org</link>
-	    master site.</para>
+	    the net for various versions of &os;.</para>
 	</answer>
       </qandaentry>
 
@@ -3540,13 +3448,13 @@ C:\="DOS"</programlisting>
 
 	  <programlisting># Allow all users to mount a USB drive.
 	    own       /dev/da0       root:operator
-	    perm      /dev/da00       0666</programlisting>
+	    perm      /dev/da0       0666</programlisting>
 
 	  <para>All users can now mount devices they could read
 	    onto a directory that they own:</para>
 
 	  <screen>&prompt.user; <userinput>mkdir ~/my-mount-point</userinput>
-&prompt.user; <userinput>mount -t msdosfs /dev/da0~/my-mount-point</userinput></screen>
+&prompt.user; <userinput>mount -t msdosfs /dev/da0 ~/my-mount-point</userinput></screen>
 
 	  <para>Unmounting the device is simple:</para>
 
@@ -3752,7 +3660,7 @@ C:\="DOS"</programlisting>
 	  <answer>
 	    <para>The <acronym>L2ARC</acronym> is a read cache stored
 	      on a fast device such as an <acronym>SSD</acronym>.
-	      This cache is not persisent across
+	      This cache is not persistent across
 	      reboots.  Note that RAM is used as the first layer
 	      of cache and the L2ARC is only needed if there is
 	      insufficient RAM.</para>
@@ -7719,6 +7627,11 @@ hint.sio.7.irq="12"</programlisting>
 	    there are only &rel.numbranch; active branches of development):</para>
 
 	  <itemizedlist>
+	    <listitem>
+	      <para>&rel3.releng; AKA
+		&rel3.stable;</para>
+	    </listitem>
+
 	    <listitem>
 	      <para>&rel2.releng; AKA
 		&rel2.stable;</para>

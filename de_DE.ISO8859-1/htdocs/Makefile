@@ -58,7 +58,7 @@ SUBDIR+= support
 SUBDIR+= doc
 .endif
 .if defined(BUILD_RELNOTES)
-SUBDIR+= relnotes
+#SUBDIR+= relnotes
 .endif
 
 # Non-XML

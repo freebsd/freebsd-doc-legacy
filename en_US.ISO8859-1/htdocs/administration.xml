@@ -108,6 +108,7 @@
 
   <ul>
     <li>&a.gjb.email;</li>
+    <li>&a.wblock.email;</li>
     <li>&a.blackend.email;</li>
     <li>&a.gabor.email;</li>
     <li>&a.hrs.email;</li>
@@ -127,12 +128,12 @@
 
   <ul>
     <li>&a.tabthorpe.email; (Core Team Liaison)</li>
-    <li>&a.marcus.email;</li>
+    <li>&a.mat.email;</li>
+    <li>&a.antoine.email;</li>
     <li>&a.bapt.email;</li>
     <li>&a.bdrewery.email; (Release Engineering Team Liaison)</li>
     <li>&a.decke.email;</li>
     <li>&a.erwin.email; (Cluster Administration Team Liaison)</li>
-    <li>&a.itetcu.email;</li>
     <li>&a.miwi.email;</li>
   </ul>
 
@@ -150,7 +151,6 @@
     Engineering Team in greater detail.</p>
 
   <ul>
-    <li>&a.mva.email;</li>
     <li>&a.gjb.email;</li>
     <li>&a.kib.email;</li>
     <li>&a.joel.email;</li>
@@ -369,6 +369,7 @@
     <li>&a.bhaga.email;</li>
     <li>&a.brd.email;</li>
     <li>&a.bz.email;</li>
+    <li>&a.gavin.email;</li>
     <li>&a.gjb.email;</li>
     <li>&a.kensmith.email;</li>
     <li>&a.peter.email; (Lead)</li>
@@ -399,8 +400,10 @@
     services.</p>
 
   <ul>
+    <li>&a.gjb.email;</li>
     <li>&a.brd.email;</li>
     <li>&a.simon.email;</li>
+    <li>&a.zi.email;</li>
     <li>&a.peter.email;</li>
     <li>&a.bz.email;</li>
   </ul>

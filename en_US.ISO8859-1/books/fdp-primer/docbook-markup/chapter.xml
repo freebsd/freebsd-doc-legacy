@@ -30,7 +30,11 @@
 
      $FreeBSD$
 -->
-<chapter xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0" xml:id="docbook-markup">
+
+<chapter xmlns="http://docbook.org/ns/docbook"
+  xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0"
+  xml:id="docbook-markup">
+
   <title>DocBook Markup</title>
 
   <sect1 xml:id="docbook-markup-introduction">
@@ -47,10 +51,10 @@
     <para>DocBook was originally developed by HaL Computer Systems and
       O'Reilly &amp; Associates to be a Document Type Definition
       (<acronym>DTD</acronym>) for writing technical documentation
-      <footnote><para>A short history
-	  can be found under <link xlink:href="http://www.oasis-open.org/docbook/intro.shtml#d0e41">
-	    http://www.oasis-open.org/docbook/intro.shtml#d0e41</link>.</para></footnote>.
-      Since 1998 it is maintained by the <link xlink:href="http://www.oasis-open.org/committees/tc_home.php?wg_abbrev=docbook">
+      <footnote><para>A short history can be found under <link
+	    xlink:href="http://www.oasis-open.org/docbook/intro.shtml#d0e41">http://www.oasis-open.org/docbook/intro.shtml#d0e41</link>.</para></footnote>.
+      Since 1998 it is maintained by the <link
+	xlink:href="http://www.oasis-open.org/committees/tc_home.php?wg_abbrev=docbook">
 	DocBook Technical Committee</link>.  As such, and unlike
       LinuxDoc and <acronym>XHTML</acronym>, DocBook is very heavily
       oriented towards markup that describes <emphasis>what</emphasis>
@@ -89,23 +93,22 @@
   <sect1 xml:id="docbook-markup-freebsd-extensions">
     <title>&os; Extensions</title>
 
-    <para>The &os; Documentation Project has extended the
-      DocBook <acronym>DTD</acronym> with additional elements and
-      entities.  These additions serve to make some of the markup
-      easier or more precise.</para>
+    <para>The &os; Documentation Project has extended the DocBook
+      <acronym>DTD</acronym> with additional elements and entities.
+      These additions serve to make some of the markup easier or more
+      precise.</para>
 
     <para>Throughout the rest of this document, the term
       <quote>DocBook</quote> is used to mean the &os;-extended
       DocBook <acronym>DTD</acronym>.</para>
 
     <note>
-      <para>Most of these extensions are not unique to &os;,
-	it was just felt that they were useful
-	enhancements for this particular project.  Should anyone
-	from any of the other *nix camps (NetBSD, OpenBSD, Linux,
-	&hellip;) be interested in collaborating on a standard
-	DocBook extension set, please contact
-	&a.doceng;.</para>
+      <para>Most of these extensions are not unique to &os;, it was
+	just felt that they were useful enhancements for this
+	particular project.  Should anyone from any of the other *nix
+	camps (NetBSD, OpenBSD, Linux, &hellip;) be interested in
+	collaborating on a standard DocBook extension set, please
+	contact &a.doceng;.</para>
     </note>
 
     <sect2 xml:id="docbook-markup-freebsd-extensions-elements">
@@ -113,7 +116,8 @@
 
       <para>The additional &os; elements are not (currently) in the
 	Ports Collection.  They are stored in the &os; Subversion
-	tree, as <link xlink:href="http://svnweb.FreeBSD.org/doc/head/share/xml/freebsd.dtd">head/share/xml/freebsd.dtd</link>.</para>
+	tree, as <link
+	  xlink:href="http://svnweb.FreeBSD.org/doc/head/share/xml/freebsd.dtd">head/share/xml/freebsd.dtd</link>.</para>
 
       <para>&os;-specific elements used in the examples below are
 	clearly marked.</para>
@@ -132,10 +136,18 @@
 	  <colspec colname="entity"/>
 	  <colspec colname="expandsto"/>
 	  <colspec colname="notes"/>
+	  <thead>
+	    <row>
+	      <entry></entry>
+	      <entry></entry>
+	      <entry></entry>
+	    </row>
+	  </thead>
 
 	  <tbody valign="top">
 	    <row>
-	      <entry namest="entity" nameend="notes">&os; Name Entities</entry>
+	      <entry namest="entity" nameend="notes"><emphasis>&os;
+		  Name Entities</emphasis></entry>
 	    </row>
 
 	    <row>
@@ -163,28 +175,34 @@
 	    </row>
 
 	    <row>
-	      <entry namest="entity" nameend="notes">Manual Page Entities</entry>
+	      <entry namest="entity" nameend="notes">Manual Page
+		Entities</entry>
 	    </row>
 
 	    <row>
 	      <entry><literal>&amp;man.ls.1;</literal></entry>
 	      <entry>&man.ls.1;</entry>
-	      <entry>Usage:  <literal>&amp;man.ls.1; is the manual page for commandlscommand.</literal></entry>
+	      <entry>Usage: <literal>&amp;man.ls.1; is the manual page
+		  for
+		  &lt;command&gt;ls&lt;/command&gt;.</literal></entry>
 	    </row>
 
 	    <row>
 	      <entry><literal>&amp;man.cp.1;</literal></entry>
 	      <entry>&man.cp.1;</entry>
-	      <entry>Usage:  <literal>The manual page for commandcpcommand is &amp;man.cp.1;.</literal></entry>
+	      <entry>Usage: <literal>The manual page for
+		  &lt;command&gt;cp&lt;/command&gt; is
+		  &amp;man.cp.1;.</literal></entry>
 	    </row>
 
 	    <row>
-	      <entry><literal>&amp;man.command.sectionnumber;</literal></entry>
+	      <entry><literal>&amp;man.<replaceable>command</replaceable>.<replaceable>sectionnumber</replaceable>;</literal></entry>
 	      <entry><emphasis>link to
 		  <replaceable>command</replaceable> manual page in
 		  section
 		  <replaceable>sectionnumber</replaceable></emphasis></entry>
-	      <entry>Entities are defined for all the <link xlink:href="&url.base;/cgi/man.cgi">&os; manual
+	      <entry>Entities are defined for all the
+		<link xlink:href="&url.base;/cgi/man.cgi">&os; manual
 		  pages</link>.</entry>
 	    </row>
 
@@ -195,26 +213,30 @@
 	    </row>
 
 	    <row>
-	      <entry namest="entity" nameend="notes">&os; Mailing List Entities</entry>
+	      <entry namest="entity" nameend="notes">&os; Mailing List
+		Entities</entry>
 	    </row>
 
 	    <row>
 	      <entry><literal>&amp;a.doc;</literal></entry>
 	      <entry><literal>&a.doc;</literal></entry>
-	      <entry>Usage:  <literal>A link to the &amp;a.doc;.</literal></entry>
+	      <entry>Usage: <literal>A link to the
+		  &amp;a.doc;.</literal></entry>
 	    </row>
 
 	    <row>
 	      <entry><literal>&amp;a.questions;</literal></entry>
 	      <entry><literal>&a.questions;</literal></entry>
-	      <entry>Usage:  <literal>A link to the &amp;a.questions;.</literal></entry>
+	      <entry>Usage: <literal>A link to the
+		  &amp;a.questions;.</literal></entry>
 	    </row>
 
 	    <row>
-	      <entry><literal>&amp;a.listname;</literal></entry>
+	      <entry><literal>&amp;a.<replaceable>listname</replaceable>;</literal></entry>
 	      <entry><emphasis>link to
 		  <replaceable>listname</replaceable></emphasis></entry>
-	      <entry>Entities are defined for all the <link xlink:href="&url.books.handbook;/eresources.html#eresources-mail">&os;
+	      <entry>Entities are defined for all the <link
+		  xlink:href="&url.books.handbook;/eresources.html#eresources-mail">&os;
 		  mailing lists</link>.</entry>
 	    </row>
 
@@ -225,40 +247,43 @@
 	    </row>
 
 	    <row>
-	      <entry namest="entity" nameend="notes">&os; Document Link Entities</entry>
+	      <entry namest="entity" nameend="notes">&os; Document
+		Link Entities</entry>
 	    </row>
 
 	    <row>
 	      <entry><literal>&amp;url.books.handbook;</literal></entry>
 	      <entry><literal>&url.books.handbook;</literal></entry>
-	      <entry>Usage: <literal>A link to the ulink
-		  url="&amp;url.books.handbook;/advanced-networking.html"Advanced
-		  Networkingulink
-		  chapter of the Handbook.</literal></entry>
+	      <entry>Usage: <literal>A link to the &lt;link
+		  xlink:href="&amp;url.books.handbook;/advanced-networking.html"&gt;Advanced
+		  Networking&lt;/link&gt; chapter of the
+		  Handbook.</literal></entry>
 	    </row>
 
 	    <row>
-	      <entry><literal>&amp;url.books.bookname;</literal></entry>
+	      <entry><literal>&amp;url.books.<replaceable>bookname</replaceable>;</literal></entry>
 	      <entry><emphasis>relative path to
 		  <replaceable>bookname</replaceable></emphasis></entry>
-	      <entry>Entities are defined for all the <link xlink:href="&url.doc.langbase;/books/">&os;
+	      <entry>Entities are defined for all the <link
+		  xlink:href="&url.doc.langbase;/books/">&os;
 		  books</link>.</entry>
 	    </row>
 
 	    <row>
 	      <entry><literal>&amp;url.articles.committers-guide;</literal></entry>
 	      <entry><literal>&url.articles.committers-guide;</literal></entry>
-	      <entry>Usage: <literal>A link to the ulink
-		  url="&amp;url.articles.committers-guide;"Committer's
-		Guideulink
-		article.</literal></entry>
+	      <entry>Usage: <literal>A link to the &lt;link
+		  xlink:href="&amp;url.articles.committers-guide;"Committer's
+		  Guide&lt;/link&gt;
+		  article.</literal></entry>
 	    </row>
 
 	    <row>
-	      <entry><literal>&amp;url.articles.articlename;</literal></entry>
+	      <entry><literal>&amp;url.articles.<replaceable>articlename</replaceable>;</literal></entry>
 	      <entry><emphasis>relative path to
 		  <replaceable>articlename</replaceable></emphasis></entry>
-	      <entry>Entities are defined for all the <link xlink:href="&url.doc.langbase;/articles/">&os;
+	      <entry>Entities are defined for all the <link
+		  xlink:href="&url.doc.langbase;/articles/">&os;
 		  articles</link>.</entry>
 	    </row>
 
@@ -269,7 +294,8 @@
 	    </row>
 
 	    <row>
-	      <entry namest="entity" nameend="notes">Other Operating System Name Entities</entry>
+	      <entry namest="entity" nameend="notes">Other Operating
+		System Name Entities</entry>
 	    </row>
 
 	    <row>
@@ -297,13 +323,15 @@
 	    </row>
 
 	    <row>
-	      <entry namest="entity" nameend="notes">Miscellaneous Entities</entry>
+	      <entry namest="entity" nameend="notes">Miscellaneous
+		Entities</entry>
 	    </row>
 
 	    <row>
 	      <entry><literal>&amp;prompt.root;</literal></entry>
 	      <entry>&prompt.root;</entry>
-	      <entry>The <systemitem class="username">root</systemitem> user
+	      <entry>The <systemitem
+		  class="username">root</systemitem> user
 		prompt.</entry>
 	    </row>
 
@@ -387,11 +415,12 @@
       several chapters, possibly with appendices and similar content
       as well.</para>
 
-    <para>The <link xlink:href="&url.base;/docs.html">&os; tutorials</link>
-      are all marked up as articles, while this
-      document, the
-      <link xlink:href="&url.books.faq;/index.html">FreeBSD FAQ</link>,
-      and the <link xlink:href="&url.books.handbook;/index.html">FreeBSD
+    <para>The <link xlink:href="&url.base;/docs.html">&os;
+	tutorials</link> are all marked up as articles, while this
+      document, the <link
+	xlink:href="&url.books.faq;/index.html">FreeBSD FAQ</link>,
+      and the <link
+	xlink:href="&url.books.handbook;/index.html">FreeBSD
 	Handbook</link> are all marked up as books, for
       example.</para>
 
@@ -779,7 +808,7 @@
 	<para>Usage:</para>
 
 	<programlisting><tag class="starttag">warning</tag>
-  <tag class="starttag">para</tag>Installing FreeBSD may make you want to delete Windows from your
+  <tag class="starttag">para</tag>Installing &amp;os&semi; may make you want to delete Windows from your
     hard disk.<tag class="endtag">para</tag>
 <tag class="endtag">warning</tag></programlisting>
       </example>
@@ -970,12 +999,12 @@ main(void)
 	<programlisting><tag class="starttag">para</tag>When finished, the program will look like
   this:<tag class="endtag">para</tag>
 
-<tag class="starttag">programlisting</tag>#include &amp;lt;stdio.h&amp;gt; <tag class="emptytag">co id="co-ex-include"</tag>
+<tag class="starttag">programlisting</tag>#include &amp;lt;stdio.h&amp;gt; <tag class="emptytag">co xml:id="co-ex-include"</tag>
 
-int <tag class="emptytag">co id="co-ex-return"</tag>
+int <tag class="emptytag">co xml:id="co-ex-return"</tag>
 main(void)
 {
-    printf("hello, world\n"); <tag class="emptytag">co id="co-ex-printf"</tag>
+    printf("hello, world\n"); <tag class="emptytag">co xml:id="co-ex-printf"</tag>
 }<tag class="endtag">programlisting</tag>
 
 <tag class="starttag">calloutlist</tag>
@@ -1113,8 +1142,7 @@ main(void)
       <para>Table borders can be suppressed by setting the
 	<literal>frame</literal> attribute to <literal>none</literal>
 	in the <tag>informaltable</tag> element.  For example,
-	<literal>informaltable
-	    frame="none"</literal>.</para>
+	<literal>informaltable frame="none"</literal>.</para>
 
       <example>
 	<title>Tables Where <literal>frame="none"</literal></title>
@@ -1276,7 +1304,7 @@ This is the file called 'foo2'</screen>
 
 	<para>Usage:</para>
 
-	<programlisting><tag class="starttag">para</tag>FreeBSD is without doubt <tag class="starttag">emphasis</tag>the<tag class="endtag">emphasis</tag>
+	<programlisting><tag class="starttag">para</tag>&amp;os&semi; is without doubt <tag class="starttag">emphasis</tag>the<tag class="endtag">emphasis</tag>
   premiere &amp;unix;-like operating system for the Intel
   architecture.<tag class="endtag">para</tag></programlisting>
 
@@ -1440,7 +1468,7 @@ This is the file called 'foo2'</screen>
 	<link linkend="xml-primer-general-entities">general
 	  entities</link> have been created to make this easier.
 	Each entity takes the form
-	<literal>&amp;man.manual-page.manual-section;</literal>.</para>
+	<literal>&amp;man.<replaceable>manual-page</replaceable>.<replaceable>manual-section</replaceable>;</literal>.</para>
 
       <para>The file that contains these entities is in
 	<filename>doc/share/xml/man-refs.ent</filename>, and can be
@@ -1469,7 +1497,7 @@ This is the file called 'foo2'</screen>
 
       <para>When referring to the same command multiple times in
 	close proximity, it is preferred to use the
-	<literal>&amp;man.command.section;</literal>
+	<literal>&amp;man.<replaceable>command</replaceable>.<replaceable>section</replaceable>;</literal>
 	notation to markup the first reference and use
 	<tag>command</tag> to markup subsequent references.
 	This makes the generated output, especially
@@ -1521,37 +1549,47 @@ This is the file called 'foo2'</screen>
 
       <note>
 	<para>Notice how the
-	  <literal>&amp;man.command.section;</literal>
+	  <literal>&amp;man.<replaceable>command</replaceable>.<replaceable>section</replaceable>;</literal>
 	  notation is easier to follow.</para>
       </note>
     </sect2>
 
     <sect2 xml:id="docbook-markup-files">
-      <title>Files, Directories, Extensions</title>
+      <title>Files, Directories, Extensions, Device Names</title>
 
-      <para>To refer to the name of a file, a directory, or a file
-	extension, use <tag>filename</tag>.</para>
+      <para>To refer to the name of a file, a directory, a file
+	extension, or a device name, use <tag>filename</tag>.  For
+	directory names, set the <literal>class</literal> attribute to
+	<literal>directory</literal>.</para>
 
       <example>
 	<title><tag>filename</tag></title>
 
 	<para>Usage:</para>
 
-	<programlisting><tag class="starttag">para</tag>The XML source for the Handbook in English is
-  found in <tag class="starttag">filename class="directory"</tag>/usr/doc/en_US.ISO8859-1/books/handbook/<tag class="endtag">filename</tag>.  The first
-  file is called <tag class="starttag">filename</tag>book.xml<tag class="endtag">filename</tag> in that
-  directory.  There is also a <tag class="starttag">filename</tag>Makefile<tag class="endtag">filename</tag>
-  and a number of files with a <tag class="starttag">filename</tag>.ent<tag class="endtag">filename</tag>
-  extension.<tag class="endtag">para</tag></programlisting>
+	<programlisting><tag class="starttag">para</tag>The source for the Handbook in English is found in
+  <tag class="starttag">filename
+    class="directory"</tag>/usr/doc/en_US.ISO8859-1/books/handbook/<tag class="endtag">filename</tag>.
+  The main file is called <tag class="starttag">filename</tag>book.xml<tag class="endtag">filename</tag>.
+  There is also a <tag class="starttag">filename</tag>Makefile<tag class="endtag">filename</tag> and a
+  number of files with a <tag class="starttag">filename</tag>.ent<tag class="endtag">filename</tag> extension.<tag class="endtag">para</tag>
+
+<tag class="starttag">para</tag><tag class="starttag">filename</tag>kbd0<tag class="endtag">filename</tag> is the first keyboard detected
+  by the system, and appears in
+  <tag class="starttag">filename</tag>/dev<tag class="endtag">filename</tag>.<tag class="endtag">para</tag></programlisting>
 
 	<para>Appearance:</para>
 
-	<para>The XML source for the Handbook in English can be
-	  found in <filename>/usr/doc/en/handbook/</filename>.  The
-	  first file is called <filename>handbook.xml</filename> in
-	  that directory.  There is also a
-	  <filename>Makefile</filename> and a number of files with a
-	  <filename>.ent</filename> extension.</para>
+	<para>The source for the Handbook in English is found in
+	  <filename
+	    class="directory">/usr/doc/en_US.ISO8859-1/books/handbook/</filename>.
+	  The main file is called <filename>book.xml</filename>.
+	  There is also a <filename>Makefile</filename> and a number
+	  of files with a <filename>.ent</filename> extension.</para>
+
+	<para><filename>kbd0</filename> is the first keyboard detected
+	  by the system, and appears in
+	  <filename>/dev</filename>.</para>
       </example>
     </sect2>
 
@@ -1567,88 +1605,40 @@ This is the file called 'foo2'</screen>
       </note>
 
       <para>To include the name of a program from the &os;
-	Ports Collection in the document, use the
-	<tag>filename</tag> tag with the
-	<literal>role</literal> attribute set to
-	<literal>package</literal>.  Since ports can be installed in
-	any number of locations, only include the category and the
-	port name; do not include
-	<filename>/usr/ports</filename>.</para>
+	Ports Collection in the document, use the <tag>package</tag>
+	tag.  Since the Ports Collection can be installed in any
+	number of locations, only include the category and the port
+	name; do not include <filename>/usr/ports</filename>.</para>
+
+      <para>By default, <tag>package</tag> refers to a binary package.
+	To refer to a port that will be built from source, set the
+	<literal>role</literal> attribute to
+	<literal>port</literal>.</para>
 
       <example>
-	<title><tag>filename</tag> Tag with
-	  <literal>package</literal> Role</title>
+	<title><tag>package</tag> Tag</title>
 
 	<para>Usage:</para>
 
-	<programlisting><tag class="starttag">para</tag>Install the <tag class="starttag">filename role="package"</tag>net/wireshark<tag class="endtag">filename</tag> port to view network traffic.<tag class="endtag">para</tag></programlisting>
+	<programlisting><tag class="starttag">para</tag>Install the <tag class="starttag">package</tag>net/wireshark<tag class="endtag">package</tag> binary
+  package to view network traffic.<tag class="endtag">para</tag>
+
+<tag class="starttag">para</tag><tag class="starttag">package role="port"</tag>net/wireshark<tag class="endtag">package</tag> can also be
+  built and installed from the Ports Collection.<tag class="endtag">para</tag></programlisting>
 
 	<para>Appearance:</para>
 
-	<para>Install the <package>net/wireshark</package> port to view
-	  network traffic.</para>
-      </example>
-    </sect2>
+	<para>Install the <package>net/wireshark</package> binary
+	  package to view network traffic.</para>
 
-    <sect2 xml:id="docbook-markup-devices">
-      <title>Devices</title>
-
-      <note>
-	<title>&os; Extension</title>
-
-	<para>These elements are part of the &os; extension to
-	  DocBook, and do not exist in the original DocBook
-	  <acronym>DTD</acronym>.</para>
-      </note>
-
-      <para>There are two names for devices: the device name as it
-	appears in <filename>/dev</filename>, or the name of the
-	device as it appears in the kernel.  For this latter course,
-	use <tag>devicename</tag>.</para>
-
-      <para>Sometimes there is no choice.  Some devices, such as
-	network cards, do not have entries in
-	<filename>/dev</filename>, or the entries are markedly
-	different from their kernel device names.</para>
-
-      <example>
-	<title><tag>devicename</tag></title>
-
-	<para>Usage:</para>
-
-	<programlisting><tag class="starttag">para</tag><tag class="starttag">devicename</tag>sio<tag class="endtag">devicename</tag> is used for serial
-  communication in FreeBSD.  <tag class="starttag">devicename</tag>sio<tag class="endtag">devicename</tag> manifests
-  through a number of entries in <tag class="starttag">filename</tag>/dev<tag class="endtag">filename</tag>, including
-  <tag class="starttag">filename</tag>/dev/ttyd0<tag class="endtag">filename</tag> and <tag class="starttag">filename</tag>/dev/cuaa0<tag class="endtag">filename</tag>.<tag class="endtag">para</tag>
-
-<tag class="starttag">para</tag>By contrast, network devices such as
-  <tag class="starttag">devicename</tag>ed0<tag class="endtag">devicename</tag> do not appear in <tag class="starttag">filename</tag>/dev<tag class="endtag">filename</tag>.<tag class="endtag">para</tag>
-
-<tag class="starttag">para</tag>In MS-DOS, the first floppy drive is referred to as
-  <tag class="starttag">devicename</tag>a:<tag class="endtag">devicename</tag>.  In FreeBSD it is
-  <tag class="starttag">filename</tag>/dev/fd0<tag class="endtag">filename</tag>.<tag class="endtag">para</tag></programlisting>
-
-	<para>Appearance:</para>
-
-	<para><filename>sio</filename> is used for serial
-	  communication in FreeBSD.  <filename>sio</filename>
-	  manifests through a number of entries in
-	  <filename>/dev</filename>, including
-	  <filename>/dev/ttyd0</filename> and
-	  <filename>/dev/cuaa0</filename>.</para>
-
-	<para>By contrast, network devices such as
-	  <filename>ed0</filename> do not appear in
-	  <filename>/dev</filename>.</para>
-
-	<para>In MS-DOS, the first floppy drive is referred to as
-	  <filename>a:</filename>.  In FreeBSD it is
-	  <filename>/dev/fd0</filename>.</para>
+	<para><package role="port">net/wireshark</package> can also be
+	  built and installed from the Ports Collection.</para>
       </example>
     </sect2>
 
     <sect2 xml:id="docbook-markup-hosts">
-      <title>Hosts, Domains, IP Addresses, and So Forth</title>
+      <title>Hosts, Domains, IP Addresses, User Names, and Other
+	System Items</title>
 
       <note>
 	<title>&os; Extension</title>
@@ -1658,30 +1648,14 @@ This is the file called 'foo2'</screen>
 	  <acronym>DTD</acronym>.</para>
       </note>
 
-      <para>Identification information for networked computers (hosts)
-	can be marked up in several ways, depending on the nature of
-	the information.  All of them use <tag>hostid</tag> as
-	the element, with the <literal>role</literal> attribute
-	selecting the type of the marked up information.</para>
+      <para>Information for <quote>system items</quote> is marked up
+	with <tag>systemitem</tag>.  The <literal>class</literal>
+	attribute is used to identify the particular type of
+	information shown.</para>
 
       <variablelist>
 	<varlistentry>
-	  <term>No <literal>role</literal> attribute, or
-	    <literal>role="hostname"</literal></term>
-
-	  <listitem>
-	    <para>With no <literal>role</literal> attribute (i.e.,
-	      <tag>hostid</tag>...<tag>/hostid</tag>)
-	      the marked up information is the simple hostname, such
-	      as <literal>freefall</literal> or
-	      <literal>wcarchive</literal>.  The hostname can be
-	      explicitly specified with
-	      <literal>role="hostname"</literal>.</para>
-	  </listitem>
-	</varlistentry>
-
-	<varlistentry>
-	  <term><literal>role="domainname"</literal></term>
+	  <term><literal>class="domainname"</literal></term>
 
 	  <listitem>
 	    <para>The text is a domain name, such as
@@ -1692,7 +1666,17 @@ This is the file called 'foo2'</screen>
 	</varlistentry>
 
 	<varlistentry>
-	  <term><literal>role="fqdn"</literal></term>
+	  <term><literal>class="etheraddress"</literal></term>
+
+	  <listitem>
+	    <para>The text is an Ethernet <acronym>MAC</acronym>
+	      address, expressed as a series of 2 digit hexadecimal
+	      numbers separated by colons.</para>
+	  </listitem>
+	</varlistentry>
+
+	<varlistentry>
+	  <term><literal>class="fqdomainname"</literal></term>
 
 	  <listitem>
 	    <para>The text is a Fully Qualified Domain Name, with
@@ -1701,7 +1685,7 @@ This is the file called 'foo2'</screen>
 	</varlistentry>
 
 	<varlistentry>
-	  <term><literal>role="ipaddr"</literal></term>
+	  <term><literal>class="ipaddress"</literal></term>
 
 	  <listitem>
 	    <para>The text is an <acronym>IP</acronym> address,
@@ -1710,16 +1694,7 @@ This is the file called 'foo2'</screen>
 	</varlistentry>
 
 	<varlistentry>
-	  <term><literal>role="ip6addr"</literal></term>
-
-	  <listitem>
-	    <para>The text is an <acronym>IPv6</acronym>
-	      address.</para>
-	  </listitem>
-	</varlistentry>
-
-	<varlistentry>
-	  <term><literal>role="netmask"</literal></term>
+	  <term><literal>class="netmask"</literal></term>
 
 	  <listitem>
 	    <para>The text is a network mask, which might be
@@ -1730,94 +1705,85 @@ This is the file called 'foo2'</screen>
 	</varlistentry>
 
 	<varlistentry>
-	  <term><literal>role="mac"</literal></term>
+	  <term><literal>class="systemname"</literal></term>
 
 	  <listitem>
-	    <para>The text is an Ethernet <acronym>MAC</acronym>
-	      address, expressed as a series of 2 digit hexadecimal
-	      numbers separated by colons.</para>
+	    <para>With <literal>class="systemname"</literal>
+	      the marked up information is the simple hostname, such
+	      as <literal>freefall</literal> or
+	      <literal>wcarchive</literal>.</para>
+	  </listitem>
+	</varlistentry>
+
+	<varlistentry>
+	  <term><literal>class="username"</literal></term>
+
+	  <listitem>
+	    <para>The text is a username, like
+	    <literal>root</literal>.</para>
 	  </listitem>
 	</varlistentry>
       </variablelist>
 
       <example>
-	<title><tag>hostid</tag> and Roles</title>
+	<title><tag>systemitem</tag> and Classes</title>
 
 	<para>Usage:</para>
 
 	<programlisting><tag class="starttag">para</tag>The local machine can always be referred to by the
-  name <tag class="starttag">hostid</tag>localhost<tag class="endtag">hostid</tag>, which will have the IP
-  address <tag class="starttag">hostid role="ipaddr"</tag>127.0.0.1<tag class="endtag">hostid</tag>.<tag class="endtag">para</tag>
+  name <tag class="starttag">systemitem class="systemname"</tag>localhost<tag class="endtag">systemitem</tag>, which will have the IP
+  address <tag class="starttag">systemitem class="ipaddress"</tag>127.0.0.1<tag class="endtag">systemitem</tag>.<tag class="endtag">para</tag>
 
-<tag class="starttag">para</tag>The <tag class="starttag">hostid role="domainname"</tag>FreeBSD.org<tag class="endtag">hostid</tag>
+<tag class="starttag">para</tag>The <tag class="starttag">systemitem class="domainname"</tag>FreeBSD.org<tag class="endtag">systemitem</tag>
   domain contains a number of different hosts, including
-  <tag class="starttag">hostid role="fqdn"</tag>freefall.FreeBSD.org<tag class="endtag">hostid</tag> and
-  <tag class="starttag">hostid role="fqdn"</tag>bento.FreeBSD.org<tag class="endtag">hostid</tag>.<tag class="endtag">para</tag>
+  <tag class="starttag">systemitem class="fqdomainname"</tag>freefall.FreeBSD.org<tag class="endtag">systemitem</tag> and
+  <tag class="starttag">systemitem class="fqdomainname"</tag>bento.FreeBSD.org<tag class="endtag">systemitem</tag>.<tag class="endtag">para</tag>
 
 <tag class="starttag">para</tag>When adding an <tag class="starttag">acronym</tag>IP<tag class="endtag">acronym</tag> alias to an
   interface (using <tag class="starttag">command</tag>ifconfig<tag class="endtag">command</tag>)
   <tag class="starttag">emphasis</tag>always<tag class="endtag">emphasis</tag> use a netmask of
-  <tag class="starttag">hostid role="netmask"</tag>255.255.255.255<tag class="endtag">hostid</tag> (which can
+  <tag class="starttag">systemitem class="netmask"</tag>255.255.255.255<tag class="endtag">systemitem</tag> (which can
   also be expressed as
-  <tag class="starttag">hostid role="netmask"</tag>0xffffffff<tag class="endtag">hostid</tag>).<tag class="endtag">para</tag>
+  <tag class="starttag">systemitem class="netmask"</tag>0xffffffff<tag class="endtag">systemitem</tag>).<tag class="endtag">para</tag>
 
 <tag class="starttag">para</tag>The <tag class="starttag">acronym</tag>MAC<tag class="endtag">acronym</tag> address uniquely identifies
   every network card in existence.  A typical
   <tag class="starttag">acronym</tag>MAC<tag class="endtag">acronym</tag> address looks like
-  <tag class="starttag">hostid role="mac"</tag>08:00:20:87:ef:d0<tag class="endtag">hostid</tag>.<tag class="endtag">para</tag></programlisting>
+  <tag class="starttag">systemitem class="etheraddress"</tag>08:00:20:87:ef:d0<tag class="endtag">systemitem</tag>.<tag class="endtag">para</tag>
+
+<tag class="starttag">para</tag>To carry out most system administration functions
+  requires logging in as <tag class="starttag">systemitem class="username"</tag>root<tag class="endtag">systemitem</tag>.<tag class="endtag">para</tag></programlisting>
 
 	<para>Appearance:</para>
 
-	<para>The local machine can always be referred to by the
-	  name <systemitem>localhost</systemitem>, which will have the IP
-	  address <systemitem class="ipaddress">127.0.0.1</systemitem>.</para>
+	<para>The local machine can always be referred to by the name
+	  <systemitem>localhost</systemitem>, which will have the IP
+	  address
+	  <systemitem class="ipaddress">127.0.0.1</systemitem>.</para>
 
-	<para>The <systemitem class="fqdomainname">FreeBSD.org</systemitem>
+	<para>The
+	  <systemitem class="fqdomainname">FreeBSD.org</systemitem>
 	  domain contains a number of different hosts, including
-	  <systemitem class="fqdomainname">freefall.FreeBSD.org</systemitem> and
-	  <systemitem class="fqdomainname">bento.FreeBSD.org</systemitem>.</para>
+	  <systemitem
+	    class="fqdomainname">freefall.FreeBSD.org</systemitem> and
+	  <systemitem
+	    class="fqdomainname">bento.FreeBSD.org</systemitem>.</para>
 
 	<para>When adding an <acronym>IP</acronym> alias to an
 	  interface (using <command>ifconfig</command>)
 	  <emphasis>always</emphasis> use a netmask of
-	  <systemitem class="netmask">255.255.255.255</systemitem> (which can
-	  also be expressed as
+	  <systemitem class="netmask">255.255.255.255</systemitem>
+	  (which can also be expressed as
 	  <systemitem class="netmask">0xffffffff</systemitem>).</para>
 
 	<para>The <acronym>MAC</acronym> address uniquely identifies
 	  every network card in existence.  A typical
-	  <acronym>MAC</acronym> address looks like
-	  <systemitem class="etheraddress">08:00:20:87:ef:d0</systemitem>.</para>
-      </example>
-    </sect2>
-
-    <sect2 xml:id="docbook-markup-usernames">
-      <title>Usernames</title>
-
-      <note>
-	<title>&os; Extension</title>
-
-	<para>These elements are part of the &os; extension to
-	  DocBook, and do not exist in the original DocBook
-	  <acronym>DTD</acronym>.</para>
-      </note>
-
-      <para>To refer to a specific username, such as
-	<literal>root</literal> or <literal>bin</literal>, use
-	<tag>username</tag>.</para>
-
-      <example>
-	<title><tag>username</tag></title>
-
-	<para>Usage:</para>
-
-	<programlisting><tag class="starttag">para</tag>To carry out most system administration functions
-  requires logging in as <tag class="starttag">username</tag>root<tag class="endtag">username</tag>.<tag class="endtag">para</tag></programlisting>
-
-	<para>Appearance:</para>
+	  <acronym>MAC</acronym> address looks like <systemitem
+	    class="etheraddress">08:00:20:87:ef:d0</systemitem>.</para>
 
 	<para>To carry out most system administration functions
-	  requires logging in as <systemitem class="username">root</systemitem>.</para>
+	  requires logging in as
+	  <systemitem class="username">root</systemitem>.</para>
       </example>
     </sect2>
 
@@ -1880,37 +1846,37 @@ This is the file called 'foo2'</screen>
       </note>
 
       <para>Two elements exist to describe parts of
-	<filename>Makefile</filename>s, <tag>maketarget</tag>
-	and <tag>makevar</tag>.</para>
+	<filename>Makefile</filename>s, <tag>buildtarget</tag>
+	and <tag>varname</tag>.</para>
 
-      <para><tag>maketarget</tag> identifies a build target
+      <para><tag>buildtarget</tag> identifies a build target
 	exported by a <filename>Makefile</filename> that can be
 	given as a parameter to <command>make</command>.
-	<tag>makevar</tag> identifies a variable that can be
+	<tag>varname</tag> identifies a variable that can be
 	set (in the environment, on the command line with
 	<command>make</command>, or within the
 	<filename>Makefile</filename>) to influence the
 	process.</para>
 
       <example>
-	<title><tag>maketarget</tag> and
-	  <tag>makevar</tag></title>
+	<title><tag>buildtarget</tag> and
+	  <tag>varname</tag></title>
 
 	<para>Usage:</para>
 
 	<programlisting><tag class="starttag">para</tag>Two common targets in a <tag class="starttag">filename</tag>Makefile<tag class="endtag">filename</tag>
-  are <tag class="starttag">maketarget</tag>all<tag class="endtag">maketarget</tag> and
-  <tag class="starttag">maketarget</tag>clean<tag class="endtag">maketarget</tag>.<tag class="endtag">para</tag>
+  are <tag class="starttag">buildtarget</tag>all<tag class="endtag">buildtarget</tag> and
+  <tag class="starttag">buildtarget</tag>clean<tag class="endtag">buildtarget</tag>.<tag class="endtag">para</tag>
 
-<tag class="starttag">para</tag>Typically, invoking <tag class="starttag">maketarget</tag>all<tag class="endtag">maketarget</tag> will
+<tag class="starttag">para</tag>Typically, invoking <tag class="starttag">buildtarget</tag>all<tag class="endtag">buildtarget</tag> will
   rebuild the application, and invoking
-  <tag class="starttag">maketarget</tag>clean<tag class="endtag">maketarget</tag> will remove the temporary
+  <tag class="starttag">buildtarget</tag>clean<tag class="endtag">buildtarget</tag> will remove the temporary
   files (<tag class="starttag">filename</tag>.o<tag class="endtag">filename</tag> for example) created by the
   build process.<tag class="endtag">para</tag>
 
-<tag class="starttag">para</tag><tag class="starttag">maketarget</tag>clean<tag class="endtag">maketarget</tag> may be controlled by a
-  number of variables, including <tag class="starttag">makevar</tag>CLOBBER<tag class="endtag">makevar</tag>
-  and <tag class="starttag">makevar</tag>RECURSE<tag class="endtag">makevar</tag>.<tag class="endtag">para</tag></programlisting>
+<tag class="starttag">para</tag><tag class="starttag">buildtarget</tag>clean<tag class="endtag">buildtarget</tag> may be controlled by a
+  number of variables, including <tag class="starttag">varname</tag>CLOBBER<tag class="endtag">varname</tag>
+  and <tag class="starttag">varname</tag>RECURSE<tag class="endtag">varname</tag>.<tag class="endtag">para</tag></programlisting>
 
 	<para>Appearance:</para>
 
@@ -1991,7 +1957,7 @@ This is the file called 'foo2'</screen>
 	<para>Appearance:</para>
 
 	<informalexample>
-	  <screen>&prompt.user; <userinput>man command</userinput></screen>
+	  <screen>&prompt.user; <userinput>man <replaceable>command</replaceable></userinput></screen>
 	</informalexample>
 
 	<para><tag>replaceable</tag> can be used in many
@@ -2014,7 +1980,7 @@ This is the file called 'foo2'</screen>
 	<para>Appearance:</para>
 
 	<para>The
-	  <literal>maxusers n</literal>
+	  <literal>maxusers <replaceable>n</replaceable></literal>
 	  line in the kernel configuration file determines the size
 	  of many system tables, and is a rough guide to how many
 	  simultaneous logins the system will support.</para>
@@ -2159,9 +2125,9 @@ This is the file called 'foo2'</screen>
 
 	<listitem>
 	  <para>In a subdirectory of
-	    <filename>doc/share/images</filename>
-	    named after the document.  For example, images for the
-	    Handbook are stored in <filename>doc/share/images/books/handbook</filename>.
+	    <filename>doc/share/images</filename> named after the
+	    document.  For example, images for the Handbook are stored
+	    in <filename>doc/share/images/books/handbook</filename>.
 	    Images that work for multiple translations are stored in
 	    this upper level of the documentation file tree.
 	    Generally, these are images that can be used unchanged in
@@ -2173,20 +2139,17 @@ This is the file called 'foo2'</screen>
     <sect2 xml:id="docbook-markup-image-markup">
       <title>Image Markup</title>
 
-      <para>Images are included as part of a
-	<tag>mediaobject</tag>.  The
-	<tag>mediaobject</tag> can contain other, more
-	specific objects.  We are concerned with two, the
-	<tag>imageobject</tag> and the
-	<tag>textobject</tag>.</para>
+      <para>Images are included as part of a <tag>mediaobject</tag>.
+	The <tag>mediaobject</tag> can contain other, more specific
+	objects.  We are concerned with two, the
+	<tag>imageobject</tag> and the <tag>textobject</tag>.</para>
 
       <para>Include one <tag>imageobject</tag>, and two
-	<tag>textobject</tag> elements.  The
-	<tag>imageobject</tag> will point to the name of the
-	image file without the extension.  The
-	<tag>textobject</tag> elements contain information
-	that will be presented to the user as well as, or instead of,
-	the image itself.</para>
+	<tag>textobject</tag> elements.  The <tag>imageobject</tag>
+	will point to the name of the image file without the
+	extension.  The <tag>textobject</tag> elements contain
+	information that will be presented to the user as well as, or
+	instead of, the image itself.</para>
 
       <para>Text elements are shown to the reader in several
 	situations.  When the document is viewed in
@@ -2286,25 +2249,24 @@ IMAGES+= fig3.png
       <title>Images and Chapters in Subdirectories</title>
 
       <para>Be careful when separating documentation into smaller
-	files in different directories (see <xref linkend="xml-primer-include-using-gen-entities"/>).</para>
+	files in different directories (see <xref
+	  linkend="xml-primer-include-using-gen-entities"/>).</para>
 
       <para>Suppose there is a book with three chapters, and the
 	chapters are stored in their own directories, called
 	<filename>chapter1/chapter.xml</filename>,
 	<filename>chapter2/chapter.xml</filename>, and
 	<filename>chapter3/chapter.xml</filename>.  If each chapter
-	has images associated with it, place
-	those images in each chapter's subdirectory
-	(<filename>chapter1/</filename>,
+	has images associated with it, place those images in each
+	chapter's subdirectory (<filename>chapter1/</filename>,
 	<filename>chapter2/</filename>, and
 	<filename>chapter3/</filename>).</para>
 
       <para>However, doing this requires including the directory
 	names in the <varname>IMAGES</varname> variable in the
 	<filename>Makefile</filename>, <emphasis>and</emphasis>
-	including the directory name in the
-	<tag>imagedata</tag> element in the document
-	document.</para>
+	including the directory name in the <tag>imagedata</tag>
+	element in the document.</para>
 
       <para>For example, if the book has
 	<filename>chapter1/fig1.png</filename>, then
@@ -2343,32 +2305,32 @@ IMAGES=  chapter1/fig1.png
     </note>
 
     <sect2 xml:id="docbook-markup-links-ids">
-      <title><literal>id</literal> Attributes</title>
+      <title><literal>xml:id</literal> Attributes</title>
 
-      <para>Most DocBook elements accept an <literal>id</literal>
+      <para>Most DocBook elements accept an <literal>xml:id</literal>
 	attribute to give that part of the document a unique name.
-	The <literal>id</literal> can be used as a target for a
+	The <literal>xml:id</literal> can be used as a target for a
 	crossreference or link.</para>
 
       <para>Any portion of the document that will be a link target
-	must have an <literal>id</literal> attribute.  Assigning an
-	<literal>id</literal> to all chapters and sections, even if
-	there are no current plans to link to them, is a good idea.
-	These <literal>id</literal>s can be used as unique anchor
-	reference points by anyone referring to the
+	must have an <literal>xml:id</literal> attribute.  Assigning
+	an <literal>xml:id</literal> to all chapters and sections,
+	even if there are no current plans to link to them, is a good
+	idea.  These <literal>xml:id</literal>s can be used as unique
+	anchor reference points by anyone referring to the
 	<acronym>HTML</acronym> version of the document.</para>
 
       <example>
-	<title><literal>id</literal> on Chapters and
+	<title><literal>xml:id</literal> on Chapters and
 	  Sections</title>
 
-	<programlisting><tag class="starttag">chapter id="introduction"</tag>
+	<programlisting><tag class="starttag">chapter xml:id="introduction"</tag>
   <tag class="starttag">title</tag>Introduction<tag class="endtag">title</tag>
 
   <tag class="starttag">para</tag>This is the introduction.  It contains a subsection,
     which is identified as well.<tag class="endtag">para</tag>
 
-  <tag class="starttag">sect1 id="introduction-moredetails"</tag>
+  <tag class="starttag">sect1 xml:id="introduction-moredetails"</tag>
     <tag class="starttag">title</tag>More Details<tag class="endtag">title</tag>
 
     <tag class="starttag">para</tag>This is a subsection.<tag class="endtag">para</tag>
@@ -2376,26 +2338,26 @@ IMAGES=  chapter1/fig1.png
 <tag class="endtag">chapter</tag></programlisting>
       </example>
 
-      <para>Use descriptive values for <literal>id</literal> names.
-	The values must be unique within the entire document, not just
-	in a single file.  In the example, the subsection
-	<literal>id</literal> is constructed by appending text to the
-	chapter <literal>id</literal>.  This ensures that the
-	<literal>id</literal>s are unique.  It also helps both reader
-	and anyone editing the document to see where the link is
-	located within the document, similar to a directory
-	path to a file.</para>
+      <para>Use descriptive values for <literal>xml:id</literal>
+	names.  The values must be unique within the entire document,
+	not just in a single file.  In the example, the subsection
+	<literal>xml:id</literal> is constructed by appending text to
+	the chapter <literal>xml:id</literal>.  This ensures that the
+	<literal>xml:id</literal>s are unique.  It also helps both
+	reader and anyone editing the document to see where the link
+	is located within the document, similar to a directory path to
+	a file.</para>
 
       <para>To allow the user to jump into a specific portion of the
 	document, even in the middle of a paragraph or an example, use
 	<tag>anchor</tag>.  This element has no content, but
-	takes an <literal>id</literal> attribute.</para>
+	takes an <literal>xml:id</literal> attribute.</para>
 
       <example>
 	<title><tag>anchor</tag></title>
 
 	<programlisting><tag class="starttag">para</tag>This paragraph has an embedded
-  <tag class="emptytag">anchor id="para1"</tag>link target in it.  It will not
+  <tag class="emptytag">anchor xml:id="para1"</tag>link target in it.  It will not
   show up in the document.<tag class="endtag">para</tag></programlisting>
       </example>
     </sect2>
@@ -2403,18 +2365,17 @@ IMAGES=  chapter1/fig1.png
     <sect2 xml:id="docbook-markup-links-crossreferences">
       <title>Crossreferences with <literal>xref</literal></title>
 
-      <para><tag>xref</tag> provides the reader with a link to
-	jump to another section of the document.  The target
-	<literal>id</literal> is specified in the
-	<literal>linkend</literal> attribute, and
-	<tag>xref</tag> generates the link text
-	automatically.</para>
+      <para><tag>xref</tag> provides the reader with a link to jump to
+	another section of the document.  The target
+	<literal>xml:id</literal> is specified in the
+	<literal>linkend</literal> attribute, and <tag>xref</tag>
+	generates the link text automatically.</para>
 
       <example>
 	<title>Using <tag>xref</tag></title>
 
 	<para>Assume that this fragment appears somewhere in a
-	  document that includes the <literal>id</literal>
+	  document that includes the <literal>xml:id</literal>
 	  example shown above:</para>
 
 	<programlisting><tag class="starttag">para</tag>More information can be found
@@ -2443,11 +2404,9 @@ IMAGES=  chapter1/fig1.png
 
       <note>
 	<para><tag>xref</tag> cannot link to an
-	  <literal>id</literal> attribute on an
-	  <tag>anchor</tag> element.  The
-	  <tag>anchor</tag> has no content, so the
-	  <tag>xref</tag> cannot generate the link
-	  text.</para>
+	  <literal>xml:id</literal> attribute on an <tag>anchor</tag>
+	  element.  The <tag>anchor</tag> has no content, so the
+	  <tag>xref</tag> cannot generate the link text.</para>
       </note>
     </sect2>
 
@@ -2467,17 +2426,16 @@ IMAGES=  chapter1/fig1.png
       <sect3 xml:id="docbook-markup-links-to-same-document">
 	<title>Links to the Same Document</title>
 
-	<para><tag>link</tag> is used to create a link
-	  within the same document.  The target <literal>id</literal>
-	  is specified in the <literal>linkend</literal> attribute.
-	  This element wraps content, which is used for the link
-	  text.</para>
+	<para><tag>link</tag> is used to create a link within the same
+	  document.  The target <literal>xml:id</literal> is specified
+	  in the <literal>linkend</literal> attribute.  This element
+	  wraps content, which is used for the link text.</para>
 
 	<example>
 	  <title>Using <tag>link</tag></title>
 
 	  <para>Assume that this fragment appears somewhere in a
-	    document that includes the <literal>id</literal>
+	    document that includes the <literal>xml:id</literal>
 	    example.</para>
 
 	  <programlisting><tag class="starttag">para</tag>More information can be found in the
@@ -2502,10 +2460,9 @@ IMAGES=  chapter1/fig1.png
 	</example>
 
 	<note>
-	  <para><tag>link</tag> can be used to include links
-	    to the <literal>id</literal> of an
-	    <tag>anchor</tag> element, since the
-	    <tag>link</tag> content defines the link
+	  <para><tag>link</tag> can be used to include links to the
+	    <literal>xml:id</literal> of an <tag>anchor</tag> element,
+	    since the <tag>link</tag> content defines the link
 	    text.</para>
 	</note>
       </sect3>
@@ -2513,14 +2470,14 @@ IMAGES=  chapter1/fig1.png
       <sect3 xml:id="docbook-markup-links-to-web-documents">
 	<title>Linking to Other Documents on the Web</title>
 
-	<para>The <tag>ulink</tag> is used to link to
-	  external documents on the web.  The <literal>url</literal>
-	  attribute is the <acronym>URL</acronym> of the page that the
-	  link points to, and the content of the element is the text
-	  that will be displayed for the user to activate.</para>
+	<para>The <tag>ulink</tag> is used to link to external
+	  documents on the web.  The <literal>url</literal> attribute
+	  is the <acronym>URL</acronym> of the page that the link
+	  points to, and the content of the element is the text that
+	  will be displayed for the user to activate.</para>
 
 	<example>
-	  <title><tag>ulink</tag> to a &os; Documentation Web
+	  <title><tag>link</tag> to a &os; Documentation Web
 	    Page</title>
 
 	  <para>Link to the book or article <acronym>URL</acronym>
@@ -2534,46 +2491,50 @@ IMAGES=  chapter1/fig1.png
 
 	  <para>Usage for book links:</para>
 
-	  <programlisting><tag class="starttag">para</tag>Read the <tag class="starttag">ulink
-    url="&amp;url.books.handbook;/svn.html#svn-intro"</tag>SVN
-    introduction<tag class="endtag">ulink</tag>, then pick the nearest mirror from
-  the list of <tag class="starttag">ulink
-    url="&amp;url.books.handbook;/svn-mirrors.html"</tag>Subversion
-    mirror sites<tag class="endtag">ulink</tag>.<tag class="endtag">para</tag></programlisting>
+	  <programlisting><tag class="starttag">para</tag>Read the <tag class="starttag">link
+    xlink:href="&amp;url.books.handbook;/svn.html#svn-intro"</tag>SVN
+    introduction<tag class="endtag">link</tag>, then pick the nearest mirror from
+  the list of <tag class="starttag">link
+    xlink:href="&amp;url.books.handbook;/svn-mirrors.html"</tag>Subversion
+    mirror sites<tag class="endtag">link</tag>.<tag class="endtag">para</tag></programlisting>
 
 	  <para>Appearance:</para>
 
-	  <para>Read the <link xlink:href="&url.books.handbook;/svn.html#svn-intro">SVN
+	  <para>Read the <link
+	      xlink:href="&url.books.handbook;/svn.html#svn-intro">SVN
 	      introduction</link>, then pick the nearest mirror from
-	    the list of <link xlink:href="&url.books.handbook;/svn-mirrors.html">Subversion
+	    the list of <link
+	      xlink:href="&url.books.handbook;/svn-mirrors.html">Subversion
 	      mirror sites</link>.</para>
 
 	  <para>Usage for article links:</para>
 
 	  <programlisting><tag class="starttag">para</tag>Read this
-  <tag class="starttag">ulink url="&amp;url.articles.bsdl-gpl;"</tag>article
-    about the BSD license<tag class="endtag">ulink</tag>, or just the
-  <tag class="starttag">ulink url="&amp;url.articles.bsdl-gpl;#intro"</tag>introduction<tag class="endtag">ulink</tag>.<tag class="endtag">para</tag></programlisting>
+  <tag class="starttag">link xlink:href="&amp;url.articles.bsdl-gpl;"</tag>article
+    about the BSD license<tag class="endtag">link</tag>, or just the
+  <tag class="starttag">link xlink:href="&amp;url.articles.bsdl-gpl;#intro"</tag>introduction<tag class="endtag">link</tag>.<tag class="endtag">para</tag></programlisting>
 
 	  <para>Appearance:</para>
 
-	  <para>Read this <link xlink:href="&url.articles.bsdl-gpl;">article
-	      about the BSD license</link>, or just the <link xlink:href="&url.articles.bsdl-gpl;#intro">introduction</link>.</para>
+	  <para>Read this
+	    <link xlink:href="&url.articles.bsdl-gpl;">article
+	      about the BSD license</link>, or just the <link
+	      xlink:href="&url.articles.bsdl-gpl;#intro">introduction</link>.</para>
 	</example>
 
 	<example>
-	  <title><tag>ulink</tag> to a &os; Web Page</title>
+	  <title><tag>link</tag> to a &os; Web Page</title>
 
 	  <para>Usage:</para>
 
 	  <programlisting><tag class="starttag">para</tag>Of course, you could stop reading this document and go to the
-  <tag class="starttag">ulink url="&amp;url.base;/index.html"</tag>FreeBSD home page<tag class="endtag">ulink</tag> instead.<tag class="endtag">para</tag></programlisting>
+  <tag class="starttag">link xlink:href="&amp;url.base;/index.html"</tag>FreeBSD home page<tag class="endtag">link</tag> instead.<tag class="endtag">para</tag></programlisting>
 
 	  <para>Appearance:</para>
 
 	  <para>Of course, you could stop reading this document and go
-	    to the <link xlink:href="&url.base;/index.html">FreeBSD home
-	      page</link> instead.</para>
+	    to the <link xlink:href="&url.base;/index.html">FreeBSD
+	      home page</link> instead.</para>
 	</example>
 
 	<example>
@@ -2583,27 +2544,28 @@ IMAGES=  chapter1/fig1.png
 	  <para>Usage:</para>
 
 	  <programlisting><tag class="starttag">para</tag>Wikipedia has an excellent reference on
-  <tag class="starttag">ulink
-    url="http://en.wikipedia.org/wiki/GUID_Partition_Table"</tag>GUID
-    Partition Tables<tag class="endtag">ulink</tag>.<tag class="endtag">para</tag></programlisting>
+  <tag class="starttag">link
+    xlink:href="http://en.wikipedia.org/wiki/GUID_Partition_Table"</tag>GUID
+    Partition Tables<tag class="endtag">link</tag>.<tag class="endtag">para</tag></programlisting>
 
 	  <para>Appearance:</para>
 
-	  <para>Wikipedia has an excellent reference on
-	    <link xlink:href="http://en.wikipedia.org/wiki/GUID_Partition_Table">GUID
+	  <para>Wikipedia has an excellent reference on <link
+	      xlink:href="http://en.wikipedia.org/wiki/GUID_Partition_Table">GUID
 	      Partition Tables</link>.</para>
 
 	  <para>The link text can be omitted to show the actual
 	    URL:</para>
 
 	  <programlisting><tag class="starttag">para</tag>Wikipedia has an excellent reference on
-  GUID Partition Tables: <tag class="starttag">ulink
-    url="http://en.wikipedia.org/wiki/GUID_Partition_Table"</tag><tag class="endtag">ulink</tag>.<tag class="endtag">para</tag></programlisting>
+  GUID Partition Tables: <tag class="starttag">link
+    xlink:href="http://en.wikipedia.org/wiki/GUID_Partition_Table"</tag><tag class="endtag">link</tag>.<tag class="endtag">para</tag></programlisting>
 
 	  <para>Appearance:</para>
 
-	  <para>Wikipedia has an excellent reference on
-	    GUID Partition Tables: <uri xlink:href="http://en.wikipedia.org/wiki/GUID_Partition_Table">http://en.wikipedia.org/wiki/GUID_Partition_Table</uri>.</para>
+	  <para>Wikipedia has an excellent reference on GUID Partition
+	    Tables: <uri
+	      xlink:href="http://en.wikipedia.org/wiki/GUID_Partition_Table">http://en.wikipedia.org/wiki/GUID_Partition_Table</uri>.</para>
 	</example>
       </sect3>
     </sect2>

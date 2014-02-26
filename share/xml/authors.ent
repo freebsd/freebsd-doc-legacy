@@ -798,6 +798,9 @@
 <!ENTITY a.greid "George C. A. Reid">
 <!ENTITY a.greid.email "&a.greid; <email xmlns='http://docbook.org/ns/docbook'>greid@FreeBSD.org</email>">
 
+<!ENTITY a.grembo "Michael Gmelin">
+<!ENTITY a.grembo.email "&a.grembo; <email xmlns='http://docbook.org/ns/docbook'>grembo@FreeBSD.org</email>">
+
 <!ENTITY a.grog "Greg Lehey">
 <!ENTITY a.grog.email "&a.grog; <email xmlns='http://docbook.org/ns/docbook'>grog@FreeBSD.org</email>">
 
@@ -1395,6 +1398,9 @@
 <!ENTITY a.mikeh "Mike Heffner">
 <!ENTITY a.mikeh.email "&a.mikeh; <email xmlns='http://docbook.org/ns/docbook'>mikeh@FreeBSD.org</email>">
 
+<!ENTITY a.milki "Jonathan Chu">
+<!ENTITY a.milki.email "&a.milki; <email xmlns='http://docbook.org/ns/docbook'>milki@FreeBSD.org</email>">
+
 <!ENTITY a.mini "Jonathan Mini">
 <!ENTITY a.mini.email "&a.mini; <email xmlns='http://docbook.org/ns/docbook'>mini@FreeBSD.org</email>">
 
@@ -1716,6 +1722,9 @@
 <!ENTITY a.rich "Rich Murphey">
 <!ENTITY a.rich.email "&a.rich; <email xmlns='http://docbook.org/ns/docbook'>rich@FreeBSD.org</email>">
 
+<!ENTITY a.riggs "Thomas Zander">
+<!ENTITY a.riggs.email "&a.riggs; <email xmlns='http://docbook.org/ns/docbook'>riggs@FreeBSD.org</email>">
+
 <!ENTITY a.rik "Roman Kurakin">
 <!ENTITY a.rik.email "&a.rik; <email xmlns='http://docbook.org/ns/docbook'>rik@FreeBSD.org</email>">
 
@@ -1752,11 +1761,17 @@
 <!ENTITY a.rodrigc "Craig Rodrigues">
 <!ENTITY a.rodrigc.email "&a.rodrigc; <email xmlns='http://docbook.org/ns/docbook'>rodrigc@FreeBSD.org</email>">
 
+<!ENTITY a.rodrigo "Rodrigo Osorio">
+<!ENTITY a.rodrigo.email "&a.rodrigo; <email xmlns='http://docbook.org/ns/docbook'>rodrigo@FreeBSD.org</email>">
+
 <!ENTITY a.roger "Roger Hardiman">
 <!ENTITY a.roger.email "&a.roger; <email xmlns='http://docbook.org/ns/docbook'>roger@FreeBSD.org</email>">
 
 <!ENTITY a.romain "Romain Tarti&egrave;re">
 <!ENTITY a.romain.email "&a.romain; <email xmlns='http://docbook.org/ns/docbook'>romain@FreeBSD.org</email>">
+
+<!ENTITY a.royger "Roger Pau Monn&eacute;">
+<!ENTITY a.royger.email "&a.royger; <email xmlns='http://docbook.org/ns/docbook'>royger@FreeBSD.org</email>">
 
 <!ENTITY a.rpaulo "Rui Paulo">
 <!ENTITY a.rpaulo.email "&a.rpaulo; <email xmlns='http://docbook.org/ns/docbook'>rpaulo@FreeBSD.org</email>">
@@ -2097,6 +2112,9 @@
 <!ENTITY a.twinterg "Thomas Wintergerst">
 <!ENTITY a.twinterg.email "&a.twinterg; <email xmlns='http://docbook.org/ns/docbook'>twinterg@FreeBSD.org</email>">
 
+<!ENTITY a.tychon "Tycho Nightingale">
+<!ENTITY a.tychon.email "&a.tychon; <email xmlns='http://docbook.org/ns/docbook'>tychon@FreeBSD.org</email>">
+
 <!ENTITY a.uch "Yasushi UCHIYAMA">
 <!ENTITY a.uch.email "&a.uch; <email xmlns='http://docbook.org/ns/docbook'>uch@FreeBSD.org</email>">
 
@@ -2272,17 +2290,17 @@
 <!ENTITY a.core.members '&a.tabthorpe;, &a.gavin;, &a.jhb;, &a.kib;, &a.theraven;, &a.hrs;, &a.peter;, &a.miwi;'>
 
 <!-- FreeBSD Doc Engineering Team -->
-<!ENTITY a.doceng.members '&a.gjb;, &a.blackend;, &a.gabor;, &a.hrs;'>
+<!ENTITY a.doceng.members '&a.gjb;, &a.wblock;, &a.blackend;, &a.gabor;, &a.hrs;'>
 
 <!-- FreeBSD Donations Liaison -->
 <!ENTITY a.donations.members '&a.tabthorpe;, &a.gjb;, &a.gahr;, &a.pgollucci;, &a.skreuzer;, &a.obrien;, &a.trhodes;, &a.ds;, &a.rwatson;'>
 
 <!-- FreeBSD Ports Manager Team -->
-<!ENTITY a.portmgr.members '&a.tabthorpe;, &a.marcus;, &a.bapt;, &a.bdrewery;, &a.decke;, &a.erwin;, &a.itetcu;, &a.miwi;'>
+<!ENTITY a.portmgr.members '&a.tabthorpe;, &a.mat;, &a.antoine;, &a.bapt;, &a.bdrewery;, &a.decke;, &a.erwin;, &a.miwi;'>
 
 <!-- FreeBSD Release Engineering Teams -->
 <!ENTITY a.re "re@FreeBSD.org">
-<!ENTITY a.re.members '&a.mva;, &a.gjb;, &a.kib;, &a.joel;, &a.blackend;, &a.skreuzer;, &a.delphij;, &a.jpaetzel;, &a.rodrigc;, &a.hrs;, &a.glebius;, &a.kensmith;, &a.marius;'>
+<!ENTITY a.re.members '&a.gjb;, &a.kib;, &a.joel;, &a.blackend;, &a.skreuzer;, &a.delphij;, &a.jpaetzel;, &a.rodrigc;, &a.hrs;, &a.glebius;, &a.kensmith;, &a.marius;'>
 <!ENTITY a.re.members.email '&a.mva.email;, &a.gjb.email;, &a.kib.email;, &a.joel.email;, &a.blackend.email;, &a.skreuzer.email;, &a.delphij.email;, &a.jpaetzel.email;, &a.rodrigc.email;, &a.hrs.email;, &a.glebius.email;, &a.kensmith.email;, &a.marius.email;'>
 <!ENTITY a.re-builders '&a.marcel;, &a.nyan;, &a.nwhitehorn;'>
 

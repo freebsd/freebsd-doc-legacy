@@ -20,7 +20,7 @@
      the contents of <title> will be preferred over <p>.
 
      $FreeBSD$
-     Original revision: r43154
+     Original revision: r43868
 -->
 <news>
     <cvs:keyword xmlns:cvs="http://www.FreeBSD.org/XML/CVS">
@@ -28,10 +28,259 @@
     </cvs:keyword>
 
   <year>
+    <name>2014</name>
+
+    <month>
+      <name>2</name>
+
+      <day>
+	<name>10</name>
+
+	<event>
+	  <title>&os;&nbsp;Journal 創刊</title>
+
+	  <p>&os;&nbsp;Journal の創刊をお知らせします!
+	    &os;&nbsp;Journal は、
+	    &os;&nbsp;Foundation が発行する &os;
+	    に関する新しいオンラインジャーナルです。
+	    購入方法については
+	    <a href="http://freebsdjournal.com/">こちら</a> をご覧ください。
+	    創刊号は &os;&nbsp;10 の特集です。</p>
+	</event>
+      </day>
+    </month>
+
+    <month>
+      <name>1</name>
+
+      <day>
+	<name>25</name>
+
+	<event>
+	  <title>開発進捗レポート (2013 年 10 月 - 12 月) 公開</title>
+
+	    <p><a
+		href="&enbase;/news/status/report-2013-10-2013-12.html">2013
+	      年 10 月から 12 月の開発進捗レポート</a> (37 エントリ)
+	      が公開されました。</p>
+	</event>
+      </day>
+
+      <day>
+        <name>23</name>
+	<event>
+	  <p>新コミッタ就任:
+	      <a href="mailto:rodrigo@FreeBSD.org">Rodrigo Osorio</a> (ports)</p>
+	</event>
+      </day>
+
+      <day>
+        <name>21</name>
+	<event>
+	  <p>新コミッタ就任:
+	      <a href="mailto:tychon@FreeBSD.org">Tycho Nightingale</a> (src)</p>
+	</event>
+
+	<event>
+	  <p>新コミッタ就任:
+	      <a href="mailto:grembo@FreeBSD.org">Michael Gmelin</a> (ports)</p>
+	</event>
+      </day>
+
+      <day>
+	<name>20</name>
+
+	<event>
+	  <title>&os; 10.0-RELEASE 公開</title>
+
+	  <p><a href="&base;/releases/10.0R/announce.html">FreeBSD
+		10.0-RELEASE</a> が公開されました。
+	      インストール前に <a
+		href="&enbase;/releases/10.0R/relnotes.html">リリースノート</a>
+	      および <a
+		href="&enbase;/releases/10.0R/errata.html">リリース Errata</a>
+	      を読み、10.0 に関する最新情報や問題点などを確認してください。
+	      FreeBSD のリリースに関するより詳しい情報については <a
+		href="&base;/releases/index.html">リリース情報</a>
+	      をご覧ください。</p>
+	</event>
+
+	<event>
+	  <p>コミット権限の拡大: <a
+	      href="mailto:jgh@FreeBSD.org">Jason Helfman</a>
+	    (ports, doc)</p>
+	</event>
+      </day>
+
+      <day>
+	<name>15</name>
+
+	<event>
+	  <p>コミット権限の拡大: <a
+	      href="mailto:skreuzer@FreeBSD.org">Steven Kreuzer</a>
+	    (ports, doc)</p>
+	</event>
+      </day>
+
+      <day>
+        <name>13</name>
+
+	<event>
+	  <p>コミッタ復帰:
+	      <a href="mailto:bmah@FreeBSD.org">Bruce A. Mah</a> (ports)</p>
+	</event>
+      </day>
+
+      <day>
+	<name>10</name>
+
+	<event>
+	  <p>新コミッタ就任:
+	      <a href="mailto:riggs@FreeBSD.org">Thomas Zander</a> (ports)</p>
+	</event>
+      </day>
+
+      <day>
+	<name>9</name>
+	<event>
+	  <title>&os;&nbsp;10.0-RC5 公開</title>
+
+	  <p>&os;-10.0
+	    のリリースサイクルから 5 回目のリリース候補が公開されました (<a
+	      href="&lists.stable;/2014-January/076800.html">アナウンス</a>)。
+	    <a
+	      href="&url.doc.base;/books/handbook/mirrors-ftp.html">&os;
+	    ミラーサイト</a> から amd64, i386, ia64, powerpc, powerpc64 および
+	    sparc64 アーキテクチャの ISO イメージを入手できます。</p>
+	</event>
+      </day>
+
+      <day>
+	<name>2</name>
+	<event>
+	  <title>&os;&nbsp;10.0-RC4 公開</title>
+
+	  <p>&os;-10.0
+	    のリリースサイクルから 4 回目のリリース候補が公開されました (<a
+	      href="&lists.stable;/2014-January/076681.html">アナウンス</a>)。
+	    <a
+	      href="&url.doc.base;/books/handbook/mirrors-ftp.html">&os;
+	    ミラーサイト</a> から amd64, i386, ia64, powerpc, powerpc64 および
+	    sparc64 アーキテクチャの ISO イメージを入手できます。</p>
+	</event>
+      </day>
+    </month>
+  </year>
+
+  <year>
     <name>2013</name>
 
     <month>
+      <name>12</name>
+
+      <day>
+	<name>26</name>
+	<event>
+	  <title>&os;&nbsp;10.0-RC3 公開</title>
+
+	  <p>&os;-10.0
+	    のリリースサイクルから 3 回目のリリース候補が公開されました (<a
+	      href="&lists.stable;/2013-December/076590.html">アナウンス</a>)。
+	    <a
+	      href="&url.doc.base;/books/handbook/mirrors-ftp.html">&os;
+	    ミラーサイト</a> から amd64, i386, ia64, powerpc, powerpc64 および
+	    sparc64 アーキテクチャの ISO イメージを入手できます。</p>
+	</event>
+      </day>
+
+      <day>
+	<name>18</name>
+
+	<event>
+	  <p>コミット権限の拡大: <a
+	      href="mailto:ganbold@FreeBSD.org">Ganbold Tsagaankhuu</a>
+	    (doc, src)</p>
+	</event>
+      </day>
+
+      <day>
+	<name>16</name>
+
+	<event>
+	  <p>新コミッタ就任: <a
+	      href="mailto:milki@FreeBSD.org">Jonathan Chu</a> (ports)</p>
+	</event>
+
+	<event>
+	  <p>コミット権限の拡大: <a
+	      href="mailto:bdrewery@FreeBSD.org">Bryan Drewery</a>
+	    (ports, src)</p>
+	</event>
+
+	<event>
+	  <title>&os;&nbsp;10.0-RC2 公開</title>
+
+	  <p>&os;-10.0
+	    のリリースサイクルから 2 回目のリリース候補が公開されました (<a
+	      href="&lists.stable;/2013-December/076480.html">アナウンス</a>)。
+	    <a
+	      href="&url.doc.base;/books/handbook/mirrors-ftp.html">&os;
+	    ミラーサイト</a> から amd64, i386, ia64, powerpc, powerpc64 および
+	    sparc64 アーキテクチャの ISO イメージを入手できます。</p>
+	</event>
+      </day>
+
+      <day>
+	<name>9</name>
+
+	<event>
+	  <title>&os;&nbsp;10.0-RC1 公開</title>
+
+	  <p>&os;-10.0
+	    のリリースサイクルから最初ののリリース候補が公開されました (<a
+	      href="&lists.stable;/2013-December/076231.html">アナウンス</a>)。
+	    <a
+	      href="&url.doc.base;/books/handbook/mirrors-ftp.html">&os;
+	    ミラーサイト</a> から amd64, i386, ia64, powerpc, powerpc64 および
+	    sparc64 アーキテクチャの ISO イメージを入手できます。</p>
+	</event>
+
+	<event>
+	  <title>EuroBSDcon 2013 Developer Summit レポート</title>
+	    <p><a
+		href="&enbase;/news/status/report-2013-09-devsummit.html">EuroBSDcon 2013 &os; Developer Summit のスペシャルレポート</a>
+	      (13 エントリ) が公開されました。</p>
+	</event>
+      </day>
+
+      <day>
+	<name>3</name>
+
+	<event>
+	  <title>&os;&nbsp;10.0-BETA4 公開</title>
+
+	  <p>&os;-10.0 リリースサイクルから 4
+	    回目のベータ版が公開されました (<a
+	      href="&lists.stable;/2013-December/076040.html">アナウンス</a>)。
+	    <a
+	      href="&url.doc.base;/books/handbook/mirrors-ftp.html">&os;
+	    ミラーサイト</a> から amd64, i386, ia64, powerpc, powerpc64 および
+	    sparc64 アーキテクチャの ISO イメージを入手できます。</p>
+	</event>
+      </day>
+    </month>
+
+    <month>
       <name>11</name>
+
+      <day>
+	<name>27</name>
+
+	<event>
+	  <p>新コミッタ就任:
+	      <a href="mailto:royger@FreeBSD.org">Roger Pau Monn&eacute;</a> (src)</p>
+	</event>
+      </day>
 
       <day>
 	<name>8</name>
@@ -411,7 +660,7 @@
 	<name>2</name>
 
 	<event>
-	  <title>BSDCan 2013 DevSummit リポート</title>
+	  <title>BSDCan 2013 DevSummit レポート</title>
 	    <p>BSDCan 2013 &os; 開発者サミットのスペシャルレポート
 	      (6 エントリ) が <a
 		href="&enbase;/news/status/report-2013-05-devsummit.html">公開</a>
