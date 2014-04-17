@@ -1246,19 +1246,18 @@ Filesystem           Size Used Avail Capacity Mounted on
     <sect2 xml:id="zfs-zfs-rename">
       <title>Renaming a Dataset</title>
 
-      <para>The name of a dataset can be changed with
-	<command>zfs rename</command>.  <command>rename</command> can
-	also be used to change the parent of a dataset.  Renaming a
-	dataset to be under a different parent dataset will change the
-	value of those properties that are inherited by the child
-	dataset.  When a dataset is renamed, it is unmounted and then
-	remounted in the new location (inherited from the parent
-	dataset).  This behavior can be prevented with
-	<option>-u</option>.  Due to the nature of snapshots, they
-	cannot be renamed outside of the parent dataset.  To rename a
-	recursive snapshot, specify <option>-r</option>, and all
-	snapshots with the same specified snapshot will be
-	renamed.</para>
+      <para>The name of a dataset can be changed with <command>zfs
+	  rename</command>.  <command>rename</command> can also be
+	used to change the parent of a dataset.  Renaming a dataset to
+	be under a different parent dataset will change the value of
+	those properties that are inherited by the child dataset.
+	When a dataset is renamed, it is unmounted and then remounted
+	in the new location (inherited from the parent dataset).  This
+	behavior can be prevented with <option>-u</option>.  Due to
+	the nature of snapshots, they cannot be renamed outside of the
+	parent dataset.  To rename a recursive snapshot, specify
+	<option>-r</option>, and all snapshots with the same specified
+	snapshot will be renamed.</para>
     </sect2>
 
     <sect2 xml:id="zfs-zfs-set">
@@ -1309,36 +1308,350 @@ tank    custom:costcenter  -                  -
 
       <para><link linkend="zfs-term-snapshot">Snapshots</link> are one
 	of the most powerful features of <acronym>ZFS</acronym>.  A
-	snapshot provides a point-in-time copy of the dataset.  The
-	parent dataset can be easily rolled back to that snapshot
-	state.  Create a snapshot with <command>zfs snapshot
-	  <replaceable>dataset</replaceable>@<replaceable>snapshotname</replaceable></command>.
-	Adding <option>-r</option> creates a snapshot recursively,
-	with the same name on all child datasets.</para>
+	snapshot provides a read-only, point-in-time copy of the
+	dataset.  Due to ZFS' Copy-On-Write (COW) implementation,
+	snapshots can be created quickly simply by preserving the
+	older version of the data on disk.  When no snapshot is
+	created, ZFS simply reclaims the space for future use.
+	Snapshots preserve disk space by recording only the
+	differences that happened between snapshots.  ZFS llow
+	snapshots only on whole datasets, not on individual files or
+	directories.  When a snapshot is created from a dataset,
+	everything contained in it, including the filesystem
+	properties, files, directories, permissions, etc. are
+	duplicated.</para>
 
-      <para>Snapshots are mounted in a hidden directory
-	under the parent dataset: <filename
-	  class="directory">.zfs/snapshots/<replaceable>snapshotname</replaceable></filename>.
-	Individual files can easily be restored to a previous state by
-	copying them from the snapshot back to the parent dataset.  It
-	is also possible to revert the entire dataset back to the
-	point-in-time of the snapshot using
-	<command>zfs rollback</command>.</para>
+      <para>Snapshots provide a variety of uses that other filesystems
+	with snapshot functionality do not have.  A typical example
+	for snapshots is to have a quick way of backing up the current
+	state of the filesystem when a risky action like a software
+	installation or a system upgrade is performed.  When the
+	action fails, the snapshot can be rolled back and the system
+	has the same state as when the snapshot was created.  If the
+	upgrade was successful, the snapshot can be deleted to free up
+	space.  Without snapshots and a failed upgrade a restore from
+	backup is often required, which is tedious, time consuming and
+	may require a downtime in which the system cannot be used as
+	normal.  Snapshots can be rolled back quickly and can be done
+	when the system is running in normal operation, with little or
+	no downtime.  The time savings are enormous considering
+	multi-terabyte storage systems and the time required to copy
+	the data from backup.  Snapshots are not a replacement for a
+	complete backup of a pool, but can be used as a quick and easy
+	way to store a copy of the dataset at a specific point in
+	time.</para>
 
-      <para>Snapshots consume space based on how much the parent file
-	system has changed since the time of the snapshot.  The
-	<literal>written</literal> property of a snapshot tracks how
-	much space is being used by the snapshot.</para>
+      <sect3 xml:id="zfs-zfs-snapshot-creation">
+	<title>Creating Snapshots</title>
 
-      <para>Snapshots are destroyed and the space reclaimed with
-	<command>zfs destroy
-	  <replaceable>dataset</replaceable>@<replaceable>snapshot</replaceable></command>.
-	Adding <option>-r</option> recursively removes all
-	snapshots with the same name under the parent dataset.  Adding
-	<option>-n -v</option> to the command
-	displays a list of the snapshots that would be deleted and
-	an estimate of how much space would be reclaimed without
-	performing the actual destroy operation.</para>
+	<para>Create a snapshot with <command>zfs snapshot
+	    <replaceable>dataset</replaceable>@<replaceable>snapshotname</replaceable></command>.
+	  Adding <option>-r</option> creates a snapshot recursively,
+	  with the same name on all child datasets.  The following
+	  example creates a snapshot of a home directory:</para>
+
+	<screen>&prompt.root; <userinput>zfs snapshot
+	    <replaceable>bigpool/work/joe</replaceable>@<replaceable>backup</replaceable></userinput>
+&prompt.root; <userinput>zfs list -t snapshot</userinput>
+NAME                      USED  AVAIL  REFER  MOUNTPOINT
+bigpool/work/joe@backup      0      -  85.5K  -</screen>
+
+	<para>Snapshots are not listed by a normal <command>zfs
+	    list</command> operation.  In order to list the snapshot
+	  that was just created, the option <literal>-t
+	    snapshot</literal> has to be appended to <command>zfs
+	    list</command>.  The output clearly indicates that
+	  snapshots can not be mounted directly into the system as
+	  there is no path shown in the <literal>MOUNTPOINT</literal>
+	  column.  Additionally, there is no mention of available disk
+	  space in the <literal>AVAIL</literal> column as snapshots
+	  cannot be written after they are created.  It becomes more
+	  clear when comparing the snapshot with the original dataset
+	  from which it was created:</para>
+
+	<screen>&prompt.root; <userinput>zfs list -rt all <replaceable>bigpool/work/joe</replaceable></userinput>
+NAME                      USED  AVAIL  REFER  MOUNTPOINT
+bigpool/work/joe         85.5K  1.29G  85.5K  /usr/home/joe
+bigpool/work/joe@backup      0      -  85.5K  -</screen>
+
+	<para>Displaying both the dataset and the snapshot in one
+	  output using <command>zfs list -rt all</command> reveals how
+	  snapshots work in COW fashion.  They save only the changes
+	  (delta) that were made and not the whole filesystem contents
+	  all over again.  This means that snapshots do not take up
+	  much space when there were not many changes being made in
+	  the meantime.  This becomes more apparent when creating a
+	  second snapshot after making a change like copying a file to
+	  the dataset after the first snapshot was taken.</para>
+
+	<screen>&prompt.root; <userinput>cp <replaceable>/etc/passwd</replaceable> <replaceable>bigpool/work/joe</replaceable></userinput>
+&prompt.root; zfs snapshot <replaceable>bigpool/work/joe</replaceable>@<replaceable>after_cp</replaceable>
+&prompt.root; <userinput>zfs list -rt all <replaceable>bigpool/work/joe</replaceable></userinput>
+NAME                      USED  AVAIL  REFER  MOUNTPOINT
+bigpool/work/joe          115K  1.29G    88K  /usr/home/joe
+bigpool/work/joe@backup    27K      -  85.5K  -
+bigpool/work/joe@after_cp    0      -    88K  -</screen>
+
+	<para>The second snapshot contains only the changes on the
+	  dataset after the copy operation.  This yields enormous
+	  space savings.  Note that the snapshot
+	  <literal><replaceable>bigpool/work/joe@backup</replaceable></literal>
+	  also changed in the output of the <literal>USED</literal>
+	  column to indicate the changes between itself and the
+	  snapshot taken afterwards.</para>
+      </sect3>
+
+      <sect3 xml:id="zfs-zfs-snapshot-diff">
+	<title>Comparing Snapshots</title>
+
+	<para>ZFS provides a built-in command to compare the
+	  differences in content between two snapshots.  This is
+	  helpful when many snapshots were taken over time and the
+	  user wants to know the filesystem has changed over time.
+	  For example, a user can determine what the latest snapshot
+	  is that still contains a file that was accidentally deleted
+	  using <command>zfs diff</command>.  Doing this for the two
+	  snapshots that were created in the previous section yields
+	  the following output:</para>
+
+	<screen>&prompt.root; <userinput>zfs list -rt all <replaceable>bigpool/work/joe</replaceable></userinput>
+NAME                      USED  AVAIL  REFER  MOUNTPOINT
+bigpool/work/joe          115K  1.29G    88K  /usr/home/joe
+bigpool/work/joe@backup    27K      -  85.5K  -
+bigpool/work/joe@after_cp    0      -    88K  -
+&prompt.root; <userinput>zfs diff <replaceable>bigpool/work/joe@backup</replaceable></userinput>
+M   /usr/home/bcr/
++   /usr/home/bcr/passwd</screen>
+
+	<para>The command lists the changes between the most recent
+	  snapshot (in this case
+	  <literal><replaceable>bigpool/work/joe@after_cp</replaceable></literal>)
+	  and the one provided as a parameter to <command>zfs
+	    diff</command>.  The first column indicates the type of
+	  change according to the following table:</para>
+
+	<informaltable pgwide="1">
+	  <tgroup cols="2">
+	    <tbody valign="top">
+	      <row>
+		<entry>+</entry>
+		<entry>The path or file was added.</entry>
+	      </row>
+
+	      <row>
+		<entry>-</entry>
+		<entry>The path or file was deleted.</entry>
+	      </row>
+
+	      <row>
+		<entry>M</entry>
+		<entry>The path or file was modified.</entry>
+	      </row>
+
+	      <row>
+		<entry>R</entry>
+		<entry>The path or file was renamed.</entry>
+	      </row>
+	    </tbody>
+	  </tgroup>
+	</informaltable>
+
+	<para>By comparing the output with the table, it becomes clear
+	  that <filename><replaceable>passwd</replaceable></filename>
+	  was added after the snapshot
+	  <literal><replaceable>bigpool/work/joe@backup</replaceable></literal>
+	  was created.  This resulted also in a modification of the
+	  parent dataset mounted at
+	  <literal><replaceable>/usr/home/joe</replaceable></literal>
+	  because, among other things, the directory listing would now
+	  include the new file.</para>
+
+	<para>Comparing the contents of two snapshots is helpful when
+	  using ZFS' replication feature to transfer a dataset to a
+	  different host for backup purposes.  A backup administrator
+	  can compare the two snapshots he just received from the
+	  sending host and figure out what the actual changes in the
+	  dataset were (provided the dataset is not encrypted).  See
+	  the <link linkend="zfs-zfs-send">Replication</link> section
+	  for more information.</para>
+      </sect3>
+
+      <sect3 xml:id="zfs-zfs-snapshot-rollback">
+	<title>Snapshot Rollback</title>
+
+	<para>Once at least one snapshot is available, it can be
+	  rolled back to at any time.  Most of the time this is the
+	  case when the current state of the dataset is no longer
+	  required and an older version is preferred.  Scenarios like
+	  local development tests have gone wrong, botched system
+	  updates hamper the systems overall functionality or the
+	  requirement to restore accidentally deleted files or
+	  directories are all too common occurances.  Luckily, rolling
+	  back a snapshot is just as easy as typing <command>zfs
+	    rollback
+	    <replaceable>snapshotname</replaceable></command>.
+	  Depending on how many changes are involved, the operation
+	  will finish in a certain amout of time.  During that time,
+	  the dataset always remains in a consistent state, much like
+	  a database that conforms to ACID principles is performing a
+	  rollback.  This is happening while the dataset is live and
+	  accessible without requiring a downtime.  Once the snapshot
+	  has been rolled back, the dataset has the same state as it
+	  had when the snapshot was originally taken.  All other data
+	  in that dataset that was not part of the snapshot is
+	  discarded.  Taking a snapshot of the current state of the
+	  dataset before rolling back to a previous one is a good idea
+	  when some data is required later.  This way, the user can
+	  roll back and forth between snapshots without losing data
+	  that is still valuable.</para>
+
+	<para>In the first example, a snapshot is rolled back because
+	  of a careless <command>rm</command> operation that removes
+	  too much data than was intended.</para>
+
+	<screen>&prompt.root; <userinput>zfs list -rt all <replaceable>bigpool/work/joe</replaceable></userinput>
+NAME                        USED  AVAIL  REFER  MOUNTPOINT
+bigpool/work/joe            115K  1.29G    88K  /usr/home/joe
+bigpool/work/joe@santa       27K      -  85.5K  -
+bigpool/work/joe@summerplan    0      -    88K  -
+&prompt.user; <userinput>ls</userinput>
+santaletter.txt  summerholiday.txt
+&prompt.user; <userinput>rm s*</userinput>
+&prompt.user; <userinput>ls</userinput>
+&prompt.user;</screen>
+
+	<para>At this point, the user realized that too many files
+	  were deleted and wants them back.  ZFS provides an easy way
+	  to get them back using rollbacks, but only when snapshots of
+	  important data are performed on a regular basis.  To get the
+	  files back and start over from the last snapshot, issue the
+	  following command:</para>
+
+	<screen>&prompt.root; <userinput>zfs rollback <replaceable>bigpool/work/joe@summerplan</replaceable></userinput>
+&prompt.user; <userinput>ls</userinput>
+santaletter.txt  summerholiday.txt</screen>
+
+	<para>The rollback operation restored the dataset to the state
+	  of the last snapshot.  It is also possible to roll back to a
+	  snapshot that was taken much earlier and has other snapshots
+	  following after it.  When trying to do this, ZFS will issue
+	  the following warning:</para>
+
+	<screen>&prompt.root; <userinput>zfs list -t snapshot</userinput>
+NAME                        USED  AVAIL  REFER  MOUNTPOINT
+bigpool/work/joe@santa       27K      -  85.5K  -
+bigpool/work/joe@summerplan    0      -    88K  -
+&prompt.root; <userinput>zfs rollback bigpool/work/joe@santa</userinput>
+cannot rollback to 'bigpool/work/joe@santa': more recent snapshots exist
+use '-r' to force deletion of the following snapshots:
+bigpool/work/joe@summerplan</screen>
+
+	<para>This warning means that when snapshots exist between the
+	  current state of the dataset and the snapshot the user wants
+	  to roll back to, these snapshots must be deleted.  This is
+	  because ZFS can not track all the changes between different
+	  states of the dataset in time since snapshots are read-only.
+	  As a precaution, ZFS will not delete the affected snapshots,
+	  but offers to use the <option>-r</option> parameter when
+	  this is the desired action.  If that is what the intention
+	  is and the consequences of losing all intermediate snapshots
+	  is understood, the command can be issued as follows:</para>
+
+	<screen>&prompt.root; <userinput>zfs rollback -r <replaceable>bigpool/work/joe@santa</replaceable></userinput>
+&prompt.root; <userinput>zfs list -t snapshot</userinput>
+NAME                        USED  AVAIL  REFER  MOUNTPOINT
+bigpool/work/joe@santa       27K      -  85.5K  -
+&prompt.user; <userinput>ls</userinput>
+santaletter.txt</screen>
+
+	<para>The output from <command>zfs list -t snapshot</command>
+	  confirms that the snapshot
+	  <literal><replaceable>bigpool/work/joe@summerplan</replaceable></literal>
+	  was removed as a result of <command>zfs rollback
+	    -r</command>.</para>
+      </sect3>
+
+      <sect3 xml:id="zfs-zfs-snapshot-snapdir">
+	<title>Restoring Individual Files from Snapshots</title>
+
+	<para>Snapshots are mounted in a hidden directory under the
+	  parent dataset: <filename
+	    class="directory">.zfs/snapshots/<replaceable>snapshotname</replaceable></filename>.
+	  By default, these directories will not be displayed even
+	  when a standard <command>ls -a</command> is issued.
+	  Although the directory is not displayed, it is there
+	  nevertheless and can be accessed like any normal directory.
+	  ZFS maintains a property named <literal>snapdir</literal>
+	  that controls whether these hidden directories show up in a
+	  directory listing.  Setting the property to
+	  <literal>visible</literal> will let them show up in the
+	  output of <command>ls</command> and any other that deal with
+	  directory contents.</para>
+
+	<screen>&prompt.root; <userinput>zfs get snapdir <replaceable>bigpool/work/joe</replaceable></userinput>
+NAME                  PROPERTY  VALUE   SOURCE
+bigpool/work/joe      snapdir   hidden  default
+&prompt.user; <userinput>ls -a</userinput>
+.     santaletter.txt
+..    summerholiday.txt
+&prompt.root; <userinput>zfs set snapdir=visible <replaceable>bigpool/work/joe</replaceable></userinput>
+&prompt.user; <userinput>ls -a</userinput>
+.     .zfs                santaletter.txt
+..    summerholiday.txt</screen>
+
+	<para>Individual files can easily be restored to a previous
+	  state by copying them from the snapshot back to the parent
+	  dataset.  The directory structure below <filename
+	    class="directory">.zfs/snapshot</filename> has a directory
+	  named exactly like the snapshots taken earlier to make it
+	  easier to identify them.  In the following example, it is
+	  assumed that a file should be restored from the hidden
+	  <filename class="directory">.zfs</filename> directory by
+	  copying it from the snapshot that contained the latest
+	  version of the file:</para>
+
+	<screen>&prompt.root; <userinput>ls .zfs/snapshot</userinput>
+santa    summerplan
+&prompt.root; <userinput>ls .zfs/snapshot/<replaceable>summerplan</replaceable></userinput>
+summerholiday.txt
+&prompt.root; <userinput>cp .zfs/snapshot/<replaceable>summerplan/summerholiday.txt</replaceable> <replaceable>/bigpool/work/joe</replaceable></userinput></screen>
+
+	<para>Note that when the command <command>ls
+	    .zfs/snapshot</command> was issued, the property
+	  <literal>snapdir</literal> could be set to hidden and it
+	  would still be possible to list the contents of that
+	  directory.  It is up to the administrator to decide whether
+	  these directories should be displayed.  Of course, it is
+	  possible to display these for certain datasets and prevent
+	  it for others.  Copying files or directories from these
+	  hidden <filename class="directory">.zfs/snapshot</filename>
+	  is simple enough.  Trying it the other way around results in
+	  the following error:</para>
+
+	<screen>&prompt.root; <userinput>cp <replaceable>/etc/rc.conf</replaceable> .zfs/snapshot/<replaceable>santa/</replaceable></userinput>
+cp: .zfs/snapshot/santa/rc.conf: Read-only file system</screen>
+
+	<para>This error reminds the user that snapshots are read-only
+	  and can not be changed after they have been created.  No
+	  files can be copied into or removed from snapshot
+	  directories because that would change the state of the
+	  dataset they represent.</para>
+
+	<para>Snapshots consume space based on how much the parent
+	  file system has changed since the time of the snapshot.  The
+	  <literal>written</literal> property of a snapshot tracks how
+	  much space is being used by the snapshot.</para>
+
+	<para>Snapshots are destroyed and the space reclaimed with
+	  <command>zfs destroy
+	    <replaceable>dataset</replaceable>@<replaceable>snapshot</replaceable></command>.
+	  Adding <option>-r</option> recursively removes all snapshots
+	  with the same name under the parent dataset.  Adding
+	  <option>-n -v</option> to the command displays a list of the
+	  snapshots that would be deleted and an estimate of how much
+	  space would be reclaimed without performing the actual
+	  destroy operation.</para>
+      </sect3>
     </sect2>
 
     <sect2 xml:id="zfs-zfs-clones">
@@ -1347,14 +1660,98 @@ tank    custom:costcenter  -                  -
       <para>A clone is a copy of a snapshot that is treated more like
 	a regular dataset.  Unlike a snapshot, a clone is not read
 	only, is mounted, and can have its own properties.  Once a
-	clone has been created, the snapshot it was created from
-	cannot be destroyed.  The child/parent relationship between
-	the clone and the snapshot can be reversed using
-	<command>zfs promote</command>.  After a clone has been
-	promoted, the snapshot becomes a child of the clone, rather
-	than of the original parent dataset.  This will change how the
-	space is accounted, but not actually change the amount of
-	space consumed.</para>
+	clone has been created using <command>zfs clone</command>, the
+	snapshot it was created from cannot be destroyed.  The
+	child/parent relationship between the clone and the snapshot
+	can be reversed using <command>zfs promote</command>.  After a
+	clone has been promoted, the snapshot becomes a child of the
+	clone, rather than of the original parent dataset.  This will
+	change how the space is accounted, but not actually change the
+	amount of space consumed.  The clone can be mounted at any
+	point within the ZFS filesystem hierarchy, not just below the
+	original location of the snapshot.</para>
+
+      <para>To demonstrate the clone feature, the following example
+	dataset is used:</para>
+
+      <screen>&prompt.root; <userinput>zfs list -rt all <replaceable>camino/home/joe</replaceable></userinput>
+NAME                    USED  AVAIL  REFER  MOUNTPOINT
+camino/home/joe         108K   1.3G    87K  /usr/home/joe
+camino/home/joe@plans    21K      -  85.5K  -
+camino/home/joe@backup    0K      -    87K  -</screen>
+
+      <para>A typical use case for clones is to experiment with a
+	specific dataset while keeping the snapshot around to fall
+	back to in case something goes wrong.  Since snapshots can not
+	be changed, a clone of a snapshot is created to perform the
+	changes in.  Once the desired result is achieved, the old
+	filesystem can be removed after promoting the clone to a
+	dataset to replace it.  This is not strictly necessary as the
+	clone and dataset can coexist side by side with each other
+	without causing problems.</para>
+
+      <screen>&prompt.root; <userinput>zfs clone <replaceable>camino/home/joe</replaceable>@<replaceable>backup</replaceable> <replaceable>camino/home/joenew</replaceable></userinput>
+&prompt.root; <userinput>ls /usr/home/joe*</userinput>
+/usr/home/joe:
+backup.txz     plans.txt
+
+/usr/home/joenew:
+backup.txz     plans.txt
+&prompt.root; <userinput>df -h /usr/home</userinput>
+Filesystem          Size    Used   Avail Capacity  Mounted on
+usr/home/joe        1.3G     31k    1.3G     0%    /usr/home/joe
+usr/home/joenew     1.3G     31k    1.3G     0%    /usr/home/joenew</screen>
+
+      <para>After a clone is created it is an exact copy of the state
+	the dataset was in when the snapshot was taken.  The clone can
+	now be changed independently from its originating dataset.
+	The only connection between the two is the snapshot.  ZFS
+	records this connection in the property
+	<literal>origin</literal>.  Once the dependency between the
+	snapshot and the clone has been removed by promoting the clone
+	using <command>zfs promote</command>, the
+	<literal>origin</literal> of the clone is removed as it is now
+	an independent dataset.  The following example demonstrates
+	this:</para>
+
+      <screen>&prompt.root; <userinput>zfs get origin <replaceable>camino/home/joenew</replaceable></userinput>
+NAME                  PROPERTY  VALUE                     SOURCE
+camino/home/joenew    origin    camino/home/joe@backup    -
+&prompt.root; <userinput>zfs promote <replaceable>camino/home/joenew</replaceable></userinput>
+&prompt.root; <userinput>zfs get origin <replaceable>camino/home/joenew</replaceable></userinput>
+NAME                  PROPERTY  VALUE   SOURCE
+camino/home/joenew    origin    -       -</screen>
+
+      <para>After making some changes like copying
+	<filename>loader.conf</filename> to the promoted clone for
+	example, the old directory becomes obsolete in this case.
+	Instead, the promoted clone should replace it.  This can be
+	achieved by two consecutive commands: <command>zfs
+	  destroy</command> on the old dataset and <command>zfs
+	  rename</command> on the clone to name it like the old
+	dataset (it could also get an entirely different name).</para>
+
+      <screen>&prompt.root; <userinput>cp <replaceable>/boot/defaults/loader.conf</replaceable> <replaceable>/usr/home/joenew</replaceable></userinput>
+&prompt.root; <userinput>zfs destroy -f <replaceable>camino/home/joe</replaceable></userinput>
+&prompt.root; <userinput>zfs rename <replaceable>camino/home/joenew</replaceable> <replaceable>camino/home/joe</replaceable></userinput>
+&prompt.root; <userinput>ls /usr/home/joe</userinput>
+backup.txz     loader.conf     plans.txt
+&prompt.root; <userinput>df -h <replaceable>/usr/home</replaceable></userinput>
+Filesystem          Size    Used   Avail Capacity  Mounted on
+usr/home/joe        1.3G    128k    1.3G     0%    /usr/home/joe</screen>
+
+      <para>The cloned snapshot is now handled by ZFS like an ordinary
+	dataset.  It contains all the data from the original snapshot
+	plus the files that were added to it like
+	<filename>loader.conf</filename>.  Clones can be used in
+	different scenarios to provide useful features to ZFS users.
+	For example, jails could be provided as snapshots containing
+	different sets of installed applications.  Users can clone
+	these snapshots and add their own applications as they see
+	fit.  Once they are satisfied with the changes, the clones can
+	be promoted to full datasets and provided to end users to work
+	with like they would with a real dataset.  This saves time and
+	administrative overhead when providing these jails.</para>
     </sect2>
 
     <sect2 xml:id="zfs-zfs-send">
@@ -2459,7 +2856,8 @@ vfs.zfs.vdev.cache.size="5M"</programlisting>
 		  flags.  This allows greater cross-compatibility with
 		  other implementations of
 		  <acronym>ZFS</acronym>.</para>
-	      </note></entry>
+	      </note>
+	    </entry>
 	  </row>
 
 	  <row>
