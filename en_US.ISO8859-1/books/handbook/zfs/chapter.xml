@@ -671,7 +671,7 @@ errors: No known data errors</screen>
       <title>Scrubbing a Pool</title>
 
       <para>Pools should be
-	<link linkend="zfs-term-scrub">Scrubbed</link> regularly,
+	<link linkend="zfs-term-scrub">scrubbed</link> regularly,
 	ideally at least once every three months.  The
 	<command>scrub</command> operating is very disk-intensive and
 	will reduce performance while running.  Avoid high-demand
@@ -691,7 +691,7 @@ errors: No known data errors</screen>
 config:
 
         NAME        STATE     READ WRITE CKSUM
-        mypool       ONLINE       0     0     0
+        mypool      ONLINE       0     0     0
           raidz2-0  ONLINE       0     0     0
             ada0p3  ONLINE       0     0     0
             ada1p3  ONLINE       0     0     0
@@ -701,6 +701,10 @@ config:
             ada5p3  ONLINE       0     0     0
 
 errors: No known data errors</screen>
+
+      <para>In the event that a scrub operation needs to be cancelled,
+	issue <command>zpool scrub -s
+	  <replaceable>mypool</replaceable></command>.</para>
     </sect2>
 
     <sect2 xml:id="zfs-zpool-selfheal">
@@ -1247,17 +1251,20 @@ Filesystem           Size Used Avail Capacity Mounted on
       <title>Renaming a Dataset</title>
 
       <para>The name of a dataset can be changed with <command>zfs
-	  rename</command>.  <command>rename</command> can also be
-	used to change the parent of a dataset.  Renaming a dataset to
-	be under a different parent dataset will change the value of
-	those properties that are inherited by the child dataset.
-	When a dataset is renamed, it is unmounted and then remounted
-	in the new location (inherited from the parent dataset).  This
-	behavior can be prevented with <option>-u</option>.  Due to
-	the nature of snapshots, they cannot be renamed outside of the
-	parent dataset.  To rename a recursive snapshot, specify
-	<option>-r</option>, and all snapshots with the same specified
-	snapshot will be renamed.</para>
+	  rename</command>.  To change the parent of a dataset
+	<command>rename</command> can also be used.  Renaming a
+	dataset to be under a different parent dataset will change the
+	value of those properties that are inherited from the parent
+	dataset.  When a dataset is renamed, it is unmounted and then
+	remounted in the new location (which is inherited from the new
+	parent dataset).  This behavior can be prevented with
+	<option>-u</option>.</para>
+
+      <para>Snapshots can also be renamed in this way.  Due to
+	the nature of snapshots, they cannot be renamed into a
+	different parent dataset.  To rename a recursive snapshot,
+	specify <option>-r</option>, and all snapshots with the same
+	name in child datasets with also be renamed.</para>
     </sect2>
 
     <sect2 xml:id="zfs-zfs-set">
@@ -1314,7 +1321,7 @@ tank    custom:costcenter  -                  -
 	older version of the data on disk.  When no snapshot is
 	created, ZFS simply reclaims the space for future use.
 	Snapshots preserve disk space by recording only the
-	differences that happened between snapshots.  ZFS llow
+	differences that happened between snapshots.  ZFS allows
 	snapshots only on whole datasets, not on individual files or
 	directories.  When a snapshot is created from a dataset,
 	everything contained in it, including the filesystem
@@ -1357,17 +1364,17 @@ NAME                      USED  AVAIL  REFER  MOUNTPOINT
 bigpool/work/joe@backup      0      -  85.5K  -</screen>
 
 	<para>Snapshots are not listed by a normal <command>zfs
-	    list</command> operation.  In order to list the snapshot
-	  that was just created, the option <literal>-t
-	    snapshot</literal> has to be appended to <command>zfs
-	    list</command>.  The output clearly indicates that
-	  snapshots can not be mounted directly into the system as
-	  there is no path shown in the <literal>MOUNTPOINT</literal>
-	  column.  Additionally, there is no mention of available disk
-	  space in the <literal>AVAIL</literal> column as snapshots
-	  cannot be written after they are created.  It becomes more
-	  clear when comparing the snapshot with the original dataset
-	  from which it was created:</para>
+	    list</command> operation.  To list the snapshot that was
+	  just created, the option <literal>-t snapshot</literal> has
+	  to be appended to <command>zfs list</command>.  The output
+	  clearly indicates that snapshots can not be mounted directly
+	  into the system as there is no path shown in the
+	  <literal>MOUNTPOINT</literal> column.  Additionally, there
+	  is no mention of available disk space in the
+	  <literal>AVAIL</literal> column as snapshots cannot be
+	  written after they are created.  It becomes more clear when
+	  comparing the snapshot with the original dataset from which
+	  it was created:</para>
 
 	<screen>&prompt.root; <userinput>zfs list -rt all <replaceable>bigpool/work/joe</replaceable></userinput>
 NAME                      USED  AVAIL  REFER  MOUNTPOINT
@@ -2262,16 +2269,21 @@ dedup = 1.05, compress = 1.11, copies = 1.00, dedup * compress / copies = 1.16</
       <para>After <command>zdb -S</command> finishes analyzing the
 	pool, it shows the space reduction ratio that would be
 	achieved by activating deduplication.  In this case,
-	<literal>1.16</literal> is a very poor ratio that is mostly
-	influenced by compression.  Activating deduplication on this
-	pool would not save any significant amount of space.  Using
-	the formula <emphasis>dedup * compress / copies =
-	deduplication ratio</emphasis>, system administrators can plan
-	the storage allocation more towards having multiple copies of
-	data or by having a decent compression rate in order to
-	utilize the space savings that deduplication provides.  As a
-	rule of thumb, compression should be used before deduplication
-	due to the much lower memory requirements.</para>
+	<literal>1.16</literal> is a very poor space saving ratio that
+	is mostly provided by compression.  Activating deduplication
+	on this pool would not save any significant amount of space,
+	and is not worth the amount of memory required to enable
+	deduplication.  Using the formula <emphasis>dedup * compress /
+	copies = deduplication ratio</emphasis>, system administrators
+	can plan the storage allocation, deciding if the workload will
+	contain enough duplicate blocks to make the memory
+	requirements pay off.  If the data is reasonably compressible,
+	the space savings may be very good and compression can also
+	provide greatly increased performance.  It is recommended to
+	use compression first and only enable deduplication in cases
+	where the additional savings will be considerable and there is
+	sufficient memory for the <link
+	  linkend="zfs-term-deduplication"><acronym>DDT</acronym></link>.</para>
     </sect2>
 
     <sect2 xml:id="zfs-zfs-compression">
@@ -2567,45 +2579,30 @@ mypool/compressed_dataset  logicalused       496G      -</screen>
 	</listitem>
 
 	<listitem>
-	  <para xml:id="zfs-advanced-tuning-no_scrub_io">
-	    <emphasis><varname>vfs.zfs.no_scrub_io</varname></emphasis>
-	    - Disable <link
-	    linkend="zfs-term-scrub"><command>scrub</command></link>
-	    I/O.  Causes <command>scrub</command> to not actually read
-	    the data blocks and verify their checksums, effectively
-	    turning any <command>scrub</command> in progress into a
-	    no-op.  This may be useful if a <command>scrub</command>
-	    is interferring with other operations on the pool.  This
-	    value can be adjusted at any time with
-	    &man.sysctl.8;.</para>
-
-	  <warning><para>If this tunable is set to cancel an
-	    in-progress <command>scrub</command>, be sure to unset
-	    it afterwards or else all future
-	    <link linkend="zfs-term-scrub">scrub</link> and <link
-	    linkend="zfs-term-resilver">resilver</link> operations
-	    will be ineffective.</para></warning>
-	</listitem>
-
-	<listitem>
 	  <para xml:id="zfs-advanced-tuning-scrub_delay">
 	    <emphasis><varname>vfs.zfs.scrub_delay</varname></emphasis>
-	    - Determines the milliseconds of delay inserted between
+	    - Determines the number of ticks to delay between
 	    each I/O during a <link
 	    linkend="zfs-term-scrub"><command>scrub</command></link>.
 	    To ensure that a <command>scrub</command> does not
 	    interfere with the normal operation of the pool, if any
 	    other I/O is happening the <command>scrub</command> will
-	    delay between each command.  This value allows you to
-	    limit the total <acronym>IOPS</acronym> (I/Os Per Second)
-	    generated by the <command>scrub</command>.  The default
-	    value is 4, resulting in a limit of: 1000&nbsp; ms / 4 =
+	    delay between each command.  This value controls the limit
+	    on the total <acronym>IOPS</acronym> (I/Os Per Second)
+	    generated by the <command>scrub</command>.  The
+	    granularity of the setting is deterined by the value of
+	    <varname>kern.hz</varname> which defaults to 1000 ticks
+	    per second.  This setting may be changed, resulting in
+	    a different effective <acronym>IOPS</acronym> limit.  The
+	    default value is 4, resulting in a limit of:
+	    1000&nbsp;ticks/sec / 4 =
 	    250&nbsp;<acronym>IOPS</acronym>.  Using a value of
 	    <replaceable>20</replaceable> would give a limit of:
-	    1000&nbsp;ms / 20 = 50&nbsp;<acronym>IOPS</acronym>.  The
-	    speed of <command>scrub</command> is only limited when
-	    there has been only recent activity on the pool, as
-	    determined by <link
+	    1000&nbsp;ticks/sec / 20 =
+	    50&nbsp;<acronym>IOPS</acronym>.  The speed of
+	    <command>scrub</command> is only limited when there has
+	    been recent activity on the pool, as determined by
+	    <link
 	    linkend="zfs-advanced-tuning-scan_idle"><varname>vfs.zfs.scan_idle</varname></link>.
 	    This value can be adjusted at any time with
 	    &man.sysctl.8;.</para>
@@ -2620,10 +2617,15 @@ mypool/compressed_dataset  logicalused       496G      -</screen>
 	    that a <literal>resilver</literal> does not interfere with
 	    the normal operation of the pool, if any other I/O is
 	    happening the <literal>resilver</literal> will delay
-	    between each command.  This value allows you to limit the
+	    between each command.  This value controls the limit of
 	    total <acronym>IOPS</acronym> (I/Os Per Second) generated
-	    by the <literal>resilver</literal>.  The default value is
-	    2, resulting in a limit of: 1000&nbsp; ms / 2 =
+	    by the <literal>resilver</literal>.  The granularity of
+	    the setting is determined by the value of
+	    <varname>kern.hz</varname> which defaults to 1000 ticks
+	    per second.  This setting may be changed, resulting in
+	    a different effective <acronym>IOPS</acronym> limit.  The
+	    default value is 2, resulting in a limit of:
+	    1000&nbsp;ticks/sec / 2 =
 	    500&nbsp;<acronym>IOPS</acronym>.  Returning the pool to
 	    an <link linkend="zfs-term-online">Online</link> state may
 	    be more important if another device failing could <link
@@ -2670,6 +2672,7 @@ mypool/compressed_dataset  logicalused       496G      -</screen>
       </itemizedlist>
     </sect2>
 
+<!-- These sections will be added in the future
     <sect2 xml:id="zfs-advanced-booting">
       <title>Booting Root on <acronym>ZFS</acronym> </title>
 
@@ -2687,6 +2690,7 @@ mypool/compressed_dataset  logicalused       496G      -</screen>
 
       <para></para>
     </sect2>
+-->
 
     <sect2 xml:id="zfs-advanced-i386">
       <title><acronym>ZFS</acronym> on i386</title>
@@ -2851,10 +2855,10 @@ vfs.zfs.vdev.cache.size="5M"</programlisting>
 
 	      <note>
 		<para>&os;&nbsp;9.0 and 9.1 include support for
-		  <acronym>ZFS</acronym> version 28.  Future versions
+		  <acronym>ZFS</acronym> version 28.  Later versions
 		  use <acronym>ZFS</acronym> version 5000 with feature
-		  flags.  This allows greater cross-compatibility with
-		  other implementations of
+		  flags.  The new feature flags system allows greater
+		  cross-compatibility with other implementations of
 		  <acronym>ZFS</acronym>.</para>
 	      </note>
 	    </entry>
@@ -3407,7 +3411,7 @@ vfs.zfs.vdev.cache.size="5M"</programlisting>
 		    (zero length encoding) is a special compression
 		    algorithm that only compresses continuous runs of
 		    zeros.  This compression algorithm is only useful
-		    when the dataset contains large, continuous runs of
+		    when the dataset contains large blocks of
 		    zeros.</para>
 		</listitem>
 	      </itemizedlist></entry>
@@ -3476,7 +3480,7 @@ vfs.zfs.vdev.cache.size="5M"</programlisting>
 	      with <link
 	      linkend="zfs-advanced-tuning-scrub_delay"><varname>vfs.zfs.scrub_delay</varname></link>
 	      to prevent the scrub from degrading the performance of
-	      other workloads on your pool.</entry>
+	      other workloads on the pool.</entry>
 	  </row>
 
 	  <row>
@@ -3563,7 +3567,8 @@ vfs.zfs.vdev.cache.size="5M"</programlisting>
 		suitability of disk space allocation in a new system,
 		or ensuring that enough space is available on file
 		systems for audio logs or system recovery procedures
-		and files.</para></entry>
+		and files.</para>
+	    </entry>
 	  </row>
 
 	  <row>
