@@ -1325,28 +1325,28 @@ tank    custom:costcenter  -                  -
 	snapshots only on whole datasets, not on individual files or
 	directories.  When a snapshot is created from a dataset,
 	everything contained in it, including the filesystem
-	properties, files, directories, permissions, etc. are
+	properties, files, directories, permissions, etc., is
 	duplicated.</para>
 
-      <para>Snapshots provide a variety of uses that other filesystems
-	with snapshot functionality do not have.  A typical example
-	for snapshots is to have a quick way of backing up the current
-	state of the filesystem when a risky action like a software
-	installation or a system upgrade is performed.  When the
-	action fails, the snapshot can be rolled back and the system
-	has the same state as when the snapshot was created.  If the
-	upgrade was successful, the snapshot can be deleted to free up
-	space.  Without snapshots and a failed upgrade a restore from
-	backup is often required, which is tedious, time consuming and
-	may require a downtime in which the system cannot be used as
-	normal.  Snapshots can be rolled back quickly and can be done
-	when the system is running in normal operation, with little or
-	no downtime.  The time savings are enormous considering
-	multi-terabyte storage systems and the time required to copy
-	the data from backup.  Snapshots are not a replacement for a
-	complete backup of a pool, but can be used as a quick and easy
-	way to store a copy of the dataset at a specific point in
-	time.</para>
+      <para>ZFS Snapshots provide a variety of uses that other
+	filesystems with snapshot functionality do not have.  A
+	typical example for snapshots is to have a quick way of
+	backing up the current state of the filesystem when a risky
+	action like a software installation or a system upgrade is
+	performed.  When the action fails, the snapshot can be rolled
+	back and the system has the same state as when the snapshot
+	was created.  If the upgrade was successful, the snapshot can
+	be deleted to free up space.  Without snapshots, when a failed
+	upgrade occurs, a restore from backup is often required, which
+	is tedious, time consuming and may require a downtime in which
+	the system cannot be used as normal.  Snapshots can be rolled
+	back quickly and can be taken when the system is running in
+	normal operation, with little or no downtime.  The time
+	savings are enormous considering multi-terabyte storage
+	systems and the time required to copy the data from backup.
+	Snapshots are not a replacement for a complete backup of a
+	pool, but can be used as a quick and easy way to store a copy
+	of the dataset at a specific point in time.</para>
 
       <sect3 xml:id="zfs-zfs-snapshot-creation">
 	<title>Creating Snapshots</title>
@@ -1372,9 +1372,9 @@ bigpool/work/joe@backup      0      -  85.5K  -</screen>
 	  <literal>MOUNTPOINT</literal> column.  Additionally, there
 	  is no mention of available disk space in the
 	  <literal>AVAIL</literal> column as snapshots cannot be
-	  written after they are created.  It becomes more clear when
-	  comparing the snapshot with the original dataset from which
-	  it was created:</para>
+	  written to after they are created.  It becomes more clear
+	  when comparing the snapshot with the original dataset from
+	  which it was created:</para>
 
 	<screen>&prompt.root; <userinput>zfs list -rt all <replaceable>bigpool/work/joe</replaceable></userinput>
 NAME                      USED  AVAIL  REFER  MOUNTPOINT
@@ -1489,13 +1489,13 @@ M   /usr/home/bcr/
 	<para>Once at least one snapshot is available, it can be
 	  rolled back to at any time.  Most of the time this is the
 	  case when the current state of the dataset is no longer
-	  required and an older version is preferred.  Scenarios like
-	  local development tests have gone wrong, botched system
-	  updates hamper the systems overall functionality or the
+	  required and an older version is preferred.  Scenarios such
+	  as local development tests have gone wrong, botched system
+	  updates hampering the system's overall functionality, or the
 	  requirement to restore accidentally deleted files or
-	  directories are all too common occurances.  Luckily, rolling
-	  back a snapshot is just as easy as typing <command>zfs
-	    rollback
+	  directories are all too common occurrences.  Luckily,
+	  rolling back a snapshot is just as easy as typing
+	  <command>zfs rollback
 	    <replaceable>snapshotname</replaceable></command>.
 	  Depending on how many changes are involved, the operation
 	  will finish in a certain amout of time.  During that time,
@@ -1592,8 +1592,8 @@ santaletter.txt</screen>
 	  that controls whether these hidden directories show up in a
 	  directory listing.  Setting the property to
 	  <literal>visible</literal> will let them show up in the
-	  output of <command>ls</command> and any other that deal with
-	  directory contents.</para>
+	  output of <command>ls</command> and any others that deal
+	  with directory contents.</para>
 
 	<screen>&prompt.root; <userinput>zfs get snapdir <replaceable>bigpool/work/joe</replaceable></userinput>
 NAME                  PROPERTY  VALUE   SOURCE
@@ -1730,7 +1730,7 @@ NAME                  PROPERTY  VALUE   SOURCE
 camino/home/joenew    origin    -       -</screen>
 
       <para>After making some changes like copying
-	<filename>loader.conf</filename> to the promoted clone for
+	<filename>loader.conf</filename> to the promoted clone, for
 	example, the old directory becomes obsolete in this case.
 	Instead, the promoted clone should replace it.  This can be
 	achieved by two consecutive commands: <command>zfs
