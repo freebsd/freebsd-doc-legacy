@@ -166,7 +166,7 @@ example      17547136       0 17547136     0%    /example</screen>
       <para>This output shows that the <literal>example</literal> pool
 	has been created and <emphasis>mounted</emphasis>.  It is now
 	accessible as a file system.  Files may be created on it and
-	users can browse it, as seen in the following example:</para>
+	users can browse it, like in this example:</para>
 
       <screen>&prompt.root; <userinput>cd /example</userinput>
 &prompt.root; <userinput>ls</userinput>
@@ -232,7 +232,7 @@ example/compressed on /example/compressed (zfs, local)</screen>
       <para><acronym>ZFS</acronym> datasets, after creation, may be
 	used like any file systems.  However, many other features are
 	available which can be set on a per-dataset basis.  In the
-	following example, a new file system, <literal>data</literal>
+	example below, a new file system, <literal>data</literal>
 	is created.  Important files will be stored here, the file
 	system is set to keep two copies of each data block:</para>
 
@@ -345,7 +345,7 @@ example/data        17547008       0 17547008     0%    /example/data</screen>
       <para>It is possible to write a script to perform regular
 	snapshots on user data.  However, over time, snapshots can
 	consume a great deal of disk space.  The previous snapshot can
-	be removed using the following command:</para>
+	be removed using the command:</para>
 
       <screen>&prompt.root; <userinput>zfs destroy storage/home@08-30-08</userinput></screen>
 
@@ -460,7 +460,7 @@ errors: No known data errors</screen>
       <para><acronym>ZFS</acronym> uses checksums to verify the
 	integrity of stored data.  These are enabled automatically
 	upon creation of file systems and may be disabled using the
-	following command:</para>
+	command:</para>
 
       <screen>&prompt.root; <userinput>zfs set checksum=off storage/home</userinput></screen>
 
@@ -670,13 +670,13 @@ errors: No known data errors</screen>
     <sect2 xml:id="zfs-zpool-scrub">
       <title>Scrubbing a Pool</title>
 
-      <para>Pools should be
-	<link linkend="zfs-term-scrub">scrubbed</link> regularly,
-	ideally at least once every three months.  The
-	<command>scrub</command> operating is very disk-intensive and
-	will reduce performance while running.  Avoid high-demand
-	periods when scheduling <command>scrub</command> or use <link
-	linkend="zfs-advanced-tuning-scrub_delay"><varname>vfs.zfs.scrub_delay</varname></link>
+      <para>It is recommended that pools be <link
+	  linkend="zfs-term-scrub">scrubbed</link> regularly, ideally
+	at least once every month.  The <command>scrub</command>
+	operating is very disk-intensive and will reduce performance
+	while running.  Avoid high-demand periods when scheduling
+	<command>scrub</command> or use <link
+	  linkend="zfs-advanced-tuning-scrub_delay"><varname>vfs.zfs.scrub_delay</varname></link>
 	to adjust the relative priority of the
 	<command>scrub</command> to prevent it interfering with other
 	workloads.</para>
@@ -731,7 +731,7 @@ errors: No known data errors</screen>
 	interaction of a system administrator during normal pool
 	operation.</para>
 
-      <para>The following example will demonstrate this self-healing
+      <para>The next example will demonstrate this self-healing
 	behavior in <acronym>ZFS</acronym>.  First, a mirrored pool of
 	two disks <filename>/dev/ada0</filename> and
 	<filename>/dev/ada1</filename> is created.</para>
@@ -824,7 +824,7 @@ errors: No known data errors</screen>
       <para><acronym>ZFS</acronym> has detected the error and took
 	care of it by using the redundancy present in the unaffected
 	<filename>ada0</filename> mirror disk.  A checksum comparison
-	with the original one should reveal whether the pool is
+	with the original one will reveal whether the pool is
 	consistent again.</para>
 
       <screen>&prompt.root; <userinput>sha1 /healer >> checksum.txt</userinput>
@@ -873,9 +873,8 @@ errors: No known data errors</screen>
 	<filename>ada0</filename> and corrects all data that has a
 	wrong checksum on <filename>ada1</filename>.  This is
 	indicated by the <literal>(repairing)</literal> output from
-	<command>zpool status</command>.  After the
-	operation is complete, the pool status has changed to the
-	following:</para>
+	<command>zpool status</command>.  After the operation is
+	complete, the pool status has changed to:</para>
 
       <screen>&prompt.root; <userinput>zpool status <replaceable>healer</replaceable></userinput>
   pool: healer
@@ -1073,7 +1072,7 @@ History for 'tank':
 	pool (consisting of <filename>/dev/ada0</filename> and
 	<filename>/dev/ada1</filename>).  In addition to that, the
 	hostname (<literal>myzfsbox</literal>) is also shown in the
-	commands following the pool's creation.  The hostname display
+	commands after the pool's creation.  The hostname display
 	becomes important when the pool is exported from the current
 	and imported on another system.  The commands that are issued
 	on the other system can clearly be distinguished by the
@@ -1317,16 +1316,15 @@ tank    custom:costcenter  -                  -
 	of the most powerful features of <acronym>ZFS</acronym>.  A
 	snapshot provides a read-only, point-in-time copy of the
 	dataset.  Due to ZFS' Copy-On-Write (COW) implementation,
-	snapshots can be created quickly simply by preserving the
-	older version of the data on disk.  When no snapshot is
-	created, ZFS simply reclaims the space for future use.
-	Snapshots preserve disk space by recording only the
-	differences that happened between snapshots.  ZFS allows
-	snapshots only on whole datasets, not on individual files or
-	directories.  When a snapshot is created from a dataset,
-	everything contained in it, including the filesystem
-	properties, files, directories, permissions, etc., is
-	duplicated.</para>
+	snapshots can be created quickly by preserving the older
+	version of the data on disk.  When no snapshot is created, ZFS
+	reclaims the space for future use.  Snapshots preserve disk
+	space by recording only the differences that happened between
+	snapshots.  ZFS allows snapshots only on whole datasets, not
+	on individual files or directories.  When a snapshot is
+	created from a dataset, everything contained in it, including
+	the filesystem properties, files, directories, permissions,
+	etc., is duplicated.</para>
 
       <para>ZFS Snapshots provide a variety of uses that other
 	filesystems with snapshot functionality do not have.  A
@@ -1354,8 +1352,8 @@ tank    custom:costcenter  -                  -
 	<para>Create a snapshot with <command>zfs snapshot
 	    <replaceable>dataset</replaceable>@<replaceable>snapshotname</replaceable></command>.
 	  Adding <option>-r</option> creates a snapshot recursively,
-	  with the same name on all child datasets.  The following
-	  example creates a snapshot of a home directory:</para>
+	  with the same name on all child datasets.  This example
+	  creates a snapshot of a home directory:</para>
 
 	<screen>&prompt.root; <userinput>zfs snapshot
 	    <replaceable>bigpool/work/joe</replaceable>@<replaceable>backup</replaceable></userinput>
@@ -1419,7 +1417,7 @@ bigpool/work/joe@after_cp    0      -    88K  -</screen>
 	  is that still contains a file that was accidentally deleted
 	  using <command>zfs diff</command>.  Doing this for the two
 	  snapshots that were created in the previous section yields
-	  the following output:</para>
+	  this output:</para>
 
 	<screen>&prompt.root; <userinput>zfs list -rt all <replaceable>bigpool/work/joe</replaceable></userinput>
 NAME                      USED  AVAIL  REFER  MOUNTPOINT
@@ -1435,7 +1433,7 @@ M   /usr/home/bcr/
 	  <literal><replaceable>bigpool/work/joe@after_cp</replaceable></literal>)
 	  and the one provided as a parameter to <command>zfs
 	    diff</command>.  The first column indicates the type of
-	  change according to the following table:</para>
+	  change according to this table:</para>
 
 	<informaltable pgwide="1">
 	  <tgroup cols="2">
@@ -1532,7 +1530,7 @@ santaletter.txt  summerholiday.txt
 	  to get them back using rollbacks, but only when snapshots of
 	  important data are performed on a regular basis.  To get the
 	  files back and start over from the last snapshot, issue the
-	  following command:</para>
+	  command:</para>
 
 	<screen>&prompt.root; <userinput>zfs rollback <replaceable>bigpool/work/joe@summerplan</replaceable></userinput>
 &prompt.user; <userinput>ls</userinput>
@@ -1541,8 +1539,8 @@ santaletter.txt  summerholiday.txt</screen>
 	<para>The rollback operation restored the dataset to the state
 	  of the last snapshot.  It is also possible to roll back to a
 	  snapshot that was taken much earlier and has other snapshots
-	  following after it.  When trying to do this, ZFS will issue
-	  the following warning:</para>
+	  that were created after it.  When trying to do this, ZFS
+	  will issue this warning:</para>
 
 	<screen>&prompt.root; <userinput>zfs list -t snapshot</userinput>
 NAME                        USED  AVAIL  REFER  MOUNTPOINT
@@ -1611,11 +1609,11 @@ bigpool/work/joe      snapdir   hidden  default
 	  dataset.  The directory structure below <filename
 	    class="directory">.zfs/snapshot</filename> has a directory
 	  named exactly like the snapshots taken earlier to make it
-	  easier to identify them.  In the following example, it is
-	  assumed that a file should be restored from the hidden
-	  <filename class="directory">.zfs</filename> directory by
-	  copying it from the snapshot that contained the latest
-	  version of the file:</para>
+	  easier to identify them.  In the next example, it is assumed
+	  that a file is to be restored from the hidden <filename
+	    class="directory">.zfs</filename> directory by copying it
+	  from the snapshot that contained the latest version of the
+	  file:</para>
 
 	<screen>&prompt.root; <userinput>ls .zfs/snapshot</userinput>
 santa    summerplan
@@ -1628,12 +1626,12 @@ summerholiday.txt
 	  <literal>snapdir</literal> could be set to hidden and it
 	  would still be possible to list the contents of that
 	  directory.  It is up to the administrator to decide whether
-	  these directories should be displayed.  Of course, it is
+	  these directories will be displayed.  Of course, it is
 	  possible to display these for certain datasets and prevent
 	  it for others.  Copying files or directories from these
 	  hidden <filename class="directory">.zfs/snapshot</filename>
 	  is simple enough.  Trying it the other way around results in
-	  the following error:</para>
+	  this error:</para>
 
 	<screen>&prompt.root; <userinput>cp <replaceable>/etc/rc.conf</replaceable> .zfs/snapshot/<replaceable>santa/</replaceable></userinput>
 cp: .zfs/snapshot/santa/rc.conf: Read-only file system</screen>
@@ -1678,8 +1676,8 @@ cp: .zfs/snapshot/santa/rc.conf: Read-only file system</screen>
 	point within the ZFS filesystem hierarchy, not just below the
 	original location of the snapshot.</para>
 
-      <para>To demonstrate the clone feature, the following example
-	dataset is used:</para>
+      <para>To demonstrate the clone feature, this example dataset is
+	used:</para>
 
       <screen>&prompt.root; <userinput>zfs list -rt all <replaceable>camino/home/joe</replaceable></userinput>
 NAME                    USED  AVAIL  REFER  MOUNTPOINT
@@ -1718,8 +1716,7 @@ usr/home/joenew     1.3G     31k    1.3G     0%    /usr/home/joenew</screen>
 	snapshot and the clone has been removed by promoting the clone
 	using <command>zfs promote</command>, the
 	<literal>origin</literal> of the clone is removed as it is now
-	an independent dataset.  The following example demonstrates
-	this:</para>
+	an independent dataset.  This example demonstrates it:</para>
 
       <screen>&prompt.root; <userinput>zfs get origin <replaceable>camino/home/joenew</replaceable></userinput>
 NAME                  PROPERTY  VALUE                     SOURCE
@@ -1732,7 +1729,7 @@ camino/home/joenew    origin    -       -</screen>
       <para>After making some changes like copying
 	<filename>loader.conf</filename> to the promoted clone, for
 	example, the old directory becomes obsolete in this case.
-	Instead, the promoted clone should replace it.  This can be
+	Instead, the promoted clone can replace it.  This can be
 	achieved by two consecutive commands: <command>zfs
 	  destroy</command> on the old dataset and <command>zfs
 	  rename</command> on the clone to name it like the old
@@ -1781,8 +1778,8 @@ usr/home/joe        1.3G    128k    1.3G     0%    /usr/home/joe</screen>
 	<command>zfs send</command> and
 	<command>zfs receive</command>, respectively.</para>
 
-      <para>The following examples will demonstrate the functionality
-	of <acronym>ZFS</acronym> replication using these two
+      <para>These examples will demonstrate the functionality of
+	<acronym>ZFS</acronym> replication using these two
 	pools:</para>
 
       <screen>&prompt.root; <userinput>zpool list</userinput>
@@ -1961,8 +1958,8 @@ mypool@replica2                                 0      -  55.0M  -</screen>
 	  before this can be done.  Since this chapter is about
 	  <acronym>ZFS</acronym> and not about configuring SSH, it
 	  only lists the things required to perform the
-	  <command>zfs send</command> operation.  The following
-	  configuration is required:</para>
+	  <command>zfs send</command> operation.  This configuration
+	  is required:</para>
 
 	<itemizedlist>
 	  <listitem>
@@ -2024,18 +2021,17 @@ vfs.usermount: 0 -> 1
 	  <command>zfs receive</command> on the remote host
 	  <replaceable>backuphost</replaceable> via
 	  <application>SSH</application>.  A fully qualified domain
-	  name or IP address should be used here.  The receiving
-	  machine will write the data to
+	  name or IP address is recommended be used here.  The
+	  receiving machine will write the data to
 	  <replaceable>backup</replaceable> dataset on the
 	  <replaceable>recvpool</replaceable> pool.  Using
-	  <option>-d</option> with <command>zfs recv</command>
-	  will remove the original name of the pool on the receiving
-	  side and just takes the name of the snapshot instead.
+	  <option>-d</option> with <command>zfs recv</command> will
+	  remove the original name of the pool on the receiving side
+	  and just takes the name of the snapshot instead.
 	  <option>-u</option> causes the filesystem(s) to not be
 	  mounted on the receiving side.  When <option>-v</option> is
-	  included, more detail about the transfer is shown.
-	  Included are elapsed time and the amount of data
-	  transferred.</para>
+	  included, more detail about the transfer is shown.  Included
+	  are elapsed time and the amount of data transferred.</para>
       </sect3>
     </sect2>
 
@@ -2056,20 +2052,19 @@ vfs.usermount: 0 -> 1
 
       <para>To enforce a dataset quota of 10&nbsp;GB for
 	<filename>storage/home/bob</filename>, use the
-	following:</para>
+	command:</para>
 
       <screen>&prompt.root; <userinput>zfs set quota=10G storage/home/bob</userinput></screen>
 
       <para>To enforce a reference quota of 10&nbsp;GB for
 	<filename>storage/home/bob</filename>, use the
-	following:</para>
+	command:</para>
 
       <screen>&prompt.root; <userinput>zfs set refquota=10G storage/home/bob</userinput></screen>
 
       <para>The general format is
 	<literal>userquota@<replaceable>user</replaceable>=<replaceable>size</replaceable></literal>,
-	and the user's name must be in one of the following
-	formats:</para>
+	and the user's name must be in one of these formats:</para>
 
       <itemizedlist>
 	<listitem>
@@ -2437,13 +2432,13 @@ mypool/compressed_dataset  logicalused       496G      -</screen>
 	  <para xml:id="zfs-advanced-tuning-arc_max">
 	    <emphasis><varname>vfs.zfs.arc_max</varname></emphasis> -
 	    Sets the maximum size of the <link
-	    linkend="zfs-term-arc"><acronym>ARC</acronym></link>.
-	    The default is all <acronym>RAM</acronym> less 1&nbsp;GB,
-	    or 1/2 of ram, whichever is more.  However a lower value
-	    should be used if the system will be running any other
-	    daemons or processes that may require memory.  This value
-	    can only be adjusted at boot time, and is set in
-	    <filename>/boot/loader.conf</filename>.</para>
+	    linkend="zfs-term-arc"><acronym>ARC</acronym></link>.  The
+	  default is all <acronym>RAM</acronym> less 1&nbsp;GB, or 1/2
+	  of <acronym>RAM</acronym>, whichever is more.  However, a
+	  lower value should be used if the system will be running any
+	  other daemons or processes that may require memory.  This
+	  value can only be adjusted at boot time, and is set in
+	  <filename>/boot/loader.conf</filename>.</para>
 	</listitem>
 
 	<listitem>
@@ -2722,7 +2717,7 @@ mypool/compressed_dataset  logicalused       496G      -</screen>
 
 	<para>Due to the address space limitations of the
 	  &i386; platform, <acronym>ZFS</acronym> users on the
-	  &i386; architecture should add this option to a
+	  &i386; architecture must add this option to a
 	  custom kernel configuration file, rebuild the kernel, and
 	  reboot:</para>
 
