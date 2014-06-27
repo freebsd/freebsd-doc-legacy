@@ -9,7 +9,7 @@
 <!ENTITY url.ja.books "&enbase;/doc/ja_JP.eucJP/books">
 ]>
 <!-- The FreeBSD Japanese Documentation Project -->
-<!-- Original revision: r44033 -->
+<!-- Original revision: r44946 -->
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
@@ -140,12 +140,6 @@
       GCC コンパイラおよび bunutils の使い方の紹介です。
       GCC のカスタマイズについても説明しています。</p>
 
-    <p><a href="&url.en.articles;/cvs-freebsd/index.html">Setting up a
-	CVS repository - The FreeBSD way</a>
-      (cvs-freebsd) (英語版のみ)<br/>
-      FreeBSD プロジェクトと同じ CVSROOT 機構を使って
-      CVS リポジトリをセットアップします。</p>
-
     <p><a href="&url.en.articles;/explaining-bsd/index.html">Explaining
 	BSD</a> (explaining-bsd) (英語版のみ)<br/>
       ``BSD とはなにか?'' という質問に対する答えです。</p>
@@ -192,7 +186,7 @@
 
     <p><a href="&url.en.articles;/hubs/index.html">Mirroring FreeBSD</a>
       (hubs) (英語版のみ)<br/>
-      FreeBSD のウェブサイト、CVSup サーバ、FTP
+      FreeBSD のウェブサイト、FTP
       サーバなどのミラーサーバの作り方をまとめて紹介します。</p>
 
     <p><a href="&url.ja.articles;/ipsec-must/index.html">FreeBSD
@@ -252,6 +246,10 @@
     <p><a href="&url.en.articles;/pam/index.html">Pluggable
 	Authentication Modules</a> (pam) (英語版のみ)<br/>
       FreeBSD における PAM システムとモジュールについての入門書です。</p>
+
+    <p><a href="&url.en.articles;/pgpkeys/index.html">OpenPGP 鍵</a>
+      (pgpkeys)<br/>
+      &os; のすべての OpenPGP 鍵があります。</p>
 
     <p><a href="&url.en.articles;/port-mentor-guidelines/index.html">Port
 	Mentor Guidelines</a> (port-mentor-guidelines) (英語版のみ)<br/>

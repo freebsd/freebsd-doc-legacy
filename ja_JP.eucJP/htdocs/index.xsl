@@ -5,7 +5,7 @@
 ]>
 
 <!-- $FreeBSD$ -->
-<!-- Original revision: r43575 -->
+<!-- Original revision: r45016 -->
 
 <xsl:stylesheet version="1.0"
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -74,19 +74,20 @@
 			  <h2><a href="&base;/releases/">最新リリース</a></h2>
 			  <ul id="frontreleaseslist">
 			    <li>プロダクション:&nbsp;<a
-				href="&u.rel.announce;">&rel.current;</a></li>
-			    <li>レガシー: <a
+				href="&u.rel.announce;">&rel.current;</a>,<br />
+					<a
 				href="&u.rel2.announce;">&rel2.current;</a>,
 					<a
 				href="&u.rel3.announce;">&rel3.current;</a></li>
-			    <xsl:if test="'&beta.testing;' != 'IGNORE'">
+			    <xsl:if test="'&beta.upcoming;' != 'IGNORE'">
 			    <li>次回予定: <a
-				href="&base;/where.html#helptest">&betarel.current;-&betarel.vers;</a></li>
+				href="&u.betarel.schedule;">&betarel.current;</a></li>
 			    </xsl:if>
-			    <xsl:if test="'&beta2.testing;' != 'IGNORE'">
+			    <xsl:if test="'&beta2.upcoming;' != 'IGNORE'">
 			    <li>次回予定: <a
-				href="&base;/where.html#helptest">&betarel2.current;-&betarel2.vers;</a></li>
+				href="&u.betarel2.schedule;">&betarel2.current;</a></li>
 			    </xsl:if>
+					<li><a href="&base;/security/security.html#sup">サポートライフサイクル</a></li>
 			  </ul>
 			  </div> <!-- FRONTRELEASESCONTENT -->
 			</div> <!-- FRONTRELEASES -->

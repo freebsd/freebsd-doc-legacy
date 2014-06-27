@@ -528,11 +528,6 @@
     </listitem>
 
     <listitem>
-      <para>Allan Jude
-	<email>freebsd@allanjude.com</email></para>
-    </listitem>
-
-    <listitem>
       <para>Allan Saddi
 	<email>asaddi@philosophysw.com</email></para>
     </listitem>
@@ -1159,11 +1154,6 @@
     <listitem>
       <para>Barry Lustig
 	<email>barry@ictv.com</email></para>
-    </listitem>
-
-    <listitem>
-      <para>Bartek Rutkowski
-	<email>r@robakdesign.com</email></para>
     </listitem>
 
     <listitem>
@@ -4864,11 +4854,6 @@
     </listitem>
 
     <listitem>
-      <para>Johannes Meixner
-	<email>xmj@chaot.net</email></para>
-    </listitem>
-
-    <listitem>
       <para>Johannes Stille</para>
     </listitem>
 
@@ -5098,6 +5083,11 @@
     <listitem>
       <para>Jonathan Pennington
 	<email>john@coastalgeology.org</email></para>
+    </listitem>
+
+    <listitem>
+      <para>Jonathan Price
+	<email>freebsd@jonathanprice.org</email></para>
     </listitem>
 
     <listitem>
@@ -5367,6 +5357,11 @@
     <listitem>
       <para>Kaleb S. Keithley
 	<email>kaleb@ics.com</email></para>
+    </listitem>
+
+    <listitem>
+      <para>Kalle R. Møller
+	<email>freebsb_contrib@k-moeller.dk</email></para>
     </listitem>
 
     <listitem>
@@ -5759,11 +5754,6 @@
     <listitem>
       <para>Kurt D. Zeilenga
 	<email>Kurt@Boolean.NET</email></para>
-    </listitem>
-
-    <listitem>
-      <para>Kurt Jaeger
-	<email>fbsd-ports@opsec.eu</email></para>
     </listitem>
 
     <listitem>
@@ -6266,6 +6256,11 @@
     <listitem>
       <para>Mark Valentine
 	<email>mark@thuvia.org</email></para>
+    </listitem>
+
+    <listitem>
+      <para>Mark Walker
+	<email>ziggimon@raindogs.dk</email></para>
     </listitem>
 
     <listitem>
@@ -8945,6 +8940,11 @@
     </listitem>
 
     <listitem>
+      <para>Ryan Frederick
+        <email>ryanrfrederick@gmail.com</email></para>
+    </listitem>
+
+    <listitem>
       <para>Ryan Grove
 	<email>ryan@wonko.com</email></para>
     </listitem>
@@ -9300,6 +9300,11 @@
     </listitem>
 
     <listitem>
+      <para>Serguei Okladnikov
+	<email>oklaspec@gmail.com</email></para>
+    </listitem>
+
+    <listitem>
       <para>Sevan Janiyan
 	<email>venture37@geeklan.co.uk</email></para>
     </listitem>
@@ -9621,11 +9626,6 @@
     <listitem>
       <para>Stephen Hocking
 	<email>sysseh@devetir.qld.gov.au</email></para>
-    </listitem>
-
-    <listitem>
-      <para>Stephen Hurd
-	<email>admin@nix.synchro.net</email></para>
     </listitem>
 
     <listitem>

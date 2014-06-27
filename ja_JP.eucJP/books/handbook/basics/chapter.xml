@@ -3,7 +3,7 @@
      The FreeBSD Documentation Project
      The FreeBSD Japanese Documentation Project
 
-     Original revision: r23787
+     Original revision: r29930
      $FreeBSD$
 -->
 <chapter xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0" xml:id="basics">
@@ -37,7 +37,8 @@
         <para>FreeBSD の <quote>仮想コンソール</quote> の使い方</para>
       </listitem>
       <listitem>
-	<para>&unix; のファイルの許可属性の仕組み</para>
+	<para>&unix; のファイルの許可属性の仕組みと
+	  &os; のファイルフラグについて</para>
       </listitem>
       <listitem>
 	<para>&os; のファイルシステムの構成</para>
@@ -594,6 +595,60 @@ total 530
       属性を足したり取り除いたりするというものではありません。</para>
 -->
     </sect2>
+
+    <sect2>
+
+    <info><title>&os; のファイルフラグ</title>
+      <authorgroup>
+	<author>
+	  <personname>
+	    <firstname>Tom</firstname>
+	    <surname>Rhodes</surname>
+	  </personname>
+	  <contrib>寄稿: </contrib>
+	</author>
+      </authorgroup>
+    </info>
+
+      <para>先ほど説明したファイルの許可属性に加え、
+	&os; では <quote>ファイルフラグ</quote> を使えます。
+	これはファイルにセキュリティや管理上の属性を追加するものですが、
+	ディレクトリには追加しません。</para>
+
+      <para>これらのファイルフラグはファイルに管理上の属性を追加し、
+	<systemitem class="username">root</systemitem>
+	ユーザでさえ誤ってファイルを消去、変更してしまうことを防ぎます。</para>
+
+      <para>ファイルフラグは、&man.chflags.1;
+	を使って、簡単なインタフェースで設定できます。
+	例えば、<filename>file1</filename>
+	というファイルにシステムレベルで消去不可のフラグを設定するには、
+	以下のコマンドを実行してください。</para>
+
+      <screen>&prompt.root; <userinput>chflags sunlink <filename>file1</filename></userinput></screen>
+
+      <para>また、消去不可のフラグを削除するには、
+	以下のように先ほどのコマンドの <option>sunlink</option> の前に
+	<quote>no</quote> をつけるだけです。</para>
+
+      <screen>&prompt.root; <userinput>chflags nosunlink <filename>file1</filename></userinput></screen>
+
+      <para>ファイルにどのフラグが設定されているのかを見るには、&man.ls.1;
+	コマンドを <option>-lo</option> オプションと一緒に使ってください。</para>
+
+      <screen>&prompt.root; <userinput>ls -lo <filename>file1</filename>
+  </userinput></screen>
+
+      <para>出力は以下のようになります。</para>
+
+      <programlisting>-rw-r--r--  1 trhodes  trhodes  sunlnk 0 Mar  1 05:54 file1</programlisting>
+
+      <para>いくつかのフラグの追加、削除は
+	<systemitem class="username">root</systemitem> ユーザしかできません。
+	他のフラグは、ファイルの所有者が変更できます。
+	システム管理者は &man.chflags.1; と &man.chflags.2; から、
+	より詳細な情報を得ることをおすすめします。</para>
+    </sect2>
   </sect1>
 
   <sect1 xml:id="dirstructure">
@@ -612,6 +667,9 @@ total 530
 
     <para>マウントポイントとはルートファイルシステムに存在する、
       追加のファイルシステムと接続するためのディレクトリのことです。
+      より詳細な説明は
+      <xref linkend="disk-organization"/>
+      の節にあります。
       標準的なマウントポイントには
       <filename>/usr</filename>, <filename>/var</filename>, <filename>/tmp</filename>,
       <filename>/mnt</filename>, <filename>/cdrom</filename>
@@ -639,7 +697,7 @@ total 530
 	      <entry>説明</entry>
 	    </row>
 	  </thead>
-	  <tbody>
+	  <tbody valign="top">
             <row>
 	      <entry><filename>/</filename></entry>
 	      <entry>ファイルシステムのルートディレクトリ</entry>
@@ -728,18 +786,18 @@ total 530
 	    </row>
 
 	    <row>
-	      <entry><filename>/stand/</filename></entry>
-	      <entry>スタンドアロン環境で使われるプログラム</entry>
-	    </row>
-
-
-	    <row>
 	      <entry><filename>/tmp/</filename></entry>
-	      <entry>一時的なファイル、&man.mfs.8; メモリファイルシステムであることが多い
-	        (普通 <filename>/tmp</filename>
-		の内容はシステムの再起動で失われる)</entry>
+	      <entry>一時的なファイル。
+		通常、<filename class="directory">/tmp</filename>
+		の内容はシステムの再起動で失われます。
+		メモリファイルシステムはよく
+		<filename class="directory">/tmp</filename>
+		にマウントされます。
+		これは &man.rc.conf.5; の tmpmfs 関係の変数を使うか、
+		<filename>/etc/fstab</filename>
+		に設定項目を記入することで自動化できます。
+		詳しくは &man.mdmfs.8; を参照して下さい。</entry>
 	    </row>
-
 
 	    <row>
 	      <entry><filename>/usr/</filename></entry>
@@ -824,7 +882,14 @@ total 530
 
 	    <row>
 	      <entry><filename>/var/</filename></entry>
-	      <entry>ログ・一時的なファイル・スプールファイルなどいろいろな用途</entry>
+	      <entry>ログ・一時的なファイル・スプールファイルなどいろいろな用途。
+	        メモリファイルシステムは時々
+		<filename class="directory">/var</filename>
+		にマウントされます。
+	        これは &man.rc.conf.5; の varmfs 関係の変数を使うか、
+	        <filename>/etc/fstab</filename>
+		に設定項目を記入することで自動化できます。
+	        詳しくは &man.mdmfs.8; を参照して下さい。</entry>
 	    </row>
 
 
@@ -845,7 +910,10 @@ total 530
 
 	    <row>
 	      <entry><filename>/var/tmp/</filename></entry>
-	      <entry>システムが再起動しても消えない一時的なファイル</entry>
+	      <entry>一時的なファイル。
+	        <filename class="directory">/var</filename>
+		がメモリファイルシステムでなければ、
+	        ここにあるファイルはシステムが再起動しても失われません。</entry>
 	    </row>
 
 	    <row>
@@ -1119,7 +1187,7 @@ total 530
 	    バックアップしたデータをリストアする作業が必要となるでしょう。</para>
 
 	  <important>
-	    <para>FreeBSD&nbsp;4.4 以降のバージョンには、
+	    <para>FreeBSD には、
 	      &man.growfs.8; コマンドがあります。
 	      このコマンドは、この制限を取り除いて、
 	      ファイルシステムのファイルを直ちに増加させることを可能にします。
@@ -1166,7 +1234,7 @@ total 530
 	    </row>
 	  </thead>
 
-	  <tbody>
+	  <tbody valign="top">
 	    <row>
 	      <entry><literal>a</literal></entry>
 
@@ -1195,12 +1263,7 @@ total 530
 
 	      <entry><literal>d</literal> パーティションは、
 		それに関連づけられた特別な意味を持っていましたが、
-		今はありません。
-		現在では、いくつかのツールが <literal>d</literal> 
-		パーティション上で動作するように命じれば、
-		奇妙に動くかもしれません。
-		したがって、<application>sysinstall</application> は通常
-		<literal>d</literal> パーティションを作成しないでしょう。</entry>
+		今は無いので、普通のパーティションとして動作するでしょう。</entry>
 	    </row>
 	  </tbody>
 	</tgroup>
@@ -1379,25 +1442,25 @@ total 530
 	    <literallayout class="monospaced">.-----------------.  --.
 |                 |    |
 |  DOS / Windows  |    |
-:                 :     >  First slice, ad0s1
+:                 :     &gt;  First slice, ad0s1
 :                 :    |
 |                 |    |
 :=================:  ==:                               --.
 |                 |    |  Partition a, mounted as /      |
-|                 |     > referred to as ad0s2a          |
+|                 |     &gt; referred to as ad0s2a          |
 |                 |    |                                 |
 :-----------------:  ==:                                 |
 |                 |    |  Partition b, used as swap      |
-|                 |     > referred to as ad0s2b          |
+|                 |     &gt; referred to as ad0s2b          |
 |                 |    |                                 |
 :-----------------:  ==:                                 |  Partition c, no
-|                 |    |  Partition e, used as /var       > filesystem, all 
-|                 |     > referred to as ad0s2e          |  of FreeBSD slice,
+|                 |    |  Partition e, used as /var       &gt; file system, all 
+|                 |     &gt; referred to as ad0s2e          |  of FreeBSD slice,
 |                 |    |                                 |  ad0s2c
 :-----------------:  ==:                                 |
 |                 |    |                                 |
 :                 :    |  Partition f, used as /usr      |
-:                 :     > referred to as ad0s2f          |
+:                 :     &gt; referred to as ad0s2f          |
 :                 :    |                                 |
 |                 |    |                                 |
 |                 |  --'                                 |
@@ -2204,9 +2267,6 @@ Swap: 256M Total, 38M Used, 217M Free, 15% Inuse
 
       <screen>&prompt.user; <userinput>chsh -s /usr/local/bin/bash</userinput></screen>
 
-      <para><command>chsh</command> をパラメータなしで実行し、
-        エディタでシェルを変更しても同じことができます。</para>
-
       <note>
 	<para>使おうと思っているシェルは<emphasis>必ず</emphasis>
 	  <filename>/etc/shells</filename> 中に書かれているものでなければなりません。
@@ -2315,22 +2375,7 @@ Swap: 256M Total, 38M Used, 217M Free, 15% Inuse
       <title>デバイスノードを作成する</title>
       <para>新しいデバイスをシステムにつけ足したり、
         追加デバイスのサポートをコンパイルして加えたりするときは、
-	デバイスノードを追加で作成しなければならない場合があります。</para>
-
-      <sect3>
-	<title>MAKEDEV スクリプト</title>
-	<para><literal>DEVFS</literal> がないシステム (5.0
-	  より前のすべてのバージョンの FreeBSD にあてはまります) では、
-	  以下に示すように &man.MAKEDEV.8;
-	  スクリプトを使ってデバイスノードを作成します。</para>
-
-	<screen>&prompt.root; <userinput>cd /dev</userinput>
-&prompt.root; <userinput>sh MAKEDEV ad1</userinput>
-	</screen>
-
-	<para>この例では、取りつけられたとき2番目に当たる IDE
-	  ドライブにとって適切なデバイスノードを作ります。</para>
-      </sect3>
+	デバイスノードを作成しなければなりません。</para>
 
       <sect3>
 	<title><literal>DEVFS</literal> (デバイスファイルシステム: Device File System)</title>
@@ -2342,8 +2387,6 @@ Swap: 256M Total, 38M Used, 217M Free, 15% Inuse
 
 	<para>詳しくは &man.devfs.5; マニュアルページをご覧ください。</para>
 
-	<para>FreeBSD&nbsp;5.0 以降では
-	  <literal>DEVFS</literal> がデフォルトで使われています。</para>
       </sect3>
     </sect2>
   </sect1>

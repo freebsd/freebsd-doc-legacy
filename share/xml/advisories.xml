@@ -8,6 +8,90 @@
     <name>2014</name>
 
     <month>
+      <name>6</name>
+
+      <day>
+	<name>24</name>
+
+	<advisory>
+	  <name>FreeBSD-SA-14:16.file</name>
+	</advisory>
+
+	<advisory>
+	  <name>FreeBSD-SA-14:15.iconv</name>
+	</advisory>
+      </day>
+
+      <day>
+	<name>5</name>
+
+	<advisory>
+	  <name>FreeBSD-SA-14:14.openssl</name>
+	</advisory>
+      </day>
+
+      <day>
+	<name>3</name>
+
+	<advisory>
+	  <name>FreeBSD-SA-14:13.pam</name>
+	</advisory>
+
+	<advisory>
+	  <name>FreeBSD-SA-14:12.ktrace</name>
+	</advisory>
+
+	<advisory>
+	  <name>FreeBSD-SA-14:11.sendmail</name>
+	</advisory>
+      </day>
+    </month>
+
+    <month>
+      <name>5</name>
+
+      <day>
+	<name>13</name>
+
+	<advisory>
+	  <name>FreeBSD-SA-14:10.openssl</name>
+	</advisory>
+      </day>
+    </month>
+
+    <month>
+      <name>4</name>
+
+      <day>
+	<name>30</name>
+
+	<advisory>
+	  <name>FreeBSD-SA-14:09.openssl</name>
+	</advisory>
+
+	<advisory>
+	  <name>FreeBSD-SA-14:08.tcp</name>
+	</advisory>
+
+	<advisory>
+	  <name>FreeBSD-SA-14:07.devfs</name>
+	</advisory>
+      </day>
+
+      <day>
+	<name>08</name>
+
+	<advisory>
+	  <name>FreeBSD-SA-14:06.openssl</name>
+	</advisory>
+
+	<advisory>
+	  <name>FreeBSD-SA-14:05.nfsserver</name>
+	</advisory>
+      </day>
+    </month>
+
+    <month>
       <name>1</name>
 
       <day>

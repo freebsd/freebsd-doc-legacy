@@ -6,7 +6,7 @@
 <!--
      $FreeBSD$
      $FreeBSDde$
-     basiert auf: 43575
+     basiert auf: 45016
 -->
 
 <xsl:stylesheet version="1.0"
@@ -50,7 +50,7 @@
 				  großen Entwicklergruppe</a> seit mehr als 30 Jahren
 				  kontinuierlich weiterentwickelt, verbessert und
 				  optimiert.  Seine leistungsfähigen und
-				  und beeindruckende Netzwerk-, Sicherheits- und
+				  beeindruckenden Netzwerk-, Sicherheits- und
 				  Speicherfunktionen machen &os; zum Betriebssystem
 				  der Wahl für einige der größten <a
 				  href="&enbase;/doc/&url.doc.langcode;/books/handbook/nutshell.html#introduction-nutshell-users">
@@ -77,24 +77,21 @@
 				  <h2><a href="&base;/releases/">AKTUELLE VERSIONEN</a></h2>
 				  <ul id="frontreleaseslist">
 					<li>
-					  Produktion:&nbsp;<a href="&u.rel.announce;">&rel.current;</a>
-					</li>
-					<li>
-					  Produktion (alt):&nbsp;<a href="&u.rel2.announce;">&rel2.current;</a>,
+					  Produktion:&nbsp;<a href="&u.rel.announce;">&rel.current;</a>,<br />
+					  <a href="&u.rel2.announce;">&rel2.current;</a>,
 					  <a href="&u.rel3.announce;">&rel3.current;</a>
 					</li>
-			    <xsl:if test="'&beta.testing;' != 'IGNORE'">
-					  <li>
-					    Test:&nbsp;<a href="&base;/where.html#helptest">
-					      &betarel.current;-&betarel.vers;</a>
-					  </li>
+			    <xsl:if test="'&beta.upcoming;' != 'IGNORE'">
+					<li>Test:&nbsp;<a
+				href="&u.betarel.schedule;">&betarel.current;</a></li>
 			    </xsl:if>
-			    <xsl:if test="'&beta2.testing;' != 'IGNORE'">
-					  <li>
-					    Test:&nbsp;<a href="&base;/where.html#helptest">
-					      &betarel2.current;-&betarel2.vers;</a>
-					  </li>
+			    <xsl:if test="'&beta2.upcoming;' != 'IGNORE'">
+					<li>Test:&nbsp;<a
+				href="&u.betarel2.schedule;">&betarel2.current;</a></li>
 			    </xsl:if>
+					<li><a
+					  href="&enbase;/security/security.html#sup">Unterstützte
+					  FreeBSD-Versionen</a></li>
 				  </ul>
 			  </div> <!-- FRONTRELEASESCONTENT -->
 			</div> <!-- FRONTRELEASES -->

@@ -34,14 +34,6 @@
 #                  malformed header)
 # - ports/138672 - Lots of attachments, multi-level MIME.
 # - ports/132344 - Base64-encoded attachment.
-#
-# TODO:
-#
-# - Charset and transfer encoding transformation.
-# - Refine linkifier.
-# - Better end-of-diff detection.
-# - Inline patches inside MIME parts (probably just the first part).
-# - Modernise HTML (may require altering site-wide CSS)
 #------------------------------------------------------------------------------
 
 BEGIN { push @INC, '.'; }
@@ -266,13 +258,19 @@ sub PrintPR
 	# Page title
 
 	print html_header(
+			"FreeBSD has migrated to Bugzilla.  Please check the current <a href='https://bugs.freebsd.org/"
+			. $gnatspr->FieldSingle('Number') . "'/>Bugzilla version</a> of this PR."
+	);
+	print ("<h3>The historical version shown below is likely out of date and is for debugging purposes only!</h3>\n");
+
+	print ("<h3>" .
 		$q->escapeHTML(
 			$gnatspr->FieldSingle('Category')
 			. '/'
 			. $gnatspr->FieldSingle('Number')
 			. ': '
 			. $gnatspr->FieldSingle('Synopsis')
-		)
+		) . "</h3>\n"
 	);
 
 	# Header stuff of interest
@@ -741,8 +739,7 @@ sub ErrorExit
 	my $url = $q->url(-full => 1, -query => 1);
 
 	if ($code == EXIT_NOPRS) {
-		print html_header("No PRs Matched Query");
-		displayform();
+		print html_header("FreeBSD has migrated to <a href='http://bugs.freebsd.org/search/'>Bugzilla</a>.  Try your search there.");
 		print html_footer();
 	} elsif ($code == EXIT_DBBUSY) {
 		print html_header("PR Database Busy");
@@ -861,42 +858,7 @@ sub FooterLinks
 
 	my $url = $q->url(-full => 1, -query => 1);
 
-	my $pr       = $q->escapeHTML($gnatspr->FieldSingle('Number'));
-	my $cat      = $q->escapeHTML($gnatspr->FieldSingle('Category'));
-	my $synopsis = $q->escapeHTML($gnatspr->FieldSingle('Synopsis'));
-
-	my $mail = $gnatspr->Header('From');
-
-	# Try to extract just the e-mail address from the 'From' header
-	if ($mail) {
-		$mail =~ s/^\s*(.*)\s*$/$1/;
-		$mail =~ s/.*<(.*)>.*/$1/;
-		$mail =~ s/\s*\(.*\)\s*//;
-	}
-
-	my $replyto = $gnatspr->Header('Reply-To');
-
-	# ... same with the 'Reply-To' header
-	if ($replyto) {
-		$replyto =~ s/^\s*(.*)\s*$/$1/;
-		$replyto =~ s/.*<(.*)>.*/$1/;
-		$replyto =~ s/\s*\(.*\)\s*//;
-	}
-
-	# Prefer 'Reply-To' if present
-	$mail = $replyto if ($replyto);
-	$mail .= '@FreeBSD.org' unless ($mail =~ /@/);
-
-	# Prepare for mailto: link
-	$synopsis =~ s/[^a-zA-Z+.@-]/"%" . sprintf("%02X", unpack("C", $&))/eg;
-	$mail     =~ s/[^a-zA-Z+.@-]/"%" . sprintf("%02X", unpack("C", $&))/eg;
-
-	my $maillink = 'mailto:bug-followup@FreeBSD.org,'
-		. "$mail?subject=Re:%20$cat/$pr:%20$synopsis";
-
 	return $q->div({-class => 'footerlinks'},
-		$q->a({-href => $maillink}, 'Submit Followup')
-		. ' | ' . $q->a({-href => $url . '&f=raw'}, 'Raw PR')
-		. ' | ' . $q->a({-href => 'query-pr-summary.cgi?query'}, 'Find another PR')
+		$q->a({-href => $url . '&f=raw'}, 'Raw PR')
 	);
 }

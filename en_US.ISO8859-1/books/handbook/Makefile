@@ -5,25 +5,6 @@
 #
 
 # ------------------------------------------------------------------------
-#
-# Handbook-specific variables
-#
-#	WITH_PGPKEYS	The print version of the handbook only prints PGP
-#			fingerprints by default.  If you would like for the
-#			entire key to be displayed, then set this variable.
-#			This option has no affect on the HTML formats.
-#
-# Handbook-specific targets
-#
-#       pgpkeyring      This target will read the contents of
-#                       pgpkeys/chapter.xml and will extract all of
-#                       the pgpkeys to standard out.  This output can then
-#                       be redirected into a file and distributed as a
-#                       public keyring of FreeBSD developers that can
-#                       easily be imported into PGP/GPG.
-#
-# ------------------------------------------------------------------------
-#
 # To add a new chapter to the Handbook:
 #
 # - Update this Makefile, chapters.ent and book.xml
@@ -52,6 +33,8 @@ IMAGES_EN+= bsdinstall/bsdinstall-adduser1.png
 IMAGES_EN+= bsdinstall/bsdinstall-adduser2.png
 IMAGES_EN+= bsdinstall/bsdinstall-adduser3.png
 IMAGES_EN+= bsdinstall/bsdinstall-boot-loader-menu.png
+IMAGES_EN+= bsdinstall/bsdinstall-boot-options-menu.png
+IMAGES_EN+= bsdinstall/bsdinstall-newboot-loader-menu.png
 IMAGES_EN+= bsdinstall/bsdinstall-choose-mode.png
 IMAGES_EN+= bsdinstall/bsdinstall-config-components.png
 IMAGES_EN+= bsdinstall/bsdinstall-config-hostname.png
@@ -75,6 +58,7 @@ IMAGES_EN+= bsdinstall/bsdinstall-distfile-verifying.png
 IMAGES_EN+= bsdinstall/bsdinstall-final-confirmation.png
 IMAGES_EN+= bsdinstall/bsdinstall-finalconfiguration.png
 IMAGES_EN+= bsdinstall/bsdinstall-final-modification-shell.png
+IMAGES_EN+= bsdinstall/bsdinstall-keymap-10.png
 IMAGES_EN+= bsdinstall/bsdinstall-keymap-select-default.png
 IMAGES_EN+= bsdinstall/bsdinstall-mainexit.png
 IMAGES_EN+= bsdinstall/bsdinstall-netinstall-files.png
@@ -92,6 +76,14 @@ IMAGES_EN+= bsdinstall/bsdinstall-timezone-confirm.png
 IMAGES_EN+= bsdinstall/bsdinstall-timezone-country.png
 IMAGES_EN+= bsdinstall/bsdinstall-timezone-region.png
 IMAGES_EN+= bsdinstall/bsdinstall-timezone-zone.png
+IMAGES_EN+= bsdinstall/bsdinstall-zfs-disk_info.png
+IMAGES_EN+= bsdinstall/bsdinstall-zfs-disk_select.png
+IMAGES_EN+= bsdinstall/bsdinstall-zfs-geli_password.png
+IMAGES_EN+= bsdinstall/bsdinstall-zfs-menu.png
+IMAGES_EN+= bsdinstall/bsdinstall-zfs-partmenu.png
+IMAGES_EN+= bsdinstall/bsdinstall-zfs-vdev_invalid.png
+IMAGES_EN+= bsdinstall/bsdinstall-zfs-vdev_type.png
+IMAGES_EN+= bsdinstall/bsdinstall-zfs-warning.png
 IMAGES_EN+= geom/striping.pic
 IMAGES_EN+= install/adduser1.scr
 IMAGES_EN+= install/adduser2.scr
@@ -286,16 +278,6 @@ CHAPTERS?= ${SRCS:M*chapter.xml}
 
 XMLFLAGS+= ${CHAPTERS:S/\/chapter.xml//:S/^/-i chap./}
 XMLFLAGS+= -i chap.freebsd-glossary
-
-pgpkeyring: pgpkeys/chapter.xml ${DOC}.parsed.xml
-	@${XSLTPROC} ${XSLPGP} ${DOC}.parsed.xml
-
-#
-# Handbook-specific variables
-#
-.if defined(WITH_PGPKEYS)
-JADEFLAGS+=	-V withpgpkeys
-.endif
 
 URL_RELPREFIX?=	../../../..
 DOC_PREFIX?=	${.CURDIR}/../../..

@@ -8,6 +8,50 @@
     <name>2014</name>
 
     <month>
+      <name>6</name>
+
+      <day>
+	<name>24</name>
+
+	<notice>
+	  <name>FreeBSD-EN-14:08.heimdal</name>
+	</notice>
+
+	<notice>
+	  <name>FreeBSD-EN-14:07.pmap</name>
+	</notice>
+      </day>
+
+      <day>
+	<name>3</name>
+
+	<notice>
+	  <name>FreeBSD-EN-14:06.exec</name>
+	</notice>
+      </day>
+    </month>
+
+    <month>
+      <name>5</name>
+
+      <day>
+	<name>13</name>
+
+	<notice>
+	  <name>FreeBSD-EN-14:05.ciss</name>
+	</notice>
+
+	<notice>
+	  <name>FreeBSD-EN-14:04.kldxref</name>
+	</notice>
+
+	<notice>
+	  <name>FreeBSD-EN-14:03.pkg</name>
+	</notice>
+      </day>
+    </month>
+
+    <month>
       <name>1</name>
 
       <day>

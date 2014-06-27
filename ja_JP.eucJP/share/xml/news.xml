@@ -1,34 +1,238 @@
 <?xml version="1.0" encoding="euc-jp" ?>
 <!DOCTYPE news PUBLIC "-//FreeBSD//DTD FreeBSD XML Database for News//EN"
-                      "http://www.FreeBSD.org/XML/share/xml/news.dtd">
+		      "http://www.FreeBSD.org/XML/share/xml/news.dtd">
 
 <!-- Simple schema for FreeBSD Project news.
 
-     Divide time in to <year>, <month>, and <day> elements, each of which
-     has a <name>.
+    Divide time in to <year>, <month>, and <day> elements, each of
+    which has a <name>.
 
-     Each <day> element contains one or more <event> elements.
+    each <day> element contains one or more <event> elements.
 
-     Each <event> contains an optional <title>, and then a <p>.  <p> elements
-     can contain <a> anchors.  Within the "href" attribute of the anchor
-     &base; will be replaced with the base URI necessary to reach the FreeBSD
-     document root, and should always be used to start URLs at www.FreeBSD.org
-     or one of the mirrors.
+    Each <event> contains an optional <title>, and then a <p>.
+    <p> elements can contain <a> anchors.
 
-     Use the <title> element if the <p> content is lengthy.  When generating
-     synopses of this information (e.g., for syndication using RDF files),
-     the contents of <title> will be preferred over <p>.
+    Use the <title> element if the <p> content is lengthy.  When
+    generating synopses of this information (e.g., for syndication
+    using RDF files), the contents of <title> will be preferred over
+    <p>.
 
-     $FreeBSD$
-     Original revision: r43868
+    *** Former Summer of Code Students: Please note that you are an
+	SoC alumnus when you add your new committer announcement.
+	Also, don't feel shy to add more information about what you
+	would like to work on.  ***
+
+    $FreeBSD$
+    Original revision: r45107
 -->
 <news>
-    <cvs:keyword xmlns:cvs="http://www.FreeBSD.org/XML/CVS">
-      $FreeBSD$
-    </cvs:keyword>
+  <cvs:keyword xmlns:cvs="http://www.FreeBSD.org/XML/CVS">
+    $FreeBSD$
+  </cvs:keyword>
 
   <year>
     <name>2014</name>
+
+    <month>
+      <name>6</name>
+
+      <day>
+	<name>21</name>
+
+	<event>
+	  <title>&os;&nbsp;9.3-RC1 公開</title>
+
+	  <p>&os;-9.3 リリースサイクルから最初のリリース候補が公開されました
+	    (<a
+	      href="&lists.stable;/2014-June/079024.html">アナウンス</a>)。
+	    <a
+	      href="&url.doc.base;/books/handbook/mirrors-ftp.html">&os;
+	      ミラーサイト</a> から amd64, i386, ia64, powerpc, powerpc64
+	    および sparc64 アーキテクチャの ISO イメージを入手できます。</p>
+	</event>
+      </day>
+
+      <day>
+	<name>17</name>
+
+	<event>
+	  <p>新コミッタ就任:
+	    <a href="mailto:robak@FreeBSD.org">Bartek Rutkowski</a>
+	    (ports)</p>
+	</event>
+      </day>
+
+      <day>
+	<name>14</name>
+
+	<event>
+	  <title>&os;&nbsp;9.3-BETA3 公開</title>
+
+	  <p>&os;-9.3 リリースサイクルから 3
+	    回目のベータ版が公開されました (<a
+	      href="&lists.stable;/2014-June/078959.html">アナウンス</a>)。
+	    <a
+	      href="&url.doc.base;/books/handbook/mirrors-ftp.html">&os;
+	      ミラーサイト</a> から amd64, i386, ia64, powerpc, powerpc64
+	    および sparc64 アーキテクチャの ISO イメージを入手できます。</p>
+	</event>
+      </day>
+
+      <day>
+	<name>11</name>
+
+	<event>
+	  <p>新コミッタ就任:
+	    <a href="mailto:shurd@FreeBSD.org">Stephen Hurd</a>
+	    (ports)</p>
+	</event>
+      </day>
+
+      <day>
+	<name>7</name>
+
+	<event>
+	  <title>&os;&nbsp;9.3-BETA2 公開</title>
+
+	  <p>&os;-9.3 リリースサイクルから 2
+	    回目のベータ版が公開されました (<a
+	      href="&lists.stable;/2014-June/078864.html">アナウンス</a>)。
+	    <a
+	      href="&url.doc.base;/books/handbook/mirrors-ftp.html">&os;
+	      ミラーサイト</a> から amd64, i386, ia64, powerpc, powerpc64
+	    および sparc64 アーキテクチャの ISO イメージを入手できます。</p>
+	</event>
+      </day>
+
+      <day>
+	<name>1</name>
+
+	<event>
+	  <title>&os;&nbsp;9.1-BETA1 公開</title>
+
+	  <p>&os;-9.3 リリースサイクルから最初のベータ版が公開されました (<a
+	      href="&lists.stable;/2014-June/078827.html">アナウンス</a>)。
+	    <a
+	      href="&url.doc.base;/books/handbook/mirrors-ftp.html">&os;
+	      ミラーサイト</a> から amd64, i386, ia64, powerpc, powerpc64
+	    および sparc64 アーキテクチャの ISO イメージを入手できます。</p>
+	</event>
+      </day>
+    </month>
+
+    <month>
+      <name>5</name>
+
+      <day>
+	<name>29</name>
+
+	<event>
+	  <p>新コミッタ就任:
+	    <a href="mailto:pkelsey@FreeBSD.org">Patrick Kelsey</a>
+	    (src)</p>
+	</event>
+      </day>
+
+      <day>
+	<name>17</name>
+
+	<event>
+	  <p>新コミッタ就任:
+	    <a href="mailto:allanjude@FreeBSD.org">Allan Jude</a>
+	    (doc)</p>
+	</event>
+      </day>
+
+      <day>
+	<name>7</name>
+
+	<event>
+	  <p>新コミッタ就任:
+	    <a href="mailto:kadesai@FreeBSD.org">Kashyap Desai</a>
+	    (src)</p>
+	</event>
+      </day>
+      <day>
+
+	<name>7</name>
+
+	<event>
+	  <p>新コミッタ就任:
+	    <a href="mailto:slm@FreeBSD.org">Stephen McConnell</a>
+	    (src)</p>
+	</event>
+      </day>
+    </month>
+
+    <month>
+      <name>4</name>
+
+      <day>
+	<name>24</name>
+	<event>
+	  <p>新コミッタ就任:
+	    <a href="mailto:pi@FreeBSD.org">Kurt Jaeger</a>
+	    (ports)</p>
+	</event>
+      </day>
+
+      <day>
+	<name>17</name>
+
+	<event>
+	  <title>開発進捗レポート (2014 年 1 月 - 3 月) 公開</title>
+
+	    <p><a
+		href="&enbase;/news/status/report-2014-01-2014-03.html">2014
+		年 1 月から 3 月の開発進捗レポート</a> (41 エントリ)
+	      が公開されました。</p>
+	</event>
+      </day>
+
+      <day>
+	<name>7</name>
+
+	<event>
+	  <p>新コミッタ就任: <a href="mailto:xmj@FreeBSD.org">Johannes
+	      Jost Meixner</a> (ports)</p>
+	</event>
+      </day>
+    </month>
+
+    <month>
+      <name>3</name>
+
+      <day>
+	<name>11</name>
+
+	<event>
+	  <title>FreeBSD プロジェクトは、Google Summer of Code 2014
+	    に参加します</title>
+
+	  <p>FreeBSD プロジェクトは Google's 2014 Summer of Code
+	    プログラムに参加します。
+	    これは夏の間に奨学金を提供し、
+	    オープンソースプロジェクトに参加する学生を支援するプログラムです。
+	    FreeBSD プロジェクトの参加は今年で 10 年目になります。
+	    2005 年から 2013 年の間には、
+	    長い夏の期間のコーディングプロジェクトを通して
+	    160 人を越える学生の指導に成功してきました。</p>
+
+	  <p>これまでに成功したプロジェクトには、
+	    Linux ABI 互換機能の改善、NFSv4 ACLs, TCP レグレッションテスト、
+	    FUSE ファイルシステムのサポートや
+	    その他にも数え切れないプロジェクトがあります。
+	    多くの学生は FreeBSD の開発者になったり、
+	    FreeBSD Foundation の継続的な支援を通じて、世界中で開催されている
+	    FreeBSD の開発者のイベントに参加しています。</p>
+
+	  <p>我こそは、と思う方はぜひとも応募してください!
+	    申し込みや締め切りなど、詳細については <a
+	      href="&enbase;/projects/summerofcode.html">FreeBSD
+	      Summer Projects ページ</a> をご覧ください。</p>
+	</event>
+      </day>
+    </month>
 
     <month>
       <name>2</name>
@@ -59,31 +263,34 @@
 	<event>
 	  <title>開発進捗レポート (2013 年 10 月 - 12 月) 公開</title>
 
-	    <p><a
-		href="&enbase;/news/status/report-2013-10-2013-12.html">2013
+	  <p><a
+	      href="&enbase;/news/status/report-2013-10-2013-12.html">2013
 	      年 10 月から 12 月の開発進捗レポート</a> (37 エントリ)
-	      が公開されました。</p>
+	    が公開されました。</p>
 	</event>
       </day>
 
       <day>
-        <name>23</name>
+	<name>23</name>
 	<event>
 	  <p>新コミッタ就任:
-	      <a href="mailto:rodrigo@FreeBSD.org">Rodrigo Osorio</a> (ports)</p>
+	    <a href="mailto:rodrigo@FreeBSD.org">Rodrigo Osorio</a>
+	    (ports)</p>
 	</event>
       </day>
 
       <day>
-        <name>21</name>
+	<name>21</name>
 	<event>
 	  <p>新コミッタ就任:
-	      <a href="mailto:tychon@FreeBSD.org">Tycho Nightingale</a> (src)</p>
+	    <a href="mailto:tychon@FreeBSD.org">Tycho Nightingale</a>
+	    (src)</p>
 	</event>
 
 	<event>
 	  <p>新コミッタ就任:
-	      <a href="mailto:grembo@FreeBSD.org">Michael Gmelin</a> (ports)</p>
+	    <a href="mailto:grembo@FreeBSD.org">Michael Gmelin</a>
+	    (ports)</p>
 	</event>
       </day>
 
@@ -94,20 +301,20 @@
 	  <title>&os; 10.0-RELEASE 公開</title>
 
 	  <p><a href="&base;/releases/10.0R/announce.html">FreeBSD
-		10.0-RELEASE</a> が公開されました。
-	      インストール前に <a
-		href="&enbase;/releases/10.0R/relnotes.html">リリースノート</a>
-	      および <a
-		href="&enbase;/releases/10.0R/errata.html">リリース Errata</a>
-	      を読み、10.0 に関する最新情報や問題点などを確認してください。
-	      FreeBSD のリリースに関するより詳しい情報については <a
-		href="&base;/releases/index.html">リリース情報</a>
-	      をご覧ください。</p>
+	      10.0-RELEASE</a> が公開されました。
+	    インストール前に <a
+	      href="&enbase;/releases/10.0R/relnotes.html">リリースノート</a>
+	    および <a
+	      href="&enbase;/releases/10.0R/errata.html">リリース Errata</a>
+	    を読み、10.0 に関する最新情報や問題点などを確認してください。
+	    FreeBSD のリリースに関するより詳しい情報については <a
+	      href="&base;/releases/index.html">リリース情報</a>
+	    をご覧ください。</p>
 	</event>
 
 	<event>
-	  <p>コミット権限の拡大: <a
-	      href="mailto:jgh@FreeBSD.org">Jason Helfman</a>
+	  <p>コミット権限の拡大:
+	    <a href="mailto:jgh@FreeBSD.org">Jason Helfman</a>
 	    (ports, doc)</p>
 	</event>
       </day>
@@ -116,18 +323,19 @@
 	<name>15</name>
 
 	<event>
-	  <p>コミット権限の拡大: <a
-	      href="mailto:skreuzer@FreeBSD.org">Steven Kreuzer</a>
+	  <p>コミット権限の拡大:
+	    <a href="mailto:skreuzer@FreeBSD.org">Steven Kreuzer</a>
 	    (ports, doc)</p>
 	</event>
       </day>
 
       <day>
-        <name>13</name>
+	<name>13</name>
 
 	<event>
 	  <p>コミッタ復帰:
-	      <a href="mailto:bmah@FreeBSD.org">Bruce A. Mah</a> (ports)</p>
+	    <a href="mailto:bmah@FreeBSD.org">Bruce A. Mah</a>
+	    (ports)</p>
 	</event>
       </day>
 
@@ -136,7 +344,8 @@
 
 	<event>
 	  <p>新コミッタ就任:
-	      <a href="mailto:riggs@FreeBSD.org">Thomas Zander</a> (ports)</p>
+	    <a href="mailto:riggs@FreeBSD.org">Thomas Zander</a>
+	    (ports)</p>
 	</event>
       </day>
 
@@ -150,8 +359,8 @@
 	      href="&lists.stable;/2014-January/076800.html">アナウンス</a>)。
 	    <a
 	      href="&url.doc.base;/books/handbook/mirrors-ftp.html">&os;
-	    ミラーサイト</a> から amd64, i386, ia64, powerpc, powerpc64 および
-	    sparc64 アーキテクチャの ISO イメージを入手できます。</p>
+	      ミラーサイト</a> から amd64, i386, ia64, powerpc, powerpc64
+	    および sparc64 アーキテクチャの ISO イメージを入手できます。</p>
 	</event>
       </day>
 
@@ -165,8 +374,8 @@
 	      href="&lists.stable;/2014-January/076681.html">アナウンス</a>)。
 	    <a
 	      href="&url.doc.base;/books/handbook/mirrors-ftp.html">&os;
-	    ミラーサイト</a> から amd64, i386, ia64, powerpc, powerpc64 および
-	    sparc64 アーキテクチャの ISO イメージを入手できます。</p>
+	      ミラーサイト</a> から amd64, i386, ia64, powerpc, powerpc64
+	    および sparc64 アーキテクチャの ISO イメージを入手できます。</p>
 	</event>
       </day>
     </month>
@@ -188,8 +397,8 @@
 	      href="&lists.stable;/2013-December/076590.html">アナウンス</a>)。
 	    <a
 	      href="&url.doc.base;/books/handbook/mirrors-ftp.html">&os;
-	    ミラーサイト</a> から amd64, i386, ia64, powerpc, powerpc64 および
-	    sparc64 アーキテクチャの ISO イメージを入手できます。</p>
+	      ミラーサイト</a> から amd64, i386, ia64, powerpc, powerpc64
+	    および sparc64 アーキテクチャの ISO イメージを入手できます。</p>
 	</event>
       </day>
 
@@ -197,8 +406,9 @@
 	<name>18</name>
 
 	<event>
-	  <p>コミット権限の拡大: <a
-	      href="mailto:ganbold@FreeBSD.org">Ganbold Tsagaankhuu</a>
+	  <p>コミット権限の拡大:
+	    <a href="mailto:ganbold@FreeBSD.org">Ganbold
+	      Tsagaankhuu</a>
 	    (doc, src)</p>
 	</event>
       </day>
@@ -207,13 +417,14 @@
 	<name>16</name>
 
 	<event>
-	  <p>新コミッタ就任: <a
-	      href="mailto:milki@FreeBSD.org">Jonathan Chu</a> (ports)</p>
+	  <p>新コミッタ就任:
+	    <a href="mailto:milki@FreeBSD.org">Jonathan Chu</a>
+	    (ports)</p>
 	</event>
 
 	<event>
-	  <p>コミット権限の拡大: <a
-	      href="mailto:bdrewery@FreeBSD.org">Bryan Drewery</a>
+	  <p>コミット権限の拡大:
+	    <a href="mailto:bdrewery@FreeBSD.org">Bryan Drewery</a>
 	    (ports, src)</p>
 	</event>
 
@@ -225,8 +436,8 @@
 	      href="&lists.stable;/2013-December/076480.html">アナウンス</a>)。
 	    <a
 	      href="&url.doc.base;/books/handbook/mirrors-ftp.html">&os;
-	    ミラーサイト</a> から amd64, i386, ia64, powerpc, powerpc64 および
-	    sparc64 アーキテクチャの ISO イメージを入手できます。</p>
+	      ミラーサイト</a> から amd64, i386, ia64, powerpc, powerpc64
+	    および sparc64 アーキテクチャの ISO イメージを入手できます。</p>
 	</event>
       </day>
 
@@ -241,15 +452,17 @@
 	      href="&lists.stable;/2013-December/076231.html">アナウンス</a>)。
 	    <a
 	      href="&url.doc.base;/books/handbook/mirrors-ftp.html">&os;
-	    ミラーサイト</a> から amd64, i386, ia64, powerpc, powerpc64 および
-	    sparc64 アーキテクチャの ISO イメージを入手できます。</p>
+	      ミラーサイト</a> から amd64, i386, ia64, powerpc, powerpc64
+	    および sparc64 アーキテクチャの ISO イメージを入手できます。</p>
 	</event>
 
 	<event>
 	  <title>EuroBSDcon 2013 Developer Summit レポート</title>
-	    <p><a
-		href="&enbase;/news/status/report-2013-09-devsummit.html">EuroBSDcon 2013 &os; Developer Summit のスペシャルレポート</a>
-	      (13 エントリ) が公開されました。</p>
+
+	  <p><a
+	      href="&enbase;/news/status/report-2013-09-devsummit.html">EuroBSDcon
+	      2013 &os; Developer Summit のスペシャルレポート</a>
+	    (13 エントリ) が公開されました。</p>
 	</event>
       </day>
 
@@ -264,8 +477,8 @@
 	      href="&lists.stable;/2013-December/076040.html">アナウンス</a>)。
 	    <a
 	      href="&url.doc.base;/books/handbook/mirrors-ftp.html">&os;
-	    ミラーサイト</a> から amd64, i386, ia64, powerpc, powerpc64 および
-	    sparc64 アーキテクチャの ISO イメージを入手できます。</p>
+	      ミラーサイト</a> から amd64, i386, ia64, powerpc, powerpc64
+	    および sparc64 アーキテクチャの ISO イメージを入手できます。</p>
 	</event>
       </day>
     </month>
@@ -278,7 +491,8 @@
 
 	<event>
 	  <p>新コミッタ就任:
-	      <a href="mailto:royger@FreeBSD.org">Roger Pau Monn&eacute;</a> (src)</p>
+	    <a href="mailto:royger@FreeBSD.org">Roger Pau
+	      Monn&eacute;</a> (src)</p>
 	</event>
       </day>
 
@@ -287,7 +501,8 @@
 
 	<event>
 	  <p>新コミッタ就任:
-	      <a href="mailto:alexey@FreeBSD.org">Alexey Degtyarev</a> (ports)</p>
+	    <a href="mailto:alexey@FreeBSD.org">Alexey Degtyarev</a>
+	    (ports)</p>
 	</event>
       </day>
 
@@ -302,8 +517,8 @@
 	      href="&lists.stable;/2013-November/075704.html">アナウンス</a>)。
 	    <a
 	      href="&url.doc.base;/books/handbook/mirrors-ftp.html">&os;
-	    ミラーサイト</a> から amd64, i386, ia64, powerpc, powerpc64 および
-	    sparc64 アーキテクチャの ISO イメージを入手できます。</p>
+	      ミラーサイト</a> から amd64, i386, ia64, powerpc, powerpc64
+	    および sparc64 アーキテクチャの ISO イメージを入手できます。</p>
 	</event>
       </day>
 
@@ -312,7 +527,8 @@
 
 	<event>
 	  <p>新コミッタ就任:
-	      <a href="mailto:jmmv@FreeBSD.org">Julio Merino</a> (src)</p>
+	    <a href="mailto:jmmv@FreeBSD.org">Julio Merino</a>
+	    (src)</p>
 	</event>
       </day>
 
@@ -347,8 +563,8 @@
 	      href="&lists.stable;/2013-October/075591.html">アナウンス</a>)。
 	    <a
 	      href="&url.doc.base;/books/handbook/mirrors-ftp.html">&os;
-	    ミラーサイト</a> から amd64, i386, ia64, powerpc, powerpc64 および
-	    sparc64 アーキテクチャの ISO イメージを入手できます。</p>
+	      ミラーサイト</a> から amd64, i386, ia64, powerpc, powerpc64
+	    および sparc64 アーキテクチャの ISO イメージを入手できます。</p>
 	</event>
       </day>
 
@@ -358,10 +574,10 @@
 	<event>
 	  <title>開発進捗レポート (2013 年 7 月 - 9 月) 公開</title>
 
-	    <p><a
-		href="&enbase;/news/status/report-2013-07-2013-09.html">2013
+	  <p><a
+	      href="&enbase;/news/status/report-2013-07-2013-09.html">2013
 	      年 7 月から 9 月の開発進捗レポート</a> (30 エントリ)
-	      が公開されました。</p>
+	    が公開されました。</p>
 	</event>
       </day>
 
@@ -375,8 +591,8 @@
 	      href="&lists.stable;/2013-October/075504.html">アナウンス</a>)。
 	    <a
 	      href="&url.doc.base;/books/handbook/mirrors-ftp.html">&os;
-	    ミラーサイト</a> から amd64, i386, ia64, powerpc, powerpc64 および
-	    sparc64 アーキテクチャの ISO イメージを入手できます。</p>
+	      ミラーサイト</a> から amd64, i386, ia64, powerpc, powerpc64
+	    および sparc64 アーキテクチャの ISO イメージを入手できます。</p>
 	</event>
       </day>
 
@@ -384,7 +600,8 @@
 	<name>9</name>
 	<event>
 	  <p>新コミッタ就任:
-	      <a href="mailto:edavis@FreeBSD.org">Eric Davis</a> (src)</p>
+	    <a href="mailto:edavis@FreeBSD.org">Eric Davis</a>
+	    (src)</p>
 	</event>
       </day>
 
@@ -399,8 +616,8 @@
 	      href="&lists.current;/2013-October/045097.html">アナウンス</a>)。
 	    <a
 	      href="&url.doc.base;/books/handbook/mirrors-ftp.html">&os;
-	    ミラーサイト</a> から amd64, i386, ia64, powerpc, powerpc64 および
-	    sparc64 アーキテクチャの ISO イメージを入手できます。</p>
+	      ミラーサイト</a> から amd64, i386, ia64, powerpc, powerpc64
+	    および sparc64 アーキテクチャの ISO イメージを入手できます。</p>
 	</event>
       </day>
     </month>
@@ -415,15 +632,15 @@
 	  <title>&os; 9.2-RELEASE 公開</title>
 
 	  <p><a href="&base;/releases/9.2R/announce.html">FreeBSD
-		9.2-RELEASE</a> が公開されました。
-	      インストール前に <a
-		href="&enbase;/releases/9.2R/relnotes.html">リリースノート</a>
-	      および <a
-		href="&enbase;/releases/9.2R/errata.html">リリース Errata</a>
-	      を読み、9.2 に関する最新情報や問題点などを確認してください。
-	      FreeBSD のリリースに関するより詳しい情報については <a
-		href="&base;/releases/index.html">リリース情報</a>
-	      をご覧ください。</p>
+	      9.2-RELEASE</a> が公開されました。
+	    インストール前に <a
+	      href="&enbase;/releases/9.2R/relnotes.html">リリースノート</a>
+	    および <a
+	      href="&enbase;/releases/9.2R/errata.html">リリース Errata</a>
+	    を読み、9.2 に関する最新情報や問題点などを確認してください。
+	    FreeBSD のリリースに関するより詳しい情報については <a
+	      href="&base;/releases/index.html">リリース情報</a>
+	    をご覧ください。</p>
 	</event>
       </day>
 
@@ -438,16 +655,18 @@
 	      href="&lists.current;/2013-September/044951.html">アナウンス</a>)。
 	    <a
 	      href="&url.doc.base;/books/handbook/mirrors-ftp.html">&os;
-	    ミラーサイト</a> から amd64, i386, ia64, powerpc, powerpc64 および
-	    sparc64 アーキテクチャの ISO イメージを入手できます。</p>
+	      ミラーサイト</a> から amd64, i386, ia64, powerpc, powerpc64
+	    および sparc64 アーキテクチャの ISO イメージを入手できます。</p>
 	</event>
       </day>
 
       <day>
 	<name>23</name>
+
 	<event>
 	  <p>新コミッタ就任:
-	      <a href="mailto:danilo@FreeBSD.org">Danilo Eg&ecirc;a Gondolfo</a> (ports)</p>
+	    <a href="mailto:danilo@FreeBSD.org">Danilo Eg&ecirc;a
+	      Gondolfo</a> (ports)</p>
 	</event>
       </day>
 
@@ -461,8 +680,8 @@
 	      href="&lists.current;/2013-September/044676.html">アナウンス</a>)。
 	    <a
 	      href="&url.doc.base;/books/handbook/mirrors-ftp.html">&os;
-	    ミラーサイト</a> から amd64, i386, ia64, powerpc, powerpc64 および
-	    sparc64 アーキテクチャの ISO イメージを入手できます。</p>
+	      ミラーサイト</a> から amd64, i386, ia64, powerpc, powerpc64
+	    および sparc64 アーキテクチャの ISO イメージを入手できます。</p>
 	</event>
       </day>
 
@@ -476,7 +695,7 @@
 	      href="&lists.current;/2013-September/044522.html">アナウンス</a>)。
 	    <a
 	      href="&url.doc.base;/books/handbook/mirrors-ftp.html">&os;
-	    ミラーサイト</a> から amd64, i386, ia64, powerpc および
+	      ミラーサイト</a> から amd64, i386, ia64, powerpc および
 	    sparc64 アーキテクチャの ISO イメージを入手できます。</p>
 	</event>
       </day>
@@ -492,8 +711,8 @@
 	      href="&lists.stable;/2013-September/075163.html">アナウンス</a>)。
 	    <a
 	      href="&url.doc.base;/books/handbook/mirrors-ftp.html">&os;
-	    ミラーサイト</a> から amd64, i386, ia64, powerpc, powerpc64 および
-	    sparc64 アーキテクチャの ISO イメージを入手できます。</p>
+	      ミラーサイト</a> から amd64, i386, ia64, powerpc, powerpc64
+	    および sparc64 アーキテクチャの ISO イメージを入手できます。</p>
 	</event>
       </day>
 
@@ -501,11 +720,13 @@
 	<name>2</name>
 	<event>
 	  <p>新コミッタ就任:
-	      <a href="mailto:br@FreeBSD.org">Ruslan Bukin</a> (src)</p>
+	    <a href="mailto:br@FreeBSD.org">Ruslan Bukin</a> (src)</p>
 	</event>
+
 	<event>
 	  <p>新コミッタ就任:
-	      <a href="mailto:zbb@FreeBSD.org">Zbigniew Bodek</a> (src)</p>
+	    <a href="mailto:zbb@FreeBSD.org">Zbigniew Bodek</a>
+	    (src)</p>
 	</event>
       </day>
     </month>
@@ -523,7 +744,7 @@
 	    amd64, i386, ia64, powerpc, powerpc64 および
 	    sparc64 アーキテクチャの ISO イメージが、<a
 	      href="&url.doc.base;/books/handbook/mirrors-ftp.html">&os;
-	    ミラーサイト</a> で <a
+	      ミラーサイト</a> で <a
 	      href="&lists.stable;/2013-August/074920.html">公開</a>
 	    されています。</p>
 	</event>
@@ -539,7 +760,7 @@
 	    amd64, i386, ia64, powerpc, powerpc64 および
 	    sparc64 アーキテクチャの ISO イメージが、<a
 	      href="&url.doc.base;/books/handbook/mirrors-ftp.html">&os;
-	    ミラーサイト</a> で <a
+	      ミラーサイト</a> で <a
 	      href="&lists.stable;/2013-August/074756.html">公開</a>
 	    されています。</p>
 	</event>
@@ -578,7 +799,7 @@
 	    amd64, i386, ia64, powerpc, powerpc64 および
 	    sparc64 アーキテクチャの ISO イメージが、<a
 	      href="&url.doc.base;/books/handbook/mirrors-ftp.html">&os;
-	    ミラーサイト</a> で <a
+	      ミラーサイト</a> で <a
 	      href="&lists.stable;/2013-August/074589.html">公開</a>
 	    されています。</p>
 	</event>
@@ -592,7 +813,8 @@
 	<name>31</name>
 	<event>
 	  <p>新コミッタ就任:
-	      <a href="mailto:nemysis@FreeBSD.org">Rusmir Dusko</a> (ports)</p>
+	    <a href="mailto:nemysis@FreeBSD.org">Rusmir Dusko</a>
+	    (ports)</p>
 	</event>
       </day>
 
@@ -606,7 +828,7 @@
 	    amd64, i386, powerpc64 および sparc64 アーキテクチャの
 	    ISO イメージが、<a
 	      href="&url.doc.base;/books/handbook/mirrors-ftp.html">&os;
-	    ミラーサイト</a> で <a
+	      ミラーサイト</a> で <a
 	      href="&lists.stable;/2013-July/074440.html">公開</a>
 	    されています。</p>
 	</event>
@@ -621,7 +843,7 @@
 	  <p>&os;-9.2 リリースサイクルにおける最初の BETA 版が公開されました。
 	    amd64, i386 および ia64 アーキテクチャの ISO イメージが、<a
 	      href="&url.doc.base;/books/handbook/mirrors-ftp.html">&os;
-	    ミラーサイト</a> で <a
+	      ミラーサイト</a> で <a
 	      href="&lists.stable;/2013-July/074377.html">公開</a>
 	    されています。</p>
 	</event>
@@ -633,10 +855,10 @@
 	<event>
 	  <title>開発進捗レポート (2013 年 4 月 - 6 月) 公開</title>
 
-	    <p><a
-		href="&enbase;/news/status/report-2013-04-2013-06.html">2013
+	  <p><a
+	      href="&enbase;/news/status/report-2013-04-2013-06.html">2013
 	      年 4 月 から 6 月の開発進捗レポート</a> (33 エントリ)
-	      が公開されました。</p>
+	    が公開されました。</p>
 	</event>
       </day>
 
@@ -644,7 +866,8 @@
 	<name>4</name>
 	<event>
 	  <p>新コミッタ就任:
-	      <a href="mailto:marino@FreeBSD.org">John Marino</a> (ports)</p>
+	    <a href="mailto:marino@FreeBSD.org">John Marino</a>
+	    (ports)</p>
 	</event>
       </day>
       <day>
@@ -652,7 +875,8 @@
 
 	<event>
 	  <p>新コミッタ就任:
-	      <a href="mailto:loos@FreeBSD.org">Luiz Otavio O Souza</a> (src)</p>
+	    <a href="mailto:loos@FreeBSD.org">Luiz Otavio O Souza</a>
+	    (src)</p>
 	</event>
       </day>
 
@@ -661,10 +885,11 @@
 
 	<event>
 	  <title>BSDCan 2013 DevSummit レポート</title>
-	    <p>BSDCan 2013 &os; 開発者サミットのスペシャルレポート
-	      (6 エントリ) が <a
-		href="&enbase;/news/status/report-2013-05-devsummit.html">公開</a>
-	     されました。</p>
+
+	  <p>BSDCan 2013 &os; 開発者サミットのスペシャルレポート
+	    (6 エントリ) が <a
+	      href="&enbase;/news/status/report-2013-05-devsummit.html">公開</a>
+	    されました。</p>
 	</event>
       </day>
     </month>
@@ -677,7 +902,8 @@
 
 	<event>
 	  <p>新コミッタ就任:
-	      <a href="mailto:feld@FreeBSD.org">Mark Felder</a> (ports)</p>
+	    <a href="mailto:feld@FreeBSD.org">Mark Felder</a>
+	    (ports)</p>
 	</event>
       </day>
 
@@ -689,18 +915,19 @@
 
 	  <p>本日、&os; は
 	    <a href="http://FreeBSD.org/news/1993/freebsd-coined.html">20
-	    歳</a> を迎えました。
+	      歳</a> を迎えました。
 	    1993 年 6 月 19 日、Jordan Hubbard, Rod Grimes および
 	    David Greenman は、BSD 4.3
 	    オペレーティングシステムから新しいプロジェクトがスタートしたことを世界にアナウンスしました。</p>
 
-	    <p>&os; は、Bill と Lynne Jolitz の 386BSD 0.1
-	      リリースから派生し、1993 年の 11 月に 1.0 がリリースされました。
-	      最初の目標は、高速、安全でかつ信頼性の高い
-	      i386 システムのサーバ用オペレーティングシステムを作成することでした。</p>
+	  <p>&os; は、Bill と Lynne Jolitz の 386BSD 0.1
+	    リリースから派生し、1993 年の 11 月に 1.0 がリリースされました。
+	    最初の目標は、高速、安全でかつ信頼性の高い i386
+	    システムのサーバ用オペレーティングシステムを作成することでした。</p>
 
-	    <p>それ以降、数えきれないほどのプロダクトのバックボーンに採用され、
-	      64 ビットシステム、組み込みデバイスおよびデスクトプをサポートするまでに成長しました。</p>
+	  <p>それ以降、数えきれないほどのプロダクトのバックボーンに採用され、
+	    64 ビットシステム、
+	    組み込みデバイスおよびデスクトプをサポートするまでに成長しました。</p>
 	</event>
       </day>
 
@@ -709,7 +936,8 @@
 
 	<event>
 	  <p>新コミッタ就任:
-	      <a href="mailto:vg@FreeBSD.org">Veniamin Gvozdikov</a> (ports)</p>
+	    <a href="mailto:vg@FreeBSD.org">Veniamin Gvozdikov</a>
+	    (ports)</p>
 	</event>
       </day>
 
@@ -719,17 +947,20 @@
 	<event>
 	  <title>&os; 8.4-RELEASE 公開</title>
 
-	  <p><a href="&base;/releases/8.4R/announce.html">&os;&nbsp;
-		8.4-RELEASE</a> が公開されました。
-	      インストール前に <a
-		href="&enbase;/releases/8.4R/relnotes.html">リリースノート</a>
-	      (<a
-		href="&enbase;/releases/8.4R/relnotes-detailed.html">詳細版</a>) および <a
-		href="&enbase;/releases/8.4R/errata.html">リリース
-	      Errata</a> を読み、8.4 に関する最新情報や問題点などを確認してください。
-	      &os; のリリースに関するより詳しい情報については <a
-		href="&base;/releases/index.html">リリース情報</a>
-	      をご覧ください。</p>
+	  <p><a
+	       href="&base;/releases/8.4R/announce.html">&os;&nbsp;8.4-RELEASE</a>
+	    が公開されました。
+	    インストール前に <a
+	      href="&enbase;/releases/8.4R/relnotes.html">リリースノート</a>
+	    (<a
+	      href="&enbase;/releases/8.4R/relnotes-detailed.html">詳細版</a>)
+	    および <a
+	      href="&enbase;/releases/8.4R/errata.html">リリース
+	      Errata</a> を読み、
+	    8.4 に関する最新情報や問題点などを確認してください。
+	    &os; のリリースに関するより詳しい情報については <a
+	      href="&base;/releases/index.html">リリース情報</a>
+	    をご覧ください。</p>
 	</event>
       </day>
 
@@ -737,8 +968,8 @@
 	<name>4</name>
 
 	<event>
-	  <p>コミット権限の拡大: <a
-	      href="mailto:gjb@FreeBSD.org">Glen Barber</a>
+	  <p>コミット権限の拡大:
+	    <a href="mailto:gjb@FreeBSD.org">Glen Barber</a>
 	    (doc, ports, src)</p>
 	</event>
       </day>
@@ -751,8 +982,8 @@
 	<name>27</name>
 
 	<event>
-	  <p>コミット権限の拡大: <a
-	      href="mailto:crees@FreeBSD.org">Chris Rees</a>
+	  <p>コミット権限の拡大:
+	    <a href="mailto:crees@FreeBSD.org">Chris Rees</a>
 	    (doc, ports)</p>
 	</event>
       </day>
@@ -780,7 +1011,7 @@
 	  <title>開発進捗レポート (2013 年 1 月 - 3 月) 公開</title>
 
 	  <p>2013 年 1 月 から 3 月の開発進捗レポート (31 エントリ) が <a
-	    href="&enbase;/news/status/report-2013-01-2013-03.html">公開</a>
+	      href="&enbase;/news/status/report-2013-01-2013-03.html">公開</a>
 	    されました。</p>
 	</event>
       </day>
@@ -811,7 +1042,7 @@
 	  <p>&os;-8.4 リリースサイクルの 3 回目のリリース候補が公開されました。
 	    amd64, i386 および pc98 アーキテクチャの ISO イメージが、<a
 	      href="&url.doc.base;/books/handbook/mirrors-ftp.html">&os;
-	    ミラーサイト</a> で <a
+	      ミラーサイト</a> で <a
 	      href="&lists.stable;/2013-May/073389.html">公開</a>
 	    されています。</p>
 	</event>
@@ -843,7 +1074,8 @@
 
 	<event>
 	  <p>新コミッタ就任:
-	    <a href="mailto:asomers@FreeBSD.org">Alan Somers</a> (src)</p>
+	    <a href="mailto:asomers@FreeBSD.org">Alan Somers</a>
+	    (src)</p>
 	</event>
 
 	<event>
@@ -868,9 +1100,9 @@
 	    FreeBSD の開発者のイベントにも参加しています。</p>
 
 	  <p>我こそは、と思う方はぜひとも応募してください!
-	    申し込みや締め切りなど、詳細については
-	    <a href="&enbase;/projects/summerofcode.html">FreeBSD Summer
-	    Projects ページ</a> をご覧ください。</p>
+	    申し込みや締め切りなど、詳細については <a
+	      href="&enbase;/projects/summerofcode.html">FreeBSD Summer
+	      Projects ページ</a> をご覧ください。</p>
 	</event>
       </day>
 
@@ -883,7 +1115,7 @@
 	  <p>&os;-8.4 リリースサイクルの 2 回目のリリース候補が公開されました。
 	    amd64, i386 および pc98 アーキテクチャの ISO イメージが、<a
 	      href="&url.doc.base;/books/handbook/mirrors-ftp.html">&os;
-	    ミラーサイト</a> で <a
+	      ミラーサイト</a> で <a
 	      href="&lists.stable;/2013-April/073198.html">公開</a>
 	    されています。</p>
 	</event>
@@ -893,8 +1125,8 @@
 	<name>18</name>
 
 	<event>
-	  <p>コミット権限の拡大: <a
-	      href="mailto:cy@FreeBSD.org">Cy Schubert</a>
+	  <p>コミット権限の拡大:
+	    <a href="mailto:cy@FreeBSD.org">Cy Schubert</a>
 	    (src, ports)</p>
 	</event>
       </day>
@@ -904,7 +1136,8 @@
 
 	<event>
           <p>新コミッタ就任:
-	    <a href="mailto:hiren@FreeBSD.org">Hiren Panchasara</a> (src)</p>
+	    <a href="mailto:hiren@FreeBSD.org">Hiren Panchasara</a>
+	    (src)</p>
 	</event>
       </day>
 
@@ -917,7 +1150,7 @@
 	  <p>&os;-8.4 リリースサイクルの最初のリリース候補が公開されました。
 	    amd64, i386 および pc98 アーキテクチャの ISO イメージが、<a
 	      href="&url.doc.base;/books/handbook/mirrors-ftp.html">&os;
-	    ミラーサイト</a> で <a
+	      ミラーサイト</a> で <a
 	      href="&lists.stable;/2013-April/073070.html">公開</a>
 	    されています。</p>
 	</event>
@@ -927,8 +1160,8 @@
 	<name>3</name>
 
 	<event>
-	  <p>コミット権限の拡大: <a
-	      href="mailto:antoine@FreeBSD.org">Antoine Brodin</a>
+	  <p>コミット権限の拡大:
+	    <a href="mailto:antoine@FreeBSD.org">Antoine Brodin</a>
 	    (src, ports)</p>
 	</event>
       </day>
@@ -938,7 +1171,8 @@
 
 	<event>
           <p>新コミッタ就任:
-	    <a href="mailto:wg@FreeBSD.org">William Grzybowski</a> (ports)</p>
+	    <a href="mailto:wg@FreeBSD.org">William Grzybowski</a>
+	    (ports)</p>
 	</event>
       </day>
     </month>
@@ -965,7 +1199,7 @@
 	  <p>&os;-8.4 リリースサイクルの最初のテストビルドが公開されました。
 	    amd64, i386 および pc98 アーキテクチャの ISO イメージが、<a
 	      href="&url.doc.base;/books/handbook/mirrors-ftp.html">&os;
-	    ミラーサイト</a> で <a
+	      ミラーサイト</a> で <a
 	      href="&lists.stable;/2013-March/072913.html">公開</a>
 	    されています。</p>
 	</event>
@@ -984,7 +1218,7 @@
 	    の投資の中で重大な出来事です。</p>
 
 	  <p><a
-	    href="http://freebsdfoundation.blogspot.com/2013/03/foundation-announces-new-technical.html">続きを読む</a></p>
+	      href="http://freebsdfoundation.blogspot.com/2013/03/foundation-announces-new-technical.html">続きを読む</a></p>
 	</event>
       </day>
 
@@ -1004,19 +1238,20 @@
 	  <title>開発進捗レポート (2012 年 10 月 - 12 月) 公開</title>
 
 	  <p>2012 年 10 月 から 12 月の開発進捗レポート (27 エントリ) が <a
-	    href="&enbase;/news/status/report-2012-10-2012-12.html">公開</a>
+	      href="&enbase;/news/status/report-2012-10-2012-12.html">公開</a>
 	    されました。</p>
 	</event>
+
 	<event>
 	  <title>開発進捗レポート (2012 年 7 月 - 9 月) 公開</title>
 
 	  <p>2012 年 7 月 から 9 月の開発進捗レポート (12 エントリ) が <a
-	    href="&enbase;/news/status/report-2012-07-2012-09.html">公開</a>
+	      href="&enbase;/news/status/report-2012-07-2012-09.html">公開</a>
 	    されました。</p>
 	</event>
       </day>
     </month>
- 
+
     <month>
       <name>2</name>
 
@@ -1025,7 +1260,8 @@
 
 	<event>
           <p>新コミッタ就任:
-	    <a href="mailto:pclin@FreeBSD.org">Po-Chien Lin</a> (ports)</p>
+	    <a href="mailto:pclin@FreeBSD.org">Po-Chien Lin</a>
+	    (ports)</p>
 	</event>
       </day>
 
@@ -1034,7 +1270,8 @@
 
 	<event>
           <p>新コミッタ就任:
-	    <a href="mailto:tmseck@FreeBSD.org">Thomas-Martin Seck</a> (ports)</p>
+	    <a href="mailto:tmseck@FreeBSD.org">Thomas-Martin Seck</a>
+	    (ports)</p>
 	</event>
       </day>
 
@@ -1045,44 +1282,47 @@
 
       <day>
 	<name>23</name>
-        <event>
-          <p>新コミッタ就任:
-            <a href="mailto:achim@FreeBSD.org">Achim Leubner</a> (src)</p>
-        </event>
+	<event>
+	  <p>新コミッタ就任:
+	    <a href="mailto:achim@FreeBSD.org">Achim Leubner</a>
+	    (src)</p>
+	</event>
       </day>
 
       <day>
-        <name>22</name>
-        <event>
-          <p>新コミッタ就任:
-            <a href="mailto:dru@FreeBSD.org">Dru Lavigne</a> (doc)</p>
-        </event>
+	<name>22</name>
+	<event>
+	  <p>新コミッタ就任:
+	    <a href="mailto:dru@FreeBSD.org">Dru Lavigne</a> (doc)</p>
+	</event>
       </day>
 
       <day>
 	<name>16</name>
-        <event>
-          <p>新コミッタ就任:
-            <a href="mailto:carl@FreeBSD.org">Carl Delsey</a> (src)</p>
-        </event>
+	<event>
+	  <p>新コミッタ就任:
+	    <a href="mailto:carl@FreeBSD.org">Carl Delsey</a>
+	    (src)</p>
+	</event>
       </day>
 
 
       <day>
 	<name>15</name>
 	<event>
-	  <p>コミット権の範囲の拡大: <a
-	      href="mailto:rene@FreeBSD.org">Ren&eacute; Ladan</a> (ports,
-	      full doc/www)</p>
+	  <p>コミット権の範囲の拡大:
+	    <a href="mailto:rene@FreeBSD.org">Ren&eacute; Ladan</a>
+	    (ports, full doc/www)</p>
 	</event>
       </day>
 
       <day>
-        <name>14</name>
-        <event>
+	<name>14</name>
+	<event>
 	  <p>新コミッタ就任:
-            <a href="mailto:dbn@FreeBSD.org">David Naylor</a> (ports)</p>
-        </event>
+	    <a href="mailto:dbn@FreeBSD.org">David Naylor</a>
+	    (ports)</p>
+	</event>
       </day>
 
       <day>
@@ -1091,7 +1331,7 @@
 	  <title>開発進捗レポート (2012 年 4 月 - 6 月) 公開</title>
 
 	  <p>2012 年 4 月 から 6 月の開発進捗レポート (17 エントリ) が <a
-	    href="&enbase;/news/status/report-2012-04-2012-06.html">公開</a>
+	      href="&enbase;/news/status/report-2012-04-2012-06.html">公開</a>
 	    されました。</p>
 	</event>
       </day>
@@ -1102,9 +1342,11 @@
 	  <title>Ports CVS は 2013 年 2 月 28 日にサポート終了</title>
 
 	  <p>現在、&os; ports の開発は Subversion で行われています。
-	    ports ツリーの CVS へのエクスポートは、2013 年 2 月 28 日をもって停止します。
+	    ports ツリーの CVS へのエクスポートは、
+	    2013 年 2 月 28 日をもって停止します。
 	    そのため、この日を過ぎると、
-	    CVS, CVSup または csup(1) による ports ツリーのアップデートはできません。
+	    CVS, CVSup または csup(1) による ports
+	    ツリーのアップデートはできません。
 	    CVS, CVSup および csup(1) を使っているすべてのユーザは
 	    portsnap(8) へと移行し、
 	    Ports Collection
@@ -1112,11 +1354,12 @@
 	    Subversion を使うことが推奨されます。
 	    詳細な情報については、<a
 	      href="&lists.ports-announce;/2012-September/000026.html">&os;&nbsp;ports
-	    アナウンスメーリングリスト</a>
+	      アナウンスメーリングリスト</a>
 	    をご覧ください。</p>
 
 	  <p>CVSup や csup(1) から portsnap(8) への移行に関するガイドは、<a
-	      href="&url.doc.base;/books/handbook/ports-using.html#cvsup-migation">&os; ハンドブック</a> にもあります。</p>
+	      href="&url.doc.base;/books/handbook/ports-using.html#cvsup-migation">&os;
+	      ハンドブック</a> にもあります。</p>
 	</event>
       </day>
 
@@ -1165,22 +1408,23 @@
 	  <p><a href="&enbase;/releases/9.1R/announce.html">FreeBSD
 	      9.1-RELEASE</a> が公開されました。
 	    インストール前に <a
-	    href="&enbase;/releases/9.1R/relnotes.html">リリースノート</a> (<a
-	    href="&enbase;/releases/9.1R/relnotes-detailed.html">リリースノートの詳細版</a>)
+	      href="&enbase;/releases/9.1R/relnotes.html">リリースノート</a> (<a
+	      href="&enbase;/releases/9.1R/relnotes-detailed.html">リリースノートの詳細版</a>)
 	    および <a href="&enbase;/releases/9.1R/errata.html">Errata</a>
 	    を読んで、9.1 に関する最新情報や問題点などを確認してください。
 	    FreeBSD のリリースに関するより詳しい情報については <a
-	    href="&base;/releases/index.html">リリース情報</a>
+	      href="&base;/releases/index.html">リリース情報</a>
 	    をご覧ください。</p>
 	</event>
       </day>
 
       <day>
-        <name>24</name>
-        <event>
+	<name>24</name>
+	<event>
 	  <p>新コミッタ就任:
-            <a href="mailto:koobs@FreeBSD.org">Kubilay Kocak</a> (ports)</p>
-        </event>
+	    <a href="mailto:koobs@FreeBSD.org">Kubilay Kocak</a>
+	    (ports)</p>
+	</event>
       </day>
 
       <day>
@@ -1191,7 +1435,8 @@
 	    から End-of-Year ニュースレターが発行されました。</title>
 
 	  <p>The &os;&nbsp;Foundation は、2012 年の <a
-	      href="http://www.freebsdfoundation.org/press/2012Dec-newsletter.shtml">End-of-Year ニュースレター</a> を発行しました。</p>
+	      href="http://www.freebsdfoundation.org/press/2012Dec-newsletter.shtml">End-of-Year
+	      ニュースレター</a> を発行しました。</p>
 	</event>
       </day>
 
@@ -1200,7 +1445,8 @@
 
 	<event>
 	  <p>新コミッタ就任:
-	    <a href="mailto:markj@FreeBSD.org">Mark Johnston</a> (src)</p>
+	    <a href="mailto:markj@FreeBSD.org">Mark Johnston</a>
+	    (src)</p>
 	</event>
 
 	<event>
@@ -1212,7 +1458,8 @@
 
 	<event>
 	  <p>新コミッタ就任:
-	    <a href="mailto:smh@FreeBSD.org">Steven Hartland</a> (src)</p>
+	    <a href="mailto:smh@FreeBSD.org">Steven Hartland</a>
+	    (src)</p>
 	</event>
       </day>
 
@@ -1247,7 +1494,7 @@
 	    先週から &os;&nbsp;Foundation's annual year-end fundraising
 	    が開始されたことをご存知でしょう。
 	    毎年このキャンペーン中に、50% を超える寄附が行われます。<a
-		href="http://freebsdfoundation.blogspot.com/2012/12/stunning-news-website-fundraising.html">続きを読む</a></p>
+	      href="http://freebsdfoundation.blogspot.com/2012/12/stunning-news-website-fundraising.html">続きを読む</a></p>
 	</event>
       </day>
 
@@ -1308,7 +1555,8 @@
 
 	<event>
 	  <p>新コミッタ就任:
-	    <a href="mailto:syuu@FreeBSD.org">Takuya ASADA</a> (src)</p>
+	    <a href="mailto:syuu@FreeBSD.org">Takuya ASADA</a>
+	    (src)</p>
 	</event>
       </day>
 
@@ -1317,7 +1565,8 @@
 
 	<event>
 	  <p>新コミッタ就任:
-	    <a href="mailto:bar@FreeBSD.org">Barbara Guida</a> (ports)</p>
+	    <a href="mailto:bar@FreeBSD.org">Barbara Guida</a>
+	    (ports)</p>
 	</event>
       </day>
 
@@ -1329,8 +1578,8 @@
 
 	  <p>11 月 11日 (日)、FreeBSD.org クラスタにある 2 台のマシンに
 	    おいて不正侵入が確認されました。FreeBSD
-	    利用者に影響をおよぼすような変更が加えられた形跡は見つかっていませんが、
-	    <a href="./2012-compromise.html">http://www.freebsd.org/ja/news/2012-compromise.html</a>
+	    利用者に影響をおよぼすような変更が加えられた形跡は見つかっていませんが、<a
+	      href="./2012-compromise.html">http://www.freebsd.org/ja/news/2012-compromise.html</a>
 	    に書かれている報告を一読いただき、
 	    必要な対応をとるようにお願いいたします。</p>
 	</event>
@@ -1341,7 +1590,8 @@
 
 	<event>
 	  <p>新コミッタ就任:
-	    <a href="mailto:bryanv@FreeBSD.org">Bryan Venteicher</a> (src)</p>
+	    <a href="mailto:bryanv@FreeBSD.org">Bryan Venteicher</a>
+	    (src)</p>
 	</event>
       </day>
 
@@ -1350,7 +1600,8 @@
 
 	<event>
 	  <p>新コミッタ就任:
-	    <a href="mailto:gblach@FreeBSD.org">Grzegorz Blach</a> (ports)</p>
+	    <a href="mailto:gblach@FreeBSD.org">Grzegorz Blach</a>
+	    (ports)</p>
 	</event>
       </day>
 
@@ -1362,9 +1613,9 @@
 
 	  <p>&os;-9.1 リリースに向けて 3 回目のリリース候補版が公開されました。
 	    <a href="&url.doc.base;/books/handbook/mirrors-ftp.html">&os;
-	    ミラーサイト</a> において、amd64, i386, sparc64
+	      ミラーサイト</a> において、amd64, i386, sparc64
 	    および powerpc64 アーキテクチャの ISO イメージが <a
-	    href="&lists.stable;/2012-November/070401.html">公開</a>
+	      href="&lists.stable;/2012-November/070401.html">公開</a>
 	    されています。</p>
 	</event>
       </day>
@@ -1377,8 +1628,8 @@
 	<name>24</name>
 
 	<event>
-	  <p>コミット権の範囲の拡大: <a
-	      href="mailto:erwin@FreeBSD.org">Erwin Lansing</a>
+	  <p>コミット権の範囲の拡大:
+	    <a href="mailto:erwin@FreeBSD.org">Erwin Lansing</a>
 	    (src, ports)</p>
 	</event>
       </day>
@@ -1388,7 +1639,8 @@
 
 	<event>
 	  <p>新コミッタ就任:
-	    <a href="mailto:sjg@FreeBSD.org">Simon J. Gerraty</a> (src)</p>
+	    <a href="mailto:sjg@FreeBSD.org">Simon J. Gerraty</a>
+	    (src)</p>
 	</event>
       </day>
 
@@ -1396,8 +1648,8 @@
 	<name>20</name>
 
 	<event>
-	  <p>コミット権の範囲の拡大: <a
-	      href="mailto:eadler@FreeBSD.org">Eitan Adler</a>
+	  <p>コミット権の範囲の拡大:
+	    <a href="mailto:eadler@FreeBSD.org">Eitan Adler</a>
 	    (src, ports, doc)</p>
 	</event>
       </day>
@@ -1406,7 +1658,8 @@
 	<name>19</name>
 	<event>
 	  <p>新 Ports Managemet チームメンバ:
-	    <a href="mailto:decke@FreeBSD.org">Bernhard Fr&ouml;hlich</a></p>
+	    <a href="mailto:decke@FreeBSD.org">Bernhard
+	    Fr&ouml;hlich</a></p>
 	</event>
       </day>
 
@@ -1417,9 +1670,9 @@
 
 	  <p>&os;-9.1 リリースに向けて 2 回目のリリース候補版が公開されました。
 	    <a href="&url.doc.base;/books/handbook/mirrors-ftp.html">&os;
-	    ミラーサイト</a> において、amd64, i386, ia64, powerpc
+	      ミラーサイト</a> において、amd64, i386, ia64, powerpc
 	    および powerpc64 アーキテクチャの ISO イメージが <a
-	    href="&lists.stable;/2012-October/069998.html">公開</a>
+	      href="&lists.stable;/2012-October/069998.html">公開</a>
 	    されています。</p>
 	</event>
       </day>
@@ -1433,17 +1686,19 @@
 
 	<event>
 	  <p>新コミッタ就任:
-	    <a href="mailto:peterj@FreeBSD.org">Peter Jeremy</a> (src)</p>
+	    <a href="mailto:peterj@FreeBSD.org">Peter Jeremy</a>
+	    (src)</p>
 	</event>
       </day>
 
       <day>
-        <name>13</name>
+	<name>13</name>
 
-        <event>
+	<event>
 	  <p>新コミッタ就任:
-            <a href="mailto:ebrandi@FreeBSD.org">Edson Brandi</a> (doc/pt_BR, ww/pt_BR)</p>
-        </event>
+	    <a href="mailto:ebrandi@FreeBSD.org">Edson Brandi</a>
+	    (doc/pt_BR, www/pt_BR)</p>
+	</event>
       </day>
 
       <day>
@@ -1451,7 +1706,8 @@
 
 	<event>
 	  <p>新コミッタ就任:
-	    <a href="mailto:jhale@FreeBSD.org">Jason E. Hale</a> (ports)</p>
+	    <a href="mailto:jhale@FreeBSD.org">Jason E. Hale</a>
+	    (ports)</p>
 	</event>
       </day>
     </month>
@@ -1466,9 +1722,9 @@
 
 	  <p>&os;-9.1 リリースサイクルの最初のリリース候補版が公開されました。
 	    <a href="&url.doc.base;/books/handbook/mirrors-ftp.html">&os;
-	    ミラーサイト</a> において、amd64, i386 および powerpc64
+	      ミラーサイト</a> において、amd64, i386 および powerpc64
 	    アーキテクチャの ISO イメージが <a
-	    href="&lists.stable;/2012-August/069233.html">公開</a>
+	      href="&lists.stable;/2012-August/069233.html">公開</a>
 	    されています。</p>
 	</event>
       </day>
@@ -1478,7 +1734,8 @@
 
 	<event>
 	  <p>新コミッタ就任:
-	    <a href="mailto:zont@FreeBSD.org">Andrey Zonov</a> (src)</p>
+	    <a href="mailto:zont@FreeBSD.org">Andrey Zonov</a>
+	    (src)</p>
 	</event>
       </day>
 
@@ -1487,7 +1744,8 @@
 
 	<event>
 	  <p>新コミッタ就任:
-	    <a href="mailto:bdrewery@FreeBSD.org">Bryan Drewery</a> (ports)</p>
+	    <a href="mailto:bdrewery@FreeBSD.org">Bryan Drewery</a>
+	    (ports)</p>
 	</event>
       </day>
     </month>
@@ -1498,13 +1756,15 @@
 	<name>24</name>
 
 	<event>
-	  <title>新コアチーム Secretary 就任: <a
-	    href="mailto:pgj@FreeBSD.org">G&aacute;bor P&aacute;li</a></title>
+	  <title>新コアチーム Secretary 就任:
+	    <a href="mailto:pgj@FreeBSD.org">G&aacute;bor
+	    P&aacute;li</a></title>
 
-	  <p>&os; コアチームは、<a
-	    href="mailto:pgj@FreeBSD.org">G&aacute;bor P&aacute;li</a> が
+	  <p>&os; コアチームは、
+	    <a href="mailto:pgj@FreeBSD.org">G&aacute;bor
+	      P&aacute;li</a> が
 	    <a href="mailto:core-secretary@FreeBSD.org">コアチーム
-	    Secretary</a> に就任したことをお知らせします。</p>
+	      Secretary</a> に就任したことをお知らせします。</p>
 	</event>
       </day>
 
@@ -1517,9 +1777,9 @@
 	  <p>&os;-9.1 リリースサイクルの最初のテストビルドが公開されました。
 	    amd64, i386, powerpc64 および sparc64
 	    アーキテクチャの ISO イメージが、 <a
-	    href="&url.doc.base;/books/handbook/mirrors-ftp.html">&os;
-	    ミラーサイト</a> で <a
-	    href="&lists.stable;/2012-July/068830.html">公開</a>
+	      href="&url.doc.base;/books/handbook/mirrors-ftp.html">&os;
+	      ミラーサイト</a> で <a
+	      href="&lists.stable;/2012-July/068830.html">公開</a>
 	    されています。</p>
 	</event>
       </day>
@@ -1534,10 +1794,11 @@
 	    2012 コアチーム選挙の終了をお知らせします。
 	    &os; コアチームは、"取締役" にあたるもので、
 	    新しい src コミッタの承認、開発者間に対立があった場合の調停、
-	    特定の範囲のサブコミッタ (セキュリティオフィサ、リリースエンジニア、
-	    port マネージャ、ウェブマスタなど) の任命、
+	    特定の範囲のサブコミッタ (セキュリティオフィサ、
+	    リリースエンジニア、port マネージャ、ウェブマスタなど) の任命、
 	    また、必要な際は、管理や方針の決定を行います。
-	    コアチームは、2000 年から 2 年おきに &os; の開発者により選ばれています。</p>
+	    コアチームは、2000 年から 2 年おきに &os;
+	    の開発者により選ばれています。</p>
 
 	  <p>選挙の詳細 (および新しいコアチームのメンバの一覧) については、公式 <a
 	      href="http://docs.freebsd.org/cgi/mid.cgi?1342030291.6001.80.camel">アナウンス</a>
@@ -1560,8 +1821,8 @@
       <day>
 	<name>19</name>
 	<event>
-	  <p>コミット権の範囲の拡大: <a
-	      href="mailto:gjb@FreeBSD.org">Glen Barber</a>
+	  <p>コミット権の範囲の拡大:
+	    <a href="mailto:gjb@FreeBSD.org">Glen Barber</a>
 	    (doc, ports)</p>
 	</event>
       </day>
@@ -1571,7 +1832,8 @@
 
 	<event>
 	  <p>新コミッタ就任:
-	  <a href="mailto:mjg@FreeBSD.org">Mateusz Guzik</a> (src)</p>
+	    <a href="mailto:mjg@FreeBSD.org">Mateusz Guzik</a>
+	    (src)</p>
 	</event>
       </day>
     </month>
@@ -1583,7 +1845,8 @@
 
 	<event>
 	  <p>新コミッタ就任:
-	    <a href="mailto:jase@FreeBSD.org">Jase Thew</a> (ports)</p>
+	    <a href="mailto:jase@FreeBSD.org">Jase Thew</a>
+	    (ports)</p>
 	</event>
       </day>
 
@@ -1592,7 +1855,8 @@
 
 	<event>
 	  <p>新コミッタ就任:
-	    <a href="mailto:olivierd@FreeBSD.org">Olivier Duchateau</a> (ports)</p>
+	    <a href="mailto:olivierd@FreeBSD.org">Olivier
+	      Duchateau</a> (ports)</p>
 	</event>
       </day>
 
@@ -1625,7 +1889,8 @@
 
 	<event>
 	  <p>新コミッタ就任:
-	    <a href="mailto:issyl0@FreeBSD.org">Isabell Long</a> (doc/www)</p>
+	    <a href="mailto:issyl0@FreeBSD.org">Isabell Long</a>
+	    (doc/www)</p>
 	</event>
       </day>
 
@@ -1634,7 +1899,8 @@
 
 	<event>
 	  <p>新コミッタ就任:
-	    <a href="mailto:jlh@FreeBSD.org">Jeremie Le Hen</a> (src)</p>
+	    <a href="mailto:jlh@FreeBSD.org">Jeremie Le Hen</a>
+	    (src)</p>
 	</event>
       </day>
 
@@ -1646,17 +1912,18 @@
 
 	  <p><a href="&base;/releases/8.3R/announce.html">FreeBSD
 	      8.3-RELEASE</a> が公開されました。
-	    インストール前に
-	    <a href="&enbase;/releases/8.3R/relnotes-detailed.html">リリースノート</a>
+	    インストール前に <a
+	      href="&enbase;/releases/8.3R/relnotes-detailed.html">リリースノート</a>
 	    や <a href="&enbase;/releases/8.3R/errata.html">Errata</a>
 	    を読んで、8.3 に関する最新情報や問題点などを確認してください。
-	    FreeBSD のリリースに関するより詳しい情報については
-	    <a href="&base;/releases/index.html">リリース情報</a>
+	    FreeBSD のリリースに関するより詳しい情報については <a
+	      href="&base;/releases/index.html">リリース情報</a>
 	    をご覧ください。</p>
 	</event>
 	<event>
 	  <p>新コミッタ就任:
-	    <a href="mailto:dteske@FreeBSD.org">Devin Teske</a> (src)</p>
+	    <a href="mailto:dteske@FreeBSD.org">Devin Teske</a>
+	    (src)</p>
 	</event>
       </day>
 
@@ -1664,7 +1931,8 @@
 	<name>15</name>
 	<event>
 	  <p>新コミッタ就任:
-	    <a href="mailto:sperber@FreeBSD.org">Armin Pirkovitsch</a> (ports)
+	    <a href="mailto:sperber@FreeBSD.org">Armin Pirkovitsch</a>
+	    (ports)
 	  </p>
 	</event>
       </day>
@@ -1672,16 +1940,17 @@
 	<name>13</name>
 	<event>
 	  <p>新コミッタ就任:
-	    <a href="mailto:monthadar@FreeBSD.org">Monthadar Al Jaberi</a> (src)
+	    <a href="mailto:monthadar@FreeBSD.org">Monthadar Al
+	      Jaberi</a> (src)
 	  </p>
 	</event>
       </day>
-
       <day>
 	<name>12</name>
 	<event>
 	  <p>新コミッタ就任:
-	    <a href="mailto:madpilot@FreeBSD.org">Guido Falsi</a> (ports)</p>
+	    <a href="mailto:madpilot@FreeBSD.org">Guido Falsi</a>
+	    (ports)</p>
 	</event>
       </day>
 
@@ -1694,9 +1963,9 @@
 	    回目のリリース候補版が公開されました。
 	    amd64, i386 および pc98
 	    アーキテクチャの ISO イメージが <a
-	    href="&url.doc.base;/books/handbook/mirrors-ftp.html">&os;
-	    ミラーサイト</a> で <a
-	    href="&lists.stable;/2012-April/067067.html">公開</a>
+	      href="&url.doc.base;/books/handbook/mirrors-ftp.html">&os;
+	      ミラーサイト</a> で <a
+	      href="&lists.stable;/2012-April/067067.html">公開</a>
 	    されています。</p>
 	</event>
       </day>
@@ -1709,7 +1978,8 @@
 
 	<event>
 	  <p>新コミッタ就任:
-	    <a href="mailto:cherry@FreeBSD.org">Cherry G. Mathew</a> (src)</p>
+	    <a href="mailto:cherry@FreeBSD.org">Cherry G. Mathew</a>
+	    (src)</p>
 	</event>
       </day>
       <day>
@@ -1717,7 +1987,8 @@
 
 	<event>
 	  <p>新コミッタ就任:
-	    <a href="mailto:bjk@FreeBSD.org">Benjamin Kaduk</a> (doc/www)</p>
+	    <a href="mailto:bjk@FreeBSD.org">Benjamin Kaduk</a>
+	    (doc/www)</p>
 	</event>
       </day>
 
@@ -1729,9 +2000,9 @@
 	  <p>&os;-8.3 リリースサイクルにおける最初のリリース候補版のビルドが公開されました。
 	    amd64, i386 および pc98
 	    アーキテクチャの ISO イメージが、 <a
-	    href="&url.doc.base;/books/handbook/mirrors-ftp.html">&os;
-	    ミラーサイト</a> で <a
-	    href="&lists.stable;/2012-March/066722.html">公開</a>
+	      href="&url.doc.base;/books/handbook/mirrors-ftp.html">&os;
+	      ミラーサイト</a> で <a
+	      href="&lists.stable;/2012-March/066722.html">公開</a>
 	    されています。</p>
 	</event>
       </day>
@@ -1740,7 +2011,8 @@
 	<name>01</name>
 	<event>
 	  <p>新コミッタ就任:
-	    <a href="mailto:ak@FreeBSD.org">Alex Kozlov</a> (ports)</p>
+	    <a href="mailto:ak@FreeBSD.org">Alex Kozlov</a>
+	    (ports)</p>
 	</event>
       </day>
     </month>
@@ -1756,21 +2028,20 @@
 	  <p>&os;-8.3 リリースサイクルの最初のテストビルドが公開されました。
 	    amd64, i386 および pc98
 	    アーキテクチャの ISO イメージが、 <a
-	    href="&url.doc.base;/books/handbook/mirrors-ftp.html">&os;
-	    ミラーサイト</a> で <a
-	    href="&lists.stable;/2012-February/066340.html">公開</a>
+	      href="&url.doc.base;/books/handbook/mirrors-ftp.html">&os;
+	      ミラーサイト</a> で <a
+	      href="&lists.stable;/2012-February/066340.html">公開</a>
 	    されています。</p>
 	</event>
       </day>
 
       <day>
 	<name>16</name>
-
 	<event>
 	  <p>新コミッタ就任:
-	    <a href="mailto:dmarion@FreeBSD.org">Damjan Marion</a> (src)</p>
+	    <a href="mailto:dmarion@FreeBSD.org">Damjan Marion</a>
+	    (src)</p>
 	</event>
-
 	<event>
 	  <p>新コミッタ就任:
 	    <a href="mailto:bgray@FreeBSD.org">Ben Gray</a> (src)</p>
@@ -1780,8 +2051,8 @@
       <day>
 	<name>14</name>
 	<event>
-	  <p>コミット権の範囲の拡大: <a
-	    href="mailto:pluknet@FreeBSD.org">Sergey Kandaurov</a>
+	  <p>コミット権の範囲の拡大:
+	    <a href="mailto:pluknet@FreeBSD.org">Sergey Kandaurov</a>
 	    (src, doc)</p>
 	</event>
       </day>
@@ -1791,7 +2062,8 @@
 
 	<event>
 	  <p>新コミッタ就任:
-	    <a href="mailto:matthew@FreeBSD.org">Matthew Seaman</a> (ports)</p>
+	    <a href="mailto:matthew@FreeBSD.org">Matthew Seaman</a>
+	    (ports)</p>
 	</event>
       </day>
     </month>
@@ -1804,14 +2076,15 @@
 
 	<event>
 	  <p>新コミッタ就任:
-	    <a href="mailto:davide@FreeBSD.org">Davide Italiano</a> (src)</p>
+	    <a href="mailto:davide@FreeBSD.org">Davide Italiano</a>
+	    (src)</p>
 	</event>
 
 	<event>
 	  <title>開発進捗レポート (2011 年 10 月 - 12 月) 公開</title>
 
 	  <p>2011 年 10 月 から 12 月の開発進捗レポート (32 エントリ) が <a
-	    href="&enbase;/news/status/report-2011-10-2011-12.html">公開</a>
+	      href="&enbase;/news/status/report-2011-10-2011-12.html">公開</a>
 	    されました。</p>
 	</event>
       </day>

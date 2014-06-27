@@ -37,7 +37,6 @@
     -->
   </ul>
 
-  <!--
   <h2><a name="schedule" id="schedule">Upcoming Release Schedule</a></h2>
 
   <p>NOTE: Release dates are approximate and may be subject to
@@ -51,12 +50,11 @@
     </tr>
 
     <tr>
-      <td>January 2014</td>
-      <td>&os; 10.0</td>
-      <td><a href="&base;/releases/10.0R/schedule.html">Target Schedule</a></td>
+      <td>July 2014</td>
+      <td>&os; 9.3</td>
+      <td><a href="&base;/releases/9.3R/schedule.html">Target Schedule</a></td>
     </tr>
   </table>
-  -->
 
   <h2><a name="freeze" id="freeze">Code-Freeze Status</a></h2>
 
@@ -98,8 +96,8 @@
 
     <tr>
       <td><tt>stable/9</tt></td>
-      <td>Open</td>
-      <td>committers</td>
+      <td>Frozen</td>
+      <td>&contact.re;</td>
       <td>Development branch for FreeBSD 9-STABLE.</td>
     </tr>
 
@@ -142,7 +140,7 @@
       <td><tt>releng/8.3</tt></td>
       <td>Frozen</td>
       <td>&contact.so;</td>
-      <td>FreeBSD 8.3 supported errata fix branch.</td>
+      <td>FreeBSD 8.3 errata fix branch (not officially supported).</td>
     </tr>
 
     <tr>

@@ -4347,6 +4347,62 @@ it was never committed:
 </row>
 
 <row>
+  <entry>902507</entry>
+  <entry>March 5, 2014</entry>
+  <entry>9-STABLE after upgrade of libc++ to 3.4 release
+    (rev <revnumber>262801</revnumber>).</entry>
+</row>
+
+<row>
+  <entry>902508</entry>
+  <entry>March 14, 2014</entry>
+  <entry>9-STABLE after merge of the Radeon KMS driver
+    (rev <revnumber>263170</revnumber>).</entry>
+</row>
+
+<row>
+  <entry>902509</entry>
+  <entry>March 21, 2014</entry>
+  <entry>9-STABLE after upgrade of llvm/clang to 3.4 release
+    (rev <revnumber>263509</revnumber>).</entry>
+</row>
+
+<row>
+  <entry>902510</entry>
+  <entry>March 27, 2014</entry>
+  <entry>9-STABLE after merge of the vt(4) driver
+    (rev <revnumber>263818</revnumber>).</entry>
+</row>
+
+<row>
+  <entry>902511</entry>
+  <entry>March 27, 2014</entry>
+  <entry>9-STABLE after FreeBSD-SA-14:06.openssl
+    (rev <revnumber>264289</revnumber>).</entry>
+</row>
+
+<row>
+  <entry>902512</entry>
+  <entry>April 30, 2014</entry>
+  <entry>9-STABLE after FreeBSD-SA-14:08.tcp
+    (rev <revnumber>265123</revnumber>).</entry>
+</row>
+
+<row>
+  <entry>903000</entry>
+  <entry>June 20, 2014</entry>
+  <entry>9-STABLE <literal>releng/9.3</literal> branch
+    (rev <revnumber>267657</revnumber>).</entry>
+</row>
+
+<row>
+  <entry>903500</entry>
+  <entry>June 20, 2014</entry>
+  <entry>9.3-RC1 <literal>releng/9.3</literal> branch
+    (rev <revnumber>267656</revnumber>).</entry>
+</row>
+
+<row>
   <entry>1000000</entry>
   <entry>September 26, 2011</entry>
   <entry>10.0-CURRENT.</entry>
@@ -4914,6 +4970,67 @@ it was never committed:
 </row>
 
 <row>
+  <entry>1000703</entry>
+  <entry>March 5, 2014</entry>
+  <entry>10-STABLE after upgrade of libc++ to 3.4 release
+    (rev <revnumber>262801</revnumber>).</entry>
+</row>
+
+<row>
+  <entry>1000704</entry>
+  <entry>March 7, 2014</entry>
+  <entry>10-STABLE after MFC of the vt(4) driver
+    (rev <revnumber>262861</revnumber>).</entry>
+</row>
+
+<row>
+  <entry>1000705</entry>
+  <entry>March 21, 2014</entry>
+  <entry>10-STABLE after upgrade of llvm/clang to 3.4 release
+    (rev <revnumber>263508</revnumber>).</entry>
+</row>
+
+<row>
+  <entry>1000706</entry>
+  <entry>April 6, 2014</entry>
+  <entry>10-STABLE after GCC support for <literal>__block</literal>
+    definition (rev <revnumber>264214</revnumber>).</entry>
+</row>
+
+<row>
+  <entry>1000707</entry>
+  <entry>April 8, 2014</entry>
+  <entry>10-STABLE after FreeBSD-SA-14:06.openssl (rev
+    <revnumber>264289</revnumber>).</entry>
+</row>
+
+<row>
+  <entry>1000708</entry>
+  <entry>April 30, 2014</entry>
+  <entry>10-STABLE after FreeBSD-SA-14:07.devfs, FreeBSD-SA-14:08.tcp,
+    and FreeBSD-SA-14:09.openssl
+    (rev <revnumber>265122</revnumber>).</entry>
+</row>
+
+<row>
+  <entry>1000709</entry>
+  <entry>May 13, 2014</entry>
+  <entry>10-STABLE after support for UDP-Lite protocol (RFC 3828)
+    (rev <revnumber>265946</revnumber>).</entry>
+</row>
+
+<row>
+  <entry>1000710</entry>
+  <entry>June 13, 2014</entry>
+  <entry>10-STABLE after changes to &man.strcasecmp.3;, moving
+    <literal>strcasecmp_l()</literal> and
+    <literal>strncasecmp_l()</literal> from
+    <filename>&lt;string.h&gt;</filename> to
+    <filename>&lt;strings.h&gt;</filename> for POSIX 2008 compliance
+    (rev <revnumber>267465</revnumber>).</entry>
+</row>
+
+<row>
   <entry>1100000</entry>
   <entry>October 10, 2013</entry>
   <entry>11.0-CURRENT
@@ -4984,4 +5101,115 @@ it was never committed:
   <entry>February 16, 2014</entry>
   <entry>11.0-CURRENT after upgrade of llvm/clang to 3.4 release
     (rev <revnumber>261991</revnumber>).</entry>
+</row>
+
+<row>
+  <entry>1100010</entry>
+  <entry>February 28, 2014</entry>
+  <entry>11.0-CURRENT after upgrade of ncurses to 5.9 release
+    (rev <revnumber>262629</revnumber>).</entry>
+</row>
+
+<row>
+  <entry>1100011</entry>
+  <entry>March 13, 2014</entry>
+  <entry>11.0-CURRENT after ABI change in struct if_data
+    (rev <revnumber>263102</revnumber>).</entry>
+</row>
+
+<row>
+  <entry>1100012</entry>
+  <entry>March 14, 2014</entry>
+  <entry>11.0-CURRENT after removal of Novell IPX protocol support
+    (rev <revnumber>263140</revnumber>).</entry>
+</row>
+
+<row>
+  <entry>1100013</entry>
+  <entry>March 14, 2014</entry>
+  <entry>11.0-CURRENT after removal of AppleTalk protocol support
+    (rev <revnumber>263152</revnumber>).</entry>
+</row>
+
+<row>
+  <entry>1100014</entry>
+  <entry>March 16, 2014</entry>
+  <entry>11.0-CURRENT after renaming
+    <filename>&lt;sys/capability.h&gt;</filename> to
+    <filename>&lt;sys/capsicum.h&gt;</filename> to avoid a clash with
+    similarly named headers in other operating systems.
+    A compatibility header is left in place to limit build breakage,
+    but will be deprecated in due course.  (rev
+    <revnumber>263235</revnumber>).</entry>
+</row>
+
+<row>
+  <entry>1100015</entry>
+  <entry>March 22, 2014</entry>
+  <entry>11.0-CURRENT after <literal>cnt</literal> rename to
+    <literal>vm_cnt</literal> (rev
+    <revnumber>263620</revnumber>).</entry>
+</row>
+
+<row>
+  <entry>1100016</entry>
+  <entry>March 23, 2014</entry>
+  <entry>11.0-CURRENT after addition of <literal>armv6hf</literal>
+    <varname>TARGET_ARCH</varname> (rev
+    <revnumber>263660</revnumber>).</entry>
+</row>
+
+<row>
+  <entry>1100017</entry>
+  <entry>April 4, 2014</entry>
+  <entry>11.0-CURRENT after GCC support for <literal>__block</literal>
+    definition (rev <revnumber>264121</revnumber>).</entry>
+</row>
+
+<row>
+  <entry>1100018</entry>
+  <entry>April 6, 2014</entry>
+  <entry>11.0-CURRENT after support for UDP-Lite protocol (RFC 3828)
+    (rev <revnumber>264212</revnumber>).</entry>
+</row>
+
+<row>
+  <entry>1100019</entry>
+  <entry>April 8, 2014</entry>
+  <entry>11.0-CURRENT after FreeBSD-SA-14:06.openssl (rev
+    <revnumber>264265</revnumber>).</entry>
+</row>
+
+<row>
+  <entry>1100020</entry>
+  <entry>May 1, 2014</entry>
+  <entry>11.0-CURRENT after removing lindev in favor of having
+    /dev/full by default (rev <revnumber>265212</revnumber>).</entry>
+</row>
+
+<row>
+  <entry>1100021</entry>
+  <entry>May 6, 2014</entry>
+  <entry>11.0-CURRENT after <filename>src.opts.mk</filename> changes,
+    decoupling &man.make.conf.5; from <command>buildworld</command>
+    (rev <revnumber>265419</revnumber>).</entry>
+</row>
+
+<row>
+  <entry>1100022</entry>
+  <entry>May 30, 2014</entry>
+  <entry>11.0-CURRENT after changes to &man.strcasecmp.3;, moving
+    <literal>strcasecmp_l()</literal> and
+    <literal>strncasecmp_l()</literal> from
+    <filename>&lt;string.h&gt;</filename> to
+    <filename>&lt;strings.h&gt;</filename> for POSIX 2008 compliance
+    (rev <revnumber>266865</revnumber>).</entry>
+</row>
+
+<row>
+  <entry>1100023</entry>
+  <entry>June 13, 2014</entry>
+  <entry>11.0-CURRENT after the CUSE library and kernel module have
+    been attached to the build by default (rev
+    <revnumber>267440</revnumber>).</entry>
 </row>

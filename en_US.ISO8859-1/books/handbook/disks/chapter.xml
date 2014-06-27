@@ -14,43 +14,33 @@
   <sect1 xml:id="disks-synopsis">
     <title>Synopsis</title>
 
-    <para>This chapter covers the use of disks in &os;.  This includes
-      memory-backed disks, network-attached disks, standard SCSI/IDE
-      storage devices, and devices using the USB interface.</para>
+    <para>This chapter covers the use of disks and storage media in
+      &os;.  This includes <acronym>SCSI</acronym> and
+      <acronym>IDE</acronym> disks, <acronym>CD</acronym> and
+      <acronym>DVD</acronym> media, memory-backed disks, and
+      <acronym>USB</acronym> storage devices.</para>
 
     <para>After reading this chapter, you will know:</para>
 
     <itemizedlist>
-      <listitem>
-	<para>The terminology &os; uses to describe the organization
-	  of data on a physical disk.</para>
-      </listitem>
-
       <listitem>
 	<para>How to add additional hard disks to a &os;
 	  system.</para>
       </listitem>
 
       <listitem>
-	<para>How to configure &os; to use USB storage devices.</para>
+	<para>How to grow the size of a disk's partition on
+	  &os;.</para>
       </listitem>
 
       <listitem>
-	<para>How to set up virtual file systems, such as memory
-	  disks.</para>
+	<para>How to configure &os; to use <acronym>USB</acronym>
+	  storage devices.</para>
       </listitem>
 
       <listitem>
-	<para>How to use quotas to limit disk space usage.</para>
-      </listitem>
-
-      <listitem>
-	<para>How to encrypt disks to secure them against
-	  attackers.</para>
-      </listitem>
-
-      <listitem>
-	<para>How to create and burn CDs and DVDs on &os;.</para>
+	<para>How to use <acronym>CD</acronym> and
+	  <acronym>DVD</acronym> media on a &os; system.</para>
       </listitem>
 
       <listitem>
@@ -59,8 +49,26 @@
       </listitem>
 
       <listitem>
+	<para>How to set up memory disks.</para>
+      </listitem>
+
+      <listitem>
 	<para>What file system snapshots are and how to use them
 	  efficiently.</para>
+      </listitem>
+
+      <listitem>
+	<para>How to use quotas to limit disk space usage.</para>
+      </listitem>
+
+      <listitem>
+	<para>How to encrypt disks and swap to secure them against
+	  attackers.</para>
+      </listitem>
+
+      <listitem>
+	<para>How to configure a highly available storage
+	  network.</para>
       </listitem>
     </itemizedlist>
 
@@ -72,100 +80,6 @@
 	    install a new &os; kernel</link>.</para>
       </listitem>
     </itemizedlist>
-  </sect1>
-
-  <sect1 xml:id="disks-naming">
-    <title>Device Names</title>
-
-    <para>The following is a list of physical storage devices
-      supported in &os; and their associated device names.</para>
-
-    <table xml:id="disk-naming-physical-table" frame="none">
-      <title>Physical Disk Naming Conventions</title>
-
-      <tgroup cols="2">
-	<thead>
-	  <row>
-	    <entry>Drive type</entry>
-	    <entry>Drive device name</entry>
-	  </row>
-	</thead>
-
-	<tbody>
-	  <row>
-	    <entry>IDE hard drives</entry>
-	    <entry><literal>ad</literal> or
-	      <literal>ada</literal></entry>
-	  </row>
-
-	  <row>
-	    <entry>IDE CD-ROM drives</entry>
-	    <entry><literal>acd</literal> or
-	      <literal>cd</literal></entry>
-	  </row>
-
-	  <row>
-	    <entry>SATA hard drives</entry>
-	    <entry><literal>ad</literal> or
-	      <literal>ada</literal></entry>
-	  </row>
-
-	  <row>
-	    <entry>SATA CD-ROM drives</entry>
-	    <entry><literal>acd</literal> or
-	      <literal>cd</literal></entry>
-	  </row>
-
-	  <row>
-	    <entry>SCSI hard drives and USB Mass storage
-	      devices</entry>
-	    <entry><literal>da</literal></entry>
-	  </row>
-
-	  <row>
-	    <entry>SCSI CD-ROM drives</entry>
-	    <entry><literal>cd</literal></entry>
-	  </row>
-
-	  <row>
-	    <entry>Assorted non-standard CD-ROM drives</entry>
-	    <entry><literal>mcd</literal> for Mitsumi CD-ROM and
-	      <literal>scd</literal> for Sony CD-ROM devices</entry>
-	  </row>
-
-	  <row>
-	    <entry>Floppy drives</entry>
-	    <entry><literal>fd</literal></entry>
-	  </row>
-
-	  <row>
-	    <entry>SCSI tape drives</entry>
-	    <entry><literal>sa</literal></entry>
-	  </row>
-
-	  <row>
-	    <entry>IDE tape drives</entry>
-	    <entry><literal>ast</literal></entry>
-	  </row>
-
-	  <row>
-	    <entry>Flash drives</entry>
-	    <entry><literal>fla</literal> for &diskonchip; Flash
-	      device</entry>
-	  </row>
-
-	  <row>
-	    <entry>RAID drives</entry>
-	    <entry><literal>aacd</literal> for &adaptec; AdvancedRAID,
-	      <literal>mlxd</literal> and <literal>mlyd</literal>
-	      for &mylex;,
-	      <literal>amrd</literal> for AMI &megaraid;,
-	      <literal>idad</literal> for Compaq Smart RAID,
-	      <literal>twed</literal> for &tm.3ware; RAID.</entry>
-	  </row>
-	</tbody>
-      </tgroup>
-    </table>
   </sect1>
 
   <sect1 xml:id="disks-adding">
@@ -402,7 +316,7 @@ super-block backups (for fsck -b #) at:
 
   <sect1 xml:id="usb-disks">
     <info>
-      <title>USB Storage Devices</title>
+      <title><acronym>USB</acronym> Storage Devices</title>
 
       <authorgroup>
 	<author>
@@ -420,171 +334,185 @@ super-block backups (for fsck -b #) at:
       <secondary>disks</secondary>
     </indexterm>
 
-    <para>Many external storage solutions, such as hard drives, USB
-      thumbdrives, and CD/DVD burners, use the Universal Serial Bus
-      (USB).  &os; provides support for these devices.</para>
+    <para>Many external storage solutions, such as hard drives,
+      <acronym>USB</acronym> thumbdrives, and <acronym>CD</acronym>
+      and <acronym>DVD</acronym> burners, use the Universal Serial Bus
+      (<acronym>USB</acronym>).  &os; provides support for
+      <acronym>USB</acronym> 1.x, 2.0, and 3.0 devices.</para>
+
+    <note>
+      <para><acronym>USB</acronym> 3.0 support is not compatible with
+	some hardware, including Haswell (Lynx point) chipsets.  If
+	&os; boots with a <errorname>failed with error 19</errorname>
+	message, disable xHCI/USB3 in the system
+	<acronym>BIOS</acronym>.</para>
+    </note>
+
+    <para>Support for <acronym>USB</acronym> storage devices is built
+      into the <filename>GENERIC</filename> kernel.  For a custom
+      kernel, be sure that the following lines are present in the
+      kernel configuration file:</para>
+
+    <programlisting>device scbus	# SCSI bus (required for ATA/SCSI)
+device da	# Direct Access (disks)
+device pass	# Passthrough device (direct ATA/SCSI access)
+device uhci	# provides USB 1.x support
+device ohci	# provides USB 1.x support
+device ehci	# provides USB 2.0 support
+device xhci	# provides USB 3.0 support
+device usb	# USB Bus (required)
+device umass	# Disks/Mass storage - Requires scbus and da
+device cd	# needed for CD and DVD burners</programlisting>
+
+    <para>&os; uses the &man.umass.4; driver which uses the
+      <acronym>SCSI</acronym> subsystem to access
+      <acronym>USB</acronym> storage devices.  Since any
+      <acronym>USB</acronym> device will be seen as a
+      <acronym>SCSI</acronym> device by the system, if the
+      <acronym>USB</acronym> device is a <acronym>CD</acronym> or
+      <acronym>DVD</acronym> burner, do <emphasis>not</emphasis>
+      include <option>device atapicam</option> in a custom kernel
+      configuration file.</para>
+
+    <para>The rest of this section demonstrates how to verify that a
+      <acronym>USB</acronym> storage device is recognized by &os; and
+      how to configure the device so that it can be used.</para>
 
     <sect2>
-      <title>Configuration</title>
+      <title>Device Configuration</title>
 
-      <para>The USB mass storage devices driver, &man.umass.4;, is
-	built into the <filename>GENERIC</filename> kernel and
-	provides support for USB storage devices.  For a custom
-	kernel, be sure that the following lines are present in the
-	kernel configuration file:</para>
+      <para>To test the <acronym>USB</acronym> configuration, plug in
+	the <acronym>USB</acronym> device.  Use
+	<command>dmesg</command> to confirm that the drive appears in
+	the system message buffer.  It should look something like
+	this:</para>
 
-      <programlisting>device scbus
-device da
-device pass
-device uhci
-device ohci
-device ehci
-device usb
-device umass</programlisting>
+      <screen>umass0: &lt;STECH Simple Drive, class 0/0, rev 2.00/1.04, addr 3&gt; on usbus0
+umass0:  SCSI over Bulk-Only; quirks = 0x0100
+umass0:4:0:-1: Attached to scbus4
+da0 at umass-sim0 bus 0 scbus4 target 0 lun 0
+da0: &lt;STECH Simple Drive 1.04&gt; Fixed Direct Access SCSI-4 device
+da0: Serial Number WD-WXE508CAN263
+da0: 40.000MB/s transfers
+da0: 152627MB (312581808 512 byte sectors: 255H 63S/T 19457C)
+da0: quirks=0x2&lt;NO_6_BYTE&gt;</screen>
 
-      <para>Since the &man.umass.4; driver uses the SCSI subsystem to
-	access the USB storage devices, any USB device will be seen as
-	a SCSI device by the system.  Depending on the USB chipset on
-	the motherboard, <literal>device uhci</literal> or
-	<literal>device ohci</literal> is used to provide USB 1.X
-	support.  Support for USB 2.0 controllers is provided by
-	<literal>device ehci</literal>.</para>
+      <para>The brand, device node (<filename>da0</filename>), speed,
+	and size will differ according to the device.</para>
 
-      <note>
-	<para>If the USB device is a CD or DVD burner, &man.cd.4;,
-	  must be added to the kernel via the line:</para>
-
-	<programlisting>device cd</programlisting>
-
-	<para>Since the burner is seen as a SCSI drive, the driver
-	  &man.atapicam.4; should not be used in the kernel
-	  configuration.</para>
-      </note>
-    </sect2>
-
-    <sect2>
-      <title>Testing the Configuration</title>
-
-      <para>To test the USB configuration, plug in the USB device.  In
-	the system message buffer, &man.dmesg.8;, the drive should
-	appear as something like:</para>
-
-      <screen>umass0: USB Solid state disk, rev 1.10/1.00, addr 2
-GEOM: create disk da0 dp=0xc2d74850
-da0 at umass-sim0 bus 0 target 0 lun 0
-da0: &lt;Generic Traveling Disk 1.11&gt; Removable Direct Access SCSI-2 device
-da0: 1.000MB/s transfers
-da0: 126MB (258048 512 byte sectors: 64H 32S/T 126C)</screen>
-
-      <para>The brand, device node (<filename>da0</filename>), and
-	other details will differ according to the device.</para>
-
-      <para>Since the USB device is seen as a SCSI one,
-	<command>camcontrol</command> can be used to list the USB
-	storage devices attached to the system:</para>
+      <para>Since the <acronym>USB</acronym> device is seen as a
+	<acronym>SCSI</acronym> one, <command>camcontrol</command> can
+	be used to list the <acronym>USB</acronym> storage devices
+	attached to the system:</para>
 
       <screen>&prompt.root; <userinput>camcontrol devlist</userinput>
-&lt;Generic Traveling Disk 1.11&gt;      at scbus0 target 0 lun 0 (da0,pass0)</screen>
+&lt;STECH Simple Drive 1.04&gt;          at scbus4 target 0 lun 0 (pass3,da0)</screen>
 
-      <para>If the drive comes with a file system, it can be mounted.
-	Refer to <xref linkend="disks-adding"/> for
-	instructions on how to format and create partitions on the USB
-	drive.</para>
+      <para>Alternately, <command>usbconfig</command> can be used to
+	list the device.  Refer to &man.usbconfig.8; for more
+	information about this command.</para>
+
+      <screen>&prompt.root; <userinput>usbconfig</userinput>
+ugen0.3: &lt;Simple Drive STECH&gt; at usbus0, cfg=0 md=HOST spd=HIGH (480Mbps) pwr=ON (2mA)</screen>
+
+      <para>If the device has not been formatted, refer to <xref
+	  linkend="disks-adding"/> for instructions on how to format
+	and create partitions on the <acronym>USB</acronym> drive.  If
+	the drive comes with a file system, it can be mounted by
+	<systemitem class="username">root</systemitem> using the
+	instructions in <xref linkend="mount-unmount"/>.</para>
 
       <warning>
 	<para>Allowing untrusted users to mount arbitrary media, by
-	  enabling <varname>vfs.usermount</varname> as
-	  described below, should not be considered safe from a
-	  security point of view.  Most file systems in &os; were not
-	  built to safeguard against malicious devices.</para>
+	  enabling <varname>vfs.usermount</varname> as described
+	  below, should not be considered safe from a security point
+	  of view.  Most file systems were not built to safeguard
+	  against malicious devices.</para>
       </warning>
 
       <para>To make the device mountable as a normal user, one
 	solution is to make all users of the device a member of the
 	<systemitem class="groupname">operator</systemitem> group
-	using &man.pw.8;.  Next, ensure that the
-	<systemitem class="groupname">operator</systemitem> group is
-	able to read and write the device by adding these lines to
+	using &man.pw.8;.  Next, ensure that <systemitem
+	  class="groupname">operator</systemitem> is able to read and
+	write the device by adding these lines to
 	<filename>/etc/devfs.rules</filename>:</para>
 
       <programlisting>[localrules=5]
 add path 'da*' mode 0660 group operator</programlisting>
 
       <note>
-	<para>If SCSI disks are installed in the system, change
-	  the second line as follows:</para>
+	<para>If internal <acronym>SCSI</acronym> disks are also
+	  installed in the system, change the second line as
+	  follows:</para>
 
-	<programlisting>add path 'da[3-9]*' mode 0660 group operator</programlisting>
+	<programlisting>add path 'da[<replaceable>3</replaceable>-9]*' mode 0660 group operator</programlisting>
 
-	<para>This will exclude the first three SCSI disks
-	  (<filename>da0</filename> to
-	  <filename>da2</filename>)from belonging to the
-	  <systemitem class="groupname">operator</systemitem>
-	  group.</para>
+	<para>This will exclude the first three
+	  <acronym>SCSI</acronym> disks (<filename>da0</filename> to
+	  <filename>da2</filename>)from belonging to the <systemitem
+	    class="groupname">operator</systemitem> group.  Replace
+	  <replaceable>3</replaceable> with the number of internal
+	  <acronym>SCSI</acronym> disks.  Refer to &man.devfs.rules.5;
+	  for more information about this file.</para>
       </note>
 
-      <para>Next, enable the &man.devfs.rules.5; ruleset in
+      <para>Next, enable the ruleset in
 	<filename>/etc/rc.conf</filename>:</para>
 
       <programlisting>devfs_system_ruleset="localrules"</programlisting>
 
-      <para>Next, instruct the running kernel to allow regular users
-	to mount file systems.  The easiest way is to add the
-	following line to
+      <para>Then, instruct the system to allow regular users to mount
+	file systems by adding the following line to
 	<filename>/etc/sysctl.conf</filename>:</para>
 
       <programlisting>vfs.usermount=1</programlisting>
 
-      <para>Since this only takes effect after the next reboot use
-	&man.sysctl.8; to set this variable now.</para>
+      <para>Since this only takes effect after the next reboot, use
+	<command>sysctl</command> to set this variable now:</para>
+
+      <screen>&prompt.root; <userinput>sysctl vfs.usermount=1</userinput>
+vfs.usermount: 0 -&gt; 1</screen>
 
       <para>The final step is to create a directory where the file
 	system is to be mounted.  This directory needs to be owned by
 	the user that is to mount the file system.  One way to do that
 	is for <systemitem class="username">root</systemitem> to
-	create a subdirectory owned by that user as
-	<filename>/mnt/username</filename>.  In the following example,
-	replace <replaceable>username</replaceable> with the login
-	name of the user and <replaceable>usergroup</replaceable> with
-	the user's primary group:</para>
+	create a subdirectory owned by that user as <filename
+	  class="directory">/mnt/<replaceable>username</replaceable></filename>.
+	In the following example, replace
+	<replaceable>username</replaceable> with the login name of the
+	user and <replaceable>usergroup</replaceable> with the user's
+	primary group:</para>
 
-      <screen>&prompt.root; <userinput>mkdir /mnt/username</userinput>
-&prompt.root; <userinput>chown username:usergroup /mnt/username</userinput></screen>
+      <screen>&prompt.root; <userinput>mkdir /mnt/<replaceable>username</replaceable></userinput>
+&prompt.root; <userinput>chown <replaceable>username</replaceable>:<replaceable>usergroup</replaceable> /mnt/<replaceable>username</replaceable></userinput></screen>
 
-      <para>Suppose a USB thumbdrive is plugged in, and a device
-	<filename>/dev/da0s1</filename> appears.  If the device is
-	preformatted with a FAT file system, it can be mounted
-	using:</para>
+      <para>Suppose a <acronym>USB</acronym> thumbdrive is plugged in,
+	and a device <filename>/dev/da0s1</filename> appears.  If the
+	device is formatted with a <acronym>FAT</acronym> file system,
+	the user can mount it using:</para>
 
-      <screen>&prompt.user; <userinput>mount -t msdosfs -o -m=644,-M=755 /dev/da0s1 /mnt/username</userinput></screen>
+      <screen>&prompt.user; <userinput>mount -t msdosfs -o -m=644,-M=755 /dev/da0s1 /mnt/<replaceable>username</replaceable></userinput></screen>
 
       <para>Before the device can be unplugged, it
-	<emphasis>must</emphasis> be unmounted first.  After device
-	removal, the system message buffer will show messages similar
-	to the following:</para>
+	<emphasis>must</emphasis> be unmounted first:</para>
 
-      <screen>umass0: at uhub0 port 1 (addr 2) disconnected
-(da0:umass-sim0:0:0:0): lost device
-(da0:umass-sim0:0:0:0): removing device entry
-GEOM: destroy disk da0 dp=0xc2d74850
-umass0: detached</screen>
-    </sect2>
+      <screen>&prompt.user; <userinput>umount /mnt/<replaceable>username</replaceable></userinput></screen>
 
-    <sect2>
-      <title>Further Reading</title>
+      <para>After device removal, the system message buffer will show
+	messages similar to the following:</para>
 
-      <para>Beside the <link linkend="disks-adding">Adding
-	  Disks</link> and <link linkend="mount-unmount">Mounting and
-	Unmounting File Systems</link> sections, reading various
-	manual pages may also be useful: &man.umass.4;,
-	&man.camcontrol.8;, and &man.usbconfig.8; under &os;&nbsp; 8.X
-	or &man.usbdevs.8; under earlier versions of &os;.</para>
+      <screen>umass0: at uhub3, port 2, addr 3 (disconnected)
+da0 at umass-sim0 bus 0 scbus4 target 0 lun 0
+da0: &lt;STECH Simple Drive 1.04&gt; s/n WD-WXE508CAN263          detached
+(da0:umass-sim0:0:0:0): Periph destroyed</screen>
     </sect2>
   </sect1>
 
   <sect1 xml:id="creating-cds">
     <info>
-      <title>Creating and Using CD Media</title>
+      <title>Creating and Using <acronym>CD</acronym> Media</title>
 
       <authorgroup>
 	<author>
@@ -598,212 +526,161 @@ umass0: detached</screen>
     </info>
 
     <indexterm>
-      <primary>CD-ROMs</primary>
+      <primary><acronym>CD-ROM</acronym>s</primary>
       <secondary>creating</secondary>
     </indexterm>
 
-    <sect2>
-      <title>Introduction</title>
+    <para>Compact Disc (<acronym>CD</acronym>) media provide a number
+      of features that differentiate them from conventional disks.
+      They are designed so that they can be read continuously without
+      delays to move the head between tracks.  While
+      <acronym>CD</acronym> media do have tracks, these refer to a
+      section of data to be read continuously, and not a physical
+      property of the disk.  The <acronym>ISO</acronym> 9660 file
+      system was designed to deal with these differences.</para>
 
-      <para>CD media provide a number of features that differentiate
-	them from conventional disks.  Initially, they were not
-	writable by the user.  They are designed so that they can be
-	read continuously without delays to move the head between
-	tracks.  They are also much easier to transport between
-	systems.</para>
+    <indexterm><primary><acronym>ISO</acronym>
+      9660</primary></indexterm>
+    <indexterm>
+      <primary>file systems</primary>
+      <secondary>ISO 9660</secondary>
+    </indexterm>
 
-      <para>CD media do have tracks, but this refers to a section of
-	data to be read continuously and not a physical property of
-	the disk.  For example, to produce a CD on &os;, prepare the
-	data files that are going to make up the tracks on the CD,
-	then write the tracks to the CD.</para>
+    <indexterm>
+      <primary><acronym>CD</acronym> burner</primary>
+      <secondary><acronym>ATAPI</acronym></secondary>
+    </indexterm>
 
-      <indexterm><primary>ISO 9660</primary></indexterm>
-      <indexterm>
-	<primary>file systems</primary>
-	<secondary>ISO 9660</secondary>
-      </indexterm>
+    <para>The &os; Ports Collection provides several utilities for
+      burning and duplicating audio and data <acronym>CD</acronym>s.
+      This chapter demonstrates the use of several command line
+      utilities.  For <acronym>CD</acronym> burning software with a
+      graphical utility, consider installing the
+      <package>sysutils/xcdroast</package> or
+      <package>sysutils/k3b</package> packages or ports.</para>
 
-      <para>The ISO 9660 file system was designed to deal with these
-	differences.  To overcome the original file system limits, it
-	provides an extension mechanism that allows properly written
-	CDs to exceed those limits while still working with systems
-	that do not support those extensions.</para>
+    <sect2 xml:id="atapicam">
+      <info>
+	<title>Supported Devices</title>
 
-      <indexterm>
-	<primary><package>sysutils/cdrtools</package></primary>
-      </indexterm>
-
-      <para>The <package>sysutils/cdrtools</package>
-	port includes &man.mkisofs.8;, a program that can be used to
-	produce a data file containing an ISO 9660 file system.  It
-	has options that support various extensions, and is described
-	below.</para>
-
-      <indexterm>
-	<primary>CD burner</primary>
-	<secondary>ATAPI</secondary>
-      </indexterm>
-
-      <para>Which tool to use to burn the CD depends on whether the
-	CD burner is ATAPI or something else.  ATAPI CD burners use
-	<command>burncd</command> which is part of the base system.
-	SCSI and USB CD burners should use <command>cdrecord</command>
-	from the <package>sysutils/cdrtools</package> port.  It is
-	also possible to use <command>cdrecord</command> and other
-	tools for SCSI drives on ATAPI hardware with the
-	<link linkend="atapicam">ATAPI/CAM module</link>.</para>
-
-      <para>For CD burning software with a graphical user
-	interface, consider <application>X-CD-Roast</application> or
-	<application>K3b</application>.  These tools are available as
-	packages or from the <package>sysutils/xcdroast</package> and
-	<package>sysutils/k3b</package> ports.
-	<application>X-CD-Roast</application> and
-	<application>K3b</application> require the
-	<link linkend="atapicam">ATAPI/CAM module</link> with ATAPI
-	hardware.</para>
-    </sect2>
-
-    <sect2 xml:id="mkisofs">
-      <title><application>mkisofs</application></title>
-
-      <para>The <package>sysutils/cdrtools</package>
-	port also installs &man.mkisofs.8;, which produces an ISO 9660
-	file system that is an image of a directory tree in the &unix;
-	file system name space.  The simplest usage is:</para>
-
-      <screen>&prompt.root; <userinput>mkisofs -o imagefile.iso /path/to/tree</userinput></screen>
+	<authorgroup>
+	  <author>
+	    <personname>
+	      <firstname>Marc</firstname>
+	      <surname>Fonvieille</surname>
+	    </personname>
+	    <contrib>Contributed by </contrib>
+	  </author>
+	</authorgroup>
+      </info>
 
       <indexterm>
-	<primary>file systems</primary>
-	<secondary>ISO 9660</secondary>
+	<primary><acronym>CD</acronym> burner</primary>
+	<secondary>ATAPI/CAM driver</secondary>
       </indexterm>
 
-      <para>This command creates an
-	<replaceable>imagefile.iso</replaceable> containing an ISO
-	9660 file system that is a copy of the tree at
-	<replaceable>/path/to/tree</replaceable>.  In the process, it
-	maps the file names to names that fit the limitations of
-	the standard ISO 9660 file system, and will exclude files that
-	have names uncharacteristic of ISO file systems.</para>
+      <para>The <filename>GENERIC</filename> kernel provides support
+	for <acronym>SCSI</acronym>,  <acronym>USB</acronym>, and
+	<acronym>ATAPI</acronym> <acronym>CD</acronym> readers and
+	burners.  If a custom kernel is used, the options that need to
+	be present in the kernel configuration file vary by the type
+	of device.</para>
 
-      <indexterm>
-	<primary>file systems</primary>
-	<secondary>HFS</secondary>
-      </indexterm>
-      <indexterm>
-	<primary>file systems</primary>
-	<secondary>Joliet</secondary>
-      </indexterm>
-      <para>A number of options are available to overcome these
-	restrictions.  In particular, <option>-R</option> enables the
-	Rock Ridge extensions common to &unix; systems,
-	<option>-J</option> enables Joliet extensions used by
-	Microsoft systems, and <option>-hfs</option> can be used to
-	create HFS file systems used by &macos;.</para>
+      <para>For a <acronym>SCSI</acronym> burner, make sure these
+	options are present:</para>
 
-      <para>For CDs that are going to be used only on &os; systems,
-	<option>-U</option> can be used to disable all filename
-	restrictions.  When used with <option>-R</option>, it produces
-	a file system image that is identical to the specified &os;
-	tree, though it may violate the ISO 9660 standard in a number
-	of ways.</para>
+      <programlisting>device scbus	# SCSI bus (required for ATA/SCSI)
+device da	# Direct Access (disks)
+device pass	# Passthrough device (direct ATA/SCSI access)
+device cd	# needed for CD and DVD burners</programlisting>
 
-      <indexterm>
-	<primary>CD-ROMs</primary>
-	<secondary>creating bootable</secondary>
-      </indexterm>
-      <para>The last option of general use is <option>-b</option>.
-	This is used to specify the location of the boot image for use
-	in producing an <quote>El Torito</quote> bootable CD.  This
-	option takes an argument which is the path to a boot image
-	from the top of the tree being written to the CD.  By default,
-	&man.mkisofs.8; creates an ISO image in
-	<quote>floppy disk emulation</quote> mode, and thus expects
-	the boot image to be exactly 1200, 1440 or 2880&nbsp;KB in
-	size.  Some boot loaders, like the one used by the &os;
-	distribution disks, do not use emulation mode.  In this case,
-	<option>-no-emul-boot</option> should be used.  So, if
-	<filename>/tmp/myboot</filename> holds a bootable &os; system
-	with the boot image in
-	<filename>/tmp/myboot/boot/cdboot</filename>, this command
-	would produce the image of an ISO 9660 file system as
-	<filename>/tmp/bootable.iso</filename>:</para>
+      <para>For a <acronym>USB</acronym> burner, make sure these
+	options are present:</para>
 
-      <screen>&prompt.root; <userinput>mkisofs -R -no-emul-boot -b boot/cdboot -o /tmp/bootable.iso /tmp/myboot</userinput></screen>
+      <programlisting>device scbus	# SCSI bus (required for ATA/SCSI)
+device da	# Direct Access (disks)
+device pass	# Passthrough device (direct ATA/SCSI access)
+device cd	# needed for CD and DVD burners
+device uhci	# provides USB 1.x support
+device ohci	# provides USB 1.x support
+device ehci	# provides USB 2.0 support
+device xhci	# provides USB 3.0 support
+device usb	# USB Bus (required)
+device umass	# Disks/Mass storage - Requires scbus and da</programlisting>
 
-      <para>If <filename>md</filename> is configured in the
-	kernel, the file system can be mounted as a memory disk
-	with:</para>
+      <para>For an <acronym>ATAPI</acronym> burner, make sure these
+	options are present:</para>
 
-      <screen>&prompt.root; <userinput>mdconfig -a -t vnode -f /tmp/bootable.iso -u 0</userinput>
-&prompt.root; <userinput>mount -t cd9660 /dev/md0 /mnt</userinput></screen>
+      <programlisting>device ata	# Legacy ATA/SATA controllers
+device scbus	# SCSI bus (required for ATA/SCSI)
+device pass	# Passthrough device (direct ATA/SCSI access)
+device cd	# needed for CD and DVD burners</programlisting>
 
-      <para>One can then verify that <filename>/mnt</filename> and
-	<filename>/tmp/myboot</filename> are identical.</para>
+      <note>
+	<para>On &os; versions prior to 10.x, this line is also
+	  needed in the kernel configuration file if the burner is an
+	  <acronym>ATAPI</acronym> device:</para>
 
-      <para>There are many other options available for
-	&man.mkisofs.8; to fine-tune its behavior.  Refer to
-	&man.mkisofs.8; for details.</para>
-    </sect2>
+	<programlisting>device atapicam</programlisting>
 
-    <sect2 xml:id="burncd">
-      <title><application>burncd</application></title>
+	<para>Alternately, this driver can be loaded at boot time by
+	  adding the following line to
+	  <filename>/boot/loader.conf</filename>:</para>
 
-      <indexterm>
-	<primary>CD-ROMs</primary>
-	<secondary>burning</secondary>
-      </indexterm>
-      <para>For an ATAPI CD burner, <command>burncd</command> can be
-	used to burn an ISO image onto a CD.
-	<command>burncd</command> is part of the base system,
-	installed as <filename>/usr/sbin/burncd</filename>.  Usage is
-	very simple, as it has few options:</para>
+	<programlisting>atapicam_load="YES"</programlisting>
 
-      <screen>&prompt.root; <userinput>burncd -f cddevice data imagefile.iso fixate</userinput></screen>
+	<para>This will require a reboot of the system as this driver
+	  can only be loaded at boot time.</para>
+      </note>
 
-      <para>This command will burn a copy of
-	<replaceable>imagefile.iso</replaceable> on
-	<replaceable>cddevice</replaceable>.  The default device is
-	<filename>/dev/acd0</filename>.  See &man.burncd.8; for
-	options to set the write speed, eject the CD after burning,
-	and write audio data.</para>
+      <para>To verify that &os; recognizes the device, run
+	<command>dmesg</command> and look for an entry for the device.
+	On systems prior to 10.x, the device name in the first line of
+	the output will be <filename>acd0</filename> instead of
+	<filename>cd0</filename>.</para>
+
+      <screen>&prompt.user; <userinput>dmesg | grep cd</userinput>
+cd0 at ahcich1 bus 0 scbus1 target 0 lun 0
+cd0: &lt;HL-DT-ST DVDRAM GU70N LT20&gt; Removable CD-ROM SCSI-0 device
+cd0: Serial Number M3OD3S34152
+cd0: 150.000MB/s transfers (SATA 1.x, UDMA6, ATAPI 12bytes, PIO 8192bytes)
+cd0: Attempt to query device size failed: NOT READY, Medium not present - tray closed</screen>
     </sect2>
 
     <sect2 xml:id="cdrecord">
-      <title><application>cdrecord</application></title>
+      <title>Burning a <acronym>CD</acronym></title>
 
-      <para>For systems without an ATAPI CD burner,
-	<command>cdrecord</command> can be used to burn CDs.
-	<command>cdrecord</command> is not part of the base system and
-	must be installed from either the
-	<package>sysutils/cdrtools</package> package or port.  Changes
-	to the base system can cause binary versions of this program
-	to fail, possibly resulting in a <quote>coaster</quote>.  It
-	is recommended to either upgrade the port when the system is
-	upgraded, or for users
-	<link linkend="stable">tracking -STABLE</link>, to upgrade the
-	port when a new version becomes available.</para>
+      <para>In &os;, <command>cdrecord</command> can be used to burn
+	<acronym>CD</acronym>s.  This command is installed with the
+	<package>sysutils/cdrtools</package> package or port.</para>
+
+      <note>
+	<para>&os; 8.x includes the built-in
+	  <command>burncd</command> utility for burning
+	  <acronym>CD</acronym>s using an <acronym>ATAPI</acronym>
+	  <acronym>CD</acronym> burner.  Refer to the manual page for
+	  <command>burncd</command> for usage examples.</para>
+      </note>
 
       <para>While <command>cdrecord</command> has many options, basic
-	usage is simple.  Burning an ISO 9660 image is done
-	with:</para>
+	usage is simple.  Specify the name of the
+	<acronym>ISO</acronym> file to burn and, if the system has
+	multiple burner devices, specify the name of the device to
+	use:</para>
 
-      <screen>&prompt.root; <userinput>cdrecord dev=device imagefile.iso</userinput></screen>
+      <screen>&prompt.root; <userinput>cdrecord <replaceable>dev=device</replaceable> <replaceable>imagefile.iso</replaceable></userinput></screen>
 
-      <para>The tricky part of using <command>cdrecord</command> is
-	finding the <option>dev</option> to use.  To find the proper
-	setting, use <option>-scanbus</option> which might produce
-	results like this:</para>
+      <para>To determine the device name of the burner, use
+	<option>-scanbus</option> which might produce results like
+	this:</para>
 
       <indexterm>
-	<primary>CD-ROMs</primary>
+	<primary><acronym>CD-ROM</acronym>s</primary>
 	<secondary>burning</secondary>
       </indexterm>
       <screen>&prompt.root; <userinput>cdrecord -scanbus</userinput>
-Cdrecord-Clone 2.01 (i386-unknown-freebsd7.0) Copyright (C) 1995-2004 J&ouml;rg Schilling
-Using libscg version 'schily-0.1'
+ProDVD-ProBD-Clone 3.00 (amd64-unknown-freebsd10.0) Copyright (C) 1995-2010 J&ouml;rg Schilling
+Using libscg version 'schily-0.9'
 scsibus0:
         0,0,0     0) 'SEAGATE ' 'ST39236LW       ' '0004' Disk
         0,1,0     1) 'SEAGATE ' 'ST39173W        ' '5958' Disk
@@ -823,151 +700,151 @@ scsibus1:
         1,6,0   106) 'ARTEC   ' 'AM12S           ' '1.06' Scanner
         1,7,0   107) *</screen>
 
-      <para>This lists the appropriate <option>dev</option> value for
-	the devices on the list.  Locate the CD burner, and use the
-	three numbers separated by commas as the value for
-	<option>dev</option>.  In this case, the CRW device is 1,5,0,
-	so the appropriate input is <option>dev=1,5,0</option>.
-	Refer to &man.cdrecord.1; for easier ways to specify this
-	value and for information on writing audio tracks and
-	controlling the write speed.</para>
+      <para>Locate the entry for the <acronym>CD</acronym> burner and
+	use the three numbers separated by commas as the value for
+	<option>dev</option>.  In this case, the Yamaha burner device
+	is <literal>1,5,0</literal>, so the appropriate input to
+	specify that device is <option>dev=1,5,0</option>.  Refer to
+	the manual page for <command>cdrecord</command> for other ways
+	to specify this value and for information on writing audio
+	tracks and controlling the write speed.</para>
+
+      <para>Alternately, run the following command to get the device
+	address of the burner:</para>
+
+      <screen>&prompt.root; <userinput>camcontrol devlist</userinput>
+&lt;MATSHITA CDRW/DVD UJDA740 1.00&gt;   at scbus1 target 0 lun 0 (cd0,pass0)</screen>
+
+      <para>Use the numeric values for <literal>scbus</literal>,
+	<literal>target</literal>, and <literal>lun</literal>.  For
+	this example, <literal>1,0,0</literal> is the device name to
+	use.</para>
     </sect2>
 
-    <sect2 xml:id="duplicating-audiocds">
-      <title>Duplicating Audio CDs</title>
+    <sect2 xml:id="mkisofs">
+      <title>Writing Data to an <acronym>ISO</acronym> File
+	System</title>
 
-      <para>To duplicate an audio CD, extract the audio data from the
-	CD to a series of files, then write these files to a blank CD.
-	The process is slightly different for ATAPI and SCSI
-	drives.</para>
+      <para>In order to produce a data <acronym>CD</acronym>, the data
+	files that are going to make up the tracks on the
+	<acronym>CD</acronym> must be prepared before they can be
+	burned to the <acronym>CD</acronym>.  In &os;,
+	<package>sysutils/cdrtools</package> installs
+	<command>mkisofs</command>, which can be used to produce an
+	<acronym>ISO</acronym> 9660 file system that is an image of a
+	directory tree within a &unix; file system.  The simplest
+	usage is to specify the name of the <acronym>ISO</acronym>
+	file to create and the path to the files to place into the
+	<acronym>ISO</acronym> 9660 file system:</para>
 
-      <procedure>
-	<title>SCSI Drives</title>
+      <screen>&prompt.root; <userinput>mkisofs -o <replaceable>imagefile.iso</replaceable> <replaceable>/path/to/tree</replaceable></userinput></screen>
 
-	<step>
-	  <para>Use <command>cdda2wav</command> to extract the
-	    audio:</para>
+      <indexterm>
+	<primary>file systems</primary>
+	<secondary>ISO 9660</secondary>
+      </indexterm>
 
-	  <screen>&prompt.user; <userinput>cdda2wav -vall -D2,0 -B -Owav</userinput></screen>
-	</step>
+      <para>This command maps the file names in the specified path to
+	names that fit the limitations of the standard
+	<acronym>ISO</acronym> 9660 file system, and will exclude
+	files that do not meet the standard for <acronym>ISO</acronym>
+	file systems.</para>
 
-	<step>
-	  <para>Use <command>cdrecord</command> to write the
-	    <filename>.wav</filename> files:</para>
+      <indexterm>
+	<primary>file systems</primary>
+	<secondary>Joliet</secondary>
+      </indexterm>
 
-	  <screen>&prompt.user; <userinput>cdrecord -v dev=2,0 -dao -useinfo  *.wav</userinput></screen>
+      <para>A number of options are available to overcome the
+	restrictions imposed by the standard.  In particular,
+	<option>-R</option> enables the Rock Ridge extensions common
+	to &unix; systems and <option>-J</option> enables Joliet
+	extensions used by &microsoft; systems.</para>
 
-	  <para>Make sure that <replaceable>2,0</replaceable> is set
-	    appropriately, as described in
-	    <xref linkend="cdrecord"/>.</para>
-	</step>
-      </procedure>
+      <para>For <acronym>CD</acronym>s that are going to be used only
+	on &os; systems, <option>-U</option> can be used to disable
+	all filename restrictions.  When used with
+	<option>-R</option>, it produces a file system image that is
+	identical to the specified &os; tree, even if it violates the
+	<acronym>ISO</acronym> 9660 standard.</para>
 
-      <procedure>
-	<title>ATAPI Drives</title>
+      <indexterm>
+	<primary><acronym>CD-ROM</acronym>s</primary>
+	<secondary>creating bootable</secondary>
+      </indexterm>
 
-	<note>
-	  <para>With the help of the
-	    <link linkend="atapicam">ATAPI/CAM module</link>,
-	    <command>cdda2wav</command> can also be used on ATAPI
-	    drives.  This tool is usually a better choice for most of
-	    users, as it supports jitter correction and endianness,
-	    than the method proposed below.</para>
-	</note>
+      <para>The last option of general use is <option>-b</option>.
+	This is used to specify the location of a boot image for use
+	in producing an <quote>El Torito</quote> bootable
+	<acronym>CD</acronym>.  This option takes an argument which is
+	the path to a boot image from the top of the tree being
+	written to the <acronym>CD</acronym>.  By default,
+	<command>mkisofs</command> creates an <acronym>ISO</acronym>
+	image in <quote>floppy disk emulation</quote> mode, and thus
+	expects the boot image to be exactly 1200, 1440 or
+	2880&nbsp;KB in size.  Some boot loaders, like the one used by
+	the &os; distribution media, do not use emulation mode.  In
+	this case, <option>-no-emul-boot</option> should be used.  So,
+	if <filename>/tmp/myboot</filename> holds a bootable &os;
+	system with the boot image in
+	<filename>/tmp/myboot/boot/cdboot</filename>, this command
+	would produce
+	<filename>/tmp/bootable.iso</filename>:</para>
 
-	<step>
-	  <para>The ATAPI CD driver makes each track available as
-	    <filename>/dev/acddtnn</filename>,
-	    where <replaceable>d</replaceable> is the drive number,
-	    and <replaceable>nn</replaceable> is the track number
-	    written with two decimal digits, prefixed with zero as
-	    needed.  So the first track on the first disk is
-	    <filename>/dev/acd0t01</filename>, the second is
-	    <filename>/dev/acd0t02</filename>, the third is
-	    <filename>/dev/acd0t03</filename>, and so on.</para>
+      <screen>&prompt.root; <userinput>mkisofs -R -no-emul-boot -b boot/cdboot -o /tmp/bootable.iso /tmp/myboot</userinput></screen>
 
-	  <para>Make sure the appropriate files exist in
-	    <filename>/dev</filename>.  If the entries are missing,
-	    force the system to retaste the media:</para>
+      <para>The resulting <acronym>ISO</acronym> image can be mounted
+	as a memory disk with:</para>
 
-	  <screen>&prompt.root; <userinput>dd if=/dev/acd0 of=/dev/null count=1</userinput></screen>
-	</step>
+      <screen>&prompt.root; <userinput>mdconfig -a -t vnode -f /tmp/bootable.iso -u 0</userinput>
+&prompt.root; <userinput>mount -t cd9660 /dev/md0 /mnt</userinput></screen>
 
-	<step>
-	  <para>Extract each track using &man.dd.1;, making sure to
-	    specify a block size when extracting the files:</para>
+      <para>One can then verify that <filename>/mnt</filename> and
+	<filename>/tmp/myboot</filename> are identical.</para>
 
-	  <screen>&prompt.root; <userinput>dd if=/dev/acd0t01 of=track1.cdr bs=2352</userinput>
-&prompt.root; <userinput>dd if=/dev/acd0t02 of=track2.cdr bs=2352</userinput>
-...</screen>
-	</step>
+      <para>There are many other options available for
+	<command>mkisofs</command> to fine-tune its behavior.  Refer
+	to &man.mkisofs.8; for details.</para>
 
-	<step>
-	  <para>Burn the extracted files to disk using
-	    <command>burncd</command>.  Specify that these are audio
-	    files, and that <command>burncd</command> should fixate
-	    the disk when finished:</para>
+      <note>
+	<para>It is possible to copy a data <acronym>CD</acronym> to
+	  an image file that is functionally equivalent to the image
+	  file created with <command>mkisofs</command>.  To do so, use
+	  <filename>dd</filename> with the device name as the input
+	  file and the name of the <acronym>ISO</acronym> to create as
+	  the output file:</para>
 
-	  <screen>&prompt.root; <userinput>burncd -f /dev/acd0 audio track1.cdr track2.cdr ... fixate</userinput></screen>
-	</step>
-      </procedure>
-    </sect2>
+	<screen>&prompt.root; <userinput>dd if=/dev/<replaceable>cd0</replaceable> of=<replaceable>file.iso</replaceable> bs=2048</userinput></screen>
 
-    <sect2 xml:id="imaging-cd">
-      <title>Duplicating Data CDs</title>
-
-      <para>It is possible to copy a data CD to an image file that is
-	functionally equivalent to the image file created with
-	&man.mkisofs.8;, and then use it to duplicate any data CD.
-	The example given here assumes that the CD-ROM device is
-	<filename>acd0</filename>.  Substitute the correct CD-ROM
-	device.</para>
-
-      <screen>&prompt.root; <userinput>dd if=/dev/acd0 of=file.iso bs=2048</userinput></screen>
-
-      <para>Now that there is an image, it can be burned to CD as
-	described above.</para>
+	<para>The resulting image file can be burned to
+	  <acronym>CD</acronym> as described in <xref
+	    linkend="cdrecord"/>.</para>
+      </note>
     </sect2>
 
     <sect2 xml:id="mounting-cd">
-      <title>Using Data CDs</title>
+      <title>Using Data <acronym>CD</acronym>s</title>
 
-      <para>It is possible to mount and read the data on a standard
-	data CD.  By default, &man.mount.8; assumes that a file system
-	is of type <literal>ufs</literal>.  Running this
-	command:</para>
+      <para>Once an <acronym>ISO</acronym> has been burned to a
+	<acronym>CD</acronym>, it can be mounted by specifying the
+	file system type, the name of the device containing the
+	<acronym>CD</acronym>, and an existing mount point:</para>
 
-      <screen>&prompt.root; <userinput>mount /dev/cd0 /mnt</userinput></screen>
+      <screen>&prompt.root; <userinput>mount -t cd9660 <replaceable>/dev/cd0</replaceable> <replaceable>/mnt</replaceable></userinput></screen>
 
-      <para>will generate an error about <errorname>Incorrect super
-	  block</errorname>, and will fail to mount the CD.  The CD
-	  does not use the <literal>UFS</literal> file system, so
-	  attempts to mount it as such will fail.  Instead, tell
-	  &man.mount.8; that the file system is of type
-	  <literal>ISO9660</literal> by specifying
-	  <option>-t cd9660</option> to &man.mount.8;.  For example,
-	  to mount the CD-ROM device, <filename>/dev/cd0</filename>,
-	  under <filename>/mnt</filename>,
-	  use:</para>
+      <para>Since <command>mount</command> assumes that a file system
+	is of type <literal>ufs</literal>, a <errorname>Incorrect
+	  super block</errorname> error will occur if <literal>-t
+	  cd9660</literal> is not included when mounting a data
+	<acronym>CD</acronym>.</para>
 
-      <screen>&prompt.root; <userinput>mount -t cd9660 /dev/cd0 /mnt</userinput></screen>
-
-      <para>Replace <filename>/dev/cd0</filename> with the device
-	name for the CD device.  Also, <option>-t cd9660</option>
-	executes &man.mount.cd9660.8;, meaning the above command is
-	equivalent to:</para>
-
-      <screen>&prompt.root; <userinput>mount_cd9660 /dev/cd0 /mnt</userinput></screen>
-
-      <para>While data CD-ROMs from any vendor can be mounted this
-	way, disks with certain ISO 9660 extensions might behave
-	oddly.  For example, Joliet disks store all filenames in
-	two-byte Unicode characters.  The &os; kernel does not speak
-	Unicode, but the &os; CD9660 driver is able to convert Unicode
-	characters on the fly.  If some non-English characters show up
-	as question marks, specify the local charset with
-	<option>-C</option>.  For more information, refer to
-	&man.mount.cd9660.8;.</para>
+      <para>While any data <acronym>CD</acronym> can be mounted this
+	way, disks with certain <acronym>ISO</acronym> 9660 extensions
+	might behave oddly.  For example, Joliet disks store all
+	filenames in two-byte Unicode characters.  If some non-English
+	characters show up as question marks, specify the local
+	charset with <option>-C</option>.  For more information, refer
+	to &man.mount.cd9660.8;.</para>
 
       <note>
 	<para>In order to do this character conversion with the help
@@ -979,137 +856,107 @@ scsibus1:
 	<programlisting>cd9660_iconv_load="YES"</programlisting>
 
 	<para>and then rebooting the machine, or by directly loading
-	  the module with &man.kldload.8;.</para>
+	  the module with <command>kldload</command>.</para>
       </note>
 
       <para>Occasionally, <errorname>Device not configured</errorname>
-	will be displayed when trying to mount a CD-ROM.  This
-	usually means that the CD-ROM drive thinks that there is no
-	disk in the tray, or that the drive is not visible on the bus.
-	It can take a couple of seconds for a CD-ROM drive to realize
-	that a media is present, so be patient.</para>
+	will be displayed when trying to mount a data
+	<acronym>CD</acronym>.  This usually means that the
+	<acronym>CD</acronym> drive thinks that there is no disk in
+	the tray, or that the drive is not visible on the bus.  It
+	can take a couple of seconds for a <acronym>CD</acronym>
+	drive to realize that a media is present, so be
+	patient.</para>
 
-      <para>Sometimes, a SCSI CD-ROM may be missed because it did not
+      <para>Sometimes, a <acronym>SCSI</acronym>
+	<acronym>CD</acronym> drive may be missed because it did not
 	have enough time to answer the bus reset.  To resolve this,
-	add the following option to the kernel configuration and
-	<link linkend="kernelconfig-building">rebuild the
-	  kernel</link>.</para>
+	a custom kernel can be created which increases the default
+	<acronym>SCSI</acronym> delay.  Add the following option to
+	the custom kernel configuration file and rebuild the kernel
+	using the instructions in <xref
+	  linkend="kernelconfig-building"/>:</para>
 
       <programlisting>options SCSI_DELAY=15000</programlisting>
 
-      <para>This tells the SCSI bus to pause 15 seconds during boot,
-	to give the CD-ROM drive every possible chance to answer the
-	bus reset.</para>
-    </sect2>
-
-    <sect2 xml:id="rawdata-cd">
-      <title>Burning Raw Data CDs</title>
-
-      <para>It is possible to burn a file directly to CD, without
-	creating an ISO 9660 file system.  Some people do this for
-	backup purposes.  This command runs more quickly than burning
-	a standard CD:</para>
-
-      <screen>&prompt.root; <userinput>burncd -f /dev/acd1 -s 12 data archive.tar.gz fixate</userinput></screen>
-
-      <para>In order to retrieve the data burned to such a CD, the
-	data must be read from the raw device node:</para>
-
-      <screen>&prompt.root; <userinput>tar xzvf /dev/acd1</userinput></screen>
-
-      <para>This type of disk can not be mounted as a normal CD-ROM
-	and the data cannot be read under any operating system except
-	&os;.  In order to mount the CD, or to share the data with
-	another operating system, &man.mkisofs.8; must be used as
-	described above.</para>
-    </sect2>
-
-    <sect2 xml:id="atapicam">
-      <info>
-	<title>Using the ATAPI/CAM Driver</title>
-
-	<authorgroup>
-	  <author>
-	    <personname>
-	      <firstname>Marc</firstname>
-	      <surname>Fonvieille</surname>
-	    </personname>
-	    <contrib>Contributed by </contrib>
-	  </author>
-	</authorgroup>
-      </info>
-
-      <indexterm>
-	<primary>CD burner</primary>
-	<secondary>ATAPI/CAM driver</secondary>
-      </indexterm>
-
-      <para>This driver allows ATAPI devices, such as CD/DVD drives,
-	to be accessed through the SCSI subsystem, and so allows the
-	use of applications like <package>sysutils/cdrdao</package> or
-	&man.cdrecord.1;.</para>
-
-      <para>To use this driver, add the following line to
-	<filename>/boot/loader.conf</filename>:</para>
-
-      <programlisting>atapicam_load="YES"</programlisting>
-
-      <para>then, reboot the system.</para>
+      <para>This tells the <acronym>SCSI</acronym> bus to pause 15
+	seconds during boot, to give the <acronym>CD</acronym>
+	drive every possible chance to answer the bus reset.</para>
 
       <note>
-	<para>Users who prefer to statically compile &man.atapicam.4;
-	  support into the kernel, should add this line to the
-	  kernel configuration file:</para>
+	<para>It is possible to burn a file directly to
+	  <acronym>CD</acronym>, without creating an
+	  <acronym>ISO</acronym> 9660 file system.  This is known as
+	  burning a raw data <acronym>CD</acronym> and some people do
+	  this for backup purposes.</para>
 
-	<programlisting>device atapicam</programlisting>
+	<para>This type of disk can not be mounted as a normal data
+	  <acronym>CD</acronym>.  In order to retrieve the data burned
+	  to such a <acronym>CD</acronym>, the data must be read from
+	  the raw device node.  For example, this command will extract
+	  a compressed tar file located on the second
+	  <acronym>CD</acronym> device into the current working
+	  directory:</para>
 
-	<para>Ensure the following lines are still in the kernel
-	  configuration file:</para>
+	<screen>&prompt.root; <userinput>tar xzvf /dev/<replaceable>cd1</replaceable></userinput></screen>
 
-	<programlisting>device ata
-device scbus
-device cd
-device pass</programlisting>
-
-	<para>Then rebuild, install the new kernel, and reboot the
-	  machine.</para>
+	<para>  In order to mount a data <acronym>CD</acronym>, the
+	  data must be written using
+	  <command>mkisofs</command>.</para>
       </note>
+    </sect2>
 
-      <para>During the boot process, the burner should show up, like
-	so:</para>
+    <sect2 xml:id="duplicating-audiocds">
+      <title>Duplicating Audio <acronym>CD</acronym>s</title>
 
-      <screen>acd0: CD-RW &lt;MATSHITA CD-RW/DVD-ROM UJDA740&gt; at ata1-master PIO4
-cd0 at ata1 bus 0 target 0 lun 0
-cd0: &lt;MATSHITA CDRW/DVD UJDA740 1.00&gt; Removable CD-ROM SCSI-0 device
-cd0: 16.000MB/s transfers
-cd0: Attempt to query device size failed: NOT READY, Medium not present - tray closed</screen>
+      <para>To duplicate an audio <acronym>CD</acronym>, extract the
+	audio data from the <acronym>CD</acronym> to a series of
+	files, then write these files to a blank
+	<acronym>CD</acronym>.</para>
 
-      <para>The drive can now be accessed via the
-	<filename>/dev/cd0</filename> device name.  For example, to
-	mount a CD-ROM on <filename>/mnt</filename>,
-	type the following:</para>
+      <para><xref linkend="using-cdrecord"/> describes how to
+	duplicate and burn an audio <acronym>CD</acronym>.  If the
+	&os; version is less than 10.0 and the device is
+	<acronym>ATAPI</acronym>, the <option>atapicam</option> module
+	must be first loaded using the instructions in <xref
+	  linkend="atapicam"/>.</para>
 
-      <screen>&prompt.root; <userinput>mount -t cd9660 /dev/cd0 /mnt</userinput></screen>
+      <procedure xml:id="using-cdrecord">
+	<title>Duplicating an Audio <acronym>CD</acronym></title>
 
-      <para>As <systemitem class="username">root</systemitem>, run the
-	following command to get the SCSI address of the
-	burner:</para>
+	<step>
+	  <para>The <package>sysutils/cdrtools</package> package or
+	    port installs <command>cdda2wav</command>.  This command
+	    can be used to extract all of the audio tracks, with each
+	    track written to a separate <acronym>WAV</acronym> file in
+	    the current working directory:</para>
 
-      <screen>&prompt.root; <userinput>camcontrol devlist</userinput>
-&lt;MATSHITA CDRW/DVD UJDA740 1.00&gt;   at scbus1 target 0 lun 0 (pass0,cd0)</screen>
+	  <screen>&prompt.user; <userinput>cdda2wav -vall -B -Owav</userinput></screen>
 
-      <para>In this example, <literal>1,0,0</literal> is the SCSI
-	address to use with &man.cdrecord.1; and other SCSI
-	applications.</para>
+	  <para>A device name does not need to be specified if there
+	    is only one <acronym>CD</acronym> device on the system.
+	    Refer to the <command>cdda2wav</command> manual page for
+	    instructions on how to specify a device and to learn more
+	    about the other options available for this command.</para>
+	</step>
 
-      <para>For more information about ATAPI/CAM and SCSI system,
-	refer to &man.atapicam.4; and &man.cam.4;.</para>
+	<step>
+	  <para>Use <command>cdrecord</command> to write the
+	    <filename>.wav</filename> files:</para>
+
+	  <screen>&prompt.user; <userinput>cdrecord -v dev=<replaceable>2,0</replaceable> -dao -useinfo  *.wav</userinput></screen>
+
+	  <para>Make sure that <replaceable>2,0</replaceable> is set
+	    appropriately, as described in <xref
+	      linkend="cdrecord"/>.</para>
+	</step>
+      </procedure>
     </sect2>
   </sect1>
 
   <sect1 xml:id="creating-dvds">
     <info>
-      <title>Creating and Using DVD Media</title>
+      <title>Creating and Using <acronym>DVD</acronym> Media</title>
 
       <authorgroup>
 	<author>
@@ -1132,89 +979,93 @@ cd0: Attempt to query device size failed: NOT READY, Medium not present - tray c
     </info>
 
     <indexterm>
-      <primary>DVD</primary>
+      <primary><acronym>DVD</acronym></primary>
       <secondary>burning</secondary>
     </indexterm>
 
-    <sect2>
-      <title>Introduction</title>
+    <para>Compared to the <acronym>CD</acronym>, the
+      <acronym>DVD</acronym> is the next generation of optical media
+      storage technology.  The <acronym>DVD</acronym> can hold more
+      data than any <acronym>CD</acronym> and is the standard for
+      video publishing.</para>
 
-      <para>Compared to the CD, the DVD is the next generation of
-	optical media storage technology.  The DVD can hold more data
-	than any CD and is the standard for video publishing.</para>
+    <para>Five physical recordable formats can be defined for a
+      recordable <acronym>DVD</acronym>:</para>
 
-      <para>Five physical recordable formats can be defined for a
-	recordable DVD:</para>
+    <itemizedlist>
+      <listitem>
+	<para>DVD-R: This was the first <acronym>DVD</acronym>
+	  recordable format available.  The DVD-R standard is defined
+	  by the <link
+	    xlink:href="http://www.dvdforum.com/forum.shtml"><acronym>DVD</acronym>
+	    Forum</link>.  This format is write once.</para>
+      </listitem>
 
-      <itemizedlist>
-	<listitem>
-	  <para>DVD-R: This was the first DVD recordable format
-	    available.  The DVD-R standard is defined by the
-	    <link xlink:href="http://www.dvdforum.com/forum.shtml">DVD
-	      Forum</link>.  This format is write once.</para>
-	</listitem>
+      <listitem>
+	<para><acronym>DVD-RW</acronym>: This is the rewritable
+	  version of the DVD-R standard.  A
+	  <acronym>DVD-RW</acronym> can be rewritten about 1000
+	  times.</para>
+      </listitem>
 
-	<listitem>
-	  <para>DVD-RW: This is the rewritable version of the
-	    DVD-R standard.  A DVD-RW can be rewritten about 1000
-	    times.</para>
-	</listitem>
+      <listitem>
+	<para><acronym>DVD-RAM</acronym>: This is a rewritable format
+	  which can be seen as a removable hard drive.  However, this
+	  media is not compatible with most
+	  <acronym>DVD-ROM</acronym> drives and DVD-Video players as
+	  only a few <acronym>DVD</acronym> writers support the
+	  <acronym>DVD-RAM</acronym> format.  Refer to <xref
+	    linkend="creating-dvd-ram"/> for more information on
+	  <acronym>DVD-RAM</acronym> use.</para>
+      </listitem>
 
-	<listitem>
-	  <para>DVD-RAM: This is a rewritable format which can be seen
-	    as a removable hard drive.  However, this media is not
-	    compatible with most DVD-ROM drives and DVD-Video players
-	    as only a few DVD writers support the DVD-RAM format.
-	    Refer to <xref linkend="creating-dvd-ram"/> for more
-	    information on DVD-RAM use.</para>
-	</listitem>
+      <listitem>
+	<para><acronym>DVD+RW</acronym>: This is a rewritable format
+	  defined by the <link
+	    xlink:href="http://www.dvdrw.com/"><acronym>DVD+RW</acronym>
+	    Alliance</link>.  A <acronym>DVD+RW</acronym> can be
+	  rewritten about 1000 times.</para>
+      </listitem>
 
-	<listitem>
-	  <para>DVD+RW: This is a rewritable format defined by
-	    the <link xlink:href="http://www.dvdrw.com/">DVD+RW
-	    Alliance</link>.  A DVD+RW can be rewritten about 1000
-	    times.</para>
-	</listitem>
+      <listitem>
+	<para>DVD+R: This format is the write once variation of the
+	  <acronym>DVD+RW</acronym> format.</para>
+      </listitem>
+    </itemizedlist>
 
-	<listitem>
-	  <para>DVD+R: This format is the write once variation
-	    of the DVD+RW format.</para>
-	</listitem>
-      </itemizedlist>
+    <para>A single layer recordable <acronym>DVD</acronym> can hold up
+      to 4,700,000,000&nbsp;bytes which is actually 4.38&nbsp;GB or
+      4485&nbsp;MB as 1 kilobyte is 1024 bytes.</para>
 
-      <para>A single layer recordable DVD can hold up to
-	4,700,000,000&nbsp;bytes which is actually 4.38&nbsp;GB or
-	4485&nbsp;MB as 1 kilobyte is 1024 bytes.</para>
-
-      <note>
-	<para>A distinction must be made between the physical media
-	  and the application.  For example, a DVD-Video is a specific
-	  file layout that can be written on any recordable DVD
-	  physical media such as DVD-R, DVD+R, or DVD-RW.  Before
-	  choosing the type of media, ensure that both the burner and
-	  the DVD-Video player are compatible with the media under
-	  consideration.</para>
-      </note>
-    </sect2>
+    <note>
+      <para>A distinction must be made between the physical media and
+	the application.  For example, a DVD-Video is a specific file
+	layout that can be written on any recordable
+	<acronym>DVD</acronym> physical media such as DVD-R, DVD+R, or
+	<acronym>DVD-RW</acronym>.  Before choosing the type of media,
+	ensure that both the burner and the DVD-Video player are
+	compatible with the media under consideration.</para>
+    </note>
 
     <sect2>
       <title>Configuration</title>
 
-      <para>To perform DVD recording, use &man.growisofs.1;.  This
-	command is part of the
+      <para>To perform <acronym>DVD</acronym> recording, use
+	&man.growisofs.1;.  This command is part of the
 	<package>sysutils/dvd+rw-tools</package> utilities which
-	support all DVD media types.</para>
+	support all <acronym>DVD</acronym> media types.</para>
 
-      <para>These tools use the SCSI subsystem to access the devices,
-	therefore <link linkend="atapicam">ATAPI/CAM support</link>
-	must be loaded or statically compiled into the kernel.  This
-	support is not needed if the burner uses the USB interface.
-	Refer to <xref linkend="usb-disks"/> for more details
-	on USB device configuration.</para>
+      <para>These tools use the <acronym>SCSI</acronym> subsystem to
+	access the devices, therefore <link
+	  linkend="atapicam">ATAPI/CAM support</link> must be loaded
+	or statically compiled into the kernel.  This support is not
+	needed if the burner uses the <acronym>USB</acronym>
+	interface.  Refer to <xref linkend="usb-disks"/> for more
+	details on <acronym>USB</acronym> device configuration.</para>
 
-      <para>DMA access must also be enabled for ATAPI devices, by
-	adding the following line to
-	<filename>/boot/loader.conf</filename>:</para>
+      <para>DMA access must also be enabled for
+	<acronym>ATAPI</acronym> devices, by adding the following line
+	to <filename>/boot/loader.conf</filename>:</para>
 
       <programlisting>hw.ata.atapi_dma="1"</programlisting>
 
@@ -1232,19 +1083,20 @@ cd0: Attempt to query device size failed: NOT READY, Medium not present - tray c
     </sect2>
 
     <sect2>
-      <title>Burning Data DVDs</title>
+      <title>Burning Data <acronym>DVD</acronym>s</title>
 
-      <para>Since &man.growisofs.1; is a front-end to
-	<link linkend="mkisofs">mkisofs</link>, it will invoke
+      <para>Since &man.growisofs.1; is a front-end to <link
+	  linkend="mkisofs">mkisofs</link>, it will invoke
 	&man.mkisofs.8; to create the file system layout and perform
-	the write on the DVD.  This means that an image of the data
-	does not need to be created before the burning process.</para>
+	the write on the <acronym>DVD</acronym>.  This means that an
+	image of the data does not need to be created before the
+	burning process.</para>
 
       <para>To burn to a DVD+R or a DVD-R the data in
-	<filename>/path/to/data</filename>,
-	use the following command:</para>
+	<filename>/path/to/data</filename>, use the following
+	command:</para>
 
-      <screen>&prompt.root; <userinput>growisofs -dvd-compat -Z /dev/cd0 -J -R /path/to/data</userinput></screen>
+      <screen>&prompt.root; <userinput>growisofs -dvd-compat -Z <replaceable>/dev/cd0</replaceable> -J -R <replaceable>/path/to/data</replaceable></userinput></screen>
 
       <para>In this example, <option>-J -R</option> is passed to
 	&man.mkisofs.8;  to create an ISO 9660 file system with Joliet
@@ -1253,16 +1105,17 @@ cd0: Attempt to query device size failed: NOT READY, Medium not present - tray c
 
       <para>For the initial session recording, <option>-Z</option> is
 	used for both single and multiple sessions.  Replace
-	<replaceable>/dev/cd0</replaceable>, with the name of the DVD
-	device.  Using <option>-dvd-compat</option> indicates that the
-	disk will be closed and that the recording will be
-	unappendable.  This should also provide better media
-	compatibility with DVD-ROM drives.</para>
+	<replaceable>/dev/cd0</replaceable>, with the name of the
+	<acronym>DVD</acronym> device.  Using
+	<option>-dvd-compat</option> indicates that the disk will be
+	closed and that the recording will be unappendable.  This
+	should also provide better media compatibility with
+	<acronym>DVD-ROM</acronym> drives.</para>
 
       <para>To burn a pre-mastered image, such as
 	<replaceable>imagefile.iso</replaceable>, use:</para>
 
-      <screen>&prompt.root; <userinput>growisofs -dvd-compat -Z /dev/cd0=imagefile.iso</userinput></screen>
+      <screen>&prompt.root; <userinput>growisofs -dvd-compat -Z <replaceable>/dev/cd0</replaceable>=<replaceable>imagefile.iso</replaceable></userinput></screen>
 
       <para>The write speed should be detected and automatically set
 	according to the media and the drive being used.  To force the
@@ -1283,11 +1136,11 @@ cd0: Attempt to query device size failed: NOT READY, Medium not present - tray c
 
 	<para>To create this type of ISO file:</para>
 
-	<screen>&prompt.user; <userinput>mkisofs -R -J -udf -iso-level 3 -o imagefile.iso /path/to/data</userinput></screen>
+	<screen>&prompt.user; <userinput>mkisofs -R -J -udf -iso-level 3 -o <replaceable>imagefile.iso</replaceable> <replaceable>/path/to/data</replaceable></userinput></screen>
 
 	<para>To burn files directly to a disk:</para>
 
-	<screen>&prompt.root; <userinput>growisofs -dvd-compat -udf -iso-level 3 -Z /dev/cd0 -J -R /path/to/data</userinput></screen>
+	<screen>&prompt.root; <userinput>growisofs -dvd-compat -udf -iso-level 3 -Z <replaceable>/dev/cd0</replaceable> -J -R <replaceable>/path/to/data</replaceable></userinput></screen>
 
 	<para>When an ISO image already contains large files, no
 	  additional options are required for &man.growisofs.1; to
@@ -1303,10 +1156,10 @@ cd0: Attempt to query device size failed: NOT READY, Medium not present - tray c
     </sect2>
 
     <sect2>
-      <title>Burning a DVD-Video</title>
+      <title>Burning a <acronym>DVD</acronym>-Video</title>
 
       <indexterm>
-	<primary>DVD</primary>
+	<primary><acronym>DVD</acronym></primary>
 	<secondary>DVD-Video</secondary>
       </indexterm>
 
@@ -1314,15 +1167,16 @@ cd0: Attempt to query device size failed: NOT READY, Medium not present - tray c
 	9660 and micro-UDF (M-UDF) specifications.  Since DVD-Video
 	presents a specific data structure hierarchy, a particular
 	program such as <package>multimedia/dvdauthor</package> is
-	needed to author the DVD.</para>
+	needed to author the <acronym>DVD</acronym>.</para>
 
       <para>If an image of the DVD-Video file system already exists,
 	it can be burned in the same way as any other image.  If
-	<command>dvdauthor</command> was used to make the DVD and the
-	result is in <filename>/path/to/video</filename>, the
-	following command should be used to burn the DVD-Video:</para>
+	<command>dvdauthor</command> was used to make the
+	<acronym>DVD</acronym> and the result is in
+	<filename>/path/to/video</filename>, the following command
+	should be used to burn the DVD-Video:</para>
 
-      <screen>&prompt.root; <userinput>growisofs -Z /dev/cd0 -dvd-video /path/to/video</userinput></screen>
+      <screen>&prompt.root; <userinput>growisofs -Z <replaceable>/dev/cd0</replaceable> -dvd-video <replaceable>/path/to/video</replaceable></userinput></screen>
 
       <para><option>-dvd-video</option> is passed to &man.mkisofs.8;
 	to instruct it to create a DVD-Video file system layout.
@@ -1331,87 +1185,93 @@ cd0: Attempt to query device size failed: NOT READY, Medium not present - tray c
     </sect2>
 
     <sect2>
-      <title>Using a DVD+RW</title>
+      <title>Using a <acronym>DVD+RW</acronym></title>
 
       <indexterm>
-	<primary>DVD</primary>
-	<secondary>DVD+RW</secondary>
+	<primary><acronym>DVD</acronym></primary>
+	<secondary><acronym>DVD+RW</acronym></secondary>
       </indexterm>
 
-      <para>Unlike CD-RW, a virgin DVD+RW needs to be formatted before
-	first use.  It is <emphasis>recommended</emphasis> to let
-	&man.growisofs.1; take care of this automatically whenever
-	appropriate.  However, it is possible to use
-	<command>dvd+rw-format</command> to format the DVD+RW:</para>
+      <para>Unlike CD-RW, a virgin <acronym>DVD+RW</acronym> needs to
+	be formatted before first use.  It is
+	<emphasis>recommended</emphasis> to let &man.growisofs.1; take
+	care of this automatically whenever appropriate.  However, it
+	is possible to use <command>dvd+rw-format</command> to format
+	the <acronym>DVD+RW</acronym>:</para>
 
-      <screen>&prompt.root; <userinput>dvd+rw-format /dev/cd0</userinput></screen>
+      <screen>&prompt.root; <userinput>dvd+rw-format <replaceable>/dev/cd0</replaceable></userinput></screen>
 
       <para>Only perform this operation once and keep in mind that
-	only virgin DVD+RW medias need to be formatted.  Once
-	formatted, the DVD+RW can be burned as usual.</para>
+	only virgin <acronym>DVD+RW</acronym> medias need to be
+	formatted.  Once formatted, the <acronym>DVD+RW</acronym> can
+	be burned as usual.</para>
 
       <para>To burn a totally new file system and not just append some
-	data onto a DVD+RW, the media does not need to be blanked
-	first.  Instead, write over the previous recording like
-	this:</para>
+	data onto a <acronym>DVD+RW</acronym>, the media does not need
+	to be blanked first.  Instead, write over the previous
+	recording like this:</para>
 
-      <screen>&prompt.root; <userinput>growisofs -Z /dev/cd0 -J -R /path/to/newdata</userinput></screen>
+      <screen>&prompt.root; <userinput>growisofs -Z <replaceable>/dev/cd0</replaceable> -J -R <replaceable>/path/to/newdata</replaceable></userinput></screen>
 
-      <para>The DVD+RW format supports appending data to a previous
-	recording.  This operation consists of merging a new session
-	to the existing one as it is not considered to be
-	multi-session writing.  &man.growisofs.1; will
-	<emphasis>grow</emphasis> the ISO 9660 file system present on
-	the media.</para>
+      <para>The <acronym>DVD+RW</acronym> format supports appending
+	data to a previous recording.  This operation consists of
+	merging a new session to the existing one as it is not
+	considered to be multi-session writing.  &man.growisofs.1;
+	will <emphasis>grow</emphasis> the ISO 9660 file system
+	present on the media.</para>
 
-      <para>For example, to append data to a DVD+RW, use the
-	following:</para>
+      <para>For example, to append data to a
+	<acronym>DVD+RW</acronym>, use the following:</para>
 
-      <screen>&prompt.root; <userinput>growisofs -M /dev/cd0 -J -R /path/to/nextdata</userinput></screen>
+      <screen>&prompt.root; <userinput>growisofs -M <replaceable>/dev/cd0</replaceable> -J -R <replaceable>/path/to/nextdata</replaceable></userinput></screen>
 
       <para>The same &man.mkisofs.8; options used to burn the
 	initial session should be used during next writes.</para>
 
       <note>
 	<para>Use <option>-dvd-compat</option> for better media
-	  compatibility with DVD-ROM drives.  When using DVD+RW, this
-	  option will not prevent the addition of data.</para>
+	  compatibility with <acronym>DVD-ROM</acronym> drives.  When
+	  using <acronym>DVD+RW</acronym>, this option will not
+	  prevent the addition of data.</para>
       </note>
 
       <para>To blank the media, use:</para>
 
-      <screen>&prompt.root; <userinput>growisofs -Z /dev/cd0=/dev/zero</userinput></screen>
+      <screen>&prompt.root; <userinput>growisofs -Z <replaceable>/dev/cd0</replaceable>=<replaceable>/dev/zero</replaceable></userinput></screen>
     </sect2>
 
     <sect2>
-      <title>Using a DVD-RW</title>
+      <title>Using a <acronym>DVD-RW</acronym></title>
 
       <indexterm>
-	<primary>DVD</primary>
-	<secondary>DVD-RW</secondary>
+	<primary><acronym>DVD</acronym></primary>
+	<secondary><acronym>DVD-RW</acronym></secondary>
       </indexterm>
 
-      <para>A DVD-RW accepts two disc formats: incremental sequential
-	and restricted overwrite.  By default, DVD-RW discs are in
-	sequential format.</para>
+      <para>A <acronym>DVD-RW</acronym> accepts two disc formats:
+	incremental sequential and restricted overwrite.  By default,
+	<acronym>DVD-RW</acronym> discs are in sequential
+	format.</para>
 
-      <para>A virgin DVD-RW can be directly written without being
-	formatted.  However, a non-virgin DVD-RW in sequential format
-	needs to be blanked before writing a new initial
-	session.</para>
+      <para>A virgin <acronym>DVD-RW</acronym> can be directly written
+	without being formatted.  However, a non-virgin
+	<acronym>DVD-RW</acronym> in sequential format needs to be
+	blanked before writing a new initial session.</para>
 
-      <para>To blank a DVD-RW in sequential mode:</para>
+      <para>To blank a <acronym>DVD-RW</acronym> in sequential
+	mode:</para>
 
-      <screen>&prompt.root; <userinput>dvd+rw-format -blank=full /dev/cd0</userinput></screen>
+      <screen>&prompt.root; <userinput>dvd+rw-format -blank=full <replaceable>/dev/cd0</replaceable></userinput></screen>
 
       <note>
 	<para>A full blanking using <option>-blank=full</option> will
 	  take about one hour on a 1x media.  A fast blanking can be
-	  performed using <option>-blank</option>, if the DVD-RW will
-	  be recorded in Disk-At-Once (DAO) mode.  To burn the DVD-RW
-	  in DAO mode, use the command:</para>
+	  performed using <option>-blank</option>, if the
+	  <acronym>DVD-RW</acronym> will be recorded in Disk-At-Once
+	  (DAO) mode.  To burn the <acronym>DVD-RW</acronym> in DAO
+	  mode, use the command:</para>
 
-	<screen>&prompt.root; <userinput>growisofs -use-the-force-luke=dao -Z /dev/cd0=imagefile.iso</userinput></screen>
+	<screen>&prompt.root; <userinput>growisofs -use-the-force-luke=dao -Z <replaceable>/dev/cd0</replaceable>=<replaceable>imagefile.iso</replaceable></userinput></screen>
 
 	<para>Since &man.growisofs.1; automatically attempts to detect
 	  fast blanked media and engage DAO write,
@@ -1419,58 +1279,62 @@ cd0: Attempt to query device size failed: NOT READY, Medium not present - tray c
 	  required.</para>
 
 	<para>One should instead use restricted overwrite mode with
-	  any DVD-RW as this format is more flexible than the default
-	  of incremental sequential.</para>
+	  any <acronym>DVD-RW</acronym> as this format is more
+	  flexible than the default of incremental sequential.</para>
       </note>
 
-      <para>To write data on a sequential DVD-RW, use the same
-	instructions as for the other DVD formats:</para>
+      <para>To write data on a sequential <acronym>DVD-RW</acronym>,
+	use the same instructions as for the other
+	<acronym>DVD</acronym> formats:</para>
 
-      <screen>&prompt.root; <userinput>growisofs -Z /dev/cd0 -J -R /path/to/data</userinput></screen>
+      <screen>&prompt.root; <userinput>growisofs -Z <replaceable>/dev/cd0</replaceable> -J -R <replaceable>/path/to/data</replaceable></userinput></screen>
 
       <para>To append some data to a previous recording, use
 	<option>-M</option> with &man.growisofs.1;.  However, if data
-	is appended on a DVD-RW in incremental sequential mode, a new
-	session will be created on the disc and the result will be a
-	multi-session disc.</para>
+	is appended on a <acronym>DVD-RW</acronym> in incremental
+	sequential mode, a new session will be created on the disc and
+	the result will be a multi-session disc.</para>
 
-      <para>A DVD-RW in restricted overwrite format does not need to
-	be blanked before a new initial session.  Instead, overwrite
-	the disc with <option>-Z</option>.  It is also possible to
-	grow an existing ISO 9660 file system written on the disc with
-	<option>-M</option>.  The result will be a one-session
-	DVD.</para>
+      <para>A <acronym>DVD-RW</acronym> in restricted overwrite format
+	does not need to be blanked before a new initial session.
+	Instead, overwrite the disc with <option>-Z</option>.  It is
+	also possible to grow an existing ISO 9660 file system written
+	on the disc with <option>-M</option>.  The result will be a
+	one-session <acronym>DVD</acronym>.</para>
 
-      <para>To put a DVD-RW in restricted overwrite format, the
-	following command must be used:</para>
+      <para>To put a <acronym>DVD-RW</acronym> in restricted overwrite
+	format, the following command must be used:</para>
 
-      <screen>&prompt.root; <userinput>dvd+rw-format /dev/cd0</userinput></screen>
+      <screen>&prompt.root; <userinput>dvd+rw-format <replaceable>/dev/cd0</replaceable></userinput></screen>
 
       <para>To change back to sequential format, use:</para>
 
-      <screen>&prompt.root; <userinput>dvd+rw-format -blank=full /dev/cd0</userinput></screen>
+      <screen>&prompt.root; <userinput>dvd+rw-format -blank=full <replaceable>/dev/cd0</replaceable></userinput></screen>
     </sect2>
 
     <sect2>
       <title>Multi-Session</title>
 
-      <para>Few DVD-ROM drives support multi-session DVDs and most of
-	the time only read the first session.  DVD+R, DVD-R and DVD-RW
-	in sequential format can accept multiple sessions.  The notion
-	of multiple sessions does not exist for the DVD+RW and the
-	DVD-RW restricted overwrite formats.</para>
+      <para>Few <acronym>DVD-ROM</acronym> drives support
+	multi-session DVDs and most of the time only read the first
+	session.  DVD+R, DVD-R and <acronym>DVD-RW</acronym> in
+	sequential format can accept multiple sessions.  The notion
+	of multiple sessions does not exist for the
+	<acronym>DVD+RW</acronym> and the <acronym>DVD-RW</acronym>
+	restricted overwrite formats.</para>
 
       <para>Using the following command after an initial non-closed
-	session on a DVD+R, DVD-R, or DVD-RW in sequential format,
-	will add a new session to the disc:</para>
+	session on a DVD+R, DVD-R, or <acronym>DVD-RW</acronym> in
+	sequential format, will add a new session to the disc:</para>
 
-      <screen>&prompt.root; <userinput>growisofs -M /dev/cd0 -J -R /path/to/nextdata</userinput></screen>
+      <screen>&prompt.root; <userinput>growisofs -M <replaceable>/dev/cd0</replaceable> -J -R <replaceable>/path/to/nextdata</replaceable></userinput></screen>
 
-      <para>Using this command with a DVD+RW or a DVD-RW in restricted
-	overwrite mode will append data while merging the new session
-	to the existing one.  The result will be a single-session
-	disc.  Use this method to add data after an initial write on
-	these types of media.</para>
+      <para>Using this command with a <acronym>DVD+RW</acronym> or a
+	<acronym>DVD-RW</acronym> in restricted overwrite mode will
+	append data while merging the new session to the existing one.
+	The result will be a single-session disc.  Use this method to
+	add data after an initial write on these types of
+	media.</para>
 
       <note>
 	<para>Since some space on the media is used between each
@@ -1485,10 +1349,10 @@ cd0: Attempt to query device size failed: NOT READY, Medium not present - tray c
     <sect2>
       <title>For More Information</title>
 
-      <para>To obtain more information about a DVD, use
-	<command>dvd+rw-mediainfo
-	  /dev/cd0</command> while the disc
-	in the specified drive.</para>
+      <para>To obtain more information about a <acronym>DVD</acronym>,
+	use <command>dvd+rw-mediainfo
+	  <replaceable>/dev/cd0</replaceable></command> while the
+	disc in the specified drive.</para>
 
       <para>More information about
 	<application>dvd+rw-tools</application> can be found in
@@ -1506,51 +1370,42 @@ cd0: Attempt to query device size failed: NOT READY, Medium not present - tray c
     </sect2>
 
     <sect2 xml:id="creating-dvd-ram">
-      <title>Using a DVD-RAM</title>
+      <title>Using a <acronym>DVD-RAM</acronym></title>
 
       <indexterm>
-	<primary>DVD</primary>
-	<secondary>DVD-RAM</secondary>
+	<primary><acronym>DVD</acronym></primary>
+	<secondary><acronym>DVD-RAM</acronym></secondary>
       </indexterm>
 
-      <sect3>
-	<title>Configuration</title>
+      <para><acronym>DVD-RAM</acronym> writers can use either a
+	<acronym>SCSI</acronym> or <acronym>ATAPI</acronym> interface.
+	For <acronym>ATAPI</acronym> devices, DMA access has to be
+	enabled by adding the following line to
+	<filename>/boot/loader.conf</filename>:</para>
 
-	<para>DVD-RAM writers can use either a SCSI or ATAPI
-	  interface.  For ATAPI devices, DMA access has to be
-	  enabled by adding the following line to
-	  <filename>/boot/loader.conf</filename>:</para>
+      <programlisting>hw.ata.atapi_dma="1"</programlisting>
 
-	<programlisting>hw.ata.atapi_dma="1"</programlisting>
-      </sect3>
+      <para>A <acronym>DVD-RAM</acronym> can be seen as a removable
+	hard drive.  Like any other hard drive, the
+	<acronym>DVD-RAM</acronym> must be formatted before it can be
+	used.  In this example, the whole disk space will be formatted
+	with a standard UFS2 file system:</para>
 
-      <sect3>
-	<title>Preparing the Media</title>
+      <screen>&prompt.root; <userinput>dd if=/dev/zero of=<replaceable>/dev/acd0</replaceable> bs=2k count=1</userinput>
+&prompt.root; <userinput>bsdlabel -Bw <replaceable>acd0</replaceable></userinput>
+&prompt.root; <userinput>newfs <replaceable>/dev/acd0</replaceable></userinput></screen>
 
-	<para>A DVD-RAM can be seen as a removable hard drive.  Like
-	  any other hard drive, the DVD-RAM must be formatted before
-	  it can be used.  In this example, the whole disk space will
-	  be formatted with a standard UFS2 file system:</para>
+      <para>The <acronym>DVD</acronym> device,
+	<filename>acd0</filename>, must be changed according to the
+	configuration.</para>
 
-	<screen>&prompt.root; <userinput>dd if=/dev/zero of=/dev/acd0 bs=2k count=1</userinput>
-&prompt.root; <userinput>bsdlabel -Bw acd0</userinput>
-&prompt.root; <userinput>newfs /dev/acd0</userinput></screen>
+      <para>Once the <acronym>DVD-RAM</acronym> has been formatted, it
+	can be mounted as a normal hard drive:</para>
 
-	<para>The DVD device, <filename>acd0</filename>, must be
-	  changed according to the configuration.</para>
-      </sect3>
+      <screen>&prompt.root; <userinput>mount <replaceable>/dev/acd0</replaceable> <replaceable>/mnt</replaceable></userinput></screen>
 
-      <sect3>
-	<title>Using the Media</title>
-
-	<para>Once the DVD-RAM has been formatted, it can be mounted
-	  as a normal hard drive:</para>
-
-	<screen>&prompt.root; <userinput>mount /dev/acd0 /mnt</userinput></screen>
-
-	<para>Once mounted, the DVD-RAM will be both readable and
-	  writeable.</para>
-      </sect3>
+      <para>Once mounted, the <acronym>DVD-RAM</acronym> will be both
+	readable and writeable.</para>
     </sect2>
   </sect1>
 
@@ -1627,101 +1482,6 @@ cd0: Attempt to query device size failed: NOT READY, Medium not present - tray c
       with &man.mount.msdosfs.8;.  One can also install and use
       <package>emulators/mtools</package> from the Ports
       Collection.</para>
-  </sect1>
-
-  <sect1 xml:id="backups-tapebackups">
-    <title>Creating and Using Data Tapes</title>
-
-    <indexterm><primary>tape media</primary></indexterm>
-
-    <para>Tape technology has continued to evolve but is less likely
-      to be used in a modern system.  Modern backup systems tend to
-      use off site combined with local removable disk drive
-      technologies.  Still, &os; will support any tape drive that
-      uses SCSI, such as LTO and older devices such as DAT.  There is
-      limited support for SATA and USB tape drives.</para>
-
-    <sect2 xml:id="tapes-sa0">
-      <title>Serial Access with &man.sa.4;</title>
-
-      <indexterm>
-	<primary>tape drives</primary>
-      </indexterm>
-
-      <para>&os; uses the &man.sa.4; driver, providing
-	<filename>/dev/sa0</filename>,
-	<filename>/dev/nsa0</filename>, and
-	<filename>/dev/esa0</filename>.  In normal use, only
-	<filename>/dev/sa0</filename> is needed.
-	<filename>/dev/nsa0</filename> is the same physical drive
-	as <filename>/dev/sa0</filename> but does not rewind the
-	tape after writing a file.  This allows writing more than one
-	file to a tape.  Using <filename>/dev/esa0</filename>
-	ejects the tape after the device is closed, if
-	applicable.</para>
-    </sect2>
-
-    <sect2>
-      <title xml:id="tapes-mt">Controlling the Tape Drive with
-	&man.mt.1;</title>
-
-      <indexterm>
-	<primary>tape media</primary>
-	<secondary>mt</secondary>
-      </indexterm>
-
-      <para>&man.mt.1; is the &os; utility for controlling other
-	operations of the tape drive, such as seeking through files on
-	a tape or writing tape control marks to the tape.</para>
-
-      <para>For example, the first three files on a tape can be
-	preserved by skipping past them before writing a new
-	file:</para>
-
-      <screen>&prompt.root; <userinput>mt -f /dev/nsa0 fsf 3</userinput></screen>
-    </sect2>
-
-    <sect2>
-      <title xml:id="tapes-tar">Using &man.tar.1; to Read and
-	Write Tape Backups</title>
-
-      <para>An example of writing a single file to tape using
-	&man.tar.1;:</para>
-
-      <screen>&prompt.root; <userinput>tar cvf /dev/sa0 file</userinput></screen>
-
-      <para>Recovering files from a &man.tar.1; archive on tape into
-	the current directory:</para>
-
-      <screen>&prompt.root; <userinput>tar xvf /dev/sa0</userinput></screen>
-    </sect2>
-
-    <sect2>
-      <title xml:id="tapes-dumprestore">Using &man.dump.8; and
-	&man.restore.8; to Create and Restore Backups</title>
-
-      <para>A simple backup of <filename>/usr</filename> with
-	&man.dump.8;:</para>
-
-      <screen>&prompt.root; <userinput>dump -0aL -b64 -f /dev/nsa0 /usr</userinput></screen>
-
-      <para>Interactively restoring files from a &man.dump.8; file on
-	tape into the current directory:</para>
-
-      <screen>&prompt.root; <userinput>restore -i -f /dev/nsa0</userinput></screen>
-    </sect2>
-
-    <sect2>
-      <title xml:id="tapes-othersofware">Other Tape Software</title>
-
-      <para>Higher-level programs are available to simplify tape
-	backup.  The most popular are
-	<application>Amanda</application> and
-	<application>Bacula</application>.  These programs aim to make
-	backups easier and more convenient, or to automate complex
-	backups of multiple machines.  The Ports Collection contains
-	both these and other tape utility applications.</para>
-    </sect2>
   </sect1>
 
   <sect1 xml:id="backup-basics">
@@ -1857,7 +1617,7 @@ cd0: Attempt to query device size failed: NOT READY, Medium not present - tray c
       </example>
 
       <para>This example sets <envar>RSH</envar> in order to write the
-	the backup to a tape drive on a remote system over a
+	backup to a tape drive on a remote system over a
 	<acronym>SSH</acronym> connection:</para>
 
       <example>
@@ -1899,7 +1659,7 @@ cd0: Attempt to query device size failed: NOT READY, Medium not present - tray c
 	<title>Backing Up the Current Directory With
 	  <command>tar</command></title>
 
-      <screen>&prompt.root; <userinput>tar czvf /tmp/mybackup.tgz . </userinput></screen>
+      <screen>&prompt.root; <userinput>tar czvf <replaceable>/tmp/mybackup.tgz</replaceable> . </userinput></screen>
       </example>
 
       <para>To restore the entire backup, <command>cd</command> into
@@ -1913,7 +1673,7 @@ cd0: Attempt to query device size failed: NOT READY, Medium not present - tray c
 	<title>Restoring Up the Current Directory With
 	  <command>tar</command></title>
 
-      <screen>&prompt.root; <userinput>tar xzvf /tmp/mybackup.tgz</userinput></screen>
+      <screen>&prompt.root; <userinput>tar xzvf <replaceable>/tmp/mybackup.tgz</replaceable></userinput></screen>
       </example>
 
       <para>There are dozens of available switches which are described
@@ -1944,7 +1704,7 @@ cd0: Attempt to query device size failed: NOT READY, Medium not present - tray c
 	<title>Using<command>ls</command> and <command>cpio</command>
 	  to Make a Recursive Backup of the Current Directory</title>
 
-      <screen>&prompt.root; <userinput>ls -R | cpio -ovF /tmp/mybackup.cpio</userinput></screen>
+      <screen>&prompt.root; <userinput>ls -R | cpio -ovF <replaceable>/tmp/mybackup.cpio</replaceable></userinput></screen>
       </example>
 
       <indexterm>
@@ -1971,8 +1731,68 @@ cd0: Attempt to query device size failed: NOT READY, Medium not present - tray c
 	<title>Backing Up the Current Directory With
 	  <command>pax</command></title>
 
-      <screen>&prompt.root; <userinput>pax -wf /tmp/mybackup.pax .</userinput></screen>
+      <screen>&prompt.root; <userinput>pax -wf <replaceable>/tmp/mybackup.pax</replaceable> .</userinput></screen>
       </example>
+    </sect2>
+
+    <sect2 xml:id="backups-tapebackups">
+      <title>Using Data Tapes for Backups</title>
+
+      <indexterm><primary>tape media</primary></indexterm>
+
+      <para>While tape technology has continued to evolve, modern
+	backup systems tend to combine off-site backups with local
+	removable media.  &os; supports any tape drive that uses
+	<acronym>SCSI</acronym>, such as <acronym>LTO</acronym> or
+	<acronym>DAT</acronym>.  There is limited support for
+	<acronym>SATA</acronym> and <acronym>USB</acronym> tape
+	drives.</para>
+
+      <para>For <acronym>SCSI</acronym> tape devices, &os; uses the
+	&man.sa.4; driver and the <filename>/dev/sa0</filename>,
+	<filename>/dev/nsa0</filename>, and
+	<filename>/dev/esa0</filename> devices.  The physical device
+	name is <filename>/dev/sa0</filename>.  When
+	<filename>/dev/nsa0</filename> is used, the backup application
+	will not rewind the tape after writing a file, which allows
+	writing more than one file to a tape.  Using
+	<filename>/dev/esa0</filename> ejects the tape after the
+	device is closed.</para>
+
+      <para>In &os;, <command>mt</command> is used to control
+	operations of the tape drive, such as seeking through files on
+	a tape or writing tape control marks to the tape.  For
+	example, the first three files on a tape can be preserved by
+	skipping past them before writing a new file:</para>
+
+      <screen>&prompt.root; <userinput>mt -f /dev/nsa0 fsf 3</userinput></screen>
+
+      <para>This utility supports many operations.  Refer to
+	&man.mt.1; for details.</para>
+
+      <para>To write a single file to tape using
+	<command>tar</command>, specify the name of the tape device
+	and the file to backup:</para>
+
+      <screen>&prompt.root; <userinput>tar cvf /dev/sa0 <replaceable>file</replaceable></userinput></screen>
+
+      <para>To recover files from a <command>tar</command> archive
+	on tape into the current directory:</para>
+
+      <screen>&prompt.root; <userinput>tar xvf /dev/sa0</userinput></screen>
+
+      <para>To backup a <acronym>UFS</acronym> file system, use
+	<command>dump</command>.  This examples backs up
+	<filename>/usr</filename> without rewinding the tape when
+	finished:</para>
+
+      <screen>&prompt.root; <userinput>dump -0aL -b64 -f /dev/nsa0 /usr</userinput></screen>
+
+      <para>To interactively restore files from a
+	<command>dump</command> file on tape into the current
+	directory:</para>
+
+      <screen>&prompt.root; <userinput>restore -i -f /dev/nsa0</userinput></screen>
     </sect2>
 
     <sect2 xml:id="backups-programs-amanda">
@@ -1984,9 +1804,10 @@ cd0: Attempt to query device size failed: NOT READY, Medium not present - tray c
 
       <para>The &os; Ports Collection provides many third-party
 	utilities which can be used to schedule the creation of
-	backups.  Many of these applications are client/server based
-	and can be used to automate the backups of a single system or
-	all of the computers in a network.</para>
+	backups, simplify tape backup, and make backups easier and
+	more convenient.  Many of these applications are client/server
+	based and can be used to automate the backups of a single
+	system or all of the computers in a network.</para>
 
       <para>Popular utilities include
 	<application>Amanda</application>,
@@ -2022,7 +1843,9 @@ cd0: Attempt to query device size failed: NOT READY, Medium not present - tray c
 	</listitem>
       </itemizedlist>
 
-      <indexterm><primary>livefs CD</primary></indexterm>
+      <indexterm><primary>livefs
+	  <acronym>CD</acronym></primary></indexterm>
+
       <para>Store this printout and a copy of the installation media
 	in a secure location.  Should an emergency restore be
 	needed, boot into the installation media and select
@@ -2035,8 +1858,9 @@ cd0: Attempt to query device size failed: NOT READY, Medium not present - tray c
 	<para>The installation media for
 	  &os;/&arch.i386;&nbsp;&rel2.current;-RELEASE does not
 	  include a rescue shell.  For this version, instead
-	  download and burn a Livefs CD image from <uri
-	    xlink:href="ftp://ftp.FreeBSD.org/pub/FreeBSD/releases/&arch.i386;/ISO-IMAGES/&rel2.current;/&os;-&rel2.current;-RELEASE-&arch.i386;-livefs.iso">ftp://ftp.FreeBSD.org/pub/FreeBSD/releases/&arch.i386;/ISO-IMAGES/&rel2.current;/&os;-&rel2.current;-RELEASE-&arch.i386;-livefs.iso</uri>.</para>  
+	  download and burn a Livefs <acronym>CD</acronym> image from
+	  <uri
+	    xlink:href="ftp://ftp.FreeBSD.org/pub/FreeBSD/releases/&arch.i386;/ISO-IMAGES/&rel2.current;/&os;-&rel2.current;-RELEASE-&arch.i386;-livefs.iso">ftp://ftp.FreeBSD.org/pub/FreeBSD/releases/&arch.i386;/ISO-IMAGES/&rel2.current;/&os;-&rel2.current;-RELEASE-&arch.i386;-livefs.iso</uri>.</para>
       </note>
 
       <para>Next, test the rescue shell and the backups.  Make notes
@@ -2053,7 +1877,7 @@ cd0: Attempt to query device size failed: NOT READY, Medium not present - tray c
 
   <sect1 xml:id="disks-virtual">
     <info>
-      <title>Network, Memory, and File-Backed File Systems</title>
+      <title>Memory Disks</title>
 
       <authorgroup>
 	<author>
@@ -2066,190 +1890,147 @@ cd0: Attempt to query device size failed: NOT READY, Medium not present - tray c
       </authorgroup>
     </info>
 
-    <indexterm><primary>virtual disks</primary></indexterm>
-    <indexterm>
-      <primary>disks</primary>
-      <secondary>virtual</secondary>
-    </indexterm>
+    <para>In addition to physical disks, &os; also supports the
+      creation and use of memory disks.  One possible use for a
+      memory disk is to access the contents of an
+      <acronym>ISO</acronym> file system without the overhead of first
+      burning it to a <acronym>CD</acronym> or <acronym>DVD</acronym>,
+      then mounting the <acronym>CD/DVD</acronym> media.</para>
 
-    <para>In addition to physical disks such as floppies, CDs, and
-      hard drives, &os; also supports
-      <firstterm>virtual disks</firstterm>.</para>
+    <para>In &os;, the  &man.md.4; driver is used to provide support
+      for memory disks.  The <filename>GENERIC</filename> kernel
+      includes this driver.  When using a custom kernel configuration
+      file, ensure it includes this line:</para>
 
-    <indexterm><primary>NFS</primary></indexterm>
-    <indexterm><primary>Coda</primary></indexterm>
-    <indexterm>
-      <primary>disks</primary>
-      <secondary>memory</secondary>
-    </indexterm>
-    <para>These include network file systems such as the
-      <link linkend="network-nfs">Network File System</link> and Coda,
-      memory-based file systems, and file-backed file systems.</para>
-
-    <para>According to the &os; version, the tools used for the
-      creation and use of file-backed and memory-based file systems
-      differ.</para>
-
-    <note>
-      <para>Use &man.devfs.5; to allocate device nodes transparently
-	for the user.</para>
-    </note>
+    <programlisting>device md</programlisting>
 
     <sect2 xml:id="disks-mdconfig">
-      <title>File-Backed File System</title>
+      <title>Attaching and Detaching Existing Images</title>
 
       <indexterm>
 	<primary>disks</primary>
-	<secondary>file-backed</secondary>
+	<secondary>memory</secondary>
       </indexterm>
 
-      <para>&man.mdconfig.8; is used to configure and enable memory
-	disks, &man.md.4;, under &os;.  To use &man.mdconfig.8;,
-	&man.md.4; must be first loaded.  When using a custom kernel
-	configuration file, ensure it includes this line:</para>
+      <para>To mount an existing file system image, use
+	<command>mdconfig</command> to specify the name of the
+	<acronym>ISO</acronym> file and a free unit number.  Then,
+	refer to that unit number to mount it on an existing mount
+	point.  Once mounted, the files in the <acronym>ISO</acronym>
+	will appear in the mount point.  This example attaches
+	<replaceable>diskimage.iso</replaceable> to the memory device
+	<filename>/dev/md0</filename> then mounts that memory device
+	on <filename>/mnt</filename>:</para>
 
-      <programlisting>device md</programlisting>
+      <screen>&prompt.root; <userinput>mdconfig -f <replaceable>diskimage.iso</replaceable> -u <replaceable>0</replaceable></userinput>
+&prompt.root; <userinput>mount /dev/md<replaceable>0</replaceable> <replaceable>/mnt</replaceable></userinput></screen>
 
-      <para>&man.mdconfig.8; supports several types of memory backed
-	virtual disks: memory disks allocated with &man.malloc.9; and
-	memory disks using a file or swap space as backing.  One
-	possible use is the mounting of CD images.</para>
-
-      <para>To mount an existing file system image:</para>
-
-      <example>
-	<title>Using <command>mdconfig</command> to Mount an Existing
-	  File System Image</title>
-
-	<screen>&prompt.root; <userinput>mdconfig -a -t vnode -f diskimage -u 0</userinput>
-&prompt.root; <userinput>mount /dev/md0 /mnt</userinput></screen>
-      </example>
-
-      <para>To create a new file system image with
-	&man.mdconfig.8;:</para>
-
-      <example>
-	<title>Creating a New File-Backed Disk with
-	  <command>mdconfig</command></title>
-
-	<screen>&prompt.root; <userinput>dd if=/dev/zero of=newimage bs=1k count=5k</userinput>
-5120+0 records in
-5120+0 records out
-&prompt.root; <userinput>mdconfig -a -t vnode -f newimage -u 0</userinput>
-&prompt.root; <userinput>bsdlabel -w md0 auto</userinput>
-&prompt.root; <userinput>newfs md0a</userinput>
-/dev/md0a: 5.0MB (10224 sectors) block size 16384, fragment size 2048
-        using 4 cylinder groups of 1.25MB, 80 blks, 192 inodes.
-super-block backups (for fsck -b #) at:
- 160, 2720, 5280, 7840
-&prompt.root; <userinput>mount /dev/md0a /mnt</userinput>
-&prompt.root; <userinput>df /mnt</userinput>
-Filesystem 1K-blocks Used Avail Capacity  Mounted on
-/dev/md0a       4710    4  4330     0%    /mnt</screen>
-      </example>
-
-      <para>If unit number is not specified with
-	<option>-u</option>, &man.mdconfig.8; uses the
-	&man.md.4; automatic allocation to select an unused device.
-	The name of the allocated unit will be output to stdout, such
-	as <filename>md4</filename>.  Refer to &man.mdconfig.8;
-	for more details about.</para>
-
-      <para>While &man.mdconfig.8; is useful, it takes several
-	command lines to create a file-backed file system.  &os; also
-	comes with &man.mdmfs.8; which automatically configures a
-	&man.md.4; disk using &man.mdconfig.8;, puts a UFS file system
-	on it using &man.newfs.8;, and mounts it using &man.mount.8;.
-	For example, to create and mount the same file system image as
-	above, type the following:</para>
-
-      <example>
-	<title>Configure and Mount a File-Backed Disk with
-	  <command>mdmfs</command></title>
-
-	<screen>&prompt.root; <userinput>dd if=/dev/zero of=newimage bs=1k count=5k</userinput>
-5120+0 records in
-5120+0 records out
-&prompt.root; <userinput>mdmfs -F newimage -s 5m md0 /mnt</userinput>
-&prompt.root; <userinput>df /mnt</userinput>
-Filesystem 1K-blocks Used Avail Capacity  Mounted on
-/dev/md0        4718    4  4338     0%    /mnt</screen>
-      </example>
-
-      <para>When <option>md</option> is used without a unit number,
-	&man.mdmfs.8; uses the &man.md.4; auto-unit feature to
-	automatically select an unused device.  For more details
-	about &man.mdmfs.8;, refer to its manual page.</para>
-    </sect2>
-
-    <sect2 xml:id="disks-md-freebsd5">
-      <title>Memory-Based File System</title>
-
-      <indexterm>
-	<primary>disks</primary>
-	<secondary>memory file system</secondary>
-      </indexterm>
-
-      <para>For a memory-based file system, <quote>swap
-	  backing</quote> should normally be used.  This does not mean
-	that the memory disk will be swapped out to disk by default,
-	but rather that the memory disk will be allocated from a
-	memory pool which can be swapped out to disk if needed.  It is
-	also possible to create memory-based disks which are
-	&man.malloc.9; backed, but using large malloc backed memory
-	disks can result in a system panic if the kernel runs out of
-	memory.</para>
-
-      <example>
-	<title>Creating a New Memory-Based Disk with
-	  <command>mdconfig</command></title>
-
-	<screen>&prompt.root; <userinput>mdconfig -a -t swap -s 5m -u 1</userinput>
-&prompt.root; <userinput>newfs -U md1</userinput>
-/dev/md1: 5.0MB (10240 sectors) block size 16384, fragment size 2048
-        using 4 cylinder groups of 1.27MB, 81 blks, 192 inodes.
-        with soft updates
-super-block backups (for fsck -b #) at:
- 160, 2752, 5344, 7936
-&prompt.root; <userinput>mount /dev/md1 /mnt</userinput>
-&prompt.root; <userinput>df /mnt</userinput>
-Filesystem 1K-blocks Used Avail Capacity  Mounted on
-/dev/md1        4718    4  4338     0%    /mnt</screen>
-      </example>
-
-      <example>
-	<title>Creating a New Memory-Based Disk with
-	  <command>mdmfs</command></title>
-
-	<screen>&prompt.root; <userinput>mdmfs -s 5m md2 /mnt</userinput>
-&prompt.root; <userinput>df /mnt</userinput>
-Filesystem 1K-blocks Used Avail Capacity  Mounted on
-/dev/md2        4846    2  4458     0%    /mnt</screen>
-      </example>
-    </sect2>
-
-    <sect2>
-      <title>Detaching a Memory Disk from the System</title>
+      <para>If a unit number is not specified with
+	<option>-u</option>, <command>mdconfig</command> will
+	automatically allocate an unused memory device and output
+	the name of the allocated unit, such as
+	<filename>md4</filename>.  Refer to &man.mdconfig.8; for more
+	details about this command and its options.</para>
 
       <indexterm>
 	<primary>disks</primary>
 	<secondary>detaching a memory disk</secondary>
       </indexterm>
 
-      <para>When a memory-based or file-based file system is no
-	longer in use, its resources should be released back to
-	the system.  First, unmount the file system, then use
-	&man.mdconfig.8; to detach the disk from the system and
-	release the resources.</para>
+      <para>When a memory disk is no longer in use, its resources
+	should be released back to the system.  First, unmount the
+	file system, then use <command>mdconfig</command> to detach
+	the disk from the system and release its resources.  To
+	continue this example:</para>
 
-      <para>For example, to detach and free all resources used by
-	<filename>/dev/md4</filename>:</para>
+      <screen>&prompt.root; <userinput>umount /mnt</userinput>
+&prompt.root; <userinput>mdconfig -d -u <replaceable>0</replaceable></userinput></screen>
 
-      <screen>&prompt.root; <userinput>mdconfig -d -u 4</userinput></screen>
+      <para>To determine if any memory disks are still attached to the
+	system, type <command>mdconfig -l</command>.</para>
+    </sect2>
 
-      <para>It is possible to list information about configured
-	&man.md.4; devices by running
-	<command>mdconfig -l</command>.</para>
+    <sect2 xml:id="disks-md-freebsd5">
+      <title>Creating a File- or Memory-Backed Memory Disk</title>
+
+      <indexterm>
+	<primary>disks</primary>
+	<secondary>memory file system</secondary>
+      </indexterm>
+      <para>&os; also supports memory disks where the storage to use
+	is allocated from either a hard disk or an area of memory.
+	The first method is commonly referred to as a file-backed file
+	system and the second method as a memory-backed file system.
+	Both types can be created using
+	<command>mdconfig</command>.</para>
+
+      <para>To create a new memory-backed file system, specify a type
+	of <literal>swap</literal> and the size of the memory disk to
+	create.  Then, format the memory disk with a file system and
+	mount as usual.  This example creates a 5M memory disk on unit
+	<literal>1</literal>.  That memory disk is then formatted with
+	the <acronym>UFS</acronym> file system before it is
+	mounted:</para>
+
+      <screen>&prompt.root; <userinput>mdconfig -a -t swap -s <replaceable>5</replaceable>m -u <replaceable>1</replaceable></userinput>
+&prompt.root; <userinput>newfs -U md<replaceable>1</replaceable></userinput>
+/dev/md1: 5.0MB (10240 sectors) block size 16384, fragment size 2048
+        using 4 cylinder groups of 1.27MB, 81 blks, 192 inodes.
+        with soft updates
+super-block backups (for fsck -b #) at:
+ 160, 2752, 5344, 7936
+&prompt.root; <userinput>mount /dev/md<replaceable>1</replaceable> <replaceable>/mnt</replaceable></userinput>
+&prompt.root; <userinput>df <replaceable>/mnt</replaceable></userinput>
+Filesystem 1K-blocks Used Avail Capacity  Mounted on
+/dev/md1        4718    4  4338     0%    /mnt</screen>
+
+      <para>To create a new file-backed memory disk, first allocate an
+	area of disk to use.  This example creates an empty 5K file
+	named <filename>newimage</filename>:</para>
+
+      <screen>&prompt.root; <userinput>dd if=/dev/zero of=<replaceable>newimage</replaceable> bs=1k count=<replaceable>5</replaceable>k</userinput>
+5120+0 records in
+5120+0 records out</screen>
+
+      <para>Next, attach that file to a memory disk, label the memory
+	disk and format it with the <acronym>UFS</acronym> file
+	system, mount the memory disk, and verify the size of the
+	file-backed disk:</para>
+
+      <screen>&prompt.root; <userinput>mdconfig -f <replaceable>newimage</replaceable> -u <replaceable>0</replaceable></userinput>
+&prompt.root; <userinput>bsdlabel -w md<replaceable>0</replaceable> auto</userinput>
+&prompt.root; <userinput>newfs md<replaceable>0</replaceable>a</userinput>
+/dev/md0a: 5.0MB (10224 sectors) block size 16384, fragment size 2048
+        using 4 cylinder groups of 1.25MB, 80 blks, 192 inodes.
+super-block backups (for fsck -b #) at:
+ 160, 2720, 5280, 7840
+&prompt.root; <userinput>mount /dev/md<replaceable>0</replaceable>a <replaceable>/mnt</replaceable></userinput>
+&prompt.root; <userinput>df <replaceable>/mnt</replaceable></userinput>
+Filesystem 1K-blocks Used Avail Capacity  Mounted on
+/dev/md0a       4710    4  4330     0%    /mnt</screen>
+
+      <para>It takes several commands to create a file- or
+	memory-backed file system using <command>mdconfig</command>.
+	&os; also comes with <command>mdmfs</command> which
+	automatically configures a memory disk, formats it with the
+	<acronym>UFS</acronym> file system, and mounts it.  For
+	example, after creating <replaceable>newimage</replaceable>
+	with <command>dd</command>, this one command is equivalent to
+	running the <command>bsdlabel</command>,
+	<command>newfs</command>, and <command>mount</command>
+	commands shown above:</para>
+
+      <screen>&prompt.root; <userinput>mdmfs -F <replaceable>newimage</replaceable> -s <replaceable>5</replaceable>m md<replaceable>0</replaceable> <replaceable>/mnt</replaceable></userinput></screen>
+
+      <para>To instead create a new memory-based memory disk with
+	<command>mdmfs</command>, use this one command:</para>
+
+      <screen>&prompt.root; <userinput>mdmfs -s <replaceable>5</replaceable>m md<replaceable>1</replaceable> <replaceable>/mnt</replaceable></userinput></screen>
+
+      <para>If the unit number is not specified,
+	<command>mdmfs</command> will automatically select an unused
+	memory device.  For more details about
+	<command>mdmfs</command>, refer to &man.mdmfs.8;.</para>
     </sect2>
   </sect1>
 
@@ -2318,8 +2099,8 @@ Filesystem 1K-blocks Used Avail Capacity  Mounted on
     <itemizedlist>
       <listitem>
 	<para>Some administrators will use a snapshot file for backup
-	  purposes, because the snapshot can be transferred to CDs or
-	  tape.</para>
+	  purposes, because the snapshot can be transferred to
+	  <acronym>CD</acronym>s or tape.</para>
       </listitem>
 
       <listitem>
@@ -2342,7 +2123,7 @@ Filesystem 1K-blocks Used Avail Capacity  Mounted on
 	  file system.  To &man.mount.8; the snapshot
 	  <filename>/var/snapshot/snap</filename> run:</para>
 
-	<screen>&prompt.root; <userinput>mdconfig -a -t vnode -f /var/snapshot/snap -u 4</userinput>
+	<screen>&prompt.root; <userinput>mdconfig -a -t vnode -o readonly -f /var/snapshot/snap -u 4</userinput>
 &prompt.root; <userinput>mount -r /dev/md4 /mnt</userinput></screen>
       </listitem>
     </itemizedlist>
@@ -2363,7 +2144,7 @@ Filesystem 1K-blocks Used Avail Capacity  Mounted on
   </sect1>
 
   <sect1 xml:id="quotas">
-    <title>File System Quotas</title>
+    <title>Disk Quotas</title>
 
     <indexterm>
       <primary>accounting</primary>
@@ -2371,31 +2152,32 @@ Filesystem 1K-blocks Used Avail Capacity  Mounted on
     </indexterm>
     <indexterm><primary>disk quotas</primary></indexterm>
 
-    <para>Quotas are an optional feature of the operating system that
-      can be used to limit the amount of disk space or the number of
-      files a user or members of a group may allocate on a per-file
-      system basis.  This is used most often on timesharing systems
-      where it is desirable to limit the amount of resources any one
-      user or group of users may allocate.  This prevents one user or
-      group of users from consuming all of the available disk
-      space.</para>
+    <para>Disk quotas can be used to limit the amount of disk space or
+      the number of files a user or members of a group may allocate on
+      a per-file system basis.  This prevents one user or group of
+      users from consuming all of the available disk space.</para>
+
+    <para>This section describes how to configure disk quotas for the
+      <acronym>UFS</acronym> file system.  To configure quotas on the
+      <acronym>ZFS</acronym> file system, refer to <xref
+	linkend="zfs-quotas"/></para>
 
     <sect2>
-      <title>Configuring the System to Enable Disk Quotas</title>
+      <title>Enabling Disk Quotas</title>
 
-      <para>Before using disk quotas, quota support must be added to
-	the kernel by adding the following line to the kernel
-	configuration file:</para>
+      <para>To determine if the &os; kernel provides support for disk
+	quotas:</para>
+
+      <screen>&prompt.user; <userinput>sysctl kern.features.ufs_quota</userinput>
+kern.features.ufs_quota: 1</screen>
+
+      <para>In this example, the <literal>1</literal> indicates quota
+	support.  If the value is instead <literal>0</literal>, add
+	the following line to a custom kernel configuration file and
+	rebuild the kernel using the instructions in <xref
+	  linkend="kernelconfig"/>:</para>
 
       <programlisting>options QUOTA</programlisting>
-
-      <para>Before &os;&nbsp;9.2, the <filename>GENERIC</filename>
-	kernel usually did not include this option.
-	<command>sysctl kern.features.ufs_quota</command> can be used
-	to test whether the current kernel supports quotas.  If the
-	option is not present, a custom kernel must be compiled.
-	Refer to <xref linkend="kernelconfig"/> for more information
-	on kernel configuration.</para>
 
       <para>Next, enable disk quotas in
 	<filename>/etc/rc.conf</filename>:</para>
@@ -2406,53 +2188,45 @@ Filesystem 1K-blocks Used Avail Capacity  Mounted on
 	<primary>disk quotas</primary>
 	<secondary>checking</secondary>
       </indexterm>
-      <para>For finer control over quota startup, an additional
-	configuration variable is available.  Normally on bootup, the
-	quota integrity of each file system is checked by
-	&man.quotacheck.8;.  This program insures that the data in the
-	quota database properly reflects the data on the file system.
-	This is a time consuming process that will significantly
-	affect the time the system takes to boot.  To skip this step,
-	add this variable to <filename>/etc/rc.conf</filename>:</para>
+      <para>Normally on bootup, the quota integrity of each file
+	system is checked by &man.quotacheck.8;.  This program insures
+	that the data in the quota database properly reflects the data
+	on the file system.  This is a time consuming process that
+	will significantly affect the time the system takes to boot.
+	To skip this step, add this variable to
+	<filename>/etc/rc.conf</filename>:</para>
 
       <programlisting>check_quotas="NO"</programlisting>
 
       <para>Finally, edit <filename>/etc/fstab</filename> to enable
-	disk quotas on a per-file system basis.  This is when user or
-	group quotas can be enabled on the file systems.</para>
-
-      <para>To enable per-user quotas on a file system, add
-	<option>userquota</option> to the options field in the
-	<filename>/etc/fstab</filename> entry for the file system to
-	enable quotas on.  For example:</para>
+	disk quotas on a per-file system basis.  To enable per-user
+	quotas on a file system, add <option>userquota</option> to the
+	options field in the <filename>/etc/fstab</filename> entry for
+	the file system to enable quotas on.  For example:</para>
 
       <programlisting>/dev/da1s2g   /home    ufs rw,userquota 1 2</programlisting>
 
-      <para>To enable group quotas, instead use
-	<option>groupquota</option>.  To enable both user and group
-	quotas, change the entry as follows:</para>
+      <para>To enable group quotas, use <option>groupquota</option>
+	instead.  To enable both user and group quotas, separate the
+	options with a comma:</para>
 
       <programlisting>/dev/da1s2g    /home    ufs rw,userquota,groupquota 1 2</programlisting>
 
-      <para>By default, the quota files are stored in the root
-	directory of the file system as
-	<filename>quota.user</filename> and
+      <para>By default, quota files are stored in the root directory
+	of the file system as <filename>quota.user</filename> and
 	<filename>quota.group</filename>.  Refer to &man.fstab.5; for
-	more information.  Even though an alternate location for the
-	quota files can be specified, this is not recommended because
-	the various quota utilities do not seem to handle this
-	properly.</para>
+	more information.  Specifying an alternate location for the
+	quota files is not recommended.</para>
 
-      <para>Once the configuration is complete, reboot the system
-	with the new kernel.  <filename>/etc/rc</filename> will
-	automatically run the appropriate commands to create the
-	initial quota files for all of the quotas enabled in
-	<filename>/etc/fstab</filename>.  There is no need to
-	manually create any zero length quota files.</para>
+      <para>Once the configuration is complete, reboot the system and
+	<filename>/etc/rc</filename> will automatically run the
+	appropriate commands to create the initial quota files for all
+	of the quotas enabled in
+	<filename>/etc/fstab</filename>.</para>
 
       <para>In the normal course of operations, there should be no
 	need to manually run &man.quotacheck.8;, &man.quotaon.8;, or
-	&man.quotaoff.8;.  However, one should read their manual pages
+	&man.quotaoff.8;.  However, one should read these manual pages
 	to be familiar with their operation.</para>
     </sect2>
 
@@ -2464,8 +2238,8 @@ Filesystem 1K-blocks Used Avail Capacity  Mounted on
 	<secondary>limits</secondary>
       </indexterm>
 
-      <para>Once the system has been configured to enable quotas,
-	verify they really are enabled by running:</para>
+      <para>To
+	verify that quotas are enabled, run:</para>
 
       <screen>&prompt.root; <userinput>quota -v</userinput></screen>
 
@@ -2474,13 +2248,13 @@ Filesystem 1K-blocks Used Avail Capacity  Mounted on
 	enabled on.</para>
 
       <para>The system is now ready to be assigned quota limits with
-	&man.edquota.8;.</para>
+	<command>edquota</command>.</para>
 
       <para>Several options are available to enforce limits on the
 	amount of disk space a user or group may allocate, and how
 	many files they may create.  Allocations can be limited based
 	on disk space (block quotas), number of files (inode quotas),
-	or a combination of both.  Each limits is further broken down
+	or a combination of both.  Each limit is further broken down
 	into two categories: hard and soft limits.</para>
 
       <indexterm><primary>hard limit</primary></indexterm>
@@ -2500,31 +2274,28 @@ Filesystem 1K-blocks Used Avail Capacity  Mounted on
 	are allowed.  When the user drops back below the soft limit,
 	the grace period is reset.</para>
 
-      <para>The following is an example output from &man.edquota.8;.
-	When &man.edquota.8; is invoked, the editor specified by
-	<envar>EDITOR</envar> is opened in order to edit the quota
-	limits.  The default editor is set to
+      <para>In the following example, the quota for the <systemitem
+	  class="username">test</systemitem> account is being edited.
+	When <command>edquota</command> is invoked, the editor
+	specified by <envar>EDITOR</envar> is opened in order to edit
+	the quota limits.  The default editor is set to
 	<application>vi</application>.</para>
 
-      <screen>&prompt.root; <userinput>edquota -u test</userinput></screen>
-
-      <programlisting>Quotas for user test:
+      <screen>&prompt.root; <userinput>edquota -u test</userinput>
+Quotas for user test:
 /usr: kbytes in use: 65, limits (soft = 50, hard = 75)
         inodes in use: 7, limits (soft = 50, hard = 60)
 /usr/var: kbytes in use: 0, limits (soft = 50, hard = 75)
-        inodes in use: 0, limits (soft = 50, hard = 60)</programlisting>
+        inodes in use: 0, limits (soft = 50, hard = 60)</screen>
 
-      <para>There are normally two lines for each file system that
-	has quotas enabled.  One line represents the block limits and
-	the other represents the inode limits.  Change the value to
-	modify the quota limit.  For example, to raise this
-	user's block limit from a soft limit of 50 and a hard limit of
-	75 to a soft limit of 500 and a hard limit of 600,
-	change:</para>
-
-      <programlisting>/usr: kbytes in use: 65, limits (soft = 50, hard = 75)</programlisting>
-
-      <para>to:</para>
+      <para>There are normally two lines for each file system that has
+	quotas enabled.  One line represents the block limits and the
+	other represents the inode limits.  Change the value to modify
+	the quota limit.  For example, to raise the block limit on
+	<filename>/usr</filename> to a soft limit of
+	<literal>500</literal> and a hard limit of
+	<literal>600</literal>, change the values in that line as
+	follows:</para>
 
       <programlisting>/usr: kbytes in use: 65, limits (soft = 500, hard = 600)</programlisting>
 
@@ -2532,13 +2303,13 @@ Filesystem 1K-blocks Used Avail Capacity  Mounted on
 	editor.</para>
 
       <para>Sometimes it is desirable to set quota limits on a range
-	of UIDs.  This can be done by passing <option>-p</option> to
-	&man.edquota.8;.  First, assign the desired quota limit to a
-	user, then run
-	<command>edquota -p protouser startuid-enduid</command>.  For
-	example, if <systemitem class="username">test</systemitem> has
-	the desired quota limits, the following command will duplicate
-	those quota limits for UIDs 10,000 through 19,999:</para>
+	of users.  This can be done by first assigning the desired
+	quota limit to a user.  Then, use <option>-p</option> to
+	duplicate that quota to a specified range of user IDs
+	(<acronym>UID</acronym>s).  The following command will
+	duplicate those quota limits for <acronym>UID</acronym>s
+	<literal>10,000</literal> through
+	<literal>19,999</literal>:</para>
 
       <screen>&prompt.root; <userinput>edquota -p test 10000-19999</userinput></screen>
 
@@ -2553,18 +2324,20 @@ Filesystem 1K-blocks Used Avail Capacity  Mounted on
 	<secondary>checking</secondary>
       </indexterm>
 
-      <para>Either &man.quota.1; or &man.repquota.8; can be used to
-	check quota limits and disk usage.  To check individual user
-	or group quotas and disk usage, use &man.quota.1;.  A user
-	may only examine their own quota and the quota of a group they
-	are a member of.  Only the superuser may view all user and
-	group quotas.  To get a summary of all quotas and disk usage
-	for file systems with quotas enabled, use
-	&man.repquota.8;.</para>
+      <para>To check individual user or group quotas and disk usage,
+	use &man.quota.1;.  A user may only examine their own quota
+	and the quota of a group they are a member of.  Only the
+	superuser may view all user and group quotas.  To get a
+	summary of all quotas and disk usage for file systems with
+	quotas enabled, use &man.repquota.8;.</para>
 
-      <para>The following is sample output from
-	<command>quota -v</command> for a user that has quota limits
-	on two file systems.</para>
+      <para>Normally, file systems that the user is not using any disk
+	space on will not show in the output of
+	<command>quota</command>, even if the user has a quota limit
+	assigned for that file system.  Use <option>-v</option> to
+	display those file systems.  The following is sample output
+	from <command>quota -v</command> for a user that has quota
+	limits on two file systems.</para>
 
       <programlisting>Disk quotas for user test (uid 1002):
      Filesystem  usage    quota   limit   grace   files   quota   limit   grace
@@ -2578,13 +2351,6 @@ Filesystem 1K-blocks Used Avail Capacity  Mounted on
 	days of grace period left.  The asterisk <literal>*</literal>
 	indicates that the user is currently over the quota
 	limit.</para>
-
-      <para>Normally, file systems that the user is not using any disk
-	space on will not show in the output of &man.quota.1;, even if
-	the user has a quota limit assigned for that file system.  Use
-	<option>-v</option> to display those file systems, such as
-	<filename>/usr/var</filename> in the above
-	example.</para>
     </sect2>
 
     <sect2>
@@ -2592,18 +2358,20 @@ Filesystem 1K-blocks Used Avail Capacity  Mounted on
 
       <indexterm><primary>NFS</primary></indexterm>
 
-      <para>Quotas are enforced by the quota subsystem on the NFS
-	server.  The &man.rpc.rquotad.8; daemon makes quota
-	information available to &man.quota.1; on NFS clients,
-	allowing users on those machines to see their quota
-	statistics.</para>
+      <para>Quotas are enforced by the quota subsystem on the
+	<acronym>NFS</acronym> server.  The &man.rpc.rquotad.8; daemon
+	makes quota information available to <command>quota</command>
+	on <acronym>NFS</acronym> clients, allowing users on those
+	machines to see their quota statistics.</para>
 
-      <para>Enable <command>rpc.rquotad</command> in
-	<filename>/etc/inetd.conf</filename> like so:</para>
+      <para>On the <acronym>NFS</acronym> server, enable
+	<command>rpc.rquotad</command> by removing the
+	<literal>#</literal> from this line in
+	<filename>/etc/inetd.conf</filename>:</para>
 
       <programlisting>rquotad/1      dgram rpc/udp wait root /usr/libexec/rpc.rquotad rpc.rquotad</programlisting>
 
-      <para>Now restart <command>inetd</command>:</para>
+      <para>Then, restart <command>inetd</command>:</para>
 
       <screen>&prompt.root; <userinput>service inetd restart</userinput></screen>
     </sect2>
@@ -2635,8 +2403,8 @@ Filesystem 1K-blocks Used Avail Capacity  Mounted on
     </indexterm>
 
     <para>&os; offers excellent online protections against
-      unauthorized data access.  File permissions and
-      <link linkend="mac">Mandatory Access Control</link> (MAC) help
+      unauthorized data access.  File permissions and <link
+	linkend="mac">Mandatory Access Control</link> (MAC) help
       prevent unauthorized users from accessing data while the
       operating system is active and the computer is powered up.
       However, the permissions enforced by the operating system are
@@ -2645,106 +2413,109 @@ Filesystem 1K-blocks Used Avail Capacity  Mounted on
       analyze the data.</para>
 
     <para>Regardless of how an attacker may have come into possession
-      of a hard drive or powered-down computer, both the GEOM Based
-      Disk Encryption (<command>gbde</command>) and
-      <command>geli</command> cryptographic subsystems in &os; are
-      able to protect the data on the computer's file systems against
-      even highly-motivated attackers with significant resources.
-      Unlike cumbersome encryption methods that encrypt only
-      individual files, <command>gbde</command> and
-      <command>geli</command> transparently encrypt entire file
-      systems.  No cleartext ever touches the hard drive's
-      platter.</para>
+      of a hard drive or powered-down computer, the
+      <acronym>GEOM</acronym>-based cryptographic subsystems built
+      into &os; are able to protect the data on the computer's file
+      systems against even highly-motivated attackers with significant
+      resources.  Unlike encryption methods that encrypt individual
+      files, the built-in <command>gbde</command> and
+      <command>geli</command> utilities can be used to transparently
+      encrypt entire file systems.  No cleartext ever touches the hard
+      drive's platter.</para>
+
+    <para>This chapter demonstrates how to create an encrypted file
+      system on &os;.  It first demonstrates the process using
+      <command>gbde</command> and then demonstrates the same example
+      using <command>geli</command>.</para>
 
     <sect2>
       <title>Disk Encryption with
 	<application>gbde</application></title>
 
+      <para>The objective of the &man.gbde.4; facility is to provide a
+	formidable challenge for an attacker to gain access to the
+	contents of a <emphasis>cold</emphasis> storage device.
+	However, if the computer is compromised while up and running
+	and the storage device is actively attached, or the attacker
+	has access to a valid passphrase, it offers no protection to
+	the contents of the storage device.  Thus, it is important to
+	provide physical security while the system is running and to
+	protect the passphrase used by the encryption
+	mechanism.</para>
+
+      <para>This facility provides several barriers to protect the
+	data stored in each disk sector.  It encrypts the contents of
+	a disk sector using 128-bit <acronym>AES</acronym> in
+	<acronym>CBC</acronym> mode.  Each sector on the disk is
+	encrypted with a different <acronym>AES</acronym> key.  For
+	more information on the cryptographic design, including how
+	the sector keys are derived from the user-supplied passphrase,
+	refer to &man.gbde.4;.</para>
+
+      <para>&os; provides a kernel module for
+	<application>gbde</application> which can be loaded with this
+	command:</para>
+
+      <screen>&prompt.root; <userinput>kldload geom_bde</userinput></screen>
+
+      <para>If using a custom kernel configuration file, ensure it
+	contains this line:</para>
+
+      <para><literal>options GEOM_BDE</literal></para>
+
+      <para>The following example demonstrates adding a new hard drive
+	to a system that will hold a single encrypted partition that
+	will be mounted as <filename>/private</filename>.</para>
+
       <procedure>
-	<step>
-	  <para>Configuring <application>gbde</application> requires
-	    superuser privileges.</para>
-
-	  <screen>&prompt.user; <userinput>su -</userinput>
-Password:</screen>
-	</step>
+	<title>Encrypting a Partition with
+	  <application>gbde</application></title>
 
 	<step>
-	  <para>If using a custom kernel configuration file, ensure it
-	    contains this line:</para>
+	  <title>Add the New Hard Drive</title>
 
-	  <para><literal>options GEOM_BDE</literal></para>
+	  <para>Install the new drive to the system as explained in
+	    <xref linkend="disks-adding"/>.  For the purposes of this
+	    example, a new hard drive partition has been added as
+	    <filename>/dev/ad4s1c</filename> and
+	    <filename>/dev/ad0s1<replaceable>*</replaceable></filename>
+	    represents the existing standard &os; partitions.</para>
 
-	  <para>If the kernel already contains this support, use
-	    <command>kldload</command> to load &man.gbde.4;:</para>
-
-	  <screen>&prompt.root; <userinput>kldload geom_bde</userinput></screen>
-	</step>
-      </procedure>
-
-      <sect3>
-	<title>Preparing the Encrypted Hard Drive</title>
-
-	<para>The following example demonstrates adding a new hard
-	  drive to a system that will hold a single encrypted
-	  partition.  This partition will be mounted as
-	  <filename>/private</filename>.
-	  <application>gbde</application> can also be used to encrypt
-	  <filename>/home</filename> and
-	  <filename>/var/mail</filename>, but this
-	  requires more complex instructions which exceed the scope of
-	  this introduction.</para>
-
-	<procedure>
-	  <step>
-	    <title>Add the New Hard Drive</title>
-
-	    <para>Install the new drive to the system as explained in
-	      <xref linkend="disks-adding"/>.  For the purposes
-	      of this example, a new hard drive partition has been
-	      added as <filename>/dev/ad4s1c</filename> and
-	      <filename>/dev/ad0s1*</filename>
-	      represents the existing standard &os; partitions.</para>
-
-	    <screen>&prompt.root; <userinput>ls /dev/ad*</userinput>
+	  <screen>&prompt.root; <userinput>ls /dev/ad*</userinput>
 /dev/ad0        /dev/ad0s1b     /dev/ad0s1e     /dev/ad4s1
 /dev/ad0s1      /dev/ad0s1c     /dev/ad0s1f     /dev/ad4s1c
 /dev/ad0s1a     /dev/ad0s1d     /dev/ad4</screen>
-	  </step>
+	</step>
 
-	  <step>
-	    <title>Create a Directory to Hold <command>gbde</command>
-	      Lock Files</title>
+	<step>
+	  <title>Create a Directory to Hold <command>gbde</command>
+	    Lock Files</title>
 
-	    <screen>&prompt.root; <userinput>mkdir /etc/gbde</userinput></screen>
+	  <screen>&prompt.root; <userinput>mkdir /etc/gbde</userinput></screen>
 
-	    <para>The <application>gbde</application> lock file
-	      contains information that
-	      <application>gbde</application> requires to access
-	      encrypted partitions.  Without access to the lock file,
-	      <application>gbde</application> will not be able to
-	      decrypt the data contained in the encrypted partition
-	      without significant manual intervention which is not
-	      supported by the software.  Each encrypted partition
-	      uses a separate lock file.</para>
-	  </step>
+	  <para>The <application>gbde</application> lock file
+	    contains information that <application>gbde</application>
+	    requires to access encrypted partitions.  Without access
+	    to the lock file, <application>gbde</application> will not
+	    be able to decrypt the data contained in the encrypted
+	    partition without significant manual intervention which is
+	    not supported by the software.  Each encrypted partition
+	    uses a separate lock file.</para>
+	</step>
 
-	  <step>
-	    <title>Initialize the <command>gbde</command>
-	      Partition</title>
+	<step>
+	  <title>Initialize the <command>gbde</command>
+	    Partition</title>
 
-	    <para>A <application>gbde</application> partition must be
-	      initialized before it can be used.  This initialization
-	      needs to be performed only once:</para>
+	  <para>A <application>gbde</application> partition must be
+	    initialized before it can be used.  This initialization
+	    needs to be performed only once.  This command will open
+	    the default editor, in order to set various configuration
+	    options in a template.  For use with the
+	    <acronym>UFS</acronym> file system, set the sector_size to
+	    2048:</para>
 
-	    <screen>&prompt.root; <userinput>gbde init /dev/ad4s1c -i -L /etc/gbde/ad4s1c.lock</userinput></screen>
-
-	    <para>&man.gbde.8; will open the default editor, in order
-	      to set various configuration options in a template.  For
-	      use with UFS1 or UFS2, set the sector_size to
-	      2048:</para>
-
-	    <programlisting># &dollar;FreeBSD: src/sbin/gbde/template.txt,v 1.1.36.1 2009/08/03 08:13:06 kensmith Exp $
+	  <screen>&prompt.root; <userinput>gbde init /dev/ad4s1c -i -L /etc/gbde/ad4s1c.lock</userinput># &dollar;FreeBSD: src/sbin/gbde/template.txt,v 1.1.36.1 2009/08/03 08:13:06 kensmith Exp $
 #
 # Sector size is the smallest unit of data which can be read or written.
 # Making it too small decreases performance and decreases available space.
@@ -2752,101 +2523,85 @@ Password:</screen>
 # minimum and always safe.  For UFS, use the fragment size
 #
 sector_size	=	2048
-[...]</programlisting>
+[...]</screen>
 
-	    <para>&man.gbde.8; will ask the user twice to type the
-	      passphrase used to secure the data.  The passphrase must
-	      be the same both times.  The ability of
-	      <application>gbde</application> to protect data depends
-	      entirely on the quality of the passphrase.  For tips on
-	      how to select a secure passphrase that is easy to
-	      remember, see the <link
-		xlink:href="http://world.std.com/~reinhold/diceware.html">Diceware
-		Passphrase</link> website.</para>
+	  <para>Once the edit is saved, the user will be asked twice
+	    to type the passphrase used to secure the data.  The
+	    passphrase must be the same both times.  The ability of
+	    <application>gbde</application> to protect data depends
+	    entirely on the quality of the passphrase.  For tips on
+	    how to select a secure passphrase that is easy to
+	    remember, see <link
+	      xlink:href="http://world.std.com/~reinhold/diceware.html">http://world.std.com/~reinhold/diceware.htm</link>.</para>
 
-	    <para><command>gbde init</command>creates a lock file for
-	      the <application>gbde</application> partition.  In this
-	      example, it is stored as
-	      <filename>/etc/gbde/ad4s1c.lock</filename>.
-	      <application>gbde</application> lock files must end in
-	      <quote>.lock</quote> in order to be correctly detected
-	      by the <filename>/etc/rc.d/gbde</filename> start up
-	      script.</para>
+	  <para>This initialization creates a lock file for the
+	    <application>gbde</application> partition.  In this
+	    example, it is stored as
+	    <filename>/etc/gbde/ad4s1c.lock</filename>.  Lock files
+	    must end in <quote>.lock</quote> in order to be correctly
+	    detected by the <filename>/etc/rc.d/gbde</filename> start
+	    up script.</para>
 
-	    <caution>
-	      <para><application>gbde</application> lock files
-		<emphasis>must</emphasis> be backed up together with
-		the contents of any encrypted partitions.  While
-		deleting a lock file alone cannot prevent a determined
-		attacker from decrypting a
-		<application>gbde</application> partition, without the
-		lock file, the legitimate owner will be unable to
-		access the data on the encrypted partition without a
-		significant amount of work that is totally unsupported
-		by &man.gbde.8;.</para>
-	    </caution>
-	  </step>
+	  <caution>
+	    <para>Lock files <emphasis>must</emphasis> be backed up
+	      together with the contents of any encrypted partitions.
+	      Without the lock file, the legitimate owner will be
+	      unable to access the data on the encrypted
+	      partition.</para>
+	  </caution>
+	</step>
 
-	  <step>
-	    <title>Attach the Encrypted Partition to the
-	      Kernel</title>
+	<step>
+	  <title>Attach the Encrypted Partition to the
+	    Kernel</title>
 
-	    <screen>&prompt.root; <userinput>gbde attach /dev/ad4s1c -l /etc/gbde/ad4s1c.lock</userinput></screen>
+	  <screen>&prompt.root; <userinput>gbde attach /dev/ad4s1c -l /etc/gbde/ad4s1c.lock</userinput></screen>
 
-	    <para>This command will prompt to input the passphrase
-	      that was selected during the initialization of the
-	      encrypted partition.  The new encrypted device will
-	      appear in
-	      <filename>/dev</filename> as
-	      <filename>/dev/device_name.bde</filename>:</para>
+	  <para>This command will prompt to input the passphrase that
+	    was selected during the initialization of the encrypted
+	    partition.  The new encrypted device will appear in
+	    <filename>/dev</filename> as
+	    <filename>/dev/device_name.bde</filename>:</para>
 
-	    <screen>&prompt.root; <userinput>ls /dev/ad*</userinput>
+	  <screen>&prompt.root; <userinput>ls /dev/ad*</userinput>
 /dev/ad0        /dev/ad0s1b     /dev/ad0s1e     /dev/ad4s1
 /dev/ad0s1      /dev/ad0s1c     /dev/ad0s1f     /dev/ad4s1c
 /dev/ad0s1a     /dev/ad0s1d     /dev/ad4        /dev/ad4s1c.bde</screen>
-	  </step>
+	</step>
 
-	  <step>
-	    <title>Create a File System on the Encrypted
-	      Device</title>
+	<step>
+	  <title>Create a File System on the Encrypted
+	    Device</title>
 
-	    <para>Once the encrypted device has been attached to the
-	      kernel, a file system can be created on the device using
-	      &man.newfs.8;.  This example creates a UFS2 file
-	      system with soft updates enabled.</para>
+	  <para>Once the encrypted device has been attached to the
+	    kernel, a file system can be created on the device.  This
+	    example creates a <acronym>UFS</acronym> file system with
+	    soft updates enabled.  Be sure to specify the partition
+	    which has a
+	    <filename><replaceable>*</replaceable>.bde</filename>
+	    extension:</para>
 
-	    <screen>&prompt.root; <userinput>newfs -U /dev/ad4s1c.bde</userinput></screen>
+	  <screen>&prompt.root; <userinput>newfs -U /dev/ad4s1c.bde</userinput></screen>
+	</step>
 
-	    <note>
-	      <para>&man.newfs.8; must be performed on an attached
-		<application>gbde</application> partition which is
-		identified by a
-		<filename>*.bde</filename>
-		extension to the device name.</para>
-	    </note>
-	  </step>
+	<step>
+	  <title>Mount the Encrypted Partition</title>
 
-	  <step>
-	    <title>Mount the Encrypted Partition</title>
+	  <para>Create a mount point and mount the encrypted file
+	    system:</para>
 
-	    <para>Create a mount point for the encrypted file
-	      system:</para>
+	  <screen>&prompt.root; <userinput>mkdir /private</userinput>
+&prompt.root; <userinput>mount /dev/ad4s1c.bde /private</userinput></screen>
+	</step>
 
-	    <screen>&prompt.root; <userinput>mkdir /private</userinput></screen>
+	<step>
+	  <title>Verify That the Encrypted File System is
+	    Available</title>
 
-	    <para>Mount the encrypted file system:</para>
+	  <para>The encrypted file system should now be visible and
+	    available for use:</para>
 
-	    <screen>&prompt.root; <userinput>mount /dev/ad4s1c.bde /private</userinput></screen>
-	  </step>
-
-	  <step>
-	    <title>Verify That the Encrypted File System is
-	      Available</title>
-
-	    <para>The encrypted file system should now be visible to
-	      &man.df.1; and be available for use.</para>
-
-	    <screen>&prompt.user; <userinput>df -H</userinput>
+	  <screen>&prompt.user; <userinput>df -H</userinput>
 Filesystem        Size   Used  Avail Capacity  Mounted on
 /dev/ad0s1a      1037M    72M   883M     8%    /
 /devfs            1.0K   1.0K     0B   100%    /dev
@@ -2854,108 +2609,42 @@ Filesystem        Size   Used  Avail Capacity  Mounted on
 /dev/ad0s1e      1037M   1.1M   953M     0%    /tmp
 /dev/ad0s1d       6.1G   1.9G   3.7G    35%    /usr
 /dev/ad4s1c.bde   150G   4.1K   138G     0%    /private</screen>
-	  </step>
-	</procedure>
-      </sect3>
+	</step>
+      </procedure>
 
-      <sect3>
-	<title>Mounting Existing Encrypted File Systems</title>
+      <para>After each boot, any encrypted file systems must be
+	manually re-attached to the kernel, checked for errors, and
+	mounted, before the file systems can be used.  To configure
+	these steps, add the following lines to
+	<filename>/etc/rc.conf</filename>:</para>
 
-	<para>After each boot, any encrypted file systems must be
-	  re-attached to the kernel, checked for errors, and mounted,
-	  before the file systems can be used.  The required commands
-	  must be executed as
-	  <systemitem class="username">root</systemitem>.</para>
-
-	<procedure>
-	  <step>
-	    <title>Attach the <command>gbde</command> Partition to the
-	      Kernel</title>
-
-	    <screen>&prompt.root; <userinput>gbde attach /dev/ad4s1c -l /etc/gbde/ad4s1c.lock</userinput></screen>
-
-	    <para>This command will prompt for the passphrase that was
-	      selected during initialization of the encrypted
-	      <application>gbde</application> partition.</para>
-	  </step>
-
-	  <step>
-	    <title>Check the File System for Errors</title>
-
-	    <para>Since encrypted file systems cannot yet be listed in
-	      <filename>/etc/fstab</filename> for automatic mounting,
-	      the file systems must be checked for errors by running
-	      &man.fsck.8; manually before mounting:</para>
-
-	    <screen>&prompt.root; <userinput>fsck -p -t ffs /dev/ad4s1c.bde</userinput></screen>
-	  </step>
-
-	  <step>
-	    <title>Mount the Encrypted File System</title>
-
-	    <screen>&prompt.root; <userinput>mount /dev/ad4s1c.bde /private</userinput></screen>
-
-	    <para>The encrypted file system is now available for
-	      use.</para>
-	  </step>
-	</procedure>
-
-	<sect4>
-	  <title>Automatically Mounting Encrypted Partitions</title>
-
-	  <para>It is possible to create a script to automatically
-	    attach, check, and mount an encrypted partition, but for
-	    security reasons the script should not contain the
-	    &man.gbde.8; password.  Instead, it is recommended that
-	    such scripts be run manually while providing the password
-	    via the console or &man.ssh.1;.</para>
-
-	  <para>As an alternative, an <filename>rc.d</filename> script
-	    is provided.  Arguments for this script can be passed via
-	    &man.rc.conf.5;:</para>
-
-	  <programlisting>gbde_autoattach_all="YES"
-gbde_devices="ad4s1c"
+      <programlisting>gbde_autoattach_all="YES"
+gbde_devices="<replaceable>ad4s1c</replaceable>"
 gbde_lockdir="/etc/gbde"</programlisting>
 
-	  <para>This requires that the
-	    <application>gbde</application> passphrase be entered at
-	    boot time.  After typing the correct passphrase, the
-	    <application>gbde</application> encrypted partition will
-	    be mounted automatically.  This can be useful when using
-	    <application>gbde</application> on laptops.</para>
-	</sect4>
-      </sect3>
+      <para>This requires that the passphrase be entered at the
+	console at boot time.  After typing the correct passphrase,
+	the encrypted partition will be mounted automatically.
+	Additional <application>gbde</application> boot options are
+	available and listed in &man.rc.conf.5;.</para>
 
-      <sect3>
-	<title>Cryptographic Protections Employed by
-	  <command>gbde</command></title>
+<!--
+What about bsdinstall?
+-->
+      <note>
+	<para><application>sysinstall</application> is incompatible
+	  with <application>gbde</application>-encrypted devices.  All
+	  <filename>*.bde</filename> devices must be detached from the
+	  kernel before starting <application>sysinstall</application>
+	  or it will crash during its initial probing for devices.  To
+	  detach the encrypted device used in the example, use the
+	  following command:</para>
 
-	<para>&man.gbde.8; encrypts the sector payload using 128-bit
-	  AES in CBC mode.  Each sector on the disk is encrypted with
-	  a different AES key.  For more information on the
-	  cryptographic design, including how the sector keys are
-	  derived from the user-supplied passphrase, refer to
-	  &man.gbde.4;.</para>
-      </sect3>
-
-      <sect3>
-	<title>Compatibility Issues</title>
-
-	<para>&man.sysinstall.8; is incompatible with
-	  <application>gbde</application>-encrypted devices.  All
-	  <filename>*.bde</filename>
-	  devices must be detached from the kernel before starting
-	  &man.sysinstall.8; or it will crash during its initial
-	  probing for devices.  To detach the encrypted device used in
-	  the example, use the following command:</para>
-
-	<screen>&prompt.root; <userinput>gbde detach /dev/ad4s1c</userinput></screen>
-
-      </sect3>
+	<screen>&prompt.root; <userinput>gbde detach /dev/<replaceable>ad4s1c</replaceable></userinput></screen>
+      </note>
     </sect2>
 
-    <sect2>
+    <sect2 xml:id="disks-encrypting-geli">
       <info>
 	<title>Disk Encryption with <command>geli</command></title>
 
@@ -2970,23 +2659,23 @@ gbde_lockdir="/etc/gbde"</programlisting>
 	</authorgroup>
       </info>
 
-      <para>An alternative cryptographic GEOM class is available
-	through &man.geli.8;.  <command>geli</command> differs from
-	<command>gbde</command>; offers different features, and uses
-	a different scheme for doing cryptographic work.</para>
-
-      <para>&man.geli.8; provides the following features:</para>
+      <para>An alternative cryptographic <acronym>GEOM</acronym> class
+	is available using <command>geli</command>.  This control
+	utility adds some features and uses a different scheme for
+	doing cryptographic work.  It provides the following
+	features:</para>
 
       <itemizedlist>
 	<listitem>
-	  <para>Utilizes the &man.crypto.9; framework and, when
-	    cryptographic hardware is available,
-	    <command>geli</command> uses it automatically.</para>
+	  <para>Utilizes the &man.crypto.9; framework and
+	    automatically uses cryptographic hardware when it is
+	    available.</para>
 	</listitem>
 
 	<listitem>
 	  <para>Supports multiple cryptographic algorithms such as
-	    AES, Blowfish, and 3DES.</para>
+	    <acronym>AES</acronym>, Blowfish, and
+	    <acronym>3DES</acronym>.</para>
 	</listitem>
 
 	<listitem>
@@ -2996,20 +2685,18 @@ gbde_lockdir="/etc/gbde"</programlisting>
 	</listitem>
 
 	<listitem>
-	  <para>Allows the use of two independent keys such as a
-	    <quote>key</quote> and a
-	    <quote>company key</quote>.</para>
+	  <para>Allows the use of two independent keys.</para>
 	</listitem>
 
 	<listitem>
-	  <para><command>geli</command> is fast as it performs simple
-	    sector-to-sector encryption.</para>
+	  <para>It is fast as it performs simple sector-to-sector
+	    encryption.</para>
 	</listitem>
 
 	<listitem>
 	  <para>Allows backup and restore of master keys.  If a user
-	    destroys their keys, it is still possible to get access
-	    to the data by restoring keys from the backup.</para>
+	    destroys their keys, it is still possible to get access to
+	    the data by restoring keys from the backup.</para>
 	</listitem>
 
 	<listitem>
@@ -3019,61 +2706,54 @@ gbde_lockdir="/etc/gbde"</programlisting>
 	</listitem>
       </itemizedlist>
 
-      <para>More <command>geli</command> features can be found in
+      <para>More features and usage examples can be found in
 	&man.geli.8;.</para>
 
-      <para>This section describes how to enable support for
-	<command>geli</command> in the &os; kernel and explains how
-	to create and use a <command>geli</command> encryption
-	provider.</para>
-
-      <para>Superuser privileges are required since modifications
-	to the kernel are necessary.</para>
+      <para>The following example describes how to generate a key file
+	which will be used as part of the master key for the encrypted
+	provider mounted under <filename>/private</filename>.  The key
+	file will provide some random data used to encrypt the master
+	key.  The master key will also be protected by a passphrase.
+	The provider's sector size will be 4kB.  The example describes
+	how to attach to the <command>geli</command> provider, create
+	a file system on it, mount it, work with it, and finally, how
+	to detach it.</para>
 
       <procedure>
+	<title>Encrypting a Partition with
+	  <command>geli</command></title>
+
 	<step>
-	  <title>Adding <command>geli</command> Support to the
-	    Kernel</title>
+	  <title>Load <command>geli</command> Support</title>
+
+	  <para>Support for <command>geli</command> is built into the
+	    <filename>GENERIC</filename> kernel.  To configure the
+	    system to automatically load the module
+	    at boot time, add the following line to
+	    <filename>/boot/loader.conf</filename>:</para>
+
+	  <programlisting>geom_eli_load="YES"</programlisting>
+
+	  <para>To load the kernel module now:</para>
+
+	  <screen>&prompt.root; <userinput>kldload geom_eli</userinput></screen>
 
 	  <para>For a custom kernel, ensure the kernel configuration
 	    file contains these lines:</para>
 
 	  <programlisting>options GEOM_ELI
 device crypto</programlisting>
-
-	  <para>Alternatively, the <command>geli</command> module can
-	    be loaded at boot time by adding the following line to
-	    <filename>/boot/loader.conf</filename>:</para>
-
-	  <programlisting>geom_eli_load="YES"</programlisting>
-
-	  <para>&man.geli.8; should now be supported by the
-	    kernel.</para>
 	</step>
 
 	<step>
-	  <title>Generating the Master Key</title>
+	  <title>Generate the Master Key</title>
 
-	  <para>The following example describes how to generate a
-	    key file which will be used as part of the master key for
-	    the encrypted provider mounted under
-	    <filename>/private</filename>.  The key
-	    file will provide some random data used to encrypt the
-	    master key.  The master key will also be protected by a
-	    passphrase.  The provider's sector size will be 4kB.
-	    The example will describe how to attach to the
-	    <command>geli</command> provider, create a file system on
-	    it, mount it, work with it, and finally, how to detach
-	    it.</para>
-
-	  <para>It is recommended to use a bigger sector size, such as
-	    4kB, for better performance.</para>
-
-	  <para>The master key will be protected with a passphrase and
-	    the data source for the key file will be
-	    <filename>/dev/random</filename>.  The sector size of
-	    the provider <filename>/dev/da2.eli</filename> will be
-	    4kB.</para>
+	  <para>The following commands generate a master key
+	    (<filename>/root/da2.key</filename>) that is protected
+	    with a passphrase.  The data source for the key file is
+	    <filename>/dev/random</filename> and the sector size of
+	    the provider (<filename>/dev/da2.eli</filename>) is 4kB as
+	    a bigger sector size provides better performance:</para>
 
 	  <screen>&prompt.root; <userinput>dd if=/dev/random of=/root/da2.key bs=64 count=1</userinput>
 &prompt.root; <userinput>geli init -s 4096 -K /root/da2.key /dev/da2</userinput>
@@ -3085,34 +2765,41 @@ Reenter new passphrase:</screen>
 	    used in isolation.</para>
 
 	  <para>If the key file is given as <quote>-</quote>, standard
-	    input will be used.  This example shows how more than one
-	    key file can be used:</para>
+	    input will be used.  For example, this command generates
+	    three key files:</para>
 
 	  <screen>&prompt.root; <userinput>cat keyfile1 keyfile2 keyfile3 | geli init -K - /dev/da2</userinput></screen>
 	</step>
 
 	<step>
-	  <title>Attaching the Provider with the Generated Key</title>
+	  <title>Attach the Provider with the Generated Key</title>
+
+	  <para>To attach the provider, specify the key file, the name
+	    of the disk, and the passphrase:</para>
 
 	  <screen>&prompt.root; <userinput>geli attach -k /root/da2.key /dev/da2</userinput>
 Enter passphrase:</screen>
 
-	  <para>The new plaintext device will be named
-	    <filename>/dev/da2.eli</filename>.</para>
+	  <para>This creates a new device with an
+	    <filename>.eli</filename> extension:</para>
 
 	  <screen>&prompt.root; <userinput>ls /dev/da2*</userinput>
 /dev/da2  /dev/da2.eli</screen>
 	</step>
 
 	<step>
-	  <title>Creating the New File System</title>
+	  <title>Create the New File System</title>
+
+	  <para>Next, format the device with the
+	    <acronym>UFS</acronym> file system and mount it on an
+	    existing mount point:</para>
 
 	  <screen>&prompt.root; <userinput>dd if=/dev/random of=/dev/da2.eli bs=1m</userinput>
 &prompt.root; <userinput>newfs /dev/da2.eli</userinput>
-&prompt.root; <userinput>mount /dev/da2.eli /private</userinput></screen>
+&prompt.root; <userinput>mount /dev/da2.eli <replaceable>/private</replaceable></userinput></screen>
 
-	  <para>The encrypted file system should now be visible to
-	    &man.df.1; and be available for use:</para>
+	  <para>The encrypted file system should now be available for
+	    use:</para>
 
 	  <screen>&prompt.root; <userinput>df -H</userinput>
 Filesystem     Size   Used  Avail Capacity  Mounted on
@@ -3123,58 +2810,45 @@ Filesystem     Size   Used  Avail Capacity  Mounted on
 /dev/ad0s1e    3.9G   1.3G   2.3G    35%    /var
 /dev/da2.eli   150G   4.1K   138G     0%    /private</screen>
 	</step>
-
-	<step>
-	  <title>Unmounting and Detaching the Provider</title>
-
-	  <para>Once the work on the encrypted partition is done, and
-	    the <filename>/private</filename>
-	    partition is no longer needed, it is prudent to consider
-	    unmounting and detaching the <command>geli</command>
-	    encrypted partition from the kernel:</para>
-
-	  <screen>&prompt.root; <userinput>umount /private</userinput>
-&prompt.root; <userinput>geli detach da2.eli</userinput></screen>
-	</step>
       </procedure>
 
-      <para>More information about the use of &man.geli.8; can be
-	found in its manual page.</para>
+      <para>Once the work on the encrypted partition is done, and the
+	<filename>/private</filename> partition is no longer needed,
+	it is prudent to put the device into cold storage by
+	unmounting and detaching the <command>geli</command> encrypted
+	partition from the kernel:</para>
 
-      <sect3>
-	<title>Using the <filename>geli</filename>
-	  <filename>rc.d</filename> Script</title>
+      <screen>&prompt.root; <userinput>umount /private</userinput>
+&prompt.root; <userinput>geli detach da2.eli</userinput></screen>
 
-	<para><command>geli</command> comes with a
-	  <filename>rc.d</filename> script which can be used to
-	  simplify the usage of <command>geli</command>.  An example
-	  of configuring <command>geli</command> through
-	  &man.rc.conf.5; follows:</para>
+      <para>A <filename>rc.d</filename> script is provided to
+	simplify the mounting of <command>geli</command>-encrypted
+	devices at boot time.  For this example, add these lines to
+	<filename>/etc/rc.conf</filename>:</para>
 
-	<programlisting>geli_devices="da2"
-geli_da2_flags="-p -k /root/da2.key"</programlisting>
+      <programlisting>geli_devices="<replaceable>da2</replaceable>"
+geli_da2_flags="-p -k /root/<replaceable>da2.key</replaceable>"</programlisting>
 
-	<para>This configures <filename>/dev/da2</filename> as a
-	  <command>geli</command> provider of which the master key
-	  file is located in <filename>/root/da2.key</filename>.
-	  <command>geli</command> will not use a passphrase when
-	  attaching to the provider if
-	  <option>-P</option> was given during the
-	  <literal>geli init</literal> phase.  The system will detach
-	  the <command>geli</command> provider from the kernel before
-	  the system shuts down.</para>
-
-	<para>More information about configuring
-	  <filename>rc.d</filename> is provided in the
-	  <link linkend="configtuning-rcd">rc.d</link> section of the
-	  Handbook.</para>
-      </sect3>
+      <para>This configures <filename>/dev/da2</filename> as a
+	<command>geli</command> provider with a master key of
+	<filename>/root/da2.key</filename>.  The system will
+	automatically detach the provider from the kernel before the
+	system shuts down.  During the startup process, the script
+	will prompt for the passphrase before attaching the provider.
+	Other kernel messages might be shown before and after the
+	password prompt.  If the boot process seems to stall, look
+	carefully for the password prompt among the other messages.
+	Once the correct passphrase is entered, the provider is
+	attached.  The file system is then mounted, typically by an
+	entry in <filename>/etc/fstab</filename>.  Refer to <xref
+	  linkend="mount-unmount"/> for instructions on how to
+	configure a file system to mount at boot time.</para>
     </sect2>
   </sect1>
 
   <sect1 xml:id="swap-encrypting">
     <info>
-      <title>Encrypting Swap Space</title>
+      <title>Encrypting Swap</title>
 
       <authorgroup>
 	<author>
@@ -3195,68 +2869,53 @@ geli_da2_flags="-p -k /root/da2.key"</programlisting>
     <para>Like the encryption of disk partitions, encryption of swap
       space is used to protect sensitive information.  Consider an
       application that deals with passwords.  As long as these
-      passwords stay in physical memory, these passwords will not be
-      written to disk and be cleared after a reboot.  If &os; starts
-      swapping out memory pages to free space for other applications,
-      the passwords may be written to the disk platters unencrypted.
-      Encrypting swap space can be a solution for this
-      scenario.</para>
+      passwords stay in physical memory, they are not written to disk
+      and will be cleared after a reboot.  However, if &os; starts
+      swapping out memory pages to free space, the passwords may be
+      written to the disk unencrypted.  Encrypting swap space can be a
+      solution for this scenario.</para>
 
-    <para>The &man.gbde.8; or &man.geli.8; encryption systems may be
-      used for swap encryption.  Both systems use the
-      <filename>encswap</filename>
-      <link linkend="configtuning-rcd">rc.d</link> script.</para>
-
-    <note>
-      <para>For the remainder of this section,
-	<filename>ad0s1b</filename> will be the swap
-	partition.</para>
-    </note>
-
-    <para>Swap partitions are not encrypted by default and should
-      be cleared of any sensitive data before continuing.  To
-      overwrite the current swap parition with random garbage,
-      execute the following command:</para>
-
-    <screen>&prompt.root; <userinput>dd if=/dev/random of=/dev/ad0s1b bs=1m</userinput></screen>
+    <para>This section demonstrates how to configure an encrypted
+      swap partition using &man.gbde.8; or &man.geli.8; encryption.
+      It assumes a <acronym>UFS</acronym> file system where
+      <filename>/dev/ad0s1b</filename> is the swap partition.</para>
 
     <sect2>
-      <title>Swap Encryption with &man.gbde.8;</title>
+      <title>Configuring Encrypted Swap</title>
 
-      <para>The <literal>.bde</literal> suffix should be added to the
-	device in the respective <filename>/etc/fstab</filename> swap
-	line:</para>
+      <para>Swap partitions are not encrypted by default and should be
+	cleared of any sensitive data before continuing.  To overwrite
+	the current swap partition with random garbage, execute the
+	following command:</para>
+
+      <screen>&prompt.root; <userinput>dd if=/dev/random of=/dev/<replaceable>ad0s1b</replaceable> bs=1m</userinput></screen>
+
+      <para>To encrypt the swap partition using &man.gbde.8;, add the
+	<literal>.bde</literal> suffix to the swap line in
+	<filename>/etc/fstab</filename>:</para>
 
       <programlisting># Device		Mountpoint	FStype	Options		Dump	Pass#
 /dev/ad0s1b.bde		none		swap	sw		0	0</programlisting>
-    </sect2>
 
-    <sect2>
-      <title>Swap Encryption with &man.geli.8;</title>
-
-      <para>The procedure for instead using &man.geli.8; for swap
-	encryption is similar to that of using &man.gbde.8;.  The
-	<literal>.eli</literal> suffix should be added to the device
-	in the respective <filename>/etc/fstab</filename> swap
-	line:</para>
+      <para>To instead encrypt the swap partition using &man.geli.8;,
+	use the
+	<literal>.eli</literal> suffix:</para>
 
       <programlisting># Device		Mountpoint	FStype	Options		Dump	Pass#
 /dev/ad0s1b.eli		none		swap	sw		0	0</programlisting>
 
-      <para>&man.geli.8; uses the <acronym>AES</acronym> algorithm
-	with a key length of 128 bit by default.  These defaults can
-	be altered by using <literal>geli_swap_flags</literal> in
-	<filename>/etc/rc.conf</filename>.  The following line tells
-	the <filename>encswap</filename> rc.d script to create
-	&man.geli.8; swap partitions using the Blowfish algorithm with
-	a key length of 128 bits and a sectorsize of 4 kilobytes, and
-	sets <quote>detach on last close</quote>:</para>
+      <para>By default, &man.geli.8; uses the <acronym>AES</acronym>
+	algorithm with a key length of 128 bit.  These defaults can be
+	altered by using <literal>geli_swap_flags</literal> in
+	<filename>/etc/rc.conf</filename>.  The following flags
+	configure encryption using the Blowfish algorithm with a key
+	length of 128 bits and a sectorsize of 4 kilobytes, and sets
+	<quote>detach on last close</quote>:</para>
 
       <programlisting>geli_swap_flags="-e blowfish -l 128 -s 4096 -d"</programlisting>
 
-      <para>Refer to the description of
-	<command>onetime</command> in &man.geli.8; for a list of
-	possible options.</para>
+      <para>Refer to the description of <literal>onetime</literal> in
+	&man.geli.8; for a list of possible options.</para>
     </sect2>
 
     <sect2>
@@ -3282,7 +2941,8 @@ Device          1K-blocks     Used    Avail Capacity
 
   <sect1 xml:id="disks-hast">
     <info>
-      <title>Highly Available Storage (HAST)</title>
+      <title>Highly Available Storage
+	(<acronym>HAST</acronym>)</title>
 
       <authorgroup>
 	<author>
@@ -3331,279 +2991,247 @@ Device          1K-blocks     Used    Avail Capacity
       <secondary>high availability</secondary>
     </indexterm>
 
-    <sect2>
-      <title>Synopsis</title>
+    <para>High availability is one of the main requirements in
+      serious business applications and highly-available storage is a
+      key component in such environments.  In &os;, the Highly
+      Available STorage (<acronym>HAST</acronym>) framework allows
+      transparent storage of the same data across several physically
+      separated machines connected by a <acronym>TCP/IP</acronym>
+      network.  <acronym>HAST</acronym> can be understood as a
+      network-based RAID1 (mirror), and is similar to the DRBD&reg;
+      storage system used in the GNU/&linux; platform.  In combination
+      with other high-availability features of &os; like
+      <acronym>CARP</acronym>, <acronym>HAST</acronym> makes it
+      possible to build a highly-available storage cluster that is
+      resistant to hardware failures.</para>
 
-      <para>High availability is one of the main requirements in
-	serious business applications and highly-available storage is
-	a key component in such environments.  Highly Available
-	STorage, or <acronym>HAST<remark role="acronym">Highly
-	    Available STorage</remark></acronym>, was developed by
-	&a.pjd.email; as a framework which allows transparent storage
-	of the same data across several physically separated machines
-	connected by a TCP/IP network.  <acronym>HAST</acronym> can be
-	understood as a network-based RAID1 (mirror), and is similar
-	to the DRBD&reg; storage system known from the GNU/&linux;
-	platform.  In combination with other high-availability
-	features of &os; like <acronym>CARP</acronym>,
-	<acronym>HAST</acronym> makes it possible to build a
-	highly-available storage cluster that is resistant to hardware
-	failures.</para>
+    <para>The following are the main features of
+      <acronym>HAST</acronym>:</para>
 
-      <para>After reading this section, you will know:</para>
+    <itemizedlist>
+      <listitem>
+	<para>Can be used to mask <acronym>I/O</acronym> errors on
+	  local hard drives.</para>
+      </listitem>
 
-      <itemizedlist>
-	<listitem>
-	  <para>What <acronym>HAST</acronym> is, how it works and
-	    which features it provides.</para>
-	</listitem>
+      <listitem>
+	<para>File system agnostic as it works with any file system
+	  supported by &os;.</para>
+      </listitem>
 
-	<listitem>
-	  <para>How to set up and use <acronym>HAST</acronym> on
-	    &os;.</para>
-	</listitem>
+      <listitem>
+	<para>Efficient and quick resynchronization as only the blocks
+	  that were modified during the downtime of a node are
+	  synchronized.</para>
+      </listitem>
 
-	<listitem>
-	  <para>How to integrate <acronym>CARP</acronym> and
-	    &man.devd.8; to build a robust storage system.</para>
-	</listitem>
-      </itemizedlist>
+      <!--
+      <listitem>
+	<para>Has several synchronization modes to allow for fast
+	  failover.</para>
+      </listitem>
+      -->
 
-      <para>Before reading this section, you should:</para>
+      <listitem>
+	<para>Can be used in an already deployed environment to add
+	  additional redundancy.</para>
+      </listitem>
 
-      <itemizedlist>
-	<listitem>
-	  <para>Understand &unix; and
-	    <link linkend="basics">&os; basics</link>.</para>
-	</listitem>
+      <listitem>
+	<para>Together with <acronym>CARP</acronym>,
+	  <application>Heartbeat</application>, or other tools, it can
+	  be used to build a robust and durable storage system.</para>
+      </listitem>
+    </itemizedlist>
 
-	<listitem>
-	  <para>Know how to
-	    <link linkend="config-tuning">configure</link> network
-	    interfaces and other core &os; subsystems.</para>
-	</listitem>
+    <para>After reading this section, you will know:</para>
 
-	<listitem>
-	  <para>Have a good understanding of
-	    <link linkend="network-communication">&os;
-	      networking</link>.</para>
-	</listitem>
-      </itemizedlist>
+    <itemizedlist>
+      <listitem>
+	<para>What <acronym>HAST</acronym> is, how it works, and
+	  which features it provides.</para>
+      </listitem>
 
-      <para>The <acronym>HAST</acronym> project was sponsored by The
-	&os; Foundation with support from
-	<link xlink:href="http://www.omc.net/">OMCnet Internet Service
-	  GmbH</link> and <link
-	  xlink:href="http://www.transip.nl/">TransIP
-	  BV</link>.</para>
-    </sect2>
+      <listitem>
+	<para>How to set up and use <acronym>HAST</acronym> on
+	  &os;.</para>
+      </listitem>
 
-    <sect2>
-      <title>HAST Features</title>
+      <listitem>
+	<para>How to integrate <acronym>CARP</acronym> and
+	  &man.devd.8; to build a robust storage system.</para>
+      </listitem>
+    </itemizedlist>
 
-      <para>The main features of the <acronym>HAST</acronym> system
-	are:</para>
+    <para>Before reading this section, you should:</para>
 
-      <itemizedlist>
-	<listitem>
-	  <para>Can be used to mask I/O errors on local hard
-	    drives.</para>
-	</listitem>
+    <itemizedlist>
+      <listitem>
+	<para>Understand &unix; and &os; basics (<xref
+	    linkend="basics"/>).</para>
+      </listitem>
 
-	<listitem>
-	  <para>File system agnostic as it works with any file
-	    system supported by &os;.</para>
-	</listitem>
+      <listitem>
+	<para>Know how to configure network
+	  interfaces and other core &os; subsystems (<xref
+	    linkend="config-tuning"/>).</para>
+      </listitem>
 
-	<listitem>
-	  <para>Efficient and quick resynchronization, synchronizing
-	    only blocks that were modified during the downtime of a
-	    node.</para>
-	</listitem>
+      <listitem>
+	<para>Have a good understanding of &os;
+	  networking (<xref
+	    linkend="network-communication"/>).</para>
+      </listitem>
+    </itemizedlist>
 
-	<!--
-	<listitem>
-	  <para>Has several synchronization modes to allow for fast
-	    failover.</para>
-	</listitem>
-	-->
-
-	<listitem>
-	  <para>Can be used in an already deployed environment to add
-	    additional redundancy.</para>
-	</listitem>
-
-	<listitem>
-	  <para>Together with <acronym>CARP</acronym>,
-	    <application>Heartbeat</application>, or other tools, it
-	    can be used to build a robust and durable storage
-	    system.</para>
-	</listitem>
-      </itemizedlist>
-    </sect2>
+    <para>The <acronym>HAST</acronym> project was sponsored by The
+      &os; Foundation with support from <link
+	xlink:href="http://www.omc.net/">http://www.omc.net/</link>
+      and <link
+	xlink:href="http://www.transip.nl/">http://www.transip.nl/</link>.</para>
 
     <sect2>
       <title>HAST Operation</title>
 
-      <para>As <acronym>HAST</acronym> provides a synchronous
-	block-level replication of any storage media to several
-	machines, it requires at least two physical machines:
-	the <literal>primary</literal>, also known as the
-	<literal>master</literal> node, and the
-	<literal>secondary</literal> or <literal>slave</literal>
+      <para><acronym>HAST</acronym> provides synchronous block-level
+	replication between two physical machines: the
+	<emphasis>primary</emphasis>, also known as the
+	<emphasis>master</emphasis> node, and the
+	<emphasis>secondary</emphasis>, or <emphasis>slave</emphasis>
 	node.  These two machines together are referred to as a
 	cluster.</para>
 
-      <note>
-	<para>HAST is currently limited to two cluster nodes in
-	  total.</para>
-      </note>
-
-      <para>Since <acronym>HAST</acronym> works in a
-	primary-secondary configuration, it allows only one of the
-	cluster nodes to be active at any given time.  The
-	<literal>primary</literal> node, also called
-	<literal>active</literal>, is the one which will handle all
-	the I/O requests to <acronym>HAST</acronym>-managed
-	devices.  The <literal>secondary</literal> node is
-	automatically synchronized from the <literal>primary</literal>
-	node.</para>
+      <para>Since <acronym>HAST</acronym> works in a primary-secondary
+	configuration, it allows only one of the cluster nodes to be
+	active at any given time.  The primary node, also called
+	<emphasis>active</emphasis>, is the one which will handle all
+	the <acronym>I/O</acronym> requests to
+	<acronym>HAST</acronym>-managed devices.  The secondary node
+	is automatically synchronized from the primary node.</para>
 
       <para>The physical components of the <acronym>HAST</acronym>
-	system are:</para>
-
-      <itemizedlist>
-	<listitem>
-	  <para>local disk on primary node, and</para>
-	</listitem>
-
-	<listitem>
-	  <para>disk on remote, secondary node.</para>
-	</listitem>
-      </itemizedlist>
+	system are the local disk on primary node, and the disk on the
+	remote, secondary node.</para>
 
       <para><acronym>HAST</acronym> operates synchronously on a block
 	level, making it transparent to file systems and applications.
 	<acronym>HAST</acronym> provides regular GEOM providers in
-	<filename>/dev/hast/</filename> for use by
-	other tools or applications, thus there is no difference
-	between using <acronym>HAST</acronym>-provided devices and
-	raw disks or partitions.</para>
+	<filename>/dev/hast/</filename> for use by other tools or
+	applications.  There is no difference between using
+	<acronym>HAST</acronym>-provided devices and raw disks or
+	partitions.</para>
 
-      <para>Each write, delete, or flush operation is sent to the
-	local disk and to the remote disk over TCP/IP.  Each read
-	operation is served from the local disk, unless the local disk
-	is not up-to-date or an I/O error occurs.  In such case, the
-	read operation is sent to the secondary node.</para>
+      <para>Each write, delete, or flush operation is sent to both the
+	local disk and to the remote disk over
+	<acronym>TCP/IP</acronym>.  Each read operation is served from
+	the local disk, unless the local disk is not up-to-date or an
+	<acronym>I/O</acronym> error occurs.  In such cases, the read
+	operation is sent to the secondary node.</para>
 
-      <sect3>
-	<title>Synchronization and Replication Modes</title>
+      <para><acronym>HAST</acronym> tries to provide fast failure
+	recovery.  For this reason, it is important to reduce
+	synchronization time after a node's outage.  To provide fast
+	synchronization, <acronym>HAST</acronym> manages an on-disk
+	bitmap of dirty extents and only synchronizes those during a
+	regular synchronization, with an exception of the initial
+	sync.</para>
 
-	<para><acronym>HAST</acronym> tries to provide fast failure
-	  recovery.  For this reason, it is very important to reduce
-	  synchronization time after a node's outage.  To provide fast
-	  synchronization, <acronym>HAST</acronym> manages an on-disk
-	  bitmap of dirty extents and only synchronizes those during a
-	  regular synchronization, with an exception of the initial
-	  sync.</para>
+      <para>There are many ways to handle synchronization.
+	<acronym>HAST</acronym> implements several replication modes
+	to handle different synchronization methods:</para>
 
-	<para>There are many ways to handle synchronization.
-	  <acronym>HAST</acronym> implements several replication modes
-	  to handle different synchronization methods:</para>
+      <itemizedlist>
+	<listitem>
+	  <para><emphasis>memsync</emphasis>: This mode reports a
+	    write operation as completed when the local write
+	    operation is finished and when the remote node
+	    acknowledges data arrival, but before actually storing the
+	    data.  The data on the remote node will be stored directly
+	    after sending the acknowledgement.  This mode is intended
+	    to reduce latency, but still provides good
+	    reliability.</para>
+	</listitem>
 
-	<itemizedlist>
-	  <listitem>
-	    <para><emphasis>memsync</emphasis>: report write operation
-	      as completed when the local write operation is finished
-	      and when the remote node acknowledges data arrival, but
-	      before actually storing the data.  The data on the
-	      remote node will be stored directly after sending the
-	      acknowledgement.  This mode is intended to reduce
-	      latency, but still provides very good
-	      reliability.</para>
-	  </listitem>
+	<listitem>
+	  <para><emphasis>fullsync</emphasis>: This mode reports a
+	    write operation as completed when both the local write and
+	    the remote write complete.  This is the safest and the
+	    slowest replication mode.  This mode is the
+	    default.</para>
+	</listitem>
 
-	  <listitem>
-	    <para><emphasis>fullsync</emphasis>: report write
-	      operation as completed when local write completes and
-	      when remote write completes.  This is the safest and the
-	      slowest replication mode.  This mode is the
-	      default.</para>
-	  </listitem>
-
-	  <listitem>
-	    <para><emphasis>async</emphasis>: report write operation
-	      as completed when local write completes.  This is the
-	      fastest and the most dangerous replication mode.  It
-	      should be used when replicating to a distant node where
-	      latency is too high for other modes.</para>
-	  </listitem>
-	</itemizedlist>
-      </sect3>
+	<listitem>
+	  <para><emphasis>async</emphasis>: This mode reports a write
+	    operation as completed when the local write completes.
+	    This is the fastest and the most dangerous replication
+	    mode.  It should only be used when replicating to a
+	    distant node where latency is too high for other
+	    modes.</para>
+	</listitem>
+      </itemizedlist>
     </sect2>
 
     <sect2>
       <title>HAST Configuration</title>
 
-      <para><acronym>HAST</acronym> requires
-	<literal>GEOM_GATE</literal> support which is not present in
-	the default <literal>GENERIC</literal> kernel.  However, the
-	<varname>geom_gate.ko</varname> loadable module is available
-	in the default &os; installation.  Alternatively, to build
-	<literal>GEOM_GATE</literal> support into the kernel
-	statically, add this line to the custom kernel configuration
-	file:</para>
-
-      <programlisting>options	GEOM_GATE</programlisting>
-
       <para>The <acronym>HAST</acronym> framework consists of several
-	parts from the operating system's point of view:</para>
+	components:</para>
 
       <itemizedlist>
 	<listitem>
-	  <para>the &man.hastd.8; daemon responsible for data
-	    synchronization,</para>
+	  <para>The &man.hastd.8; daemon which provides data
+	    synchronization.  When this daemon is started, it will
+	    automatically load <varname>geom_gate.ko</varname>.</para>
 	</listitem>
 
 	<listitem>
-	  <para>the &man.hastctl.8; userland management
-	    utility,</para>
+	  <para>The userland management utility,
+	    &man.hastctl.8;.</para>
 	</listitem>
 
 	<listitem>
-	  <para>and the &man.hast.conf.5; configuration file.</para>
+	  <para>The &man.hast.conf.5; configuration file.  This file
+	    must exist before starting
+	    <application>hastd</application>.</para>
 	</listitem>
       </itemizedlist>
 
+      <para>Users who prefer to statically build
+	<literal>GEOM_GATE</literal> support into the kernel should
+	add this line to the custom kernel configuration file, then
+	rebuild the kernel using the instructions in <xref
+	  linkend="kernelconfig"/>:</para>
+
+      <programlisting>options	GEOM_GATE</programlisting>
+
       <para>The following example describes how to configure two nodes
-	in <literal>master</literal>-<literal>slave</literal> /
-	<literal>primary</literal>-<literal>secondary</literal>
-	operation using <acronym>HAST</acronym> to replicate the data
-	between the two.  The nodes will be called
-	<literal>hasta</literal> with an IP address of
-	<replaceable>172.16.0.1</replaceable> and
-	<literal>hastb</literal> with an IP of address
-	<replaceable>172.16.0.2</replaceable>.  Both nodes will have a
+	in master-slave/primary-secondary operation using
+	<acronym>HAST</acronym> to replicate the data between the two.
+	The nodes will be called <literal>hasta</literal>, with an
+	<acronym>IP</acronym> address of
+	<literal>172.16.0.1</literal>, and <literal>hastb</literal>,
+	with an <acronym>IP</acronym> address of
+	<literal>172.16.0.2</literal>.  Both nodes will have a
 	dedicated hard drive <filename>/dev/ad6</filename> of the same
 	size for <acronym>HAST</acronym> operation.  The
-	<acronym>HAST</acronym> pool, sometimes also referred to as a
-	resource or the GEOM provider in
-	<filename>/dev/hast/</filename>, will be called
-	<filename>test</filename>.</para>
+	<acronym>HAST</acronym> pool, sometimes referred to as a
+	resource or the <acronym>GEOM</acronym> provider in <filename
+	  class="directory">/dev/hast/</filename>, will be called
+	<literal>test</literal>.</para>
 
       <para>Configuration of <acronym>HAST</acronym> is done using
-	<filename>/etc/hast.conf</filename>.  This file should be the
-	same on both nodes.  The simplest configuration possible
+	<filename>/etc/hast.conf</filename>.  This file should be
+	identical on both nodes.  The simplest configuration
 	is:</para>
 
-      <programlisting>resource test {
-	on hasta {
-		local /dev/ad6
-		remote 172.16.0.2
+      <programlisting>resource <replaceable>test</replaceable> {
+	on <replaceable>hasta</replaceable> {
+		local <replaceable>/dev/ad6</replaceable>
+		remote <replaceable>172.16.0.2</replaceable>
 	}
-	on hastb {
-		local /dev/ad6
-		remote 172.16.0.1
+	on <replaceable>hastb</replaceable> {
+		local <replaceable>/dev/ad6</replaceable>
+		remote <replaceable>172.16.0.1</replaceable>
 	}
 }</programlisting>
 
@@ -3612,78 +3240,68 @@ Device          1K-blocks     Used    Avail Capacity
 
       <tip>
 	<para>It is also possible to use host names in the
-	  <literal>remote</literal> statements.  In such a case, make
-	  sure that these hosts are resolvable and are defined in
+	  <literal>remote</literal> statements if the hosts are
+	  resolvable and defined either in
 	  <filename>/etc/hosts</filename> or in the local
 	  <acronym>DNS</acronym>.</para>
       </tip>
 
-      <para>Now that the configuration exists on both nodes,
-	the <acronym>HAST</acronym> pool can be created.  Run these
+      <para>Once the configuration exists on both nodes, the
+	<acronym>HAST</acronym> pool can be created.  Run these
 	commands on both nodes to place the initial metadata onto the
 	local disk and to start &man.hastd.8;:</para>
 
-      <screen>&prompt.root; <userinput>hastctl create test</userinput>
+      <screen>&prompt.root; <userinput>hastctl create <replaceable>test</replaceable></userinput>
 &prompt.root; <userinput>service hastd onestart</userinput></screen>
 
       <note>
-	<para>It is <emphasis>not</emphasis> possible to use GEOM
+	<para>It is <emphasis>not</emphasis> possible to use
+	  <acronym>GEOM</acronym>
 	  providers with an existing file system or to convert an
 	  existing storage to a <acronym>HAST</acronym>-managed pool.
 	  This procedure needs to store some metadata on the provider
-	  and there will not be enough required space
-	  available on an existing provider.</para>
+	  and there will not be enough required space available on an
+	  existing provider.</para>
       </note>
 
       <para>A HAST node's <literal>primary</literal> or
 	<literal>secondary</literal> role is selected by an
 	administrator, or software like
 	<application>Heartbeat</application>, using &man.hastctl.8;.
-	On the primary node,
-	<literal>hasta</literal>, issue
-	this command:</para>
+	On the primary node, <literal>hasta</literal>, issue this
+	command:</para>
 
-      <screen>&prompt.root; <userinput>hastctl role primary test</userinput></screen>
+      <screen>&prompt.root; <userinput>hastctl role primary <replaceable>test</replaceable></userinput></screen>
 
-      <para>Similarly, run this command on the secondary node,
+      <para>Run this command on the secondary node,
 	<literal>hastb</literal>:</para>
 
-      <screen>&prompt.root; <userinput>hastctl role secondary test</userinput></screen>
+      <screen>&prompt.root; <userinput>hastctl role secondary <replaceable>test</replaceable></userinput></screen>
 
-      <caution>
-	<para>When the nodes are unable to communicate with each
-	  other, and both are configured as primary nodes, the
-	  condition is called <literal>split-brain</literal>.  To
-	  troubleshoot this situation, follow the steps described in
-	  <xref linkend="disks-hast-sb"/>.</para>
-      </caution>
+      <para>Verify the result by running <command>hastctl</command> on
+	each node:</para>
 
-      <para>Verify the result by running &man.hastctl.8; on each
-	node:</para>
+      <screen>&prompt.root; <userinput>hastctl status <replaceable>test</replaceable></userinput></screen>
 
-      <screen>&prompt.root; <userinput>hastctl status test</userinput></screen>
-
-      <para>The important text is the <literal>status</literal> line,
-	which should say <literal>complete</literal>
-	on each of the nodes.  If it says <literal>degraded</literal>,
-	something went wrong.  At this point, the synchronization
-	between the nodes has already started.  The synchronization
-	completes when <command>hastctl status</command>
-	reports 0 bytes of <literal>dirty</literal> extents.</para>
-
+      <para>Check the <literal>status</literal> line in the output.
+	If it says <literal>degraded</literal>, something is wrong
+	with the configuration file.  It should say
+	<literal>complete</literal> on each node, meaning that the
+	synchronization between the nodes has started.  The
+	synchronization completes when <command>hastctl
+	  status</command> reports 0 bytes of <literal>dirty</literal>
+	extents.</para>
 
       <para>The next step is to create a file system on the
-	<filename>/dev/hast/test</filename>
-	GEOM provider and mount it.  This must be done on the
-	<literal>primary</literal> node, as
-	<filename>/dev/hast/test</filename>
-	appears only on the <literal>primary</literal> node.  Creating
-	the file system can take a few minutes, depending on the size
-	of the hard drive:</para>
+	<acronym>GEOM</acronym> provider and mount it.  This must be
+	done on the <literal>primary</literal> node.  Creating the
+	file system can take a few minutes, depending on the size of
+	the hard drive.  This example creates a <acronym>UFS</acronym>
+	file system on <filename>/dev/hast/test</filename>:</para>
 
-      <screen>&prompt.root; <userinput>newfs -U /dev/hast/test</userinput>
-&prompt.root; <userinput>mkdir /hast/test</userinput>
-&prompt.root; <userinput>mount /dev/hast/test /hast/test</userinput></screen>
+      <screen>&prompt.root; <userinput>newfs -U /dev/hast/<replaceable>test</replaceable></userinput>
+&prompt.root; <userinput>mkdir /hast/<replaceable>test</replaceable></userinput>
+&prompt.root; <userinput>mount /dev/hast/<replaceable>test</replaceable> <replaceable>/hast/test</replaceable></userinput></screen>
 
       <para>Once the <acronym>HAST</acronym> framework is configured
 	properly, the final step is to make sure that
@@ -3698,22 +3316,21 @@ Device          1K-blocks     Used    Avail Capacity
 
 	<para>The goal of this example is to build a robust storage
 	  system which is resistant to the failure of any given node.
-	  The scenario is that a <literal>primary</literal> node of
-	  the cluster fails.  If this happens, the
-	  <literal>secondary</literal> node is there to take over
-	  seamlessly, check and mount the file system, and continue to
-	  work without missing a single bit of data.</para>
+	  If the primary node fails, the secondary node is there to
+	  take over seamlessly, check and mount the file system, and
+	  continue to work without missing a single bit of
+	  data.</para>
 
-	<para>To accomplish this task, another &os; feature,
-	  <acronym>CARP</acronym>, provides for automatic failover on
-	  the IP layer.  <acronym>CARP</acronym> (Common
-	  Address Redundancy Protocol) allows multiple hosts on the
-	  same network segment to share an IP address.  Set up
-	  <acronym>CARP</acronym> on both nodes of the cluster
-	  according to the documentation available in
-	  <xref linkend="carp"/>.  After setup, each node will
-	  have its own <filename>carp0</filename> interface with a
-	  shared IP address of
+	<para>To accomplish this task, the Common Address Redundancy
+	  Protocol (<acronym>CARP</acronym>) is used to provide for
+	  automatic failover at the <acronym>IP</acronym> layer.
+	  <acronym>CARP</acronym> allows multiple hosts on the same
+	  network segment to share an <acronym>IP</acronym> address.
+	  Set up <acronym>CARP</acronym> on both nodes of the cluster
+	  according to the documentation available in <xref
+	    linkend="carp"/>.  In this example, each node will have
+	  its own management <acronym>IP</acronym> address and a
+	  shared <acronym>IP</acronym> address of
 	  <replaceable>172.16.0.254</replaceable>.  The primary
 	  <acronym>HAST</acronym> node of the cluster must be the
 	  master <acronym>CARP</acronym> node.</para>
@@ -3722,10 +3339,11 @@ Device          1K-blocks     Used    Avail Capacity
 	  section is now ready to be exported to the other hosts on
 	  the network.  This can be accomplished by exporting it
 	  through <acronym>NFS</acronym> or
-	  <application>Samba</application>, using the shared IP
-	  address <replaceable>172.16.0.254</replaceable>.  The only
-	  problem which remains unresolved is an automatic failover
-	  should the primary node fail.</para>
+	  <application>Samba</application>, using the shared
+	  <acronym>IP</acronym> address
+	  <replaceable>172.16.0.254</replaceable>.  The only problem
+	  which remains unresolved is an automatic failover should the
+	  primary node fail.</para>
 
 	<para>In the event of <acronym>CARP</acronym> interfaces going
 	  up or down, the &os; operating system generates a
@@ -3736,10 +3354,9 @@ Device          1K-blocks     Used    Avail Capacity
 	  These state change events make it possible to run a script
 	  which will automatically handle the HAST failover.</para>
 
-	<para>To be able to catch state changes on the
-	  <acronym>CARP</acronym> interfaces, add this
-	  configuration to
-	  <filename>/etc/devd.conf</filename> on each node:</para>
+	<para>To catch state changes on the
+	  <acronym>CARP</acronym> interfaces, add this configuration
+	  to <filename>/etc/devd.conf</filename> on each node:</para>
 
 	<programlisting>notify 30 {
 	match "system" "IFNET";
@@ -3755,21 +3372,27 @@ notify 30 {
 	action "/usr/local/sbin/carp-hast-switch slave";
 };</programlisting>
 
+	<note>
+	  <para>If the systems are running &os;&nbsp;10 or higher,
+	    replace <filename>carp0</filename> with the name of the
+	    <acronym>CARP</acronym>-configured interface.</para>
+	</note>
+
 	<para>Restart &man.devd.8; on both nodes to put the new
 	  configuration into effect:</para>
 
 	<screen>&prompt.root; <userinput>service devd restart</userinput></screen>
 
-	<para>When the <filename>carp0</filename> interface state
-	  changes by going up or down , the system generates a
-	  notification, allowing the &man.devd.8; subsystem to run an
-	  arbitrary script, in this case
-	  <filename>/usr/local/sbin/carp-hast-switch</filename>.  This
-	  script handles the automatic failover.  For further
-	  clarification about the above &man.devd.8; configuration,
-	  refer to &man.devd.conf.5;.</para>
+	<para>When the specified interface state changes by going up
+	  or down , the system generates a notification, allowing the
+	  &man.devd.8; subsystem to run the specified automatic
+	  failover script,
+	  <filename>/usr/local/sbin/carp-hast-switch</filename>.
+	  For further clarification about this configuration, refer to
+	  &man.devd.conf.5;.</para>
 
-	<para>An example of such a script could be:</para>
+	<para>Here is an example of an automated failover
+	  script:</para>
 
 	<programlisting>#!/bin/sh
 
@@ -3778,7 +3401,7 @@ notify 30 {
 # and Viktor Petersson &lt;vpetersson@wireload.net&gt;
 
 # The names of the HAST resources, as listed in /etc/hast.conf
-resources="test"
+resources="<replaceable>test</replaceable>"
 
 # delay in mounting HAST resource after becoming master
 # make your best guess
@@ -3856,13 +3479,12 @@ case "$1" in
 esac</programlisting>
 
 	<para>In a nutshell, the script takes these actions when a
-	  node becomes <literal>master</literal> /
-	  <literal>primary</literal>:</para>
+	  node becomes master:</para>
 
 	<itemizedlist>
 	  <listitem>
-	    <para>Promotes the <acronym>HAST</acronym> pools to
-	      primary on a given node.</para>
+	    <para>Promotes the <acronym>HAST</acronym> pool to
+	      primary on the other node.</para>
 	  </listitem>
 
 	  <listitem>
@@ -3871,87 +3493,82 @@ esac</programlisting>
 	  </listitem>
 
 	  <listitem>
-	    <para>Mounts the pools at an appropriate place.</para>
+	    <para>Mounts the pool.</para>
 	  </listitem>
 	</itemizedlist>
 
-	<para>When a node becomes <literal>backup</literal> /
-	  <literal>secondary</literal>:</para>
+	<para>When a node becomes secondary:</para>
 
 	<itemizedlist>
 	  <listitem>
-	    <para>Unmounts the <acronym>HAST</acronym> pools.</para>
+	    <para>Unmounts the <acronym>HAST</acronym> pool.</para>
 	  </listitem>
 
 	  <listitem>
-	    <para>Degrades the <acronym>HAST</acronym> pools to
+	    <para>Degrades the <acronym>HAST</acronym> pool to
 	      secondary.</para>
 	  </listitem>
 	</itemizedlist>
 
 	<caution>
-	  <para>Keep in mind that this is just an example script which
-	    serves as a proof of concept.  It does not handle all the
-	    possible scenarios and can be extended or altered in any
-	    way, for example, to start/stop required services.</para>
+	  <para>This is just an example script which serves as a proof
+	    of concept.  It does not handle all the possible scenarios
+	    and can be extended or altered in any way, for example, to
+	    start or stop required services.</para>
 	</caution>
 
 	<tip>
-	  <para>For this example, a standard UFS file system was used.
-	    To reduce the time needed for recovery, a journal-enabled
-	    UFS or ZFS file system can be used instead.</para>
+	  <para>For this example, a standard <acronym>UFS</acronym>
+	    file system was used.  To reduce the time needed for
+	    recovery, a journal-enabled <acronym>UFS</acronym> or
+	    <acronym>ZFS</acronym> file system can be used
+	    instead.</para>
 	</tip>
 
 	<para>More detailed information with additional examples can
-	  be found in the <link
-	    xlink:href="http://wiki.FreeBSD.org/HAST">HAST Wiki</link>
-	  page.</para>
+	  be found at <link
+	    xlink:href="http://wiki.FreeBSD.org/HAST">http://wiki.FreeBSD.org/HAST</link>.</para>
       </sect3>
     </sect2>
 
     <sect2>
       <title>Troubleshooting</title>
 
-      <sect3>
-	<title>General Troubleshooting Tips</title>
+      <para><acronym>HAST</acronym> should generally work without
+	issues.  However, as with any other software product, there
+	may be times when it does not work as supposed.  The sources
+	of the problems may be different, but the rule of thumb is to
+	ensure that the time is synchronized between the nodes of the
+	cluster.</para>
 
-	<para><acronym>HAST</acronym> should generally work without
-	  issues.  However, as with any other software product, there
-	  may be times when it does not work as supposed.  The sources
-	  of the problems may be different, but the rule of thumb is
-	  to ensure that the time is synchronized between all nodes of
-	  the cluster.</para>
-
-	<para>When troubleshooting <acronym>HAST</acronym> problems,
-	  the debugging level of &man.hastd.8; should be increased by
-	  starting &man.hastd.8; with <literal>-d</literal>.  This
-	  argument may be specified multiple times to further increase
-	  the debugging level.  A lot of useful information may be
-	  obtained this way.  Consider also using
-	  <literal>-F</literal>, which starts &man.hastd.8; in the
-	  foreground.</para>
-      </sect3>
+      <para>When troubleshooting <acronym>HAST</acronym>, the
+	debugging level of &man.hastd.8; should be increased by
+	starting <command>hastd</command> with <literal>-d</literal>.
+	This argument may be specified multiple times to further
+	increase the debugging level.  Consider also using
+	<literal>-F</literal>, which starts <command>hastd</command>
+	in the foreground.</para>
 
       <sect3 xml:id="disks-hast-sb">
 	<title>Recovering from the Split-brain Condition</title>
 
-	<para><literal>Split-brain</literal> is when the nodes of the
-	  cluster are unable to communicate with each other, and both
-	  are configured as primary.  This is a dangerous condition
-	  because it allows both nodes to make incompatible changes to
-	  the data.  This problem must be corrected manually by the
-	  system administrator.</para>
+	<para><firstterm>Split-brain</firstterm> occurs when the nodes
+	  of the cluster are unable to communicate with each other,
+	  and both are configured as primary.  This is a dangerous
+	  condition because it allows both nodes to make incompatible
+	  changes to the data.  This problem must be corrected
+	  manually by the system administrator.</para>
 
 	<para>The administrator must decide which node has more
-	  important changes (or merge them manually) and let
+	  important changes or merge them manually.  Then, let
 	  <acronym>HAST</acronym> perform full synchronization of the
 	  node which has the broken data.  To do this, issue these
 	  commands on the node which needs to be
 	  resynchronized:</para>
 
-	<screen>&prompt.root; <userinput>hastctl role init &lt;resource&gt;</userinput>
-&prompt.root; <userinput>hastctl create &lt;resource&gt;</userinput>
-&prompt.root; <userinput>hastctl role secondary &lt;resource&gt;</userinput></screen>
+	<screen>&prompt.root; <userinput>hastctl role init <replaceable>test</replaceable></userinput>
+&prompt.root; <userinput>hastctl create <replaceable>test</replaceable></userinput>
+&prompt.root; <userinput>hastctl role secondary <replaceable>test</replaceable></userinput></screen>
       </sect3>
     </sect2>
   </sect1>

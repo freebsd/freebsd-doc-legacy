@@ -786,6 +786,11 @@
       &pgpkey.chinsan;
     </sect2>
 
+    <sect2 xmlns="http://docbook.org/ns/docbook" xml:id="pgpkey-shurd">
+      <title>&a.shurd.email;</title>
+      &pgpkey.shurd;
+    </sect2>
+
     <sect2 xmlns="http://docbook.org/ns/docbook" xml:id="pgpkey-davide">
       <title>&a.davide.email;</title>
       &pgpkey.davide;
@@ -799,6 +804,11 @@
     <sect2 xmlns="http://docbook.org/ns/docbook" xml:id="pgpkey-versus">
       <title>&a.versus.email;</title>
       &pgpkey.versus;
+    </sect2>
+
+    <sect2 xmlns="http://docbook.org/ns/docbook" xml:id="pgpkey-pi">
+      <title>&a.pi.email;</title>
+      &pgpkey.pi;
     </sect2>
 
     <sect2 xmlns="http://docbook.org/ns/docbook" xml:id="pgpkey-weongyo">
@@ -829,6 +839,11 @@
     <sect2 xmlns="http://docbook.org/ns/docbook" xml:id="pgpkey-trevor">
       <title>&a.trevor.email;</title>
       &pgpkey.trevor;
+    </sect2>
+
+    <sect2 xmlns="http://docbook.org/ns/docbook" xml:id="pgpkey-allanjude">
+      <title>&a.allanjude.email;</title>
+      &pgpkey.allanjude;
     </sect2>
 
     <sect2 xmlns="http://docbook.org/ns/docbook" xml:id="pgpkey-tj">
@@ -874,6 +889,11 @@
     <sect2 xmlns="http://docbook.org/ns/docbook" xml:id="pgpkey-vkashyap">
       <title>&a.vkashyap.email;</title>
       &pgpkey.vkashyap;
+    </sect2>
+
+    <sect2 xmlns="http://docbook.org/ns/docbook" xml:id="pgpkey-pkelsey">
+      <title>&a.pkelsey.email;</title>
+      &pgpkey.pkelsey;
     </sect2>
 
     <sect2 xmlns="http://docbook.org/ns/docbook" xml:id="pgpkey-kris">
@@ -1251,9 +1271,19 @@
       &pgpkey.sem;
     </sect2>
 
+    <sect2 xmlns="http://docbook.org/ns/docbook" xml:id="pgpkey-slm">
+      <title>&a.slm.email;</title>
+      &pgpkey.slm;
+    </sect2>
+
     <sect2 xmlns="http://docbook.org/ns/docbook" xml:id="pgpkey-tmclaugh">
       <title>&a.tmclaugh.email;</title>
       &pgpkey.tmclaugh;
+    </sect2>
+
+    <sect2 xmlns="http://docbook.org/ns/docbook" xml:id="pgpkey-xmj">
+      <title>&a.xmj.email;</title>
+      &pgpkey.xmj;
     </sect2>
 
     <sect2 xmlns="http://docbook.org/ns/docbook" xml:id="pgpkey-jmelo">
@@ -1264,6 +1294,11 @@
     <sect2 xmlns='http://docbook.org/ns/docbook' xml:id="pgpkey-jmmv">
       <title>&a.jmmv.email;</title>
       &pgpkey.jmmv;
+    </sect2>
+    
+	<sect2 xmlns='http://docbook.org/ns/docbook' xml:id="pgpkey-kadesai">
+      <title>&a.kadesai.email;</title>
+      &pgpkey.kadesai;
     </sect2>
 
     <sect2 xmlns='http://docbook.org/ns/docbook' xml:id="pgpkey-ken">
@@ -1581,6 +1616,11 @@
       &pgpkey.rodrigc;
     </sect2>
 
+    <sect2 xmlns="http://docbook.org/ns/docbook" xml:id="pgpkey-robak">
+      <title>&a.robak.email;</title>
+      &pgpkey.robak;
+    </sect2>
+
     <sect2 xmlns="http://docbook.org/ns/docbook" xml:id="pgpkey-guido">
       <title>&a.guido.email;</title>
       &pgpkey.guido;
@@ -1804,6 +1844,11 @@
     <sect2 xmlns="http://docbook.org/ns/docbook" xml:id="pgpkey-zi">
       <title>&a.zi.email;</title>
       &pgpkey.zi;
+    </sect2>
+
+    <sect2 xmlns="http://docbook.org/ns/docbook" xml:id="pgpkey-lstewart">
+      <title>&a.lstewart.email;</title>
+      &pgpkey.lstewart;
     </sect2>
 
     <sect2 xmlns="http://docbook.org/ns/docbook" xml:id="pgpkey-rrs">

@@ -122,9 +122,9 @@
 	      project repository has its own -developers and
 	      -committers mailing lists.  Archives for these lists may
 	      be found in files
-	      <filename>/home/mail/repository-name-developers-archive</filename>
+	      <filename>/home/mail/<replaceable>repository-name</replaceable>-developers-archive</filename>
 	      and
-	      <filename>/home/mail/repository-name-committers-archive</filename>
+	      <filename>/home/mail/<replaceable>repository-name</replaceable>-committers-archive</filename>
 	      on the <systemitem
 		class="fqdomainname">FreeBSD.org</systemitem>
 	      cluster.)</entry>
@@ -205,16 +205,24 @@
     <sect2 xml:id="pgpkeys-creating">
       <title>Creating a Key</title>
 
-      <para>If you do not yet have an Open<acronym>PGP</acronym> key,
-	or your key does not meet &os; security requirements, here we
-	show how to generate one.</para>
+      <para>Existing keys can be used, but should be checked with
+	<filename>doc/head/share/pgpkeys/checkkey.sh</filename>
+	first.</para>
 
-      <para>Install
-	<filename role="package">security/gnupg</filename>.  Enter
-	these lines in <filename>~/.gnupg/gpg.conf</filename> to set
-	minimum acceptable defaults:</para>
+      <para>For those who do not yet have an
+	Open<acronym>PGP</acronym> key, or need a new key to meet &os;
+	security requirements, here we show how to generate
+	one.</para>
 
-      <programlisting>fixed-list-mode
+      <procedure xml:id="pgpkeys-create-steps">
+
+	<step>
+	  <para>Install
+	    <filename role="package">security/gnupg</filename>.  Enter
+	    these lines in <filename>~/.gnupg/gpg.conf</filename> to
+	    set minimum acceptable defaults:</para>
+
+	  <programlisting>fixed-list-mode
 keyid-format 0xlong
 personal-digest-preferences SHA512 SHA384 SHA256 SHA224
 default-preference-list SHA512 SHA384 SHA256 SHA224 AES256 AES192 AES CAST5 BZIP2 ZLIB ZIP Uncompressed
@@ -223,10 +231,12 @@ verify-options show-uid-validity
 list-options show-uid-validity
 sig-notation issuer-fpr@notations.openpgp.fifthhorseman.net=%g
 cert-digest-algo SHA512</programlisting>
+	</step>
 
-      <para>Generate a key:</para>
+	<step>
+	  <para>Generate a key:</para>
 
-      <screen>&prompt.user; <userinput>gpg --gen-key</userinput>
+	  <screen>&prompt.user; <userinput>gpg --gen-key</userinput>
 gpg (GnuPG) 2.0.22; Copyright (C) 2013 Free Software Foundation, Inc.
 This is free software: you are free to change and redistribute it.
 There is NO WARRANTY, to the extent permitted by law.
@@ -262,38 +272,41 @@ You selected this USER-ID:
 Change (N)ame, (C)omment, (E)mail or (O)kay/(Q)uit? <userinput>o</userinput>
 You need a Passphrase to protect your secret key.</screen>
 
-      <calloutlist>
-	<callout arearefs="co-pgp-bits">
-	  <para>2048-bit keys with a three-year expiration provide
-	    adequate protection at present (2013-12).  <link
-	      xlink:href="http://danielpocock.com/rsa-key-sizes-2048-or-4096-bits"/>
-	    describes the situation in more detail.</para>
-	</callout>
+	  <calloutlist>
+	    <callout arearefs="co-pgp-bits">
+	      <para>2048-bit keys with a three-year expiration provide
+		adequate protection at present (2013-12).  <link
+		  xlink:href="http://danielpocock.com/rsa-key-sizes-2048-or-4096-bits"/>
+		describes the situation in more detail.</para>
+	    </callout>
 
-	<callout arearefs="co-pgp-expire">
-	  <para>A three year key lifespan is short enough to obsolete
-	    keys weakened by advancing computer power, but long enough
-	    to reduce key management problems.</para>
-	</callout>
+	    <callout arearefs="co-pgp-expire">
+	      <para>A three year key lifespan is short enough to
+		obsolete keys weakened by advancing computer power,
+		but long enough to reduce key management
+		problems.</para>
+	    </callout>
 
-	<callout arearefs="co-pgp-realname">
-	  <para>Use your real name here, preferably matching that
-	    shown on government-issued <acronym>ID</acronym> to make
-	    it easier for others to verify your identity.  Text that
-	    may help others identify you can be entered in the
-	    <literal>Comment</literal> section.</para>
-	</callout>
-      </calloutlist>
+	    <callout arearefs="co-pgp-realname">
+	      <para>Use your real name here, preferably matching that
+		shown on government-issued <acronym>ID</acronym> to
+		make it easier for others to verify your identity.
+		Text that may help others identify you can be entered
+		in the <literal>Comment</literal> section.</para>
+	    </callout>
+	  </calloutlist>
 
-      <para>After the email address is entered, a passphrase is
-	requested.  Methods of creating a secure passphrase are
-	contentious.  Rather than suggest a single way, here are some
-	links to sites that describe various methods: <link
-	  xlink:href="http://world.std.com/~reinhold/diceware.html"></link>,
-	<link
-	  xlink:href="http://www.iusmentis.com/security/passphrasefaq/"></link>,
-	<link xlink:href="http://xkcd.com/936/"></link>, <link
-	  xlink:href=""></link>.</para>
+	  <para>After the email address is entered, a passphrase is
+	    requested.  Methods of creating a secure passphrase are
+	    contentious.  Rather than suggest a single way, here are
+	    some links to sites that describe various methods: <link
+	      xlink:href="http://world.std.com/~reinhold/diceware.html"></link>,
+	    <link
+	      xlink:href="http://www.iusmentis.com/security/passphrasefaq/"></link>,
+	    <link xlink:href="http://xkcd.com/936/"></link>,
+	    <link xlink:href="http://en.wikipedia.org/wiki/Passphrase"></link>.</para>
+	</step>
+      </procedure>
 
       <para>Protect your private key and passphrase.  If either the
 	private key or passphrase may have been compromised or
@@ -301,8 +314,28 @@ You need a Passphrase to protect your secret key.</screen>
 	<email>accounts@FreeBSD.org</email> and revoke the key.</para>
 
       <para>Committing the new key is shown in
-	<xref linkend="commit-list"/>.</para>
+	<xref linkend="commit-steps"/>.</para>
     </sect2>
+  </sect1>
+
+  <sect1 xml:id="kerberos-ldap">
+    <title>Kerberos and LDAP web Password for &os; Cluster</title>
+
+    <para>Some of the services in the &os; cluster require a Kerberos
+      password.  In the &os; cluster, LDAP is proxying to Kerberos, so
+      this also serves as the LDAP web password.</para>
+
+    <para>To reset a Kerberos password in the &os; cluster using a
+      random password generator:</para>
+
+    <screen>&prompt.user; <userinput>ssh kpasswd.freebsd.org</userinput></screen>
+
+    <para>A Kerberos password can also be set manually
+      by logging into <systemitem
+	class="fqdomainname">freefall.FreeBSD.org</systemitem> and
+      running:</para>
+
+    <screen>&prompt.user; <userinput>kpasswd</userinput></screen>
   </sect1>
 
   <sect1 xml:id="committer.types">
@@ -437,8 +470,8 @@ You need a Passphrase to protect your secret key.</screen>
 	  The most notable change is the location of the
 	  &os;&nbsp;website <literal>www</literal> tree, which has
 	  been moved from
-	  <literal>www/lang/</literal> to
-	  <literal>head/lang/htdocs/</literal>.</para>
+	  <literal>www/<replaceable>lang</replaceable>/</literal> to
+	  <literal>head/<replaceable>lang</replaceable>/htdocs/</literal>.</para>
       </note>
 
       <para>The &os; <literal>ports</literal> repository switched
@@ -537,11 +570,11 @@ You need a Passphrase to protect your secret key.</screen>
 
 	<para>The above command will check out a
 	  <literal>CURRENT</literal> source tree as
-	  <filename>/usr/src/</filename>, which can be any target
-	  directory on the local filesystem.  Omitting the final
-	  argument of that command causes the working copy, in this
-	  case, to be named <quote>head</quote>, but that can be
-	  renamed safely.</para>
+	  <filename><replaceable>/usr/src/</replaceable></filename>,
+	  which can be any target directory on the local filesystem.
+	  Omitting the final argument of that command causes the
+	  working copy, in this case, to be named <quote>head</quote>,
+	  but that can be renamed safely.</para>
 
 	<para><literal>svn+ssh</literal> means the
 	  <acronym>SVN</acronym> protocol tunnelled over
@@ -627,19 +660,19 @@ You need a Passphrase to protect your secret key.</screen>
 	  <listitem>
 	    <para><emphasis>/stable/<replaceable>n</replaceable></emphasis>
 	      which corresponds to
-	      <literal>RELENG_n</literal>.</para>
+	      <literal>RELENG_<replaceable>n</replaceable></literal>.</para>
 	  </listitem>
 
 	  <listitem>
 	    <para><emphasis>/releng/<replaceable>n.n</replaceable></emphasis>
 	      which corresponds to
-	      <literal>RELENG_n_n</literal>.</para>
+	      <literal>RELENG_<replaceable>n_n</replaceable></literal>.</para>
 	  </listitem>
 
 	  <listitem>
 	    <para><emphasis>/release/<replaceable>n.n.n</replaceable></emphasis>
 	      which corresponds to
-	      <literal>RELENG_n_n_n_RELEASE</literal>.</para>
+	      <literal>RELENG_<replaceable>n_n_n</replaceable>_RELEASE</literal>.</para>
 	  </listitem>
 
 	  <listitem>
@@ -718,7 +751,7 @@ You need a Passphrase to protect your secret key.</screen>
 	  <listitem>
 	    <para><emphasis>/branches/RELENG_<replaceable>n_n_n</replaceable></emphasis>
 	      which corresponds to
-	      <literal>RELENG_n_n_n</literal>
+	      <literal>RELENG_<replaceable>n_n_n</replaceable></literal>
 	      is used to merge back security updates in preparation
 	      for a release.</para>
 	  </listitem>
@@ -726,7 +759,7 @@ You need a Passphrase to protect your secret key.</screen>
 	  <listitem>
 	    <para><emphasis>/tags/RELEASE_<replaceable>n_n_n</replaceable></emphasis>
 	      which corresponds to
-	      <literal>RELEASE_n_n_n</literal>
+	      <literal>RELEASE_<replaceable>n_n_n</replaceable></literal>
 	      represents a release tag of the ports tree.</para>
 	  </listitem>
 
@@ -830,11 +863,11 @@ You need a Passphrase to protect your secret key.</screen>
 	  to the main repository.  To do this, use the following
 	  command:</para>
 
-	<screen>&prompt.user; <userinput>svn co https://svn0.us-west.FreeBSD.org/base/head /usr/src</userinput></screen>
+	<screen>&prompt.user; <userinput>svn co <replaceable>https://svn0.us-west.FreeBSD.org</replaceable>/base/head /usr/src</userinput></screen>
 
 	<para>Select the closest mirror and verify the mirror server
 	  certificate from the list of <link
-	    xlink:href="&url.books.handbook;/svn-mirrors.html">Subversion
+	    xlink:href="&url.books.handbook;/svn.html#svn-mirrors">Subversion
 	    mirror sites</link>.</para>
       </sect3>
 
@@ -845,7 +878,7 @@ You need a Passphrase to protect your secret key.</screen>
 	  or a specific revision:</para>
 
 	<screen>&prompt.user; <userinput>svn update</userinput>
-&prompt.user; <userinput>svn update -r12345</userinput></screen>
+&prompt.user; <userinput>svn update -<replaceable>r12345</replaceable></userinput></screen>
       </sect3>
 
       <sect3 xml:id="svn-daily-use-status">
@@ -875,11 +908,12 @@ You need a Passphrase to protect your secret key.</screen>
 	<screen>&prompt.user; <userinput>svn commit</userinput></screen>
 
 	<para>To commit all changes in, for example,
-	  <filename>lib/libfetch/</filename> and
-	  <filename>usr/bin/fetch/</filename> in a single
-	  operation:</para>
+	  <filename><replaceable>lib/libfetch/</replaceable></filename>
+	  and
+	  <filename><replaceable>usr/bin/fetch/</replaceable></filename>
+	  in a single operation:</para>
 
-	<screen>&prompt.user; <userinput>svn commit lib/libfetch usr/bin/fetch</userinput></screen>
+	<screen>&prompt.user; <userinput>svn commit <replaceable>lib/libfetch</replaceable> <replaceable>usr/bin/fetch</replaceable></userinput></screen>
 
 	<para>There is also a commit wrapper for the ports tree to
 	  handle the properties and sanity checking your
@@ -911,7 +945,7 @@ You need a Passphrase to protect your secret key.</screen>
 	    add</command>.  To add a file named
 	  <emphasis>foo</emphasis>, edit it, then:</para>
 
-	<screen>&prompt.user; <userinput>svn add foo</userinput></screen>
+	<screen>&prompt.user; <userinput>svn add <replaceable>foo</replaceable></userinput></screen>
 
 	<note>
 	  <para>Most new source files should include a
@@ -927,7 +961,7 @@ You need a Passphrase to protect your secret key.</screen>
 	<para>Files can be removed with <command>svn
 	    remove</command>:</para>
 
-	<screen>&prompt.user; <userinput>svn remove foo</userinput></screen>
+	<screen>&prompt.user; <userinput>svn remove <replaceable>foo</replaceable></userinput></screen>
 
 	<para>Subversion does not require deleting the file before
 	  using <command>svn rm</command>, and indeed complains if
@@ -936,20 +970,20 @@ You need a Passphrase to protect your secret key.</screen>
 	<para>It is possible to add directories with
 	  <command>svn add</command>:</para>
 
-	<screen>&prompt.user; <userinput>mkdir bar</userinput>
-&prompt.user; <userinput>svn add bar</userinput></screen>
+	<screen>&prompt.user; <userinput>mkdir <replaceable>bar</replaceable></userinput>
+&prompt.user; <userinput>svn add <replaceable>bar</replaceable></userinput></screen>
 
 	<para>Although <command>svn mkdir</command> makes this easier
 	  by combining the creation of the directory and the adding of
 	  it:</para>
 
-	<screen>&prompt.user; <userinput>svn mkdir bar</userinput></screen>
+	<screen>&prompt.user; <userinput>svn mkdir <replaceable>bar</replaceable></userinput></screen>
 
 	<para>Like files, directories are removed with
 	  <command>svn rm</command>.  There is no separate command
 	  specifically for removing directories.</para>
 
-	<screen>&prompt.user; <userinput>svn rm bar</userinput></screen>
+	<screen>&prompt.user; <userinput>svn rm <replaceable>bar</replaceable></userinput></screen>
       </sect3>
 
       <sect3 xml:id="svn-daily-use-copying-and-moving">
@@ -959,7 +993,7 @@ You need a Passphrase to protect your secret key.</screen>
 	  <filename>foo.c</filename> named <filename>bar.c</filename>,
 	  with the new file also under version control:</para>
 
-	<screen>&prompt.user; <userinput>svn copy foo.c bar.c</userinput></screen>
+	<screen>&prompt.user; <userinput>svn copy <replaceable>foo.c</replaceable> <replaceable>bar.c</replaceable></userinput></screen>
 
 	<para>The example above is equivalent to:</para>
 
@@ -968,7 +1002,7 @@ You need a Passphrase to protect your secret key.</screen>
 
 	<para>To move and rename a file:</para>
 
-	<screen>&prompt.user; <userinput>svn move foo.c bar.c</userinput></screen>
+	<screen>&prompt.user; <userinput>svn move <replaceable>foo.c</replaceable> <replaceable>bar.c</replaceable></userinput></screen>
       </sect3>
 
       <sect3 xml:id="svn-daily-use-log-and-annotate">
@@ -1025,11 +1059,11 @@ You need a Passphrase to protect your secret key.</screen>
 	  The simple, not yet deprecated procedure is the
 	  following:</para>
 
-	<screen>&prompt.user; <userinput>svn resolved foo</userinput></screen>
+	<screen>&prompt.user; <userinput>svn resolved <replaceable>foo</replaceable></userinput></screen>
 
 	<para>However, the preferred procedure is:</para>
 
-	<screen>&prompt.user; <userinput>svn resolve --accept=working foo</userinput></screen>
+	<screen>&prompt.user; <userinput>svn resolve --accept=working <replaceable>foo</replaceable></userinput></screen>
 
 	<para>The two examples are equivalent.  Possible values for
 	  <literal>--accept</literal> are:</para>
@@ -1112,7 +1146,7 @@ You need a Passphrase to protect your secret key.</screen>
 	  Thus, given the working copy produced by the previous
 	  example:</para>
 
-	<screen>&prompt.user; <userinput>cd ~/freebsd</userinput>
+	<screen>&prompt.user; <userinput>cd <replaceable>~/freebsd</replaceable></userinput>
 &prompt.user; <userinput>svn update --set-depth=immediates .</userinput></screen>
 
 	<para>The above command will populate the working copy in
@@ -1124,7 +1158,7 @@ You need a Passphrase to protect your secret key.</screen>
 	  <replaceable>head</replaceable> (in this case) to infinity,
 	  and fully populate it:</para>
 
-	<screen>&prompt.user; <userinput>svn update --set-depth=infinity head</userinput></screen>
+	<screen>&prompt.user; <userinput>svn update --set-depth=infinity <replaceable>head</replaceable></userinput></screen>
       </sect3>
 
       <sect3 xml:id="svn-advanced-use-direct-operation">
@@ -1280,6 +1314,17 @@ You need a Passphrase to protect your secret key.</screen>
 	  <title>Selecting the Source and Target for
 	    <literal>stable/9</literal> and Older</title>
 
+	  <para>For <literal>stable/9</literal> and earlier,
+	    a different strategy was used, distributing mergeinfo
+	    around the tree so that merges could be performed without
+	    a complete checkout.  This procedure proved extremely
+	    error-prone, with the convenience of partial checkouts for
+	    merges significantly outweighed by the complexity of
+	    picking mergeinfo targets.  The below describes this
+	    now-obsoleted procedure, which should be used
+	    <emphasis>only for merges prior to
+	      <literal>stable/10</literal></emphasis>.</para>
+
 	  <para>Because of mergeinfo propagation, it is important to
 	    choose the source and target for the merge carefully to
 	    minimise property changes on unrelated directories.</para>
@@ -1360,8 +1405,9 @@ You need a Passphrase to protect your secret key.</screen>
 
 	    <listitem>
 	      <para>Changes to manual pages should be merged to
-		<filename>share/man/manN/</filename>, for the
-		appropriate value of <literal>N</literal>.</para>
+		<filename>share/man/man<replaceable>N</replaceable>/</filename>,
+		for the appropriate value of
+		<literal>N</literal>.</para>
 	    </listitem>
 
 	    <listitem>
@@ -1498,11 +1544,11 @@ $target - head/$source:$P,$Q,$R</screen>
 	    <title>Practical Example</title>
 
 	    <para>As a practical example, consider the following
-	      scenario: The changes to <filename>netmap.4</filename>
-	      in r238987 is to be merged from CURRENT to 9-STABLE.
+	      scenario.  The changes to <filename>netmap.4</filename>
+	      in r238987 are to be merged from CURRENT to 9-STABLE.
 	      The file resides in
-	      <filename>head/share/man/man4</filename> and according
-	      to <xref linkend="svn-advanced-use-merging"/> this is
+	      <filename>head/share/man/man4</filename>.  According
+	      to <xref linkend="svn-advanced-use-merging"/>, this is
 	      also where to do the merge.  Note that in this example
 	      all paths are relative to the top of the svn repository.
 	      For more information on the directory layout, see <xref
@@ -1653,7 +1699,7 @@ U    stable/9/share/man/man4/netmap.4
 
 	    <para>To flatten the <literal>pf</literal> tree:</para>
 
-	    <screen>&prompt.user; <userinput>cd vendor/pf/dist/contrib/pf</userinput>
+	    <screen>&prompt.user; <userinput>cd <replaceable>vendor/pf/dist/contrib/pf</replaceable></userinput>
 &prompt.user; <userinput>svn mv $(svn list) ../..</userinput>
 &prompt.user; <userinput>cd ../..</userinput>
 &prompt.user; <userinput>svn rm contrib</userinput>
@@ -1698,8 +1744,8 @@ U    stable/9/share/man/man4/netmap.4
 	      that corresponds to the last related change to the
 	      vendor tree, prior to importing new sources:</para>
 
-	    <screen>&prompt.user; <userinput>cd head/contrib/pf</userinput>
-&prompt.user; <userinput>svn merge --record-only svn+ssh://svn.freebsd.org/base/vendor/pf/dist@180876 .</userinput>
+	    <screen>&prompt.user; <userinput>cd <replaceable>head/contrib/pf</replaceable></userinput>
+&prompt.user; <userinput>svn merge --record-only svn+ssh://svn.freebsd.org/base/<replaceable>vendor/pf/dist@180876</replaceable> .</userinput>
 &prompt.user; <userinput>svn commit</userinput></screen>
 	  </sect5>
 	</sect4>
@@ -1729,9 +1775,9 @@ U    stable/9/share/man/man4/netmap.4
 	      about to be imported is recommended, to facilitate the
 	      process.</para>
 
-	    <screen>&prompt.user; <userinput>cd vendor/pf/dist</userinput>
+	    <screen>&prompt.user; <userinput>cd <replaceable>vendor/pf/dist</replaceable></userinput>
 &prompt.user; <userinput>svn list -R | grep -v '/$' | sort &gt;../old</userinput>
-&prompt.user; <userinput>cd ../pf-4.3</userinput>
+&prompt.user; <userinput>cd <replaceable>../pf-4.3</replaceable></userinput>
 &prompt.user; <userinput>find . -type f | cut -c 3- | sort &gt;../new</userinput></screen>
 
 	    <para>With these two files,
@@ -1746,14 +1792,14 @@ U    stable/9/share/man/man4/netmap.4
 	    <title>Importing into the Vendor Tree</title>
 
 	    <para>Now, the sources must be copied into
-	      <filename>dist</filename> and
+	      <filename><replaceable>dist</replaceable></filename> and
 	      the <command>svn add</command> and
 	      <command>svn rm</command> commands should be used as
 	      needed:</para>
 
-	    <screen>&prompt.user; <userinput>cd vendor/pf/pf-4.3</userinput>
+	    <screen>&prompt.user; <userinput>cd <replaceable>vendor/pf/pf-4.3</replaceable></userinput>
 &prompt.user; <userinput>tar cf - . | tar xf - -C ../dist</userinput>
-&prompt.user; <userinput>cd ../dist</userinput>
+&prompt.user; <userinput>cd <replaceable>../dist</replaceable></userinput>
 &prompt.user; <userinput>comm -23 ../old ../new | xargs svn rm</userinput>
 &prompt.user; <userinput>comm -13 ../old ../new | xargs svn --parents add</userinput></screen>
 
@@ -1785,11 +1831,11 @@ U    stable/9/share/man/man4/netmap.4
 	      future reference.  The best and quickest way to do this
 	      is directly in the repository:</para>
 
-	    <screen>&prompt.user; <userinput>svn cp svn+ssh://svn.freebsd.org/base/vendor/pf/dist svn+ssh://svn.freebsd.org/base/vendor/pf/4.3</userinput></screen>
+	    <screen>&prompt.user; <userinput>svn cp svn+ssh://svn.freebsd.org/base/<replaceable>vendor/pf/dist</replaceable> svn+ssh://svn.freebsd.org/base/<replaceable>vendor/pf/4.3</replaceable></userinput></screen>
 
 	    <para>Once that is complete, <command>svn up</command> the
 	      working copy of
-	      <filename>vendor/pf</filename>
+	      <filename><replaceable>vendor/pf</replaceable></filename>
 	      to get the new tag, although this is rarely
 	      needed.</para>
 
@@ -1797,7 +1843,7 @@ U    stable/9/share/man/man4/netmap.4
 	      <command>svn:mergeinfo</command> results must be
 	      removed:</para>
 
-	    <screen>&prompt.user; <userinput>cd	vendor/pf</userinput>
+	    <screen>&prompt.user; <userinput>cd	<replaceable>vendor/pf</replaceable></userinput>
 &prompt.user; <userinput>svn cp dist 4.3</userinput>
 &prompt.user; <userinput>svn propdel svn:mergeinfo -R 4.3</userinput></screen>
 	  </sect5>
@@ -1806,9 +1852,9 @@ U    stable/9/share/man/man4/netmap.4
 	<sect4>
 	  <title>Merging to Head</title>
 
-	  <screen>&prompt.user; <userinput>cd head/contrib/pf</userinput>
+	  <screen>&prompt.user; <userinput>cd <replaceable>head/contrib/pf</replaceable></userinput>
 &prompt.user; <userinput>svn up</userinput>
-&prompt.user; <userinput>svn merge --accept=postpone svn+ssh://svn.freebsd.org/base/vendor/pf/dist .</userinput></screen>
+&prompt.user; <userinput>svn merge --accept=postpone svn+ssh://svn.freebsd.org/base/<replaceable>vendor/pf/dist</replaceable> .</userinput></screen>
 
 	  <para>The <literal>--accept=postpone</literal> tells
 	    Subversion that it should not complain because merge
@@ -1833,9 +1879,17 @@ U    stable/9/share/man/man4/netmap.4
 &prompt.user; <userinput>cd sendmail</userinput>
 &prompt.user; <userinput>svn merge -c r<replaceable>261190</replaceable> ^/vendor/<replaceable>sendmail/dist</replaceable> .</userinput></screen>
 
-	    <para><literal>^</literal> is an alias for the the
+	    <para><literal>^</literal> is an alias for the
 	      repository path.</para>
 	  </tip>
+
+	  <note>
+	    <para>If using the <application>Zsh</application> shell,
+	      the <literal>^</literal> must be escaped with
+	      <literal>\</literal>.  This means
+	      <literal>^/head</literal> should be
+	      <literal>\^/head</literal>.</para>
+	  </note>
 
 	  <para>It is necessary to resolve any merge conflicts.
 	    This process is the same in <acronym>SVN</acronym> as in
@@ -1846,7 +1900,7 @@ U    stable/9/share/man/man4/netmap.4
 	    main tree.  To check diffs against the vendor
 	    branch:</para>
 
-	  <screen>&prompt.user; <userinput>svn diff --no-diff-deleted --old=svn+ssh://svn.freebsd.org/base/vendor/pf/dist --new=.</userinput></screen>
+	  <screen>&prompt.user; <userinput>svn diff --no-diff-deleted --old=svn+ssh://svn.freebsd.org/base/<replaceable>vendor/pf/dist</replaceable> --new=.</userinput></screen>
 
 	  <para>The <literal>--no-diff-deleted</literal> tells
 	    Subversion not to complain about files that are in the
@@ -1891,10 +1945,10 @@ U    stable/9/share/man/man4/netmap.4
 	    <para>First, prepare the directory in
 	      <filename>vendor</filename>:</para>
 
-	    <screen>&prompt.user; <userinput>svn co --depth immediates $FSVN/vendor</userinput>
-&prompt.user; <userinput>cd vendor</userinput>
-&prompt.user; <userinput>svn mkdir byacc</userinput>
-&prompt.user; <userinput>svn mkdir byacc/dist</userinput></screen>
+	    <screen>&prompt.user; <userinput>svn co --depth immediates <replaceable>$FSVN/vendor</replaceable></userinput>
+&prompt.user; <userinput>cd <replaceable>vendor</replaceable></userinput>
+&prompt.user; <userinput>svn mkdir <replaceable>byacc</replaceable></userinput>
+&prompt.user; <userinput>svn mkdir <replaceable>byacc/dist</replaceable></userinput></screen>
 
 	    <para>Now, import the sources into the
 	      <filename>dist</filename> directory.
@@ -1903,7 +1957,7 @@ U    stable/9/share/man/man4/netmap.4
 	      the imported version.  To save time and bandwidth,
 	      direct remote committing and tagging is possible:</para>
 
-	    <screen>&prompt.user; <userinput>svn cp -m "Tag byacc 20120115" $FSVN/vendor/byacc/dist $FSVN/vendor/byacc/20120115</userinput></screen>
+	    <screen>&prompt.user; <userinput>svn cp -m <replaceable>"Tag byacc 20120115"</replaceable> <replaceable>$FSVN/vendor/byacc/dist</replaceable> <replaceable>$FSVN/vendor/byacc/20120115</replaceable></userinput></screen>
 	  </sect5>
 
 	  <sect5>
@@ -1912,7 +1966,7 @@ U    stable/9/share/man/man4/netmap.4
 	    <para>Due to this being a new file, copy it for the
 	      merge:</para>
 
-	    <screen>&prompt.user; <userinput>svn cp -m "Import byacc to contrib" $FSVN/vendor/byacc/dist $FSVN/head/contrib/byacc</userinput></screen>
+	    <screen>&prompt.user; <userinput>svn cp -m <replaceable>"Import byacc to contrib"</replaceable> <replaceable>$FSVN/vendor/byacc/dist</replaceable> <replaceable>$FSVN/head/contrib/byacc</replaceable></userinput></screen>
 
 	    <para>Working normally on newly imported sources is still
 	      possible.</para>
@@ -2074,7 +2128,8 @@ U    stable/9/share/man/man4/netmap.4
 	  work that is beneficial to the &os; community in some way
 	  but not intended to be merged directly back into HEAD then
 	  the proper location is
-	  <filename>base/user/your-name/</filename>.  <link
+	  <filename>base/user/<replaceable>your-name</replaceable>/</filename>.
+	  <link
 	    xlink:href="http://svnweb.freebsd.org/base/projects/GUIDELINES.txt">This
 	    page</link> contains further details.</para>
 
@@ -2133,184 +2188,224 @@ ControlPersist yes</screen>
   </sect1>
 
   <sect1 xml:id="conventions">
-    <title>Conventions and Traditions</title>
+    <title>Setup, Conventions, and Traditions</title>
 
-    <para>As a new developer there are a number of things you should
-      do first.  The first set is specific to committers only.  (If
-      you are not a committer, e.g., have GNATS-only access, then your
-      mentor needs to do these things for you.)</para>
+    <para>There are a number of things to do as a new developer.
+      The first set of steps is specific to committers only.  These
+      steps must be done by a mentor for those who are not
+      committers.</para>
 
     <sect2 xml:id="conventions-committers">
-      <title>Guidelines for Committers</title>
+      <title>For New Committers</title>
 
-      <note>
-	<para>The <literal>.ent</literal>, <literal>.xml</literal>,
-	  and <literal>.xml</literal> files listed below exist in the
-	  &os; Documentation Project SVN repository at <systemitem
-	    class="fqdomainname">svn.FreeBSD.org/doc/</systemitem>.</para>
-      </note>
+      <para>Those who have been given commit rights to the &os;
+	repositories must follow these steps.</para>
 
-      <para>If you have been given commit rights to one or more of the
-	repositories:</para>
+      <itemizedlist xml:id="commit-notes">
+	<listitem>
+	  <para>Get mentor approval before committing each of these
+	    changes!</para>
+	</listitem>
 
-      <itemizedlist xml:id="commit-list">
+	<listitem>
+	  <para>The <filename>.ent</filename> and
+	    <filename>.xml</filename> files mentioned below exist in
+	    the &os; Documentation Project SVN repository at <link
+	      xlink:href="svn.FreeBSD.org/doc/"><literal>svn.FreeBSD.org/doc/</literal></link>.</para>
+	</listitem>
+
+	<listitem>
+	  <para>New files that do not have the
+	    <literal>FreeBSD=%H</literal>
+	    <command>svn:keywords</command> property will be rejected
+	    when attempting to commit them to the repository.  Be sure
+	    to read
+	    <xref linkend="svn-daily-use-adding-and-removing"/>
+	    regarding adding and removing files.  Verify that
+	    <filename>~/.subversion/config</filename> contains the
+	    necessary <quote>auto-props</quote> entries from
+	    <filename>auto-props.txt</filename> mentioned
+	    there.</para>
+	</listitem>
+
+	<listitem>
+	  <para>All <filename>src</filename> commits should go to
+	    &os.current; first before being merged to &os.stable;.
+	    The &os.stable; branch must maintain
+	    <acronym>ABI</acronym> and <acronym>API</acronym>
+	    compatibility with earlier versions of that branch.  Do
+	    not merge changes that break this compatibility.</para>
+	</listitem>
+      </itemizedlist>
+
+      <procedure xml:id="commit-steps">
 	<title>Steps for New Committers</title>
 
-	<listitem>
-	  <para>Add your author entity to
-	    <filename>head/share/xml/authors.ent</filename>; this
-	    should be done first since an omission of this commit will
-	    cause the next commits to break the doc/ build.</para>
+	<step>
+	  <title>Add an Author Entity</title>
 
-	  <para>This is a relatively easy task, but remains a good
-	    first test of your version control skills.</para>
+	  <para><filename>head/share/xml/authors.ent</filename>
+	    &mdash; Add an author entity.  Later steps depend on this
+	    entity, and missing this step will cause the
+	    <filename>doc/</filename> build to fail.  This is a
+	    relatively easy task, but remains a good first test of
+	    version control skills.</para>
+	</step>
 
-	  <important>
-	    <para>New files that do not have the
-	      <literal>FreeBSD=%H</literal>
-	      <command>svn:keywords</command> property will be
-	      rejected when attempting to commit them to the
-	      repository.  Be sure to read
-	      <xref linkend="svn-daily-use-adding-and-removing"/>
-	      regarding adding and removing files, in addition to
-	      verifying that <filename>~/.subversion/config</filename>
-	      contains the necessary &quot;auto-props&quot; entries
-	      from <filename>auto-props.txt</filename> mentioned
-	      there.</para>
-	  </important>
+	<step>
+	  <title>Update the List of Developers and
+	    Contributors</title>
 
-	  <note>
-	    <para>Do not forget to get mentor approval for these
-	      patches!</para>
-	  </note>
-	</listitem>
-
-	<listitem>
-	  <para>Add yourself to the <quote>Developers</quote> section
+	  <para><filename>head/en_US.ISO8859-1/articles/contributors/contrib.committers.xml</filename>
+	    &mdash;
+	    Add an entry to the <quote>Developers</quote> section
 	    of the <link
-	      xlink:href="&url.articles.contributors;/index.html">Contributors
-	      List</link>
-	    (<filename>head/en_US.ISO8859-1/articles/contributors/contrib.committers.xml</filename>)
-	    and remove yourself from the
-	    <quote>Additional Contributors</quote> section
-	    (<filename>head/en_US.ISO8859-1/articles/contributors/contrib.additional.xml</filename>).
-	    Please note that entries are sorted by last name.</para>
-	</listitem>
+	      xlink:href="&url.articles.contributors;/staff-committers.html">Contributors
+	      List</link>.  Entries are sorted by last name.</para>
 
-	<listitem>
-	  <para>Add an entry for yourself to
-	    <filename>head/share/xml/news.xml</filename>.  Look for
-	    the other entries that look like
-	    <quote>A new committer</quote> and follow the
-	    format.</para>
-	</listitem>
+	  <para><filename>head/en_US.ISO8859-1/articles/contributors/contrib.additional.xml</filename>
+	    &mdash; Remove the entry from the
+	    <quote>Additional Contributors</quote> section.  Entries
+	    are sorted by last name.</para>
+	</step>
 
-	<listitem>
-	  <para>You should add your PGP or GnuPG key to
-	    <filename>head/share/pgpkeys</filename> (and if you do not
-	    have a key, you should create one).  Do not forget to
-	    commit the updated
-	    <filename>head/share/pgpkeys/pgpkeys.ent</filename> and
-	    <filename>head/share/pgpkeys/pgpkeys-developers.xml</filename>.
-	    Please note that entries are sorted by last name.</para>
+	<step>
+	  <title>Add a News Item</title>
+
+	  <para><filename>doc/head/share/xml/news.xml</filename>
+	    &mdash; Add an entry.  Look for the other entries that
+	    announce new committers and follow the format.  Use the
+	    date from the commit bit approval email from
+	    <email>core@FreeBSD.org</email>.</para>
+	</step>
+
+	<step>
+	  <title>Add a <acronym>PGP</acronym> Key</title>
+
+	  <para><filename>doc/head/share/pgpkeys/pgpkeys.ent</filename>
+	    and
+	    <filename>doc/head/share/pgpkeys/pgpkeys-developers.xml</filename>
+	    - Add your <acronym>PGP</acronym> or
+	    Gnu<acronym>PG</acronym> key.  Those who do not yet have a
+	    key should see <xref linkend="pgpkeys-creating"/>.</para>
 
 	  <para>&a.des.email; has written a shell script
 	    (<filename>head/share/pgpkeys/addkey.sh</filename>) to
-	    make this extremely simple.  See the <link
+	    make this easier.  See the <link
 	      xlink:href="http://svnweb.FreeBSD.org/doc/head/share/pgpkeys/README">README</link>
 	    file for more information.</para>
 
+	  <para>Use
+	    <filename>doc/head/share/pgpkeys/checkkey.sh</filename> to
+	    verify that keys meet minimal best-practices
+	    standards.</para>
+
+	  <para>After adding and checking a key, add both updated
+	    files to source control and then commit them.  Entries in
+	    this file are sorted by last name.</para>
+
 	  <note>
-	    <para>It is important to have an up-to-date PGP/GnuPG key
-	      in the Handbook, since the key may be required for
-	      positive identification of a committer, e.g., by the
-	      &a.admins; for account recovery.  A complete keyring of
-	      <systemitem
+	    <para>It is very important to have a current
+	      <acronym>PGP</acronym>/Gnu<acronym>PG</acronym> key in
+	      the repository.  The key may be required for positive
+	      identification of a committer.  For example, the
+	      &a.admins; might need it for account recovery.  A
+	      complete keyring of <systemitem
 		class="fqdomainname">FreeBSD.org</systemitem> users is
 	      available for download from <link
 		xlink:href="&url.base;/doc/pgpkeyring.txt">http://www.FreeBSD.org/doc/pgpkeyring.txt</link>.</para>
 	  </note>
-	</listitem>
+	</step>
 
-	<listitem>
-	  <para>Add an entry for yourself to
-	    <filename>src/share/misc/committers-repository.dot</filename>,
-	    where repository is either doc, ports or src, depending on
-	    the commit privileges you obtained.</para>
-	</listitem>
+	<step>
+	  <title>Update Mentor and Mentee Information</title>
 
-	<listitem>
-	  <para>Some people add an entry for themselves to
-	    <filename>ports/astro/xearth/files/freebsd.committers.markers</filename>.</para>
-	</listitem>
+	  <para><filename>head/share/misc/committers-<replaceable>repository</replaceable>.dot</filename>
+	    &mdash; Add an entry to the current committers section,
+	    where <replaceable>repository</replaceable> is
+	    <literal>doc</literal>, <literal>ports</literal>, or
+	    <literal>src</literal>, depending on the commit privileges
+	    granted.</para>
 
-	<listitem>
-	  <para>Some people add an entry for themselves to
-	    <filename>src/usr.bin/calendar/calendars/calendar.freebsd</filename>.</para>
-	</listitem>
+	  <para>Add an entry for each additional mentor/mentee
+	    relationship in the bottom section.</para>
+	</step>
 
-	<listitem>
-	  <para>If you already have an account at the
-	    <link xlink:href="http://wiki.freebsd.org">&os;
-	      wiki</link>, make sure your mentor moves you from the
-	    <link
-	      xlink:href="http://wiki.freebsd.org/ContributorsGroup">Contributors
-	      group</link> to the <link
-		xlink:href="http://wiki.freebsd.org/DevelopersGroup">Developers
-		group</link>.  Otherwise, consider signing up for an
-	    account so you can publish projects and ideas you are
-	    working on.</para>
-	</listitem>
+	<step>
+	  <title>Generate a <application>Kerberos</application>
+	    Password</title>
 
-	<listitem>
-	  <para>Once you get access to the wiki, you may add yourself
-	    to the <link
+	  <para>See <xref linkend="kerberos-ldap"/> to generate or
+	    set a <application>Kerberos</application> for use with
+	    other &os; services like the bug tracking database.</para>
+	</step>
+
+	<step>
+	  <title>Optional: Enable Wiki Account</title>
+
+	  <para><link xlink:href="http://wiki.freebsd.org">&os;
+	      Wiki</link> Account &mdash; A wiki account allows
+	    sharing projects and ideas.  Those who do not yet have an
+	    account can contact <email>clusteradm@FreeBSD.org</email>
+	    to obtain one.</para>
+	</step>
+
+	<step>
+	  <title>Optional: Update Wiki Information</title>
+
+	  <para>Wiki Information - After gaining access to the wiki,
+	    some people add entries to the <link
 	      xlink:href="http://wiki.freebsd.org/HowWeGotHere">How We
 	      Got Here</link>,
 	    <link xlink:href="http://wiki.freebsd.org/IrcNicks">Irc
 	      Nicks</link>, and <link
 	      xlink:href="https://wiki.freebsd.org/DogsOfFreeBSD">Dogs
 	      of FreeBSD</link> pages.</para>
-	</listitem>
+	</step>
 
-	<listitem>
-	  <para>If you subscribe to &a.svn-src-all.name;,
-	    &a.svn-ports-all.name; or &a.svn-doc-all.name;, you will
-	    probably want to unsubscribe to avoid receiving duplicate
-	    copies of commit messages and their followups.</para>
-	</listitem>
-      </itemizedlist>
+	<step>
+	  <title>Optional: Update Ports with Personal
+	    Information</title>
 
-      <note>
-	<para>All <filename>src</filename> commits should go to
-	  &os.current; first before being merged to &os.stable;.  No
-	  major new features or high-risk modifications should be made
-	  to the &os.stable; branch.</para>
-      </note>
+	  <para><filename>ports/astro/xearth/files/freebsd.committers.markers</filename>
+	    and
+	    <filename>src/usr.bin/calendar/calendars/calendar.freebsd</filename>
+	    - Some people add entries for themselves to these files to
+	    show where they are located or the date of their
+	    birthday.</para>
+	</step>
+
+	<step>
+	  <title>Optional: Prevent Duplicate Mailings</title>
+
+	  <para>Subscribers to &a.svn-src-all.name;,
+	    &a.svn-ports-all.name; or &a.svn-doc-all.name; might wish
+	    to unsubscribe to avoid receiving duplicate copies of
+	    commit messages and followups.</para>
+	</step>
+      </procedure>
     </sect2>
 
     <sect2 xml:id="conventions-everyone">
-      <title>Guidelines for Everyone</title>
+      <title>For Everyone</title>
 
-      <para>Whether or not you have commit rights:</para>
-
-      <itemizedlist>
-	<listitem>
+      <procedure xml:id="conventions-everyone-steps">
+	<step>
 	  <para>Introduce yourself to the other developers, otherwise
 	    no one will have any idea who you are or what you are
-	    working on.  You do not have to write a comprehensive
-	    biography, just write a paragraph or two about who you are
-	    and what you plan to be working on as a developer in
-	    &os;.  (You should also mention who your mentor will
-	    be).  Email this to the &a.developers; and you will be on
-	    your way!</para>
-	</listitem>
+	    working on.  The introduction need not be a comprehensive
+	    biography, just write a paragraph or two about who you
+	    are, what you plan to be working on as a developer in
+	    &os;, and who will be your mentor.  Email this to the
+	    &a.developers; and you will be on your way!</para>
+	</step>
 
-	<listitem>
+	<step>
 	  <para>Log into <systemitem>hub.FreeBSD.org</systemitem> and
-	    create a <filename>/var/forward/user</filename> (where
-	    <replaceable>user</replaceable> is your username) file
-	    containing the e-mail address where you want mail
+	    create a
+	    <filename>/var/forward/<replaceable>user</replaceable></filename>
+	    (where <replaceable>user</replaceable> is your username)
+	    file containing the e-mail address where you want mail
 	    addressed to
 	    <replaceable>yourusername</replaceable>@FreeBSD.org to be
 	    forwarded.  This includes all of the commit messages as
@@ -2333,13 +2428,13 @@ ControlPersist yes</screen>
 	    directory on <systemitem
 	      class="fqdomainname">freefall.FreeBSD.org</systemitem>
 	    to disable the checks for your email.</para>
-	</listitem>
-      </itemizedlist>
+	</step>
+      </procedure>
 
       <note>
-	<para>If you are a developer but not a committer, you will
+	<para>Those who are developers but not committers will
 	  not be subscribed to the committers or developers mailing
-	  lists; the subscriptions are derived from the access
+	  lists.  The subscriptions are derived from the access
 	  rights.</para>
       </note>
     </sect2>
@@ -2347,20 +2442,22 @@ ControlPersist yes</screen>
     <sect2 xml:id="mentors">
       <title>Mentors</title>
 
-      <para>All new developers also have a mentor assigned to them for
-	the first few months.  Your mentor is responsible for teaching
-	you the rules and conventions of the project and guiding your
-	first steps in the developer community.  Your mentor is also
-	personally responsible for your actions during this initial
-	period.</para>
+      <para>All new developers have a mentor assigned to them for
+	the first few months.  A mentor is responsible for teaching
+	the mentee the rules and conventions of the project and
+	guiding their first steps in the developer community.  The
+	mentor is also personally responsible for the mentee's actions
+	during this initial period.</para>
 
-      <para>For committers: until your mentor decides (and announces
-	with a commit to <filename>mentors</filename>) that you
-	have learned the ropes and are ready to commit on your own,
-	you should not commit anything without first getting your
-	mentor's review and approval, and you should document that
-	approval with an <literal>Approved by:</literal> line in the
-	commit message.</para>
+      <para>For committers: do not commit anything without first
+	getting mentor approval.  Document that approval with an
+	<literal>Approved by:</literal> line in the commit
+	message.</para>
+
+      <para>When the mentor decides that a mentee has learned the
+	ropes and is ready to commit on their own, the mentor
+	announces it with a commit to
+	<filename>mentors</filename>.</para>
     </sect2>
   </sect1>
 
@@ -2388,7 +2485,7 @@ ControlPersist yes</screen>
 	    <entry>The problem report (if any) which is affected
 	      (typically, by being closed) by this commit.  Only
 	      include one PR per line as the automated scripts which
-	      parse this line can not understand more than
+	      parse this line cannot understand more than
 	      one.</entry>
 	  </row>
 
@@ -2455,6 +2552,13 @@ ControlPersist yes</screen>
 	      <acronym>MFC</acronym> at a later date, specify the
 	      number of days, weeks, or months after which an
 	      <acronym>MFC</acronym> is planned.</entry>
+	  </row>
+
+	  <row>
+	    <entry><literal>Relnotes:</literal></entry>
+	    <entry>If the change is a candidate for inclusion in
+	      the release notes for the next release from the branch,
+	      set to <literal>yes</literal>.</entry>
 	  </row>
 
 	  <row>
@@ -2561,7 +2665,8 @@ MFC after:      <replaceable>2 weeks</replaceable></programlisting>
 Submitted by:       John Smith &lt;John.Smith@example.com&gt;
 Reviewed by:        -arch
 Obtained from:      NetBSD
-MFC after:          1 month</programlisting>
+MFC after:          1 month
+Relnotes:           yes</programlisting>
     </example>
   </sect1>
 
@@ -2630,6 +2735,70 @@ MFC after:          1 month</programlisting>
       brought to the attention of the core team.</para>
   </sect1>
 
+  <sect1 xml:id="tracking.license.grants">
+    <title>Keeping Track of Licenses Granted to the &os;
+      Project</title>
+
+    <para>Various software or data exist in the repositories where
+      the &os; project has been granted a special licence to be able
+      to use them.  A case in point are the Terminus fonts for use
+      with &man.vt.4;.  Here the author Dimitar Zhekov has allowed us
+      to use the "Terminus BSD Console" font under a 2-clause BSD
+      license rather than the regular Open Font License he normally
+      uses.</para>
+
+    <para>It is clearly sensible to keep a record of any such
+      license grants.  To that end, the &a.core; has decided to keep
+      an archive of them.  Whenever the &os; project is granted a
+      special license we require the &a.core; to be notified.  Any
+      developers involved in arranging such a license grant, please
+      send details to the &a.core; including:</para>
+
+    <itemizedlist>
+      <listitem>
+	<para>Contact details for people or organizations granting the
+	  special license.</para>
+      </listitem>
+
+      <listitem>
+	<para>What files, directories etc. in the repositories are
+	  covered by the license grant including the revision numbers
+	  where any specially licensed material was committed.</para>
+      </listitem>
+
+      <listitem>
+	<para>The date the license comes into effect from.  Unless
+	  otherwise agreed, this will be the date the license was
+	  issued by the authors of the software in question.</para>
+      </listitem>
+
+      <listitem>
+	<para>The license text.</para>
+      </listitem>
+
+      <listitem>
+	<para>A note of any restrictions, limitations or exceptions
+	  that apply specifically to &os;'s usage of the licensed
+	  material.</para>
+      </listitem>
+
+      <listitem>
+	<para>Any other relevant information.</para>
+      </listitem>
+    </itemizedlist>
+
+    <para>Once the &a.core; is satisfied that all the necessary
+      details have been gathered and are correct, the secretary will
+      send a PGP-signed acknowledgement of receipt including the
+      license details.  This receipt will be persistently archived and
+      serve as our permanent record of the license grant.</para>
+
+    <para>The license archive should contain only details of license
+      grants; this is not the place for any discussions around
+      licensing or other subjects.  Access to data within the license
+      archive will be available on request to the &a.core;.</para>
+  </sect1>
+
   <sect1 xml:id="developer.relations">
     <title>Developer Relations</title>
 
@@ -2641,11 +2810,11 @@ MFC after:          1 month</programlisting>
       areas, to our shame), the same applies.  If, however, you are
       about to modify something which is clearly being actively
       maintained by someone else (and it is only by watching the
-      <literal>repository-committers</literal> mailing list that you
-      can really get a feel for just what is and is not) then consider
-      sending the change to them instead, just as you would have
-      before becoming a committer.  For ports, you should contact the
-      listed <varname>MAINTAINER</varname> in the
+      <literal><replaceable>repository</replaceable>-committers</literal>
+      mailing list that you can really get a feel for just what is and
+      is not) then consider sending the change to them instead, just
+      as you would have before becoming a committer.  For ports, you
+      should contact the listed <varname>MAINTAINER</varname> in the
       <filename>Makefile</filename>.  For other parts of the
       repository, if you are unsure who the active maintainer might
       be, it may help to scan the revision history to see who has
@@ -2738,8 +2907,8 @@ MFC after:          1 month</programlisting>
       for tracking bugs and change requests.  Be sure that if you
       commit a fix or suggestion found in a
       <application>GNATS</application> PR, you use
-      <command>edit-pr pr-number</command> on
-      <systemitem>freefall</systemitem> to close it.  It is also
+      <command>edit-pr <replaceable>pr-number</replaceable></command>
+      on <systemitem>freefall</systemitem> to close it.  It is also
       considered nice if you take time to close any PRs associated
       with your commits, if appropriate.  You can also make use of
       &man.send-pr.1; yourself for proposing any change which you feel
@@ -2805,11 +2974,11 @@ MFC after:          1 month</programlisting>
 	command.</para>
 
       <para>For example, to assign PR 123456 to yourself type
-	<command>take-pr 123456</command>.
+	<command>take-pr <replaceable>123456</replaceable></command>.
 	If you want to set the PR to patched awaiting an MFC at
 	the same time use:
 	<command>change-pr -t -p -m "awaiting MFC"
-	  123456</command></para>
+	  <replaceable>123456</replaceable></command></para>
     </sect2>
   </sect1>
 
@@ -2839,16 +3008,6 @@ MFC after:          1 month</programlisting>
 	    should familiarize themselves with the <link
 	      xlink:href="&url.books.fdp-primer;/index.html">Documentation
 	      Project Primer</link>.</para>
-	</listitem>
-      </varlistentry>
-
-      <varlistentry>
-	<term>&a.ru.email;</term>
-
-	<listitem>
-	  <para>Ruslan is Mister &man.mdoc.7;.  If you are writing a
-	    manual page and need some advice on the structure, or the
-	    markup, ask Ruslan.</para>
 	</listitem>
       </varlistentry>
 
@@ -2994,9 +3153,9 @@ MFC after:          1 month</programlisting>
 	  or
 	  <filename>$HOME/.ssh/id_rsa.pub</filename>)
 	  to the person setting you up as a committer so it can be put
-	  into the
-	  <filename>yourlogin</filename>
-	  file in
+	  into
+	  <filename><replaceable>yourlogin</replaceable></filename>
+	  in
 	  <filename>/etc/ssh-keys/</filename> on
 	  <systemitem>freefall</systemitem>.</para>
       </step>
@@ -3016,6 +3175,11 @@ MFC after:          1 month</programlisting>
       <package>security/openssh</package>,
       &man.ssh.1;, &man.ssh-add.1;, &man.ssh-agent.1;,
       &man.ssh-keygen.1;, and &man.scp.1;.</para>
+
+    <para>For information on adding, changing, or removing &man.ssh.1;
+      keys, see <uri
+	xlink:href="https://wiki.freebsd.org/clusteradm/ssh-keys">this
+	article</uri>.</para>
   </sect1>
 
   <sect1 xml:id="coverity">
@@ -3063,8 +3227,8 @@ MFC after:          1 month</programlisting>
       <listitem>
 	<para>Respect existing maintainers (if listed in the
 	  <varname>MAINTAINER</varname> field in
-	  <filename>Makefile</filename> or in the
-	  <filename>MAINTAINER</filename> file in the top-level
+	  <filename>Makefile</filename> or in
+	  <filename>MAINTAINER</filename> in the top-level
 	  directory).</para>
       </listitem>
 
@@ -3363,9 +3527,9 @@ MFC after:          1 month</programlisting>
 	    cases where the dispute involves a change to the codebase
 	    and the participants do not appear to be reaching an
 	    amicable agreement, core may appoint a mutually-agreeable
-	    3rd party to resolve the dispute.  All parties involved
+	    third party to resolve the dispute.  All parties involved
 	    must then agree to be bound by the decision reached by
-	    this 3rd party.</para>
+	    this third party.</para>
 	</listitem>
 
 	<listitem>
@@ -3794,7 +3958,7 @@ MFC after:          1 month</programlisting>
 	    <screen>&prompt.root; <userinput>make install</userinput>
 &prompt.root; <userinput>make package</userinput>
 &prompt.root; <userinput>make deinstall</userinput>
-&prompt.root; <userinput>pkg_add package you built above</userinput>
+&prompt.root; <userinput>pkg_add <replaceable>package you built above</replaceable></userinput>
 &prompt.root; <userinput>make deinstall</userinput>
 &prompt.root; <userinput>make reinstall</userinput>
 &prompt.root; <userinput>make package</userinput></screen>
@@ -3918,11 +4082,11 @@ MFC after:          1 month</programlisting>
 		  and then copy the last living revision of the
 		  port:</para>
 
-		  <screen>&prompt.user; <userinput>cd /usr/ports/category
-</userinput>&prompt.user; <userinput>svn cp 'svn+ssh://svn.freebsd.org/ports/head/category/portname/@{YYYY-MM-DD}' portname</userinput></screen>
+		<screen>&prompt.user; <userinput>cd /usr/ports/<replaceable>category</replaceable></userinput>
+&prompt.user; <userinput>svn cp 'svn+ssh://svn.freebsd.org/ports/head/<replaceable>category</replaceable>/<replaceable>portname</replaceable>/@{<replaceable>YYYY-MM-DD</replaceable>}' <replaceable>portname</replaceable></userinput></screen>
 
-		  <para>Pick a date that is before the removal but after the
-		  last true commit.</para>
+		<para>Pick a date that is before the removal but after
+		  the last true commit.</para>
 	      </step>
 
 	      <step>
@@ -3976,12 +4140,11 @@ MFC after:          1 month</programlisting>
 	  </question>
 
 	  <answer>
-	    <para>When you want to add a port that is related to
-	      any port that is already in the tree in a separate
-	      directory, you have to do a repository copy.
-	      Here <wordasword>related</wordasword> means
-	      it is a different version or a slightly modified
-	      version.  Examples are
+	    <para>When you want to add a port that is related to any
+	      port that is already in the tree in a separate
+	      directory, you have to do a repository copy.  Here
+	      <wordasword>related</wordasword> means it is a different
+	      version or a slightly modified version.  Examples are
 	      <filename>print/ghostscript*</filename> (different
 	      versions) and <filename>x11-wm/windowmaker*</filename>
 	      (English-only and internationalized version).</para>
@@ -3989,8 +4152,8 @@ MFC after:          1 month</programlisting>
 	    <para>Another example is when a port is moved from one
 	      subdirectory to another, or when you want to change the
 	      name of a directory because the author(s) renamed their
-	      software even though it is a
-	      descendant of a port already in a tree.</para>
+	      software even though it is a descendant of a port
+	      already in a tree.</para>
 	  </answer>
 	</qandaentry>
 
@@ -4351,9 +4514,9 @@ MFC after:          1 month</programlisting>
 		<para>To do this, use the
 		  <filename>chkorigin.sh</filename> tool, as follows:
 		  <command>env
-		  PORTSDIR=/path/to/ports
+		  PORTSDIR=<replaceable>/path/to/ports</replaceable>
 		  sh -e
-		  /path/to/ports/Tools/scripts/chkorigin.sh</command>.
+		  <replaceable>/path/to/ports</replaceable>/Tools/scripts/chkorigin.sh</command>.
 		  This will check <emphasis>every</emphasis> port in
 		  the ports tree, even those not connected to the
 		  build, so you can run it directly after the move

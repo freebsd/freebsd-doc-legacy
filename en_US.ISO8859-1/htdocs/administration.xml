@@ -135,6 +135,7 @@
     <li>&a.decke.email;</li>
     <li>&a.erwin.email; (Cluster Administration Team Liaison)</li>
     <li>&a.miwi.email;</li>
+    <li>&a.swills.email;</li>
   </ul>
 
   <hr/>
@@ -151,7 +152,7 @@
     Engineering Team in greater detail.</p>
 
   <ul>
-    <li>&a.gjb.email;</li>
+    <li>&a.gjb.email; (Lead)</li>
     <li>&a.kib.email;</li>
     <li>&a.joel.email;</li>
     <li>&a.blackend.email;</li>
@@ -161,7 +162,7 @@
     <li>&a.rodrigc.email;</li>
     <li>&a.hrs.email;</li>
     <li>&a.glebius.email;</li>
-    <li>&a.kensmith.email; (Lead)</li>
+    <li>&a.kensmith.email;</li>
     <li>&a.marius.email;</li>
   </ul>
 
@@ -245,6 +246,8 @@
     <li>&a.delphij.email; (Officer Deputy)</li>
     <li>&a.des.email; (Officer)</li>
     <li>&a.gavin.email; (Core Team Liaison)</li>
+    <li>&a.gjb.email; (Cluster Administrators Team Liaison)</li>
+    <li>&a.imp.email;</li>
     <li>&a.jonathan.email;</li>
     <li>&a.philip.email;</li>
     <li>&a.qingli.email;</li>
@@ -293,7 +296,7 @@
     portmgr's latest decisions and actions.</p>
 
   <ul>
-    <li>&a.tabthorpe.email;</li>
+    <li>&a.culot.email;</li>
   </ul>
 
   <h3><a name="t-secteam-secretary">Security Team Secretary</a>
@@ -451,11 +454,11 @@
     services, such as having troll-, spam- and virus-filters.</p>
 
   <ul>
-    <li>&a.jmb.email;</li>
     <li>&a.brd.email;</li>
-    <li>&a.flo.email;</li>
+    <li>&a.flo.email; (Lead)</li>
     <li>&a.sahil.email;</li>
     <li>&a.dhw.email;</li>
+    <li>&a.jadawin.email;</li>
   </ul>
 
   <h3><a name="t-subversion">Subversion Administrators</a> &lt;svnadm@&gt;</h3>
@@ -472,19 +475,20 @@
   <h3><a name="t-webmaster">Webmaster Team</a>
     &lt;<a href="mailto:webmaster@FreeBSD.org">webmaster@FreeBSD.org</a>&gt;</h3>
 
-  <p>The FreeBSD Webmaster Team is responsible for keeping the main FreeBSD web
+  <p>The FreeBSD Webmaster Team is appointed by &os; Documentation Engineering Team,
+    and responsible for keeping the main FreeBSD web
     sites up and running.  This means web server configuration, CGI scripts,
     fulltext and mailing list search.  Anything web related, technical stuff
     belongs to the scope of the Webmaster Team, excluding bugs in the
     documentation.</p>
 
   <ul>
-    <li>&a.nik.email;</li>
-    <li>&a.kuriyama.email;</li>
-    <li>&a.simon.email;</li>
-    <li>&a.jesusr.email;</li>
+    <li>&a.gjb.email;</li>
+    <li>&a.wblock.email;</li>
+    <li>&a.blackend.email;</li>
+    <li>&a.gabor.email;</li>
+    <li>&a.hrs.email;</li>
     <li>&a.wosch.email;</li>
-    <li>&a.don.email;</li>
   </ul>
 
 </body>

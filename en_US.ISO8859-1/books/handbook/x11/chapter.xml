@@ -521,9 +521,8 @@ dbus_enable="YES"</programlisting>
 	not complete enough to serve as screen fonts.  In addition,
 	<application>&xorg;</application> can be configured to use
 	&truetype; fonts with a minimum of effort.  For more details
-	on this, see the &man.X.7; manual page or the <link
-	  linkend="truetype">section on &truetype;
-	  fonts</link>.</para>
+	on this, see the &man.X.7; manual page or <xref
+	  linkend="truetype"/>.</para>
 
       <para>To install the above Type1 font collections from the
 	Ports Collection, run the following commands:</para>
@@ -551,9 +550,8 @@ dbus_enable="YES"</programlisting>
 	<filename>~/.xsession</filename> when logging in through a
 	graphical login manager like <application>XDM</application>).
 	A third way is to use the new
-	<filename>/usr/local/etc/fonts/local.conf</filename> file: see
-	the section on
-	<link linkend="antialias">anti-aliasing</link>.</para>
+	<filename>/usr/local/etc/fonts/local.conf</filename> file as
+	demonstrated in <xref linkend="antialias"/>.</para>
     </sect2>
 
     <sect2 xml:id="truetype">
@@ -597,8 +595,8 @@ dbus_enable="YES"</programlisting>
 &prompt.root; <userinput>ttmkfdir -o fonts.dir</userinput></screen>
 
       <para>Now add the &truetype; directory to the font path.  This
-	is just the same as described above for <link
-	  linkend="type1">Type1</link> fonts, that is, use</para>
+	is just the same as described in <xref
+	  linkend="type1"/>:</para>
 
       <screen>&prompt.user; <userinput>xset fp+ /usr/local/lib/X11/fonts/TrueType</userinput>
 &prompt.user; <userinput>xset fp rehash</userinput></screen>
@@ -663,8 +661,7 @@ dbus_enable="YES"</programlisting>
 	definition, and then the <literal>&lt;fontconfig&gt;</literal>
 	tag:</para>
 
-      <programlisting>
-      &lt;?xml version="1.0"?&gt;
+      <programlisting>&lt;?xml version="1.0"?&gt;
       &lt;!DOCTYPE fontconfig SYSTEM "fonts.dtd"&gt;
       &lt;fontconfig&gt;</programlisting>
 
@@ -785,8 +782,7 @@ dbus_enable="YES"</programlisting>
 	dramatic.  To enable this, add the line somewhere in the
 	<filename>local.conf</filename> file:</para>
 
-      <programlisting>
-	  &lt;match target="font"&gt;
+      <programlisting>&lt;match target="font"&gt;
 	     &lt;test qual="all" name="rgba"&gt;
 		 &lt;const&gt;unknown&lt;/const&gt;
 	     &lt;/test&gt;
@@ -806,91 +802,64 @@ dbus_enable="YES"</programlisting>
   </sect1>
 
   <sect1 xml:id="x-xdm">
-    <!--
-    <sect1info>
+    <info>
+    <title>The X Display Manager</title>
+
       <authorgroup>
 	<author>
+	<personname>
 	  <firstname>Seth</firstname>
 	  <surname>Kingsley</surname>
+	  </personname>
 	  <contrib>Contributed by </contrib>
 	</author>
       </authorgroup>
-    </sect1info>
-    -->
-    <title>The X Display Manager</title>
+    </info>
+
+    <indexterm><primary>X Display Manager</primary></indexterm>
+    <para><application>&xorg;</application> provides an X Display
+      Manager, <application>XDM</application>, which can be used for
+      login session management.  <application>XDM</application>
+      provides a graphical interface for choosing which display server
+      to connect to and for entering authorization information such as
+      a login and password combination.</para>
+
+    <para>  This section demonstrates how to configure the X Display
+      Manager on &os;.  Some desktop environments provide their own
+      graphical login manager.  Refer to <xref
+	linkend="x11-wm-gnome"/> for instructions on how to configure
+      the GNOME Display Manager and <xref linkend="x11-wm-kde"/> for
+      instructions on how to configure the KDE Display Manager.</para>
 
     <sect2>
-      <title>Overview</title>
+      <title>Configuring <application>XDM</application></title>
 
-      <indexterm><primary>X Display Manager</primary></indexterm>
-      <para>The X Display Manager (<application>XDM</application>)
-	is an optional part of the X Window System that is used for
-	login session management.  This is useful for several types
-	of situations, including minimal <quote>X Terminals</quote>,
-	desktops, and large network display servers.  Since the X
-	Window System is network and protocol independent, there are
-	a wide variety of possible configurations for running X
-	clients and servers on different machines connected by a
-	network.  <application>XDM</application> provides a graphical
-	interface for choosing which display server to connect to,
-	and entering authorization information such as a login and
-	password combination.</para>
-
-      <para>Think of <application>XDM</application> as providing the
-	same functionality to the user as the &man.getty.8; utility
-	(see <xref linkend="term-config"/> for details).  That is, it
-	performs system logins to the display being connected to and
-	then runs a session manager on behalf of the user (usually an
-	X window manager).  <application>XDM</application> then waits
-	for this program to exit, signaling that the user is done and
-	should be logged out of the display.  At this point,
-	<application>XDM</application> can display the login and
-	display chooser screens for the next user to login.</para>
-    </sect2>
-
-    <sect2>
-      <title>Using XDM</title>
-
-      <para>To start using <application>XDM</application>, install
-	the <package>x11/xdm</package> port (it is not installed by
-	default in recent versions of
-	<application>&xorg;</application>).  The
-	<application>XDM</application> daemon program may then be
-	found in <filename>/usr/local/bin/xdm</filename>.  This
-	program can be run at any time as <systemitem
-	  class="username">root</systemitem> and it will start
-	managing the X display on the local machine.  If
-	<application>XDM</application> is to be run every time the
-	machine boots up, a convenient way to do this is by adding an
-	entry to <filename>/etc/ttys</filename>.  For more information
-	about the format and usage of this file, see <xref
-	  linkend="term-etcttys"/>.  There is a line in the default
-	<filename>/etc/ttys</filename> file for running the
-	<application>XDM</application> daemon on a virtual
-	terminal:</para>
+      <para>To install <application>XDM</application>, use the
+	<package>x11/xdm</package> package or port.  Once installed,
+	<application>XDM</application> can be configured to run when
+	the  machine boots up by editing this entry in
+	<filename>/etc/ttys</filename>:</para>
 
       <screen>ttyv8   "/usr/local/bin/xdm -nodaemon"  xterm   off secure</screen>
 
-      <para>By default this entry is disabled; in order to enable it
-	change field 5 from <literal>off</literal> to
-	<literal>on</literal> and restart &man.init.8; using the
-	directions in <xref linkend="term-hup"/>.  The first field,
-	the name of the terminal this program will manage, is
-	<literal>ttyv8</literal>.  This means that
-	<application>XDM</application> will start running on the 9th
-	virtual terminal.</para>
-    </sect2>
-
-    <sect2>
-      <title>Configuring XDM</title>
+      <para>Change the <literal>off</literal> to <literal>on</literal>
+	and save the edit.  The <literal>ttyv8</literal> in this entry
+	indicates that <application>XDM</application> will run on the
+	ninth virtual terminal.</para>
 
       <para>The <application>XDM</application> configuration directory
-	is located in <filename>/usr/local/lib/X11/xdm</filename>.  In
-	this directory there are several files used to change the
-	behavior and appearance of <application>XDM</application>.
-	Typically these files will be found:</para>
+	is located in <filename>/usr/local/lib/X11/xdm</filename>.
+	This directory contains several files used to change the
+	behavior and appearance of <application>XDM</application>, as
+	well as a few scripts and programs used to set up the desktop
+	when <application>XDM</application> is running.  <xref
+	  linkend="xdm-config-files"/> summarizes the function of each
+	of these files.  The exact syntax and usage of these files is
+	described in &man.xdm.1;.</para>
 
-      <informaltable frame="none" pgwide="1">
+      <table frame="none" pgwide="1" xml:id="xdm-config-files">
+	<title>XDM Configuration Files</title>
+
 	<tgroup cols="2">
 	  <thead>
 	    <row>
@@ -902,29 +871,54 @@ dbus_enable="YES"</programlisting>
 	  <tbody>
 	    <row>
 	      <entry><filename>Xaccess</filename></entry>
-	      <entry>Client authorization ruleset.</entry>
+	      <entry>The protocol for connecting to
+		<application>XDM</application> is called the X Display
+		Manager Connection Protocol (<acronym>XDMCP</acronym>)
+		This file is a client authorization ruleset for
+		controlling <acronym>XDMCP</acronym> connections from
+		remote machines.  By default, this file does not allow
+		any remote clients to connect.</entry>
 	    </row>
 
 	    <row>
 	      <entry><filename>Xresources</filename></entry>
-	      <entry>Default X resource values.</entry>
+	      <entry>This file controls the look and feel of the
+		<application>XDM</application> display chooser and
+		login screens.  The default configuration is a simple
+		rectangular login window with the hostname of the
+		machine displayed at the top in a large font and
+		<quote>Login:</quote> and <quote>Password:</quote>
+		prompts below.  The format of this file is identical
+		to the app-defaults file described in the
+		<application>&xorg;</application>
+		documentation.</entry>
 	    </row>
 
 	    <row>
 	      <entry><filename>Xservers</filename></entry>
-	      <entry>List of remote and local displays to
-		manage.</entry>
+	      <entry>The list of local and remote displays the chooser
+		should provide as login choices.</entry>
 	    </row>
 
 	    <row>
 	      <entry><filename>Xsession</filename></entry>
-	      <entry>Default session script for logins.</entry>
+	      <entry>Default session script for logins which is run by
+		<application>XDM</application> after a user has logged
+		in.  Normally each user will have a customized session
+		script in <filename>~/.xsession</filename> that
+		overrides this script</entry>
 	    </row>
 
 	    <row>
 	      <entry><filename>Xsetup_</filename>*</entry>
-	      <entry>Script to launch applications before the login
-		interface.</entry>
+	      <entry>Script to automatically launch applications
+		before displaying the chooser or login interfaces.
+		There is a script for each display being used, named
+		<filename>Xsetup_*</filename>, where
+		<literal>*</literal> is the local display number.
+		Typically these scripts run one or two programs in the
+		background such as
+		<command>xconsole</command>.</entry>
 	    </row>
 
 	    <row>
@@ -935,519 +929,264 @@ dbus_enable="YES"</programlisting>
 
 	    <row>
 	      <entry><filename>xdm-errors</filename></entry>
-	      <entry>Errors generated by the server program.</entry>
+	      <entry>Contains errors generated by the server program.
+		If a display that <application>XDM</application> is
+		trying to start hangs, look at this file for error
+		messages.  These messages are also written to the
+		user's <filename>~/.xsession-errors</filename> file on
+		a per-session basis.</entry>
 	    </row>
 
 	    <row>
 	      <entry><filename>xdm-pid</filename></entry>
-	      <entry>The process ID of the currently running
-		XDM.</entry>
+	      <entry>The running process <acronym>ID</acronym> of
+		<application>XDM</application>.</entry>
 	    </row>
 	  </tbody>
 	</tgroup>
-      </informaltable>
-
-      <para>Also in this directory are a few scripts and programs
-	used to set up the desktop when <application>XDM</application>
-	is running.  The purpose of each of these files will be
-	briefly described.  The exact syntax and usage of all of these
-	files is described in &man.xdm.1;.</para>
-
-      <para>The default configuration is a simple rectangular login
-	window with the hostname of the machine displayed at the top
-	in a large font and <quote>Login:</quote> and
-	<quote>Password:</quote> prompts below.  This is a good
-	starting point for changing the look and feel of
-	<application>XDM</application> screens.</para>
-
-      <sect3>
-	<title>Xaccess</title>
-
-	<para>The protocol for connecting to
-	  <application>XDM</application>-controlled displays is
-	  called the X Display Manager Connection Protocol (XDMCP).
-	  This file is a ruleset for controlling XDMCP connections
-	  from remote machines.  It is ignored unless the
-	  <filename>xdm-config</filename> is changed to listen for
-	  remote connections.  By default, it does not allow any
-	  clients to connect.</para>
-      </sect3>
-
-      <sect3>
-	<title>Xresources</title>
-
-	<para>This is an application-defaults file for the display
-	  chooser and login screens.  In it, the appearance
-	  of the login program can be modified.  The format is
-	  identical to the app-defaults file described in the
-	  <application>&xorg;</application> documentation.</para>
-      </sect3>
-
-      <sect3>
-	<title>Xservers</title>
-
-	<para>This is a list of the remote displays the chooser should
-	  provide as choices.</para>
-      </sect3>
-
-      <sect3>
-	<title>Xsession</title>
-
-	<para>This is the default session script for
-	  <application>XDM</application> to run after a user has
-	  logged in.  Normally each user will have a customized
-	  session script in <filename>~/.xsession</filename> that
-	  overrides this script.</para>
-      </sect3>
-
-      <sect3>
-	<title>Xsetup_*</title>
-
-	<para>These will be run automatically before displaying the
-	  chooser or login interfaces.  There is a script for each
-	  display being used, named <filename>Xsetup_</filename>
-	  followed by the local display number (for instance
-	  <filename>Xsetup_0</filename>).  Typically these scripts
-	  will run one or two programs in the background such as
-	  <command>xconsole</command>.</para>
-      </sect3>
-
-      <sect3>
-	<title>xdm-config</title>
-
-	<para>This contains settings in the form of app-defaults
-	  that are applicable to every display that this installation
-	  manages.</para>
-      </sect3>
-
-      <sect3>
-	<title>xdm-errors</title>
-
-	<para>This contains the output of the X servers that
-	  <application>XDM</application> is trying to run.  If a
-	  display that <application>XDM</application> is trying to
-	  start hangs for some reason, this is a good place to look
-	  for error messages.  These messages are also written to the
-	  user's <filename>~/.xsession-errors</filename> file on a
-	  per-session basis.</para>
-      </sect3>
+      </table>
     </sect2>
 
     <sect2>
-      <title>Running a Network Display Server</title>
+      <title>Configuring Remote Access</title>
 
-      <para>In order for other clients to connect to the display
-	server, you must edit the access control rules and enable
-	the connection listener.  By default these are set to
-	conservative values.  To make <application>XDM</application>
-	listen for connections, first comment out a line in the
-	<filename>xdm-config</filename> file:</para>
+      <para>By default, only users on the same system can login using
+	<application>XDM</application>.  To enable users on other
+	systems to connect to the display server, edit the access
+	control rules and enable the connection listener.</para>
+
+      <para>To configure <application>XDM</application> to listen for
+	any remote connection, comment out the
+	<literal>DisplayManager.requestPort</literal> line in
+	<filename>/usr/local/lib/X11/xdm/xdm-config</filename> by
+	putting a <literal>!</literal> in front of it:</para>
 
       <screen>! SECURITY: do not listen for XDMCP or Chooser requests
 ! Comment out this line if you want to manage X terminals with xdm
 DisplayManager.requestPort:     0</screen>
 
-      <para>and then restart <application>XDM</application>.
-	Remember that comments in app-defaults files begin with a
-	<quote>!</quote> character, not the usual <quote>#</quote>.
-	More strict access controls may be desired &mdash; look at the
-	example entries in <filename>Xaccess</filename>, and refer to
-	the &man.xdm.1; manual page for further information.</para>
-    </sect2>
-
-    <sect2>
-      <title>Replacements for XDM</title>
-
-      <para>Several replacements for the default
-	<application>XDM</application> program exist.  One of them,
-	<application>KDM</application> (bundled with
-	<application>KDE</application>) is described later in this
-	chapter.  The <application>KDM</application> display manager
-	offers many visual improvements and cosmetic frills, as well
-	as the functionality to allow users to choose their window
-	manager of choice at login time.</para>
+      <para>Save the edits and restart <application>XDM</application>.
+	To restrict remote access, look at the example entries in
+	<filename>/usr/local/lib/X11/xdm/Xaccess</filename> and refer
+	to &man.xdm.1; for further information.</para>
     </sect2>
   </sect1>
 
   <sect1 xml:id="x11-wm">
-    <!--
-    <sect1info>
-      <authorgroup>
-	<author>
-	  <firstname>Valentino</firstname>
-	  <surname>Vaschetto</surname>
-	  <contrib>Contributed in June 2001 by </contrib>
-	</author>
-      </authorgroup>
-    </sect1info>
-    -->
-
+    <info>
     <title>Desktop Environments</title>
 
-    <para>This section describes the different desktop environments
-      available for X on FreeBSD.  A
-      <quote>desktop environment</quote> can mean anything ranging
+      <authorgroup>
+	<author>
+	<personname>
+	  <firstname>Valentino</firstname>
+	  <surname>Vaschetto</surname>
+	  </personname>
+	  <contrib>Contributed by </contrib>
+	   <!-- in June 2001 -->
+	</author>
+      </authorgroup>
+    </info>
+
+    <para>This section describes how to install three popular desktop
+      environments on a &os; system.  A desktop environment can range
       from a simple window manager to a complete suite of desktop
-      applications, such as <application>KDE</application> or
-      <application>GNOME</application>.</para>
+      applications.  Over a hundred desktop environments are
+      available in the <filename>x11-wm</filename> category of the
+      Ports Collection.</para>
 
     <sect2 xml:id="x11-wm-gnome">
       <title>GNOME</title>
 
-      <sect3 xml:id="x11-wm-gnome-about">
-	<title>About GNOME</title>
+      <indexterm><primary>GNOME</primary></indexterm>
+      <para><application>GNOME</application> is a user-friendly
+	desktop environment.  It includes a panel for starting
+	applications and displaying status, a desktop, a set of tools
+	and applications, and a set of conventions that make it easy
+	for applications to cooperate and be consistent with each
+	other.  More information regarding
+	<application>GNOME</application> on &os; can be found at <link
+	    xlink:href="http://www.FreeBSD.org/gnome">http://www.FreeBSD.org/gnome</link>.
+	That web site contains additional documentation about
+	installing, configuring, and managing
+	<application>GNOME</application> on &os;.</para>
 
-	<indexterm><primary>GNOME</primary></indexterm>
-	<para><application>GNOME</application> is a user-friendly
-	  desktop environment that enables users to easily use and
-	  configure their computers.  <application>GNOME</application>
-	  includes a panel (for starting applications and displaying
-	  status), a desktop (where data and applications can be
-	  placed), a set of standard desktop tools and applications,
-	  anda set of conventions that make it easy for applications
-	  to cooperate and be consistent with each other.  Users of
-	  other operating systems or environments should feel right at
-	  home using the powerful graphics-driven environment that
-	  <application>GNOME</application> provides.  More information
-	  regarding <application>GNOME</application> on FreeBSD can be
-	  found on the <link
-	    xlink:href="http://www.FreeBSD.org/gnome">FreeBSD GNOME
-	    Project</link>'s web site.  The web site also contains
-	  fairly comprehensive FAQs about installing, configuring, and
-	  managing <application>GNOME</application>.</para>
-      </sect3>
+      <para>This desktop environment can be installed from a
+	package:</para>
 
-      <sect3 xml:id="x11-wm-gnome-install">
-	<title>Installing GNOME</title>
+      <screen>&prompt.root; <userinput>pkg install gnome2</userinput></screen>
 
-	<para>The software can be easily installed from a package
-	  or the Ports Collection:</para>
+      <para>To instead build <application>GNOME</application> from
+	ports, use the following command.
+	<application>GNOME</application> is a large application and
+	will take some time to compile, even on a fast
+	computer.</para>
 
-	<para>To install the <application>GNOME</application> package,
-	  type:</para>
-
-	<screen>&prompt.root; <userinput>pkg install gnome2</userinput></screen>
-
-	<para>To build <application>GNOME</application> from source,
-	  use the ports tree:</para>
-
-	<screen>&prompt.root; <userinput>cd /usr/ports/x11/gnome2</userinput>
+      <screen>&prompt.root; <userinput>cd /usr/ports/x11/gnome2</userinput>
 &prompt.root; <userinput>make install clean</userinput></screen>
 
-	<para>For proper operation, <application>GNOME</application>
-	  requires the <filename>/proc</filename> filesystem to be
-	  mounted.  Add</para>
+      <para>For proper operation, <application>GNOME</application>
+	requires the <filename>/proc</filename> file system to be
+	mounted.  Add this line to <filename>/etc/fstab</filename> to
+	mount this file system automatically during system
+	startup:</para>
 
-	<programlisting>proc           /proc       procfs  rw  0   0</programlisting>
+      <programlisting>proc           /proc       procfs  rw  0   0</programlisting>
 
-	<para>to <filename>/etc/fstab</filename> to mount
-	  &man.procfs.5; automatically during
-	  startup.</para>
+      <para>Once <application>GNOME</application> is installed,
+	configure <application>&xorg;</application> to start
+	<application>GNOME</application>.  The easiest way to do this
+	is to enable the GNOME Display Manager,
+	<application>GDM</application>, which is installed as part of
+	the <application>GNOME</application> package or port.  It can
+	be enabled by adding this line to
+	<filename>/etc/rc.conf</filename>:</para>
 
-	<para>Once <application>GNOME</application> is installed,
-	  the X server must be told to start
-	  <application>GNOME</application> instead of a default window
-	  manager.</para>
+      <programlisting>gdm_enable="YES"</programlisting>
 
-	<para>The easiest way to start
-	  <application>GNOME</application> is with
-	  <application>GDM</application>, the GNOME Display Manager.
-	  <application>GDM</application> is installed as part
-	  of the <application>GNOME</application> desktop, although
-	  it is disabled by default.  It can be enabled by adding this
-	  line to <filename>/etc/rc.conf</filename>:</para>
+      <para>It is often desirable to also start all
+	<application>GNOME</application> services.  To achieve this,
+	add a second line to
+	<filename>/etc/rc.conf</filename>:</para>
 
-	<programlisting>gdm_enable="YES"</programlisting>
+      <programlisting>gnome_enable="YES"</programlisting>
 
-	<para>Once you have rebooted, <application>GDM</application>
-	  will start automatically.</para>
+      <para><application>GDM</application> will now start
+	automatically when the system boots.</para>
 
-	<para>It is often desirable to start all
-	  <application>GNOME</application> services together with
-	  <application>GDM</application>.  To achieve this, add the
-	  following line to <filename>/etc/rc.conf</filename>:</para>
+      <para>A second method for starting
+	<application>GNOME</application> is to type
+	<command>startx</command> from the command-line after
+	configuring <filename>~/.xinitrc</filename>.  If this file
+	already exists, replace the line that starts the current
+	window manager with one that starts
+	<filename>/usr/local/bin/gnome-session</filename>.  If this
+	file does not exist, create it with this command:</para>
 
-	<programlisting>gnome_enable="YES"</programlisting>
+      <screen>&prompt.user; <userinput>echo "exec /usr/local/bin/gnome-session" &gt; ~/.xinitrc</userinput></screen>
 
-	<para><application>GNOME</application> may also be started
-	  from the command-line by properly configuring a file named
-	  <filename>.xinitrc</filename>.  If a custom
-	  <filename>.xinitrc</filename> is already in place, simply
-	  replace the line that starts the current window manager with
-	  one that starts
-	  <application>/usr/local/bin/gnome-session</application>
-	  instead.  If nothing special has been done to the
-	  configuration file, then it is enough simply to type:</para>
+      <para>A third method is to use <application>XDM</application> as
+	the display manager.  In this case, create an executable
+	<filename>~/.xsession</filename>:</para>
 
-	<screen>&prompt.user; <userinput>echo "/usr/local/bin/gnome-session" &gt; ~/.xinitrc</userinput></screen>
-
-	<para>Next, type <command>startx</command>, and the
-	  <application>GNOME</application> desktop environment will
-	  be started.</para>
-
-	<note>
-	  <para>If an older display manager, like
-	    <application>XDM</application>, is being used, this will
-	    not work.  Instead, create an executable
-	    <filename>.xsession</filename> file with the same command
-	    in it.  To do this, edit the file and replace the existing
-	    window manager command with
-	    <application>/usr/local/bin/gnome-session</application>:</para>
-	</note>
-
-	<screen>&prompt.user; <userinput>echo "#!/bin/sh" &gt; ~/.xsession</userinput>
-&prompt.user; <userinput>echo "/usr/local/bin/gnome-session" &gt;&gt; ~/.xsession</userinput>
+      <screen>&prompt.user; <userinput>echo "#!/bin/sh" &gt; ~/.xsession</userinput>
+&prompt.user; <userinput>echo "exec /usr/local/bin/gnome-session" &gt;&gt; ~/.xsession</userinput>
 &prompt.user; <userinput>chmod +x ~/.xsession</userinput></screen>
-
-	<para>Yet another option is to configure the display manager
-	  to allow choosing the window manager at login time; the
-	  section on
-	  <link linkend="x11-wm-kde-details">KDE details</link>
-	  explains how to do this for <application>KDM</application>,
-	  the display manager of
-	  <application>KDE</application>.</para>
-      </sect3>
     </sect2>
 
     <sect2 xml:id="x11-wm-kde">
       <title>KDE</title>
 
       <indexterm><primary>KDE</primary></indexterm>
-      <sect3 xml:id="x11-wm-kde-about">
-	<title>About KDE</title>
 
-	<para><application>KDE</application> is an easy to use
-	  contemporary desktop environment.  Some of the things that
-	  <application>KDE</application> brings to the user
-	  are:</para>
+      <para><application>KDE</application> is another easy-to-use
+	desktop environment.  This desktop provides a suite of
+	applications with a consistent look and feel, a standardized
+	menu and toolbars, keybindings, color-schemes,
+	internationalization, and a centralized, dialog-driven desktop
+	configuration.  More information on
+	<application>KDE</application> can be found at <link
+	  xlink:href="http://www.kde.org/">http://www.kde.org/</link>.
+	For &os;-specific information, consult <link
+	  xlink:href="http://freebsd.kde.org/">http://freebsd.kde.org</link>.</para>
 
-	<itemizedlist>
-	  <listitem>
-	    <para>A beautiful contemporary desktop</para>
-	  </listitem>
+      <para>To install the <application>KDE</application> package,
+	type:</para>
 
-	  <listitem>
-	    <para>A desktop exhibiting complete network
-	      transparency</para>
-	  </listitem>
+      <screen>&prompt.root; <userinput>pkg install x11/kde4</userinput></screen>
 
-	  <listitem>
-	    <para>An integrated help system allowing for convenient,
-	      consistent access to help on the use of the
-	      <application>KDE</application> desktop and its
-	      applications</para>
-	  </listitem>
+      <para>To instead build the <application>KDE</application> port,
+	use the following command.  Installing the port will provide a
+	menu for selecting which components to install.
+	<application>KDE</application> is a large application and will
+	take some time to compile, even on a fast computer.</para>
 
-	  <listitem>
-	    <para>Consistent look and feel of all
-	      <application>KDE</application> applications</para>
-	  </listitem>
-
-	  <listitem>
-	    <para>Standardized menu and toolbars, keybindings,
-	      color-schemes, etc.</para>
-	  </listitem>
-
-	  <listitem>
-	    <para>Internationalization: <application>KDE</application>
-	      is available in more than 55 languages</para>
-	  </listitem>
-
-	  <listitem>
-	    <para>Centralized, consistent, dialog-driven desktop
-	      configuration</para>
-	  </listitem>
-
-	  <listitem>
-	    <para>A great number of useful
-	      <application>KDE</application> applications</para>
-	  </listitem>
-	</itemizedlist>
-
-	<para><application>KDE</application> comes with a web
-	  browser called <application>Konqueror</application>, which
-	  is a solid competitor to other existing web browsers on
-	  &unix; systems.  More information on
-	  <application>KDE</application> can be found on the
-	  <link xlink:href="http://www.kde.org/">KDE website</link>.
-	  For FreeBSD specific information and resources on
-	  <application>KDE</application>, consult the
-	  <link xlink:href="http://freebsd.kde.org/">KDE/FreeBSD
-	    initiative</link>'s website.</para>
-      </sect3>
-
-      <sect3 xml:id="x11-wm-kde-install">
-	<title>Installing KDE</title>
-
-	<para>Just as with <application>GNOME</application> or any
-	  other desktop environment, the software can be easily
-	  installed from a package or the Ports Collection:</para>
-
-	<para>To install the <application>KDE4</application> package,
-	  type:</para>
-
-	<screen>&prompt.root; <userinput>pkg install kde4</userinput></screen>
-
-	<para>To build <application>KDE</application> from source,
-	  use the ports tree:</para>
-
-	<screen>&prompt.root; <userinput>cd /usr/ports/x11/kde4</userinput>
+      <screen>&prompt.root; <userinput>cd /usr/ports/x11/kde4</userinput>
 &prompt.root; <userinput>make install clean</userinput></screen>
 
-	<para>The first time the port is installed, a menu will be
-	  shown for selecting options.  Accepting the defaults is
-	  recommended.</para>
+      <indexterm>
+	<primary>KDE</primary>
+	<secondary>display manager</secondary>
+      </indexterm>
 
-	<para><application>KDE 4</application> is a large application,
-	  and will take quite some time to compile even on a fast
-	  computer.</para>
+      <para><application>KDE</application> requires the
+	<filename>/proc</filename> file system to be mounted.  Add
+	this line to <filename>/etc/fstab</filename> to mount this
+	file system automatically during system startup:</para>
 
-	<para>After <application>KDE</application> has been installed,
-	  the X server must be told to launch this application
-	  instead of the default window manager.  This is accomplished
-	  by editing the <filename>.xinitrc</filename> file:</para>
+      <programlisting>proc           /proc       procfs  rw  0   0</programlisting>
 
-	<screen>&prompt.user; <userinput>echo "exec /usr/local/kde4/bin/startkde" &gt; ~/.xinitrc</userinput></screen>
+      <para>The installation of <application>KDE</application>
+	includes the KDE Display Manager,
+	<application>KDM</application>.  To enable this display
+	manager, add this line to
+	<filename>/etc/rc.conf</filename>:</para>
 
-	<para>Now, whenever the X Window System is invoked with
-	  <command>startx</command>, <application>KDE</application>
-	  will be the desktop.</para>
+      <programlisting>kdm4_enable="YES"</programlisting>
 
-	<para>If a display manager such as
-	  <application>XDM</application> is being used, the
-	  configuration is slightly different.  Edit the
-	  <filename>.xsession</filename> file instead.  Instructions
-	  for <application>KDM</application> are described later in
-	  this chapter.</para>
-      </sect3>
-    </sect2>
+      <para>A second method for launching
+	<application>KDE</application> is to type
+	<command>startx</command> from the command line.  For this to
+	work, the following line is needed in
+	<filename>~/.xinitrc</filename>:</para>
 
-    <sect2 xml:id="x11-wm-kde-details">
-      <title>More Details on KDE</title>
+      <programlisting>exec /usr/local/kde4/bin/startkde</programlisting>
 
-      <para>Now that <application>KDE</application> is installed on
-	the system, most things can be discovered through the help
-	pages, or just by pointing and clicking at various menus.
-	&windows; or &mac; users will feel quite at home.</para>
+      <para>A third method for starting <application>KDE</application>
+	is through <application>XDM</application>.  To do so, create
+	an executable <filename>~/.xsession</filename> as
+	follows:</para>
 
-      <para>The best reference for <application>KDE</application> is
-	the on-line documentation.  <application>KDE</application>
-	comes with its own web browser,
-	<application>Konqueror</application>, dozens of useful
-	applications, and extensive documentation.  The remainder of
-	this section discusses the technical items that are difficult
-	to learn by random exploration.</para>
+      <screen>&prompt.user; <userinput>echo "#!/bin/sh" &gt; ~/.xsession</userinput>
+&prompt.user; <userinput>echo "exec /usr/local/kde4/bin/startkde" &gt;&gt; ~/.xsession</userinput>
+&prompt.user; <userinput>chmod +x ~/.xsession</userinput></screen>
 
-      <sect3 xml:id="x11-wm-kde-kdm">
-	<title>The KDE Display Manager</title>
-
-	<indexterm>
-	  <primary>KDE</primary>
-	  <secondary>display manager</secondary>
-	</indexterm>
-	<para>An administrator of a multi-user system may wish to have
-	  a graphical login screen to welcome users.
-	  <link linkend="x-xdm">XDM</link> can be used, as described
-	  earlier.  However, <application>KDE</application> includes
-	  an alternative, <application>KDM</application>, which is
-	  designed to look more attractive and include more login-time
-	  options.  In particular, users can easily choose (via a
-	  menu) which desktop environment
-	  (<application>KDE</application>,
-	  <application>GNOME</application>, or something else) to run
-	  after logging on.</para>
-
-	<para><application>KDE 4</application> requires that
-	  &man.procfs.5; be mounted, and this line must be added to
-	  <filename>/etc/rc.conf</filename>:</para>
-
-	<programlisting>kdm4_enable="YES"</programlisting>
-      </sect3>
+      <para>Once <application>KDE</application> is started, refer to
+	its built-in help system for more information on how to use
+	its various menus and applications.</para>
     </sect2>
 
     <sect2 xml:id="x11-wm-xfce">
       <title>Xfce</title>
 
-      <sect3 xml:id="x11-wm-xfce-about">
-	<title>About Xfce</title>
+      <para><application>Xfce</application> is a desktop environment
+	based on the GTK+ toolkit used by
+	<application>GNOME</application>.  However, it is more
+	lightweight and provides a simple, efficient, easy-to-use
+	desktop.  It is fully configurable, has a main panel with
+	menus, applets, and application launchers, provides a file
+	manager and sound manager, and is themeable.  Since it is
+	fast, light, and efficient, it is ideal for older or slower
+	machines with memory limitations.  More information on
+	<application>Xfce</application> can be found at <link
+	  xlink:href="http://www.xfce.org/">http://www.xfce.org</link>.</para>
 
-	<para><application>Xfce</application> is a desktop environment
-	  based on the GTK+ toolkit used by
-	  <application>GNOME</application>, but is much more
-	  lightweight and meant for those who want a simple, efficient
-	  desktop which is nevertheless easy to use and configure.
-	  Visually, it looks very much like
-	  <application>CDE</application>, found on commercial &unix;
-	  systems.  Some of <application>Xfce</application>'s features
-	  are:</para>
+      <para>To install the <application>Xfce</application>
+	package:</para>
 
-	<itemizedlist>
-	  <listitem>
-	    <para>A simple, easy-to-handle desktop</para>
-	  </listitem>
+      <screen>&prompt.root; <userinput>pkg install xfce</userinput></screen>
 
-	  <listitem>
-	    <para>Fully configurable via mouse, with drag and drop,
-	      etc.</para>
-	  </listitem>
+      <para>Alternatively, to build the port:</para>
 
-	  <listitem>
-	    <para>Main panel similar to
-	      <application>CDE</application>, with menus, applets and
-	      applications launchers</para>
-	  </listitem>
-
-	  <listitem>
-	    <para>Integrated window manager, file manager, sound
-	      manager, <application>GNOME</application> compliance
-	      module, and more</para>
-	  </listitem>
-
-	  <listitem>
-	    <para>Themeable (since it uses GTK+)</para>
-	  </listitem>
-
-	  <listitem>
-	    <para>Fast, light and efficient: ideal for older/slower
-	      machines or machines with memory limitations</para>
-	  </listitem>
-	</itemizedlist>
-
-	<para>More information on <application>Xfce</application>
-	  can be found on the <link
-	    xlink:href="http://www.xfce.org/">Xfce website</link>.</para>
-      </sect3>
-
-      <sect3 xml:id="x11-wm-xfce-install">
-	<title>Installing Xfce</title>
-
-	<para>To install <application>Xfce</application>, type:</para>
-
-	<screen>&prompt.root; <userinput>pkg install xfce</userinput></screen>
-
-	<para>Alternatively, to build from source, use the
-	  Ports Collection:</para>
-
-	<screen>&prompt.root; <userinput>cd /usr/ports/x11-wm/xfce4</userinput>
+      <screen>&prompt.root; <userinput>cd /usr/ports/x11-wm/xfce4</userinput>
 &prompt.root; <userinput>make install clean</userinput></screen>
 
-	<para>Now, tell the X server to launch
-	  <application>Xfce</application> the next time X is started.
-	  Simply type this:</para>
+      <para>Unlike <application>GNOME</application> or
+	<application>KDE</application>,
+	<application>Xfce</application> does not provide its own login
+	manager.  In order to start <application>Xfce</application>
+	from the command line by typing <command>startx</command>,
+	first add its entry to <filename>~/.xinitrc</filename>:</para>
 
-	<screen>&prompt.user; <userinput>echo "/usr/local/bin/startxfce4" &gt; ~/.xinitrc</userinput></screen>
+      <screen>&prompt.user; <userinput>echo "exec /usr/local/bin/startxfce4" &gt; ~/.xinitrc</userinput></screen>
 
-	<para>The next time X is started,
-	  <application>Xfce</application> will be the desktop.  As
-	  before, if a display manager like
-	  <application>XDM</application> is being used, create an
-	  <filename>.xsession</filename>, as described in the section
-	  on <link linkend="x11-wm-gnome">GNOME</link>, but with the
-	  <filename>/usr/local/bin/startxfce4</filename> command; or,
-	  configure the display manager to allow choosing a desktop at
-	  login time, as explained in the section on
-	  <link linkend="x11-wm-kde-kdm">kdm</link>.</para>
-      </sect3>
+      <para>An alternate method is to use
+	<application>XDM</application>.  To configure this method,
+	create an executable <filename>~/.xsession</filename>:</para>
+
+      <screen>&prompt.user; <userinput>echo "#!/bin/sh" &gt; ~/.xsession</userinput>
+&prompt.user; <userinput>echo "exec /usr/local/bin/startxfce4" &gt;&gt; ~/.xsession</userinput>
+&prompt.user; <userinput>chmod +x ~/.xsession</userinput></screen>
     </sect2>
   </sect1>
 

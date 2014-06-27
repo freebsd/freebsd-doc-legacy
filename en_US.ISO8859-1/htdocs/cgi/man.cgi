@@ -212,10 +212,12 @@ $manLocalDir    = '/usr/local/www/bsddoc/man';
 $manPathDefault = 'FreeBSD 10.0-RELEASE';
 
 %manPath = (
+    'FreeBSD 9.2-RELEASE and Ports',
+"$manLocalDir/FreeBSD-9.2-RELEASE/man:$manLocalDir/FreeBSD-9.2-RELEASE/openssl/man:$manLocalDir/FreeBSD-ports-9.2-RELEASE/man:$manLocalDir/FreeBSD-ports-9.2-RELEASE/misc",
     'FreeBSD 9.0-RELEASE and Ports',
 "$manLocalDir/FreeBSD-9.0-RELEASE/man:$manLocalDir/FreeBSD-9.0-RELEASE/openssl/man:$manLocalDir/FreeBSD-ports-9.0-RELEASE/man:$manLocalDir/FreeBSD-ports-9.0-RELEASE/lib-perl5-perl-5.12.4-man:$manLocalDir/FreeBSD-ports-9.0-RELEASE/misc",
     'FreeBSD 8.4-RELEASE and Ports',
-"$manLocalDir/FreeBSD-8.4-RELEASE/man:$manLocalDir/FreeBSD-8.4-RELEASE/openssl/man:$manLocalDir/FreeBSD-ports-8.4-RELEASE",
+"$manLocalDir/FreeBSD-8.4-RELEASE/man:$manLocalDir/FreeBSD-8.4-RELEASE/openssl/man:$manLocalDir/FreeBSD-ports-8.4-RELEASE/man:$manLocalDir/FreeBSD-ports-8.4-RELEASE/misc",
     'FreeBSD 8.3-RELEASE and Ports',
 "$manLocalDir/FreeBSD-8.3-RELEASE/man:$manLocalDir/FreeBSD-8.3-RELEASE/openssl/man:$manLocalDir/FreeBSD-ports-8.3-RELEASE",
     'FreeBSD 8.2-RELEASE and Ports',
@@ -240,14 +242,15 @@ $manPathDefault = 'FreeBSD 10.0-RELEASE';
     'FreeBSD 10.0-stable',
 "$manLocalDir/FreeBSD-10.0-stable/man:$manLocalDir/FreeBSD-10.0-stable/openssl/man",
 
-    'FreeBSD 9.1-stable',
-"$manLocalDir/FreeBSD-9.1-stable/man:$manLocalDir/FreeBSD-9.1-stable/openssl/man",
+    'FreeBSD 9.2-stable',
+"$manLocalDir/FreeBSD-9.2-stable/man:$manLocalDir/FreeBSD-9.2-stable/openssl/man",
     'FreeBSD 9.2-RELEASE',
 "$manLocalDir/FreeBSD-9.2-RELEASE/man:$manLocalDir/FreeBSD-9.2-RELEASE/openssl/man",
     'FreeBSD 9.1-RELEASE',
 "$manLocalDir/FreeBSD-9.1-RELEASE/man:$manLocalDir/FreeBSD-9.1-RELEASE/openssl/man",
     'FreeBSD 9.0-RELEASE',
 "$manLocalDir/FreeBSD-9.0-RELEASE/man:$manLocalDir/FreeBSD-9.0-RELEASE/openssl/man",
+    'FreeBSD Ports 9.2-RELEASE', "$manLocalDir/FreeBSD-ports-9.2-RELEASE/man:$manLocalDir/FreeBSD-ports-9.2-RELEASE/misc",
     'FreeBSD Ports 9.0-RELEASE', "$manLocalDir/FreeBSD-ports-9.0-RELEASE/man:$manLocalDir/FreeBSD-ports-9.0-RELEASE/lib-perl5-perl-5.12.4-man:$manLocalDir/FreeBSD-ports-9.0-RELEASE/misc",
 
     'FreeBSD 8.4-stable',
@@ -265,6 +268,7 @@ $manPathDefault = 'FreeBSD 10.0-RELEASE';
     'FreeBSD 8.0-RELEASE',
 "$manLocalDir/FreeBSD-8.0-RELEASE/man:$manLocalDir/FreeBSD-8.0-RELEASE/openssl/man",
 
+    'FreeBSD Ports 8.4-RELEASE', "$manLocalDir/FreeBSD-ports-8.4-RELEASE/man:$manLocalDir/FreeBSD-ports-8.4-RELEASE/misc",
     'FreeBSD Ports 8.1-RELEASE', "$manLocalDir/FreeBSD-ports-8.1-RELEASE",
     'FreeBSD Ports 8.0-RELEASE', "$manLocalDir/FreeBSD-ports-8.0-RELEASE",
 
@@ -601,6 +605,7 @@ my %arch = (
 'FreeBSD 9.2-RELEASE' => { 'default' => 'i386', 'arch' => [qw/amd64 arm i386 powerpc sparc64/] } ,
 'FreeBSD 9.1-RELEASE' => { 'default' => 'i386', 'arch' => [qw/amd64 arm i386 powerpc sparc64/] } ,
 'FreeBSD 9.0-RELEASE' => { 'default' => 'i386', 'arch' => [qw/amd64 arm i386 powerpc sparc64/] } ,
+'FreeBSD 8.4-RELEASE' => { 'default' => 'i386', 'arch' => [qw/amd64 arm i386 powerpc sparc64/] } ,
 'FreeBSD 8.3-RELEASE' => { 'default' => 'i386', 'arch' => [qw/amd64 arm i386 powerpc sparc64/] } ,
 'FreeBSD 8.2-RELEASE' => { 'default' => 'i386', 'arch' => [qw/amd64 arm i386 powerpc sparc64/] } ,
 'NetBSD 5.1' => { 'arch' => [qw/acorn26 acorn32 alpha amiga arc atari cobalt dreamcast evbarm evbmips evbppc hp300 hp700 hpcarm hpcmips hpcsh i386 mac68k macppc mvme68k pmax prep sgimips sparc sparc64 sun2 sun3 vax x68k/] } ,
@@ -637,13 +642,13 @@ while ( ( $key, $val ) = each %manPath ) {
 
     'freebsd-stable',  'FreeBSD 10.0-stable',
     'freebsd-stable10', 'FreeBSD 10.0-stable',
-    'freebsd-stable9', 'FreeBSD 9.1-stable',
-    'freebsd-stable8', 'FreeBSD 8.3-stable',
+    'freebsd-stable9', 'FreeBSD 9.2-stable',
+    'freebsd-stable8', 'FreeBSD 8.4-stable',
     'freebsd-stable7', 'FreeBSD 7.4-stable',
     'freebsd-stable6', 'FreeBSD 6.4-stable',
 
     'freebsd-current',       'FreeBSD 11-current',
-    'freebsd-release-ports', 'FreeBSD 9.0-RELEASE and Ports',
+    'freebsd-release-ports', 'FreeBSD 9.2-RELEASE and Ports',
 
     'slackware',  'Linux Slackware 3.1',
     'redhat',     'Red Hat Linux/i386 9',

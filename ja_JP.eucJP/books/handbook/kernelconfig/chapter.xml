@@ -3,7 +3,7 @@
      The FreeBSD Documentation Project
      The FreeBSD Japanese Documentation Project
 
-     Original revision: r43817
+     Original revision: r44620
      $FreeBSD$
 -->
 <chapter xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0" xml:id="kernelconfig">
@@ -23,7 +23,7 @@
       </author>
     </authorgroup>
   </chapterinfo>
--->
+  -->
 
   <title>FreeBSD カーネルのコンフィグレーション</title>
 
@@ -41,7 +41,7 @@
     <para>カーネルは &os; オペレーティングシステムの中核をなすものです。
       カーネルは、メモリ管理、セキュリティ制御の強制、ネットワーク、
       ディスクアクセスなどを担っています。
-      &os; は動的に構成することができるようになっていますが、
+      &os; の大部分は動的に構成することができるようになっていますが、
       まだ、時にはカスタムカーネルを設定してコンパイルする必要があります。</para>
 
     <para>この章では、以下のことを扱っています。</para>
@@ -72,8 +72,8 @@
       </listitem>
     </itemizedlist>
 
-    <para>この章で表示されているすべてのコマンドは、
-      <systemitem class="username">root</systemitem> 権限で実行する必要があります。</para>
+    <para>この章で表示されているすべてのコマンドは、<systemitem
+      class="username">root</systemitem> 権限で実行する必要があります。</para>
   </sect1>
 
   <sect1 xml:id="kernelconfig-custom-kernel">
@@ -89,15 +89,17 @@
     <para>今日では、&os;
       カーネルのかなりの機能はモジュールに含まれるようになり、
       必要に応じて動的にカーネルに組み込んだり外したりできるようになりました。
-      この移行により、動いているカーネルが新しいハードウェアに迅速に対応したり、
+      この移行により、
+      動作しているカーネルが新しいハードウェアに迅速に対応したり、
       カーネルに新たな機能を取り入れられるようになります。
-      このようなカーネルは、モジュラ (modular)
-      カーネルと呼ばれます。</para>
+      このようなカーネルは、モジュラ (modular) カーネルと呼ばれます。</para>
 
-    <para>しかしながら、いまだにいくらかは静的にカーネルを構成する必要があります。
+    <para>しかしながら、
+      いまだにいくらかは静的にカーネルを構成する必要があります。
       機能がカーネルとあまりに密接に結びついているため、
       動的に組み込むことができない場合があるためです。
-      セキュリティ的に、カーネルモジュールを読み込んだり外すことができず、
+      環境によっては、セキュリティの観点から、
+      カーネルモジュールを読み込んだり外すことができず、
       必要となる機能を静的にカーネルにコンパイルしなければならない場合もあります。</para>
 
     <para>システムに合わせたカーネルを構築することは、多くの場合、
@@ -106,7 +108,7 @@
       システムに利益をもたらします。
       広範囲のハードウェアをサポートしなければならない
       <filename>GENERIC</filename> カーネルとは異なり、カスタムカーネルは、
-      使用しているコンピュータのハードウェアのみをポートするように、
+      使用しているコンピュータのハードウェアのみをサポートするように、
       必要のない機能を省くことができます。これは、
       次にあげるような利益をもたらします。</para>
 
@@ -160,7 +162,8 @@ following line in &man.loader.conf.5;:
       <literal>if_ath_load="YES"</literal> を追加すると、
       起動時にモジュールが読み込まれるようになります。</para>
 
-    <para>対応するモジュールが <filename>/boot/kernel</filename> に存在しないこともあります。
+    <para>対応するモジュールが <filename>/boot/kernel</filename>
+      に存在しないこともあります。
       特定のサブシステムでは、ほとんど多くの場合存在しません。</para>
   </sect1>
 
@@ -175,7 +178,7 @@ following line in &man.loader.conf.5;:
 	</author>
       </authorgroup>
     </sect1info>
--->
+    -->
     <title>システムのハードウェアについて知る</title>
 
     <para>カーネルコンフィグレーションファイルの編集を始める前に、
@@ -192,7 +195,6 @@ following line in &man.loader.conf.5;:
 	<application>システム</application> アイコンを使って、
 	<application>デバイスマネージャ</application>
 	にアクセスできます。</para>
-
     </note>
 
     <para>インストールされているオペレーティングシステムが &os;
@@ -259,56 +261,47 @@ ath_hal(4)               - Atheros Hardware Access Layer (HAL)</programlisting>
 -->
     <title>コンフィグレーションファイル</title>
 
-    <para> カスタムカーネルのコンフィグレーションファイルを作成し、
-      カスタムカーネルを構築するのであれば、
+    <para>カスタムカーネルのコンフィグレーションファイルを作成し、
+      カスタムカーネルを構築するには、
       &os; の全ソースツリーがまずインストールされている必要があります。</para>
 
-    <para>もし、<filename>/usr/src/</filename>
+    <para>もし <filename>/usr/src/</filename>
       が存在していなかったり、空であれば、
       カーネルのソースはインストールされていません。
       <xref linkend="svn"/> で説明した
       <application>Subversion</application>
-      を使ってソースをインストールできます。</para>
+      を使ってソースをインストールしてください。</para>
 
     <para>ソースをインストールしたら、
       <filename>/usr/src/sys</filename> を確認して下さい。
-      このディレクトリには、サブディレクトリがいくつもあります。
-      その中には、サポートされている各アーキテクチャである、<filename>amd64</filename>, <filename>i386</filename>, <filename>ia64</filename>, <filename>pc98</filename>, <filename>powerpc</filename> および  <filename>sparc64</filename> のサブディレクトリがあります。
+      このディレクトリには、いくつものサブディレクトリがあります。
+      その中には、サポートされている各アーキテクチャ
+      <filename>amd64</filename>,
+      <filename>i386</filename>, <filename>ia64</filename>,
+      <filename>pc98</filename>, <filename>powerpc</filename> および
+      <filename>sparc64</filename> のサブディレクトリがあります。
       各アーキテクチャのディレクトリ内部にあるファイルはすべてそのアーキテクチャでのみ使用されます。
       残りのコードは、アーキテクチャに依存しない、
       すべてのプラットフォームで共有されるコードです。
-      サポートされている各アーキテクチャには、<filename>conf</filename> サブディレクトリがあり、
+      サポートされている各アーキテクチャには、
+      <filename>conf</filename> サブディレクトリがあり、
       そのアーキテクチャ用の <filename>GENERIC</filename>
       カーネルコンフィグレーションファイルが用意されています。</para>
 
     <para>この <filename>GENERIC</filename> は編集しないでください。
-      このファイルを別名でコピーし、コピーを編集してください。
+      かわりに、このファイルを別名でコピーし、コピーを編集してください。
       慣習として、この名前はすべて大文字でつづられます。もし、
       いくつかの異なるハードウェアの &os; マシンを扱うなら、
       この名前にホスト名を含めるとよいでしょう。ここでは、例として
-      <literal>amd64</literal>
-      アーキテクチャのカスタムコンフィグレーションファイルを作成します。</para>
+      <filename>MYKERNEL</filename> という名前の
+      <literal>amd64</literal> アーキテクチャ用の <filename>GENERIC</filename>
+      コンフィグレーションファイルのコピーを作成します。</para>
 
-    <screen>&prompt.root; <userinput>cd /usr/src/sys/amd64/conf</userinput>
-&prompt.root; <userinput>cp GENERIC MYKERNEL</userinput></screen>
+    <screen>&prompt.root; <userinput>cd /usr/src/sys/<replaceable>amd64</replaceable>/conf</userinput>
+&prompt.root; <userinput>cp GENERIC <replaceable>MYKERNEL</replaceable></userinput></screen>
 
-    <tip>
-      <para>カーネルコンフィグレーションファイルの編集を終えたら、
-	ファイルのバックアップを <filename>/usr/src</filename>
-	以外の場所に保存してください。</para>
-
-      <para>もしくは、カーネルコンフィグレーションファイルは他の場所において、
-	シンボリックリンクを張る方法もあります。</para>
-
-      <screen>&prompt.root; <userinput>cd /usr/src/sys/amd64/conf</userinput>
-&prompt.root; <userinput>mkdir /root/kernels</userinput>
-&prompt.root; <userinput>cp GENERIC /root/kernels/MYKERNEL</userinput>
-&prompt.root; <userinput>ln -s /root/kernels/MYKERNEL</userinput></screen>
-    </tip>
-
-    <para>これで、コンフィグレーションファイル
-      <filename>MYKERNEL</filename>
-      を ASCII テキストエディタで編集できます。
+    <para>これで、<filename><replaceable>MYKERNEL</replaceable></filename>
+      を <acronym>ASCII</acronym> テキストエディタで編集できます。
       初心者に対してより簡単なエディタである
       <application>ee</application> も &os;
       とともにインストールされていますが、
@@ -333,19 +326,45 @@ ath_hal(4)               - Atheros Hardware Access Layer (HAL)</programlisting>
       理解していない行に対しては、<literal>#</literal>
       を追加したり削除しないでください。</para>
 
-      <para>このファイルで与えられる説明の他に、
+    <warning>
+      <para>デバイスやオプションのサポートを外すことは簡単で、
+	その結果、カーネルを壊すことがあります。
+	たとえば &man.ata.4;
+	ドライバをカーネルコンフィグレーションファイルから除くと、
+	<acronym>ATA</acronym>
+	ディスクドライバを用いているシステムは起動しません。
+	確信が持てないものについては、
+	カーネルにサポートを残したままにしてください。</para>
+    </warning>
+
+    <para>このファイルで与えられる説明の他に、
       そのアーキテクチャの <filename>GENERIC</filename>
       と同じディレクトリにある
       <filename>NOTES</filename> にも説明があります。
       アーキテクチャに依存しないオプションについては、
       <filename>/usr/src/sys/conf/NOTES</filename> をご覧ください。</para>
 
+    <tip>
+      <para>カーネルコンフィグレーションファイルの編集を終えたら、
+	ファイルのバックアップを <filename>/usr/src</filename>
+	以外の場所に保存してください。</para>
+
+      <para>または、カーネルコンフィグレーションファイルは他の場所において、
+	シンボリックリンクを張る方法もあります。</para>
+
+      <screen>&prompt.root; <userinput>cd /usr/src/sys/amd64/conf</userinput>
+&prompt.root; <userinput>mkdir /root/kernels</userinput>
+&prompt.root; <userinput>cp GENERIC /root/kernels/MYKERNEL</userinput>
+&prompt.root; <userinput>ln -s /root/kernels/MYKERNEL</userinput></screen>
+    </tip>
+
     <para>コンフィグレーションファイルでは <literal>include</literal>
       ディレクティブを利用できます。
       コンフィグレーションファイルに他のファイルを取り込むことができるので、
-      すでに存在するファイルに対する小さな変更を簡単に維持できます。
-      たとえば、オプションやドライバの追加が少しだけの場合には、
-      以下のように GENERIC からの差分だけの管理が可能になります。</para>
+      すでに存在するファイルに対する小さな変更の管理が簡単にできます。
+      オプションやドライバの追加が少しだけの場合には、
+      以下の例のように <filename>GENERIC</filename>
+      からの差分による管理が可能になります。</para>
 
     <programlisting>include GENERIC
 ident MYKERNEL
@@ -353,8 +372,7 @@ ident MYKERNEL
 options         IPFIREWALL
 options         DUMMYNET
 options         IPFIREWALL_DEFAULT_TO_ACCEPT
-options         IPDIVERT
-</programlisting>
+options         IPDIVERT</programlisting>
 
     <para>この方法では、ローカルのコンフィグレーションファイルには、
       ローカルにある <filename>GENERIC</filename>
@@ -368,20 +386,24 @@ options         IPDIVERT
 
     <note>
       <para>利用可能なすべてのオプションを含むファイルを構築するには、
-	以下のコマンドを <systemitem class="username">root</systemitem> 権限で実行してください。</para>
+	以下のコマンドを <systemitem
+	  class="username">root</systemitem> 権限で実行してください。</para>
 
       <screen>&prompt.root; <userinput>cd /usr/src/sys/<replaceable>arch</replaceable>/conf &amp;&amp; make LINT</userinput></screen>
     </note>
 
+<!--
     <indexterm>
       <primary>カーネルオプション</primary>
       <secondary>ident</secondary>
     </indexterm>
 
+This is outdated and specific to one architecture.
+
     <programlisting>ident          GENERIC</programlisting>
 
     <para>これはカーネルの識別名です。
-      たとえば、<literal>MYKERNEL</literal>
+      たとえば、<literal><replaceable>MYKERNEL</replaceable></literal>
       のように、新しいカーネルに付けたい名前に書き換えて下さい。
       <literal>ident</literal> に書いた値はカーネルを起動する時に表示されます。</para>
 
@@ -1099,7 +1121,10 @@ device          fwe           # Ethernet over FireWire (non-standard!)</programl
     <para>より詳細な情報と、&os; によりサポートされる他のデバイスについては
       <filename>/usr/src/sys/<replaceable>arch</replaceable>/conf/NOTES</filename>
       を参照して下さい。</para>
+      -->
 
+  <!--
+  This section refers to ancient hardware.
       <sect2>
         <title>大容量メモリ構成 (<acronym>PAE</acronym>)</title>
 	<indexterm>
@@ -1180,49 +1205,24 @@ device          fwe           # Ethernet over FireWire (non-standard!)</programl
 	  &man.pae.4; は、&os; の <acronym>PAE</acronym>
 	  サポートに関する最新の情報を含んでいます。</para>
     </sect2>
+-->
   </sect1>
 
   <sect1 xml:id="kernelconfig-building">
     <title>カスタムカーネルの構築とインストール</title>
 
-    <para>編集した内容を保存したら、
-      カーネルのソースコードをコンパイルしてください。</para>
-
-    <note>
-      <para>最新のソースと <link linkend="svn">ソースツリーを同期</link> したら、
-	何らかのアップデートを行う前に、<emphasis>必ず</emphasis>
-	<filename>/usr/src/UPDATING</filename>
-	をチェックしてください。
-	このファイルには、
-	アップデートされたソースコードに関する重要な問題や特別に注意すべき点がすべて書かれています。
-	<filename>/usr/src/UPDATING</filename> は常に &os;
-	のソースのバージョンと同期しているので、
-	ハンドブックの記述よりも新しい内容を含んでいます。</para>
-    </note>
-
-    <warning>
-      <para>デバイスやオプションのサポートを外すことは簡単で、
-	その結果、カーネルを壊すことがあります。
-	たとえば、&man.ata.4;
-	ドライバをカーネルコンフィグレーションファイルから除くと、
-	<acronym>ATA</acronym> ディスクドライバを用いるシステムは起動しません。
-	確信が持てないものについては、
-	カーネルにサポートを残したままにしてください。</para>
-    </warning>
+    <para>カスタムコンフィグレーションファイルを編集して保存したら、
+      カーネルのソースコードを以下の手順でコンパイルしてください。</para>
 
     <procedure>
       <title>カーネルの構築</title>
-    <indexterm>
-      <primary>カーネル</primary>
-      <secondary>構築 / インストール</secondary>
-    </indexterm>
-
-      <note>
-	<para>カーネルを構築するには、&os; のすべてのソースファイルが必要です。</para>
-      </note>
+      <indexterm>
+	<primary>カーネル</primary>
+	<secondary>構築 / インストール</secondary>
+      </indexterm>
 
       <step>
-	<para><command>cd</command> を用いて <filename>/usr/src</filename> に移動してください。</para>
+	<para>以下のディレクトリに移動してください。</para>
 
 	<screen>&prompt.root; <userinput>cd /usr/src</userinput></screen>
       </step>
@@ -1230,102 +1230,92 @@ device          fwe           # Ethernet over FireWire (non-standard!)</programl
       <step>
 	<para>カスタムコンフィグレーションファイルの名前を指定して新しいカーネルをコンパイルします。</para>
 
-	<screen>&prompt.root; <userinput>make buildkernel KERNCONF=MYKERNEL</userinput></screen>
+	<screen>&prompt.root; <userinput>make buildkernel KERNCONF=<replaceable>MYKERNEL</replaceable></userinput></screen>
       </step>
 
       <step>
-	<para>新しいカーネルをインストールします。</para>
+	<para>指定したカーネルコンフィグレーションファイルでコンパイルされた新しいカーネルをインストールします。
+	  以下のコマンドは、新しいカーネルを
+	  <filename>/boot/kernel/kernel</filename> に、
+	  今までのカーネルを <filename>/boot/kernel.old/kernel</filename>
+	  という名前で保存します。</para>
 
-	<screen>&prompt.root; <userinput>make installkernel KERNCONF=MYKERNEL</userinput></screen>
+	<screen>&prompt.root; <userinput>make installkernel KERNCONF=<replaceable>MYKERNEL</replaceable></userinput></screen>
+      </step>
+
+      <step>
+	<para>新しいカーネルを使うために、
+	  システムをシャットダウンして再起動してください。
+	  うまく行かない場合は、<xref
+	    linkend="kernelconfig-noboot"/>
+	  を参照してください。</para>
       </step>
     </procedure>
 
-    <tip>
-      <para>デフォルトでは、カスタムカーネルを構築すると
-	<emphasis>すべて</emphasis> のカーネルモジュールが再構築されます。
-	カーネルのアップデートをより早く行いたい、または、
-	カスタムモジュールのみを構築したいといった場合は、
-	カーネルの構築を開始する前に、以下のように
-	<filename>/etc/make.conf</filename> を編集してください。</para>
+    <para>デフォルトでは、カスタムカーネルを構築すると、
+      すべてのカーネルモジュールが再構築されます。
+      カーネルのアップデートをより早く行いたい、または、
+      カスタムモジュールのみを構築したいといった場合は、
+      カーネルの構築を開始する前に、以下のように
+      <filename>/etc/make.conf</filename> を編集してください。</para>
 
-      <programlisting>MODULES_OVERRIDE = linux acpi sound/sound sound/driver/ds1 ntfs</programlisting>
+    <para>例として、以下の変数は、
+      デフォルトのすべてのモジュールを構築する設定を変更し、
+      構築するモジュール一覧を指定します。</para>
 
-      <para>この変数は、
-	すべてのモジュールを構築するというデフォルトの設定にかわり、
-	構築するモジュール一覧を指定します。</para>
+    <programlisting>MODULES_OVERRIDE = linux acpi</programlisting>
 
-      <programlisting>WITHOUT_MODULES = linux acpi sound ntfs</programlisting>
+    <para>また、以下の変数は、構築を行わないモジュールを指定します。</para>
 
-      <para>この変数は、構築を行わないトップレベルのモジュールを指定します。
-	他の変数については、&man.make.conf.5; を参照してください。</para>
-    </tip>
+    <programlisting>WITHOUT_MODULES = linux acpi sound</programlisting>
+
+    <para>他の変数については、&man.make.conf.5; を参照してください。</para>
 
     <indexterm>
       <primary><filename>/boot/kernel.old</filename></primary>
     </indexterm>
-
-    <para>新しいカーネルは <filename>/boot/kernel</filename> に
-      <filename>/boot/kernel/kernel</filename> という名前でコピーされ、
-      今までのカーネルは <filename>/boot/kernel.old/kernel</filename>
-      という名前へ変更されます。
-      では、新しいカーネルを使うために、システムをシャットダウンして再起動してください。
-      うまく行かない場合は、
-      <link linkend="kernelconfig-trouble">問題が起きた場合には</link>
-      や、新しいカーネルが
-      <link linkend="kernelconfig-noboot">起動しない</link>
-      場合のリカバリの方法を参照してください。</para>
-
-    <note>
-      <para>ブートローダ (&man.loader.8;)
-	や設定などのブートプロセスに関係する他のファイルは、
-	<filename>/boot</filename> に置かれます。
-	サードパーティ製やカスタムモジュールを
-	<filename>/boot/kernel</filename> に置くこともできますが、
-	コンパイルしたカーネルとモジュールを同期しておく必要があります。
-	コンパイルしたカーネルとモジュールが対応していないと、
-	システムが不安定になる可能性があります。</para>
-    </note>
   </sect1>
 
   <sect1 xml:id="kernelconfig-trouble">
     <title>問題が起きた場合には</title>
 
-    <para>カスタムカーネルを作る場合に起きるトラブルは、
-        次の 4 種類に分けられます。</para>
+    <para>カスタムカーネルを作る際に起こりうるトラブルは、
+      次の 4 種類に分けられます。</para>
 
     <variablelist>
       <varlistentry>
 	<term><command>config</command> コマンドの失敗</term>
 
 	<listitem>
-	  <para>&man.config.8; が失敗したのであれば、
-	    おそらく単純なエラーです。
-            さいわい、&man.config.8;
-	    はトラブルの起きた行番号を出力します。
-	    例えば、次のように出力された場合</para>
+	  <para><command>config</command> で失敗した時には、
+	    トラブルの起きた行番号が出力されます。
+	    たとえば、次のように出力された場合には、
+	    17 行目が正しく入力されているかどうか、
+	    <filename>GENERIC</filename> や <filename>NOTES</filename>
+	    と比較して修正してください。</para>
 
-            <screen>config: line 17: syntax error</screen>
-
-	  <para>17 行目のキーワードが正しく入力されているかどうか、
-	    <filename>GENERIC</filename> カーネルのファイルや、
-            他のリファレンスと比較して注意深く修正してください。</para>
-	</listitem>
-      </varlistentry>
-
-      <varlistentry><term><command>make</command> コマンドの失敗</term>
-	<listitem>
-	  <para><command>make</command> が失敗した場合には、
-	    カーネル設定で &man.config.8;
-	    がとらえられなかったような間違いをしていることが多いようです。
-            コンフィグレーションファイルを見直してください。
-            それでも問題を解決することができなければ、
-            &a.questions;
-            へカーネルコンフィグレーションファイルをつけてメールしてください。</para>
+	  <screen>config: line 17: syntax error</screen>
 	</listitem>
       </varlistentry>
 
       <varlistentry>
-	<term>カーネルが起動しない<anchor xml:id="kernelconfig-noboot"/></term>
+	<term><command>make</command> コマンドの失敗</term>
+
+	<listitem>
+	  <para><command>make</command> が失敗した場合には、
+	    通常、カーネルコンフィグレーションファイルにおいて、
+	    <command>config</command>
+	    がとらえられなかったような間違いをしています。
+	    コンフィグレーションファイルを見直してください。
+	    それでも問題を解決することができなければ、
+	    &a.questions;
+	    へカーネルコンフィグレーションファイルを添付して送ってください。</para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry xml:id="kernelconfig-noboot">
+	<term>カーネルが起動しない</term>
+
 	<listitem>
 	  <para>新しいカーネルが起動しなかったり、
 	    デバイスの認識をしない場合でもあわてないでください!
@@ -1336,35 +1326,32 @@ device          fwe           # Ethernet over FireWire (non-standard!)</programl
 	    <quote>Escape to a loader prompt</quote>
 	    オプションを選択するとアクセスできます。
 	    プロンプトで
-	    <command>boot kernel.old</command>
-	    か他の正常に起動するカーネルを入力してください。
-	    カーネルの再設定をおこなう場合にはいつも、
-            確実に動くことが分かっているカーネルを用意しておくようにすると良いでしょう。
-          </para>
+	    <command>boot <replaceable>kernel.old</replaceable></command>
+	    か他の正常に起動するカーネルを入力してください。</para>
 
 	  <para>問題のないカーネルで起動した後、
 	    コンフィグレー ションファイルを調べ、
 	    再び構築を試みてください。
 	    <filename>/var/log/messages</filename>
 	    にはすべての成功した起動時のカーネルメッセージの記録があり、
-	    これは助けになる情報の一つでしょう。また、
+	    これは問題を解決するための助けになる情報の一つでしょう。また、
 	    &man.dmesg.8; は現在の起動時のカーネルメッセージを出力します。</para>
 
 	  <note>
-	    <para>カーネルの構築中にトラブルが起きた時に使うために、
-	      GENERIC や他のカーネルを次回の構築で消されないよう別の名前で保存するようにしてください。<emphasis remap="tt">kernel.old</emphasis>
+	    <para>カーネルの構築中にトラブルが起きた時には、
+	      次回の構築で消されないように、
+	      <filename>GENERIC</filename>
+	      のコピーや他の正常に起動するカーネルを別の名前で保存するようにしてください。
+	      <emphasis remap="tt">kernel.old</emphasis>
 	      は新しいカーネルをインストールする時に、
 	      その一つ前にインストールした、
-	      うまく動かないかもしれないカーネルで上書きされてしまうので当てにできません。
-	      できる限り早く動作しているカーネルを本来の
-	      <filename>/boot/kernel</filename> の位置に移動させてください。
-	      そうしないと
-	      &man.ps.1; のようなコマンドが正しく動きません。これを行うには、
-	      以下のように正しく起動するカーネルを含むディレクトリ名に変更するだけです。</para>
+	      うまく動かないかもしれないカーネルで上書きされてしまうため、
+	      起動するカーネルを保存しておくことは重要です。
+	      できる限り早く以下のようにして、
+	      正しく起動するカーネルを含むディレクトリ名に変更してください。</para>
 
-	    <screen>&prompt.root; <userinput>mv /boot/kernel /boot/kernel.bad</userinput>
-&prompt.root; <userinput>mv /boot/kernel.good /boot/kernel</userinput></screen>
-
+	    <screen>&prompt.root; <userinput>mv /boot/kernel <replaceable>/boot/kernel.bad</replaceable></userinput>
+&prompt.root; <userinput>mv /boot/<replaceable>kernel.good</replaceable> /boot/kernel</userinput></screen>
 	  </note>
 	</listitem>
       </varlistentry>
@@ -1374,13 +1361,14 @@ device          fwe           # Ethernet over FireWire (non-standard!)</programl
 
 	<listitem>
 	  <para>システムユーティリティの構築されたバージョンと異るバージョンのカーネルをインストールした場合、
-	    例えば -CURRENT のカーネルを -RELEASE 上にインストールするような場合、
+	    たとえば -CURRENT のソースから構築したカーネルを
+	    -RELEASE システム上にインストールするような場合には、
 	    &man.ps.1; や &man.vmstat.8;
 	    のような多くのシステムステータスコマンドは動かなくなります。
 	    修正するには、カーネルと同じバージョンのソースツリーで
 	    <link linkend="makeworld">world を再構築し、インストール</link>
 	    してください。
-            これは、カーネルとそれ以外で異なるバージョンを組み合わせてオペレーティングシステムを使用することが推奨されない理由の一つとなっています。</para>
+	    カーネルとそれ以外で異なるバージョンを組み合わせてオペレーティングシステムを使用することは推奨されていません。</para>
 	</listitem>
       </varlistentry>
     </variablelist>

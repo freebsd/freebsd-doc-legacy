@@ -84,12 +84,6 @@
       </listitem>
 
       <listitem>
-	<para>How to configure the standard logging daemon,
-	  <command>syslogd</command>, to accept logs from remote
-	  hosts.</para>
-      </listitem>
-
-      <listitem>
 	<para>How to set up <acronym>iSCSI</acronym>.</para>
       </listitem>
     </itemizedlist>
@@ -309,8 +303,8 @@ server-program-arguments</programlisting>
 
 	    <para><option>wait|nowait</option> indicates whether or
 	      not the service is able to handle its own socket.
-	      <option>dgram</option> socket types must use the
-	      <option>wait</option> option while
+	      <option>dgram</option> socket types must use
+	      <option>wait</option> while
 	      <option>stream</option> daemons, which are usually
 	      multi-threaded, should use <option>nowait</option>.
 	      <option>wait</option> usually hands off multiple sockets
@@ -478,25 +472,28 @@ server-program-arguments</programlisting>
   </sect1>
 
   <sect1 xml:id="network-nfs">
-    <!--
-    <sect1info>
+    <info>
+      <title>Network File System (NFS)</title>
+
       <authorgroup>
 	<author>
+	  <personname>
 	  <firstname>Tom</firstname>
 	  <surname>Rhodes</surname>
+	</personname>
 	  <contrib>Reorganized and enhanced by </contrib>
 	</author>
       </authorgroup>
       <authorgroup>
 	<author>
+	  <personname>
 	  <firstname>Bill</firstname>
 	  <surname>Swingle</surname>
+	</personname>
 	  <contrib>Written by </contrib>
 	</author>
       </authorgroup>
-    </sect1info>
-    -->
-    <title>Network File System (NFS)</title>
+    </info>
 
     <indexterm><primary>NFS</primary></indexterm>
     <para>&os; supports the Network File System
@@ -505,8 +502,8 @@ server-program-arguments</programlisting>
       <acronym>NFS</acronym>, users and programs can access files on
       remote systems as if they were stored locally.</para>
 
-    <para>The most notable benefits that
-      <acronym>NFS</acronym> provides are:</para>
+    <para><acronym>NFS</acronym> has many practical uses.  Some of
+      the more common uses include:</para>
 
     <itemizedlist>
       <listitem>
@@ -516,30 +513,41 @@ server-program-arguments</programlisting>
       </listitem>
 
       <listitem>
-	<para>User home directories can be stored in one location
-	  and accessed by their owners over the network.</para>
+	<para>Several clients may need access to the
+	  <filename>/usr/ports/distfiles</filename> directory.
+	  Sharing that directory allows for quick access to the
+	  source files without having to download them to each
+	  client.</para>
+      </listitem>
+
+      <listitem>
+	<para>On large networks, it is often more convenient to
+	  configure a central <acronym>NFS</acronym> server on which
+	  all user home directories are stored.  Users can log into
+	  a client anywhere on the network and have access to their
+	  home directories.</para>
       </listitem>
 
       <listitem>
 	<para>Administration of <acronym>NFS</acronym> exports is
-	  also simplified.  For example, there is only one file
-	  system where security or backup policies must be
-	  set.</para>
+	  simplified.  For example, there is only one file system
+	  where security or backup policies must be set.</para>
       </listitem>
 
       <listitem>
 	<para>Removable media storage devices can be used by other
 	  machines on the network.  This reduces the number of devices
 	  throughout the network and provides a centralized location
-	  to manage their security.</para>
+	  to manage their security.  It is often more convenient to
+	  install software on multiple machines from a centralized
+	  installation media.</para>
       </listitem>
     </itemizedlist>
 
-    <para><acronym>NFS</acronym> consists of at least two main
-      parts: a server and one or more clients.  The client
-      remotely accesses the data that is stored on the server
-      machine.  In order for this to function properly a few
-      processes have to be configured and running.</para>
+    <para><acronym>NFS</acronym> consists of a server and one or more
+      clients.  The client remotely accesses the data that is stored
+      on the server machine.  In order for this to function properly,
+      a few processes have to be configured and running.</para>
 
     <para>These daemons must be running on the server:</para>
     <indexterm>
@@ -577,140 +585,113 @@ server-program-arguments</programlisting>
 	    <row>
 	      <entry><application>nfsd</application></entry>
 	      <entry>The <acronym>NFS</acronym> daemon which services
-		requests from the <acronym>NFS</acronym>
-		clients.</entry>
+		requests from <acronym>NFS</acronym> clients.</entry>
 	    </row>
 
 	    <row>
 	      <entry><application>mountd</application></entry>
 	      <entry>The <acronym>NFS</acronym> mount daemon which
-		carries out the requests that &man.nfsd.8; passes on
-		to it.</entry>
+		carries out requests received from
+		<application>nfsd</application>.</entry>
 	    </row>
 
 	    <row>
 	      <entry><application>rpcbind</application></entry>
-	      <entry> This daemon allows
-		<acronym>NFS</acronym> clients to discover which port
-		the <acronym>NFS</acronym> server is using.</entry>
+	      <entry> This daemon allows <acronym>NFS</acronym>
+		clients to discover which port the
+		<acronym>NFS</acronym> server is using.</entry>
 	    </row>
 	  </tbody>
 	</tgroup>
       </informaltable>
 
-      <para>Running &man.nfsiod.8; can improve performance on the
-	client, but is not required.</para>
+      <para>Running &man.nfsiod.8; on the client can improve
+	performance, but is not required.</para>
 
       <sect2 xml:id="network-configuring-nfs">
-	<title>Configuring <acronym>NFS</acronym></title>
+	<title>Configuring the Server</title>
 
 	<indexterm>
 	  <primary>NFS</primary>
 	  <secondary>configuration</secondary>
 	</indexterm>
 
-	<para>Enabling the <acronym>NFS</acronym> server
-	  is straightforward.  The required processes
-	  can be set to start at boot time by adding
-	  these options to
-	  <filename>/etc/rc.conf</filename>:</para>
-
-	<programlisting>rpcbind_enable="YES"
-nfs_server_enable="YES"
-mountd_flags="-r"</programlisting>
-
-      <para><application>mountd</application> runs automatically
-	whenever the <acronym>NFS</acronym> server is enabled.</para>
-
-      <para>To enable the client, set this option in
-	<filename>/etc/rc.conf</filename>:</para>
-
-      <programlisting>nfs_client_enable="YES"</programlisting>
-
-      <para><filename>/etc/exports</filename> specifies which file
-	systems the <acronym>NFS</acronym> server will export.  Each
-	line in <filename>/etc/exports</filename> specifies a file
-	system to be exported and which clients have access to that
-	file system, as well as any access options.  There are many
-	such options that can be used in this file, but only a few
-	will be mentioned here.  See &man.exports.5; for the full list
-	of options.</para>
+      <para>The file systems which the <acronym>NFS</acronym> server
+	will share are specified in <filename>/etc/exports</filename>.
+	Each line in this file specifies a file system to be exported,
+	which clients have access to that file system, and any access
+	options.  When adding entries to this file, each exported file
+	system, its properties, and allowed hosts must occur on a
+	single line.  If no clients are listed in the entry, then any
+	client on the network can mount that file system.</para>
 
       <indexterm>
 	<primary>NFS</primary>
 	<secondary>export examples</secondary>
       </indexterm>
 
-      <para>These examples give an idea of how to export file systems.
-	Minor modifications may be required for the examples to work
-	on the reader's network.</para>
+      <para>The following <filename>/etc/exports</filename> entries
+	demonstrate how to export file systems.  The examples can be
+	modified to match the file systems and client names on the
+	reader's network.  There are many options that can be used in
+	this file, but only a few will be mentioned here.  See
+	&man.exports.5; for the full list of options.</para>
 
-      <para>This example shows how to export the
-	<filename>/cdrom</filename> directory to
-	three clients called <replaceable>alpha</replaceable>,
+      <para>This example shows how to export
+	<filename>/cdrom</filename> to three hosts named
+	<replaceable>alpha</replaceable>,
 	<replaceable>bravo</replaceable>, and
 	<replaceable>charlie</replaceable>:</para>
 
       <programlisting>/cdrom -ro <replaceable>alpha</replaceable> <replaceable>bravo</replaceable> <replaceable>charlie</replaceable></programlisting>
 
-      <para>The <literal>-ro</literal> flag makes the file systems
-	read-only, preventing clients from making any changes to
-	those exported file systems.</para>
+      <para>The <literal>-ro</literal> flag makes the file system
+	read-only, preventing clients from making any changes to the
+	exported file system.  This example assumes that the host
+	names are either in <acronym>DNS</acronym> or in
+	<filename>/etc/hosts</filename>.  Refer to &man.hosts.5; if
+	the network does not have a <acronym>DNS</acronym>
+	server.</para>
 
       <para>The next example exports <filename>/home</filename> to
 	three clients by <acronym>IP</acronym> address.  This can be
-	useful for networks without <acronym>DNS</acronym>.
-	Optionally, <filename>/etc/hosts</filename> could be
-	configured for internal hostnames; please review &man.hosts.5;
-	for more information.  The <literal>-alldirs</literal> flag
-	allows subdirectories to be mount points.  In other words, it
-	will not mount the subdirectories but permit the client to
-	mount only the directories that are required or needed.</para>
+	useful for networks without <acronym>DNS</acronym> or
+	<filename>/etc/hosts</filename> entries.  The
+	<literal>-alldirs</literal> flag allows subdirectories to be
+	mount points.  In other words, it will not automatically mount
+	the subdirectories, but will permit the client to mount the
+	directories that are required as needed.</para>
 
       <programlisting>/home  -alldirs  10.0.0.2 10.0.0.3 10.0.0.4</programlisting>
 
-      <para>This next line exports <filename>/a</filename> so that two
-	clients from different domains may access the file system.
-	The <option>-maproot=root</option> flag allows the
-	<systemitem class="username">root</systemitem> user on the
-	remote system to write data on the exported file system as
-	<systemitem class="username">root</systemitem>.  If the
-	<literal>-maproot=root</literal> flag is not specified, the
+      <para>This next example exports <filename>/a</filename> so that
+	two clients from different domains may access that file
+	system.  The <option>-maproot=root</option> allows <systemitem
+	  class="username">root</systemitem> on the remote system to
+	write data on the exported file system as <systemitem
+	  class="username">root</systemitem>.  If
+	<literal>-maproot=root</literal> is not specified, the
 	client's <systemitem class="username">root</systemitem> user
 	will be mapped to the server's <systemitem
 	  class="username">nobody</systemitem> account and will be
-	subject to the access limitations defined for user,
-	<systemitem class="username">nobody</systemitem>.</para>
+	subject to the access limitations defined for <systemitem
+	  class="username">nobody</systemitem>.</para>
 
       <programlisting>/a  -maproot=root  host.example.com box.example.org</programlisting>
 
-      <para>For a client to have access to an exported file system,
-	the client must be listed in
-	<filename>/etc/exports</filename>.</para>
-
-      <para>In <filename>/etc/exports</filename>, each line defines
-	the export information for one file system to one or more
-	clients.  A remote host can only be specified once per file
-	system.  For example, assume that
-	<filename>/usr</filename> is a single file system.  This
-	entry, in <filename>/etc/exports</filename>, would be
-	invalid:</para>
+      <para>A client can only be specified once per file system.  For
+	example, if <filename>/usr</filename> is a single file system,
+	these entries would be invalid as both entries specify the
+	same host:</para>
 
       <programlisting># Invalid when /usr is one file system
 /usr/src   client
 /usr/ports client</programlisting>
 
-      <para>The <filename>/usr</filename> file system has two lines
-	specifying exports to the same host,
-	<systemitem>client</systemitem>.  The correct format for this
-	situation is:</para>
+      <para>The correct format for this situation is to use one
+	entry:</para>
 
       <programlisting>/usr/src /usr/ports  client</programlisting>
-
-      <para>The exported file system, its properties, and allowed
-	hosts must occur on a single line.  If no clients are listed,
-	then any client on the network may mount the exported file
-	system.</para>
 
       <para>The following is an example of a valid export list, where
 	<filename>/usr</filename> and <filename>/exports</filename>
@@ -725,35 +706,50 @@ mountd_flags="-r"</programlisting>
 /exports -alldirs -maproot=root      client01 client02
 /exports/obj -ro</programlisting>
 
-      <para>The <application>mountd</application> daemon reads
-	<filename>/etc/exports</filename> when started.  To make
-	<acronym>NFS</acronym> server changes take effect immediately,
-	force <application>mountd</application> to reread
-	<filename>/etc/exports</filename>:</para>
+      <para>To enable the processes required by the
+	<acronym>NFS</acronym> server at boot time, add these options
+	to <filename>/etc/rc.conf</filename>:</para>
 
-      <screen>&prompt.root; <userinput>service mountd reload</userinput></screen>
+      <programlisting>rpcbind_enable="YES"
+nfs_server_enable="YES"
+mountd_flags="-r"</programlisting>
 
-      <para>Please refer to <xref linkend="configtuning-rcd"/> for
-	more information about using rc scripts.</para>
-
-      <para>On a new server being configured with
-	<acronym>NFS</acronym> services, the server can be started by
-	running this command as <systemitem
-	  class="username">root</systemitem>:</para>
+      <para>The server can be started now by running this
+	command:</para>
 
       <screen>&prompt.root; <userinput>service nfsd start</userinput></screen>
 
-      <para>On the <acronym>NFS</acronym> client:</para>
+      <para>Whenever the <acronym>NFS</acronym> server is started,
+	<application>mountd</application> also starts automatically.
+	However, <application>mountd</application> only reads
+	<filename>/etc/exports</filename> when it is started.  To make
+	subsequent <filename>/etc/exports</filename> edits take effect
+	immediately, force <application>mountd</application> to reread
+	it:</para>
 
-      <screen>&prompt.root; <userinput>service nfsclient restart</userinput></screen>
+      <screen>&prompt.root; <userinput>service mountd reload</userinput></screen>
+    </sect2>
+
+    <sect2>
+      <title>Configuring the Client</title>
+
+      <para>To enable <acronym>NFS</acronym> clients, set this option
+	in each client's <filename>/etc/rc.conf</filename>:</para>
+
+      <programlisting>nfs_client_enable="YES"</programlisting>
+
+      <para>Then, run this command on each <acronym>NFS</acronym>
+	client:</para>
+
+      <screen>&prompt.root; <userinput>service nfsclient start</userinput></screen>
 
       <para>The client now has everything it needs to mount a remote
 	file system.  In these examples, the server's name is
 	<systemitem>server</systemitem> and the client's name is
-	<systemitem>client</systemitem>.  For testing or to
-	temporarily mount a remote file system, execute
-	<application>mount</application> as <systemitem
-	  class="username">root</systemitem> on
+	<systemitem>client</systemitem>.  To mount
+	<filename>/home</filename> on
+	<systemitem>server</systemitem> to the
+	<filename>/mnt</filename> mount point on
 	<systemitem>client</systemitem>:</para>
 
       <indexterm>
@@ -762,13 +758,9 @@ mountd_flags="-r"</programlisting>
       </indexterm>
       <screen>&prompt.root; <userinput>mount server:/home /mnt</userinput></screen>
 
-      <para>This mounts the <systemitem>server</systemitem>:
-	<filename>/home</filename> file system to the
-	<systemitem>client</systemitem>:
-	<filename>/mnt</filename> mount point.  The files and
-	directories in the <systemitem>server</systemitem>
-	<filename>/home</filename> file system will now be available
-	on <systemitem>client</systemitem>, in the
+      <para>The files and directories in
+	<filename>/home</filename> will now be available on
+	<systemitem>client</systemitem>, in the
 	<filename>/mnt</filename> directory.</para>
 
       <para>To mount a remote file system each time the client boots,
@@ -783,118 +775,75 @@ mountd_flags="-r"</programlisting>
     <sect2>
       <title>Locking</title>
 
-      <para>Some applications (e.g., <application>mutt</application>)
-	require file locking to operate correctly.  In the case of
-	<acronym>NFS</acronym>, <application>rpc.lockd</application>
-	can be used for file locking.  To enable it, add this line to
-	<filename>/etc/rc.conf</filename> on both client and
+      <para>Some applications require file locking to operate
+	correctly.  To enable locking, add these lines to
+	<filename>/etc/rc.conf</filename> on both the client and
 	server:</para>
 
       <programlisting>rpc_lockd_enable="YES"
 rpc_statd_enable="YES"</programlisting>
 
-      <para>Please note that this assumes that both
-	<acronym>NFS</acronym> client and server are already
-	configured.</para>
-
-      <para>Start the application, as <systemitem
-	  class="username">root</systemitem>, with:</para>
+      <para>Then start the applications:</para>
 
       <screen>&prompt.root; <userinput>service lockd start</userinput>
 &prompt.root; <userinput>service statd start</userinput></screen>
 
       <para>If locking is not required on the server, the
 	<acronym>NFS</acronym> client can be configured to lock
-	locally by passing <option>-L</option> to &man.mount.nfs.8;.
-	Refer to &man.mount.nfs.8; for further details.</para>
-    </sect2>
-
-    <sect2>
-      <title>Practical Uses</title>
-
-      <para><acronym>NFS</acronym> has many practical uses.  Some of
-	the more common uses:</para>
-
-      <indexterm>
-	<primary>NFS</primary>
-	<secondary>uses</secondary>
-      </indexterm>
-      <itemizedlist>
-	<listitem>
-	  <para>Share a <acronym>CD-ROM</acronym> or other media with
-	    any number of clients.  It is often more convenient to
-	    install software on multiple machines from a single
-	    location.</para>
-	</listitem>
-
-	<listitem>
-	  <para>On large networks, it is often more convenient to
-	    configure a central <acronym>NFS</acronym> server on which
-	    all user home directories are stored.  Users can log into
-	    a client anywhere on the network and have access to their
-	    home directories.</para>
-	</listitem>
-
-	<listitem>
-	  <para>Several clients may need access to the
-	    <filename>/usr/ports/distfiles</filename> directory.
-	    Sharing that directory allows for quick access to the
-	    source files without having to download them to each
-	    client.</para>
-	</listitem>
-      </itemizedlist>
+	locally by including <option>-L</option> when running
+	<application>mount</application>.  Refer to &man.mount.nfs.8;
+	for further details.</para>
     </sect2>
 
     <sect2 xml:id="network-amd">
-      <!--
-      <sect2info>
+      <info>
+      <title>Automating Mounts</title>
+
 	<authorgroup>
 	  <author>
+	    <personname>
 	    <firstname>Wylie</firstname>
 	    <surname>Stilwell</surname>
+	  </personname>
 	    <contrib>Contributed by </contrib>
 	  </author>
 	</authorgroup>
 	<authorgroup>
 	  <author>
+	    <personname>
 	    <firstname>Chern</firstname>
 	    <surname>Lee</surname>
+	    </personname>
 	    <contrib>Rewritten by </contrib>
 	  </author>
 	</authorgroup>
-      </sect2info>
-      -->
-      <title>Automatic Mounts with
-	<application>amd</application></title>
+      </info>
 
       <indexterm><primary>amd</primary></indexterm>
       <indexterm>
 	<primary>automatic mounter daemon</primary>
       </indexterm>
 
-      <para>&man.amd.8; (the automatic mounter daemon) automatically
-	mounts a remote file system whenever a file or directory
-	within that file system is accessed.  Filesystems that are
-	inactive for a period of time will also be automatically
-	unmounted by <application>amd</application>.
-	<application>amd</application> provides an alternative to
-	modifying <filename>/etc/fstab</filename> to list every
-	client.</para>
+      <para>The automatic mounter daemon,
+	<application>amd</application>, automatically mounts a remote
+	file system whenever a file or directory within that file
+	system is accessed.  File systems that are inactive for a
+	period of time will be automatically unmounted by
+	<application>amd</application>.</para>
 
-      <para><application>amd</application> operates by attaching
-	itself as an NFS server to the
-	<filename>/host</filename> and
-	<filename>/net</filename> directories.  When
-	a file is accessed within one of these directories,
+      <para>This daemon provides an alternative to modifying
+	<filename>/etc/fstab</filename> to list every client.  It
+	operates by attaching itself as an  <acronym>NFS</acronym>
+	server to the <filename>/host</filename> and
+	<filename>/net</filename> directories.  When a file is
+	accessed within one of these directories,
 	<application>amd</application> looks up the corresponding
 	remote mount and automatically mounts it.
 	<filename>/net</filename> is used to mount an exported file
-	system from an <acronym>IP</acronym> address, while
+	system from an <acronym>IP</acronym> address while
 	<filename>/host</filename> is used to mount an export from a
-	remote hostname.</para>
-
-      <para>For instance, an attempt to access a file within
-	<filename>/host/foobar/usr</filename> would tell
+	remote hostname.  For instance, an attempt to access a file
+	within <filename>/host/foobar/usr</filename> would tell
 	<application>amd</application> to mount the
 	<filename>/usr</filename> export on the host
 	<systemitem>foobar</systemitem>.</para>
@@ -903,9 +852,10 @@ rpc_statd_enable="YES"</programlisting>
 	<title>Mounting an Export with
 	  <application>amd</application></title>
 
-	<para><command>showmount -e</command> shows the exported file
-	  systems that can be mounted from the <acronym>NFS</acronym>
-	  server, <systemitem>foobar</systemitem>:</para>
+	<para>In this example, <command>showmount -e</command> shows
+	  the exported file systems that can be mounted from the
+	  <acronym>NFS</acronym> server,
+	  <systemitem>foobar</systemitem>:</para>
 
 	<screen>&prompt.user; <userinput>showmount -e foobar</userinput>
 Exports list on foobar:
@@ -923,13 +873,14 @@ Exports list on foobar:
 	<application>amd</application> automatically mounts the
 	desired export.</para>
 
-      <para><application>amd</application> is enabled by placing
-	this line in <filename>/etc/rc.conf</filename>:</para>
+      <para>To enable <application>amd</application> at boot time, add
+	this line to <filename>/etc/rc.conf</filename>:</para>
 
       <programlisting>amd_enable="YES"</programlisting>
 
-      <para>It can then be started using the &os; &man.rc.8; scripts
-	or by using the &man.service.8; command.</para>
+      <para>To start <application>amd</application> now:</para>
+
+      <screen>&prompt.root; <userinput>service amd start</userinput></screen>
 
       <para>Custom flags can be passed to
 	<application>amd</application> from the
@@ -938,10 +889,10 @@ Exports list on foobar:
 
       <programlisting>amd_flags="-a /.amd_mnt -l syslog /host /etc/amd.map /net /etc/amd.map"</programlisting>
 
-      <para><filename>/etc/amd.map</filename> defines the default
-	options with which exports are mounted.
-	<filename>/etc/amd.conf</filename> defines some of the more
-	advanced features of <application>amd</application>.</para>
+      <para>The default options with which exports are mounted are
+	defined in <filename>/etc/amd.map</filename>.  Some of the
+	more advanced features of <application>amd</application> are
+	defined in <filename>/etc/amd.conf</filename>.</para>
 
       <para>Consult &man.amd.8; and &man.amd.conf.5; for more
 	information.</para>
@@ -971,46 +922,44 @@ Exports list on foobar:
       </authorgroup>
     </sect1info>
     -->
-      <title>Network Information System
-	(<acronym>NIS</acronym>)</title>
+    <title>Network Information System
+      (<acronym>NIS</acronym>)</title>
 
-      <indexterm><primary>NIS</primary></indexterm>
-      <indexterm><primary>Solaris</primary></indexterm>
-      <indexterm><primary>HP-UX</primary></indexterm>
-      <indexterm><primary>AIX</primary></indexterm>
-      <indexterm><primary>Linux</primary></indexterm>
-      <indexterm><primary>NetBSD</primary></indexterm>
-      <indexterm><primary>OpenBSD</primary></indexterm>
-      <indexterm>
-	<primary>yellow pages</primary>
-	<see>NIS</see>
+    <indexterm><primary>NIS</primary></indexterm>
+    <indexterm><primary>Solaris</primary></indexterm>
+    <indexterm><primary>HP-UX</primary></indexterm>
+    <indexterm><primary>AIX</primary></indexterm>
+    <indexterm><primary>Linux</primary></indexterm>
+    <indexterm><primary>NetBSD</primary></indexterm>
+    <indexterm><primary>OpenBSD</primary></indexterm>
+    <indexterm>
+      <primary>yellow pages</primary>
+      <see>NIS</see>
+    </indexterm>
+
+    <para>Network Information System (<acronym>NIS</acronym>) is
+      designed to centralize administration of &unix;-like systems
+      such as &solaris;, HP-UX, &aix;, Linux, NetBSD, OpenBSD, and
+      &os;.  <acronym>NIS</acronym> was originally known as Yellow
+      Pages but the name was changed due to trademark issues.   This
+      is the reason why <acronym>NIS</acronym> commands begin with
+      <literal>yp</literal>.</para>
+
+    <indexterm>
+      <primary>NIS</primary>
+      <secondary>domains</secondary>
       </indexterm>
 
-      <para>Network Information System (<acronym>NIS</acronym>)
-	is designed to centralize administration of &unix;-like
-	systems such as &solaris;, HP-UX, &aix;, Linux, NetBSD,
-	OpenBSD, and &os;.  <acronym>NIS</acronym> was originally
-	known as Yellow Pages but the name was changed due to
-	trademark issues.   This is the reason why
-	<acronym>NIS</acronym> commands begin with
-	<literal>yp</literal>.</para>
+    <para><acronym>NIS</acronym> is a Remote Procedure Call
+      (<acronym>RPC</acronym>)-based client/server system that allows
+      a group of machines within an <acronym>NIS</acronym> domain to
+      share a common set of configuration files.  This permits a
+      system administrator to set up <acronym>NIS</acronym> client
+      systems with only minimal configuration data and to add, remove,
+      or modify configuration data from a single location.</para>
 
-      <indexterm>
-	<primary>NIS</primary>
-	<secondary>domains</secondary>
-      </indexterm>
-
-      <para><acronym>NIS</acronym> is a Remote Procedure Call
-	(<acronym>RPC</acronym>)-based client/server system that
-	allows a group of machines within an <acronym>NIS</acronym>
-	domain to share a common set of configuration files.  This
-	permits a system administrator to set up
-	<acronym>NIS</acronym> client systems with only minimal
-	configuration data and to add, remove, or modify configuration
-	data from a single location.</para>
-
-      <para>&os; uses version 2 of the <acronym>NIS</acronym>
-	protocol.</para>
+    <para>&os; uses version 2 of the <acronym>NIS</acronym>
+      protocol.</para>
 
     <sect2>
       <title><acronym>NIS</acronym> Terms and Processes</title>
@@ -1171,250 +1120,245 @@ Exports list on foobar:
       <title>Planning Considerations</title>
 
       <para>This section describes a sample <acronym>NIS</acronym>
-	environment which consists of 15 &os; machines with
-	  no centralized point of administration.  Each
-	  machine has its own <filename>/etc/passwd</filename> and
-	  <filename>/etc/master.passwd</filename>.  These files are
-	  kept in sync with each other only through manual
-	  intervention.  Currently, when a user is added to the lab,
-	  the process must be repeated on all 15 machines.</para>
+	environment which consists of 15 &os; machines with no
+	centralized point of administration.  Each machine has its own
+	<filename>/etc/passwd</filename> and
+	<filename>/etc/master.passwd</filename>.  These files are kept
+	in sync with each other only through manual intervention.
+	Currently, when a user is added to the lab, the process must
+	be repeated on all 15 machines.</para>
 
-	<para>The configuration of the lab will be as follows:</para>
+      <para>The configuration of the lab will be as follows:</para>
 
-	<informaltable frame="none" pgwide="1">
-	  <tgroup cols="3">
-	    <thead>
-	      <row>
-		<entry>Machine name</entry>
-		<entry><acronym>IP</acronym> address</entry>
-		<entry>Machine role</entry>
-	      </row>
-	    </thead>
+      <informaltable frame="none" pgwide="1">
+	<tgroup cols="3">
+	  <thead>
+	    <row>
+	      <entry>Machine name</entry>
+	      <entry><acronym>IP</acronym> address</entry>
+	      <entry>Machine role</entry>
+	    </row>
+	  </thead>
 
-	    <tbody>
-	      <row>
-		<entry><systemitem>ellington</systemitem></entry>
-		<entry><systemitem
-		  class="ipaddress">10.0.0.2</systemitem></entry>
-		<entry><acronym>NIS</acronym> master</entry>
-	      </row>
+	  <tbody>
+	    <row>
+	      <entry><systemitem>ellington</systemitem></entry>
+	      <entry><systemitem
+		class="ipaddress">10.0.0.2</systemitem></entry>
+	      <entry><acronym>NIS</acronym> master</entry>
+	    </row>
 
-	      <row>
-		<entry><systemitem>coltrane</systemitem></entry>
-		<entry><systemitem
-		  class="ipaddress">10.0.0.3</systemitem></entry>
-		<entry><acronym>NIS</acronym> slave</entry>
-	      </row>
+	    <row>
+	      <entry><systemitem>coltrane</systemitem></entry>
+	      <entry><systemitem
+		class="ipaddress">10.0.0.3</systemitem></entry>
+	      <entry><acronym>NIS</acronym> slave</entry>
+	    </row>
 
-	      <row>
-		<entry><systemitem>basie</systemitem></entry>
-		<entry><systemitem
-		  class="ipaddress">10.0.0.4</systemitem></entry>
-		<entry>Faculty workstation</entry>
-	      </row>
+	    <row>
+	      <entry><systemitem>basie</systemitem></entry>
+	      <entry><systemitem
+		class="ipaddress">10.0.0.4</systemitem></entry>
+	      <entry>Faculty workstation</entry>
+	    </row>
 
-	      <row>
-		<entry><systemitem>bird</systemitem></entry>
-		<entry><systemitem
-		  class="ipaddress">10.0.0.5</systemitem></entry>
-		<entry>Client machine</entry>
-	      </row>
+	    <row>
+	      <entry><systemitem>bird</systemitem></entry>
+	      <entry><systemitem
+		class="ipaddress">10.0.0.5</systemitem></entry>
+	      <entry>Client machine</entry>
+	    </row>
 
-	      <row>
-		<entry><systemitem>cli[1-11]</systemitem></entry>
-		<entry>
-		  <systemitem
-		    class="ipaddress">10.0.0.[6-17]</systemitem></entry>
-		<entry>Other client machines</entry>
-	      </row>
-	    </tbody>
-	  </tgroup>
-	</informaltable>
+	    <row>
+	      <entry><systemitem>cli[1-11]</systemitem></entry>
+	      <entry>
+		<systemitem
+		  class="ipaddress">10.0.0.[6-17]</systemitem></entry>
+	      <entry>Other client machines</entry>
+	    </row>
+	  </tbody>
+	</tgroup>
+      </informaltable>
 
-	<para>If this is the first time an <acronym>NIS</acronym>
-	  scheme is being developed, it should be thoroughly planned
-	  ahead of time.  Regardless of network size, several
-	  decisions need to be made as part of the planning
-	  process.</para>
+      <para>If this is the first time an <acronym>NIS</acronym>
+	scheme is being developed, it should be thoroughly planned
+	ahead of time.  Regardless of network size, several decisions
+	need to be made as part of the planning process.</para>
 
-	<sect3>
-	  <title>Choosing a <acronym>NIS</acronym> Domain Name</title>
+      <sect3>
+	<title>Choosing a <acronym>NIS</acronym> Domain Name</title>
 
-	  <indexterm>
-	    <primary>NIS</primary>
-	    <secondary>domain name</secondary>
-	  </indexterm>
-	  <para>When a client broadcasts its requests for info, it
-	    includes the name of the <acronym>NIS</acronym> domain
-	    that it is part of.  This is how multiple servers on one
-	    network can tell which server should answer which request.
-	    Think of the <acronym>NIS</acronym> domain name as the
-	    name for a group of hosts.</para>
-
-	  <para>Some organizations choose to use their Internet domain
-	    name for their <acronym>NIS</acronym> domain name.  This
-	    is not recommended as it can cause confusion when trying
-	    to debug network problems.  The <acronym>NIS</acronym>
-	    domain name should be unique within the network and it is
-	    helpful if it describes the group of machines it
-	    represents.  For example, the Art department at Acme Inc.
-	    might be in the <quote>acme-art</quote>
-	    <acronym>NIS</acronym> domain.  This example will use the
-	    domain name <literal>test-domain</literal>.</para>
-
-	  <para>However, some non-&os; operating systems require the
-	    <acronym>NIS</acronym> domain name to be the same as the
-	    Internet domain name.  If one or more machines on the
-	    network have this restriction, the Internet domain name
-	    <emphasis>must</emphasis> be used as the
-	    <acronym>NIS</acronym> domain name.</para>
-	</sect3>
-
-	<sect3>
-	  <title>Physical Server Requirements</title>
-
-	  <para>There are several things to keep in mind when choosing
-	    a machine to use as a <acronym>NIS</acronym> server.
-	    Since <acronym>NIS</acronym> clients depend upon the
-	    availability of the server, choose a machine that is not
-	    rebooted frequently.  The <acronym>NIS</acronym> server
-	    should ideally be a stand alone machine whose sole purpose
-	    is to be an <acronym>NIS</acronym> server.  If the network
-	    is not heavily used, it is acceptable to put the
-	    <acronym>NIS</acronym> server on a machine running other
-	    services.  However, if the <acronym>NIS</acronym> server
-	    becomes unavailable, it will adversely affect all
-	    <acronym>NIS</acronym> clients.</para>
-	</sect3>
-      </sect2>
-
-      <sect2>
-	<title>Configuring the <acronym>NIS</acronym> Master
-	  Server</title>
-
-	<para> The canonical copies of all <acronym>NIS</acronym>
-	  files are stored on the master server.  The databases used
-	  to store the information are called <acronym>NIS</acronym>
-	  maps.  In &os;, these maps are stored in
-	  <filename>/var/yp/[domainname]</filename> where
-	  <filename>[domainname]</filename> is the name of the
-	  <acronym>NIS</acronym> domain.  Since multiple domains are
-	  supported, it is possible to have several directories, one
-	  for each domain.  Each domain will have its own independent
-	  set of maps.</para>
-
-	<para><acronym>NIS</acronym> master and slave servers handle
-	  all <acronym>NIS</acronym> requests through &man.ypserv.8;.
-	  This daemon is responsible for receiving incoming requests
-	  from <acronym>NIS</acronym> clients, translating the
-	  requested domain and map name to a path to the corresponding
-	  database file, and transmitting data from the database back
-	  to the client.</para>
-
-	<indexterm><primary>NIS</primary>
-	  <secondary>server configuration</secondary>
+	<indexterm>
+	  <primary>NIS</primary>
+	  <secondary>domain name</secondary>
 	</indexterm>
-	<para>Setting up a master <acronym>NIS</acronym> server can
-	  be relatively straight forward, depending on environmental
-	  needs.  Since &os; provides built-in
-	  <acronym>NIS</acronym> support, it only needs to be
-	  enabled by adding the following lines to
-	  <filename>/etc/rc.conf</filename>:</para>
+	<para>When a client broadcasts its requests for info, it
+	  includes the name of the <acronym>NIS</acronym> domain that
+	  it is part of.  This is how multiple servers on one network
+	  can tell which server should answer which request.  Think of
+	  the <acronym>NIS</acronym> domain name as the name for a
+	  group of hosts.</para>
 
-	<procedure>
-	  <step>
-	    <programlisting>nisdomainname="test-domain"</programlisting>
+	<para>Some organizations choose to use their Internet domain
+	  name for their <acronym>NIS</acronym> domain name.  This is
+	  not recommended as it can cause confusion when trying to
+	  debug network problems.  The <acronym>NIS</acronym> domain
+	  name should be unique within the network and it is helpful
+	  if it describes the group of machines it represents.  For
+	  example, the Art department at Acme Inc. might be in the
+	  <quote>acme-art</quote> <acronym>NIS</acronym> domain.  This
+	  example will use the domain name
+	  <literal>test-domain</literal>.</para>
 
-	    <para>This line sets the <acronym>NIS</acronym> domain
-	      name to <literal>test-domain</literal>.</para>
-	  </step>
+	<para>However, some non-&os; operating systems require the
+	  <acronym>NIS</acronym> domain name to be the same as the
+	  Internet domain name.  If one or more machines on the
+	  network have this restriction, the Internet domain name
+	  <emphasis>must</emphasis> be used as the
+	  <acronym>NIS</acronym> domain name.</para>
+      </sect3>
 
-	  <step>
-	    <programlisting>nis_server_enable="YES"</programlisting>
+      <sect3>
+	<title>Physical Server Requirements</title>
 
-	    <para>This automates the start up of the
-	      <acronym>NIS</acronym> server processes when the
-	      system boots.</para>
-	  </step>
+	<para>There are several things to keep in mind when choosing a
+	  machine to use as a <acronym>NIS</acronym> server.  Since
+	  <acronym>NIS</acronym> clients depend upon the availability
+	  of the server, choose a machine that is not rebooted
+	  frequently.  The <acronym>NIS</acronym> server should
+	  ideally be a stand alone machine whose sole purpose is to be
+	  an <acronym>NIS</acronym> server.  If the network is not
+	  heavily used, it is acceptable to put the
+	  <acronym>NIS</acronym> server on a machine running other
+	  services.  However, if the <acronym>NIS</acronym> server
+	  becomes unavailable, it will adversely affect all
+	  <acronym>NIS</acronym> clients.</para>
+      </sect3>
+    </sect2>
 
-	  <step>
-	    <programlisting>nis_yppasswdd_enable="YES"</programlisting>
+    <sect2>
+      <title>Configuring the <acronym>NIS</acronym> Master
+	Server</title>
 
-	    <para>This enables the &man.rpc.yppasswdd.8; daemon so
-	      that users can change their <acronym>NIS</acronym>
-	      password from a client machine.</para>
-	  </step>
-	</procedure>
+      <para> The canonical copies of all <acronym>NIS</acronym> files
+	are stored on the master server.  The databases used to store
+	the information are called <acronym>NIS</acronym> maps.  In
+	&os;, these maps are stored in
+	<filename>/var/yp/[domainname]</filename> where
+	<filename>[domainname]</filename> is the name of the
+	<acronym>NIS</acronym> domain.  Since multiple domains are
+	supported, it is possible to have several directories, one for
+	each domain.  Each domain will have its own independent set of
+	maps.</para>
 
-	<para>Care must be taken in a multi-server domain where the
-	  server machines are also <acronym>NIS</acronym> clients.  It
-	  is generally a good idea to force the servers to bind to
-	  themselves rather than allowing them to broadcast bind
-	  requests and possibly become bound to each other.  Strange
-	  failure modes can result if one server goes down and others
-	  are dependent upon it.  Eventually, all the clients will
-	  time out and attempt to bind to other servers, but the delay
-	  involved can be considerable and the failure mode is still
-	  present since the servers might bind to each other all over
-	  again.</para>
+      <para><acronym>NIS</acronym> master and slave servers handle all
+	<acronym>NIS</acronym> requests through &man.ypserv.8;.  This
+	daemon is responsible for receiving incoming requests from
+	<acronym>NIS</acronym> clients, translating the requested
+	domain and map name to a path to the corresponding database
+	file, and transmitting data from the database back to the
+	client.</para>
 
-	<para>A server that is also a client can be forced to bind to
-	  a particular server by adding these additional lines to
-	  <filename>/etc/rc.conf</filename>:</para>
+      <indexterm><primary>NIS</primary>
+	<secondary>server configuration</secondary>
+      </indexterm>
+      <para>Setting up a master <acronym>NIS</acronym> server can be
+	relatively straight forward, depending on environmental needs.
+	Since &os; provides built-in <acronym>NIS</acronym> support,
+	it only needs to be enabled by adding the following lines to
+	<filename>/etc/rc.conf</filename>:</para>
 
-	<programlisting>nis_client_enable="YES" # run client stuff as well
+      <procedure>
+	<step>
+	  <programlisting>nisdomainname="test-domain"</programlisting>
+
+	  <para>This line sets the <acronym>NIS</acronym> domain name
+	    to <literal>test-domain</literal>.</para>
+	</step>
+
+	<step>
+	  <programlisting>nis_server_enable="YES"</programlisting>
+
+	  <para>This automates the start up of the
+	    <acronym>NIS</acronym> server processes when the system
+	    boots.</para>
+	</step>
+
+	<step>
+	  <programlisting>nis_yppasswdd_enable="YES"</programlisting>
+
+	  <para>This enables the &man.rpc.yppasswdd.8; daemon so that
+	    users can change their <acronym>NIS</acronym> password
+	    from a client machine.</para>
+	</step>
+      </procedure>
+
+      <para>Care must be taken in a multi-server domain where the
+	server machines are also <acronym>NIS</acronym> clients.  It
+	is generally a good idea to force the servers to bind to
+	themselves rather than allowing them to broadcast bind
+	requests and possibly become bound to each other.  Strange
+	failure modes can result if one server goes down and others
+	are dependent upon it.  Eventually, all the clients will time
+	out and attempt to bind to other servers, but the delay
+	involved can be considerable and the failure mode is still
+	present since the servers might bind to each other all over
+	again.</para>
+
+      <para>A server that is also a client can be forced to bind to a
+	particular server by adding these additional lines to
+	<filename>/etc/rc.conf</filename>:</para>
+
+      <programlisting>nis_client_enable="YES" # run client stuff as well
 nis_client_flags="-S <replaceable>NIS domain</replaceable>,<replaceable>server</replaceable>"</programlisting>
 
-	  <para>After saving the edits, type
-	    <command>/etc/netstart</command> to restart the network
-	    and apply the values defined in
-	    <filename>/etc/rc.conf</filename>.  Before initializing
-	    the <acronym>NIS</acronym> maps, start
-	    &man.ypserv.8;:</para>
+      <para>After saving the edits, type
+	<command>/etc/netstart</command> to restart the network and
+	apply the values defined in <filename>/etc/rc.conf</filename>.
+	Before initializing the <acronym>NIS</acronym> maps, start
+	&man.ypserv.8;:</para>
 
-	  <screen>&prompt.root; <userinput>service ypserv start</userinput></screen>
+      <screen>&prompt.root; <userinput>service ypserv start</userinput></screen>
 
-	<sect3>
-	  <title>Initializing the <acronym>NIS</acronym>
-	    Maps</title>
+      <sect3>
+	<title>Initializing the <acronym>NIS</acronym> Maps</title>
 
-	  <indexterm>
-	    <primary>NIS</primary>
-	    <secondary>maps</secondary>
-	  </indexterm>
-	  <para><acronym>NIS</acronym> maps are generated from the
-	    configuration files in <filename>/etc</filename> on the
-	    <acronym>NIS</acronym> master, with one exception:
-	    <filename>/etc/master.passwd</filename>.  This is to
-	    prevent the propagation of passwords to all the servers in
-	    the <acronym>NIS</acronym> domain.  Therefore, before the
-	    <acronym>NIS</acronym> maps are initialized, configure the
-	    primary password files:</para>
+	<indexterm>
+	  <primary>NIS</primary>
+	  <secondary>maps</secondary>
+	</indexterm>
+	<para><acronym>NIS</acronym> maps are generated from the
+	  configuration files in <filename>/etc</filename> on the
+	  <acronym>NIS</acronym> master, with one exception:
+	  <filename>/etc/master.passwd</filename>.  This is to prevent
+	  the propagation of passwords to all the servers in the
+	  <acronym>NIS</acronym> domain.  Therefore, before the
+	  <acronym>NIS</acronym> maps are initialized, configure the
+	  primary password files:</para>
 
-	  <screen>&prompt.root; <userinput>cp /etc/master.passwd /var/yp/master.passwd</userinput>
+	<screen>&prompt.root; <userinput>cp /etc/master.passwd /var/yp/master.passwd</userinput>
 &prompt.root; <userinput>cd /var/yp</userinput>
 &prompt.root; <userinput>vi master.passwd</userinput></screen>
 
-	  <para>It is advisable to remove all entries for system
-	    accounts as well as any user accounts that do not need to
-	    be propagated to the <acronym>NIS</acronym> clients, such
-	    as the <systemitem class="username">root</systemitem> and
-	    any other administrative accounts.</para>
+	<para>It is advisable to remove all entries for system
+	  accounts as well as any user accounts that do not need to be
+	  propagated to the <acronym>NIS</acronym> clients, such as
+	  the <systemitem class="username">root</systemitem> and any
+	  other administrative accounts.</para>
 
-	  <note><para>Ensure that the
-	    <filename>/var/yp/master.passwd</filename> is neither
-	      group or world readable by setting its permissions to
-	      <literal>600</literal>.</para>
-	  </note>
+	<note><para>Ensure that the
+	  <filename>/var/yp/master.passwd</filename> is neither group
+	  or world readable by setting its permissions to
+	  <literal>600</literal>.</para>
+	</note>
 
-	  <para>After completing this task, initialize the
-	    <acronym>NIS</acronym> maps.  &os; includes the
-	    &man.ypinit.8; script to do this.  When generating maps
-	    for the master server, include
-	    <option>-m</option> and specify the <acronym>NIS</acronym>
-	    domain name:</para>
+	<para>After completing this task, initialize the
+	  <acronym>NIS</acronym> maps.  &os; includes the
+	  &man.ypinit.8; script to do this.  When generating maps
+	  for the master server, include <option>-m</option> and
+	  specify the <acronym>NIS</acronym> domain name:</para>
 
-	  <screen>ellington&prompt.root; <userinput>ypinit -m test-domain</userinput>
+	<screen>ellington&prompt.root; <userinput>ypinit -m test-domain</userinput>
 Server Type: MASTER Domain: test-domain
 Creating an YP server will require that you answer a few questions.
 Questions will all be asked at the beginning of the procedure.
@@ -1438,63 +1382,58 @@ Is this correct?  [y/n: y] <userinput>y</userinput>
 NIS Map update completed.
 ellington has been setup as an YP master server without any errors.</screen>
 
-	    <para>This will create
-	      <filename>/var/yp/Makefile</filename> from
-	      <filename>/var/yp/Makefile.dist</filename>.  By
-	      default, this file assumes that the environment has a
-	      single <acronym>NIS</acronym> server with only &os;
-	      clients.  Since <literal>test-domain</literal> has a
-	      slave server, edit this line in
-	      <filename>/var/yp/Makefile</filename> so that it begins
-	      with a  comment (<literal>#</literal>):</para>
+	<para>This will create <filename>/var/yp/Makefile</filename>
+	  from <filename>/var/yp/Makefile.dist</filename>.  By
+	  default, this file assumes that the environment has a
+	  single <acronym>NIS</acronym> server with only &os; clients.
+	  Since <literal>test-domain</literal> has a slave server,
+	  edit this line in <filename>/var/yp/Makefile</filename> so
+	  that it begins with a  comment
+	  (<literal>#</literal>):</para>
 
-	    <programlisting>NOPUSH = "True"</programlisting>
-	  </sect3>
+	<programlisting>NOPUSH = "True"</programlisting>
+      </sect3>
 
-	  <sect3>
-	    <title>Adding New Users</title>
+      <sect3>
+	<title>Adding New Users</title>
 
-	    <para>Every time a new user is created, the user account
-	      must be added to the master <acronym>NIS</acronym>
-	      server and the <acronym>NIS</acronym> maps rebuilt.
-	      Until this occurs, the new user will not be able to
-	      login anywhere except on the <acronym>NIS</acronym>
-	      master.  For example, to add the new user
-	      <systemitem class="username">jsmith</systemitem> to the
-	      <literal>test-domain</literal> domain, run these
-	      commands on the master server:</para>
+	<para>Every time a new user is created, the user account must
+	  be added to the master <acronym>NIS</acronym> server and the
+	  <acronym>NIS</acronym> maps rebuilt.  Until this occurs, the
+	  new user will not be able to login anywhere except on the
+	  <acronym>NIS</acronym> master.  For example, to add the new
+	  user <systemitem class="username">jsmith</systemitem> to the
+	  <literal>test-domain</literal> domain, run these commands on
+	  the master server:</para>
 
-	    <screen>&prompt.root; <userinput>pw useradd jsmith</userinput>
+	<screen>&prompt.root; <userinput>pw useradd jsmith</userinput>
 &prompt.root; <userinput>cd /var/yp</userinput>
 &prompt.root; <userinput>make test-domain</userinput></screen>
 
-	    <para>The user could also be added using <command>adduser
-		jsmith</command> instead of <command>pw useradd
-		jsmith</command>.</para>
-	  </sect3>
-	</sect2>
+	<para>The user could also be added using <command>adduser
+	    jsmith</command> instead of <command>pw useradd
+	    smith</command>.</para>
+      </sect3>
+    </sect2>
 
-	<sect2>
-	  <title>Setting up a <acronym>NIS</acronym> Slave
-	    Server</title>
+    <sect2>
+      <title>Setting up a <acronym>NIS</acronym> Slave Server</title>
 
-	  <indexterm>
-	    <primary>NIS</primary>
-	    <secondary>slave server</secondary>
-	  </indexterm>
-	  <para>To set up an <acronym>NIS</acronym> slave server, log
-	    on to the slave server and edit
-	    <filename>/etc/rc.conf</filename> as for the master
-	    server.  Do not generate any <acronym>NIS</acronym> maps,
-	    as these already exist on the master server.  When running
-	    <command>ypinit</command> on the slave server, use
-	    <option>-s</option> (for slave) instead of
-	    <option>-m</option> (for master).  This option requires
-	    the name of the <acronym>NIS</acronym> master in
-	    addition to the domain name, as  seen in this
-	    example:</para>
+      <indexterm>
+	<primary>NIS</primary>
+	<secondary>slave server</secondary>
+      </indexterm>
+      <para>To set up an <acronym>NIS</acronym> slave server, log on
+	to the slave server and edit <filename>/etc/rc.conf</filename>
+	as for the master server.  Do not generate any
+	<acronym>NIS</acronym> maps, as these already exist on the
+	master server.  When running <command>ypinit</command> on the
+	slave server, use <option>-s</option> (for slave) instead of
+	<option>-m</option> (for master).  This option requires the
+	name of the <acronym>NIS</acronym> master in addition to the
+	domain name, as  seen in this example:</para>
 
-	  <screen>coltrane&prompt.root; <userinput>ypinit -s ellington test-domain</userinput>
+      <screen>coltrane&prompt.root; <userinput>ypinit -s ellington test-domain</userinput>
 
 Server Type: SLAVE Domain: test-domain Master: ellington
 
@@ -1551,114 +1490,108 @@ ypxfr: Exiting: Map successfully transferred
 coltrane has been setup as an YP slave server without any errors.
 Remember to update map ypservers on ellington.</screen>
 
-	<para>This will generate a directory on the slave server
-	  called <filename>/var/yp/test-domain</filename> which
-	  contains copies of the <acronym>NIS</acronym> master
-	  server's maps.  Adding these
-	  <filename>/etc/crontab</filename> entries on each slave
-	  server will force the slaves to sync their maps with the
-	  maps on the master server:</para>
+      <para>This will generate a directory on the slave server called
+	<filename>/var/yp/test-domain</filename> which contains copies
+	of the <acronym>NIS</acronym> master server's maps.  Adding
+	these <filename>/etc/crontab</filename> entries on each slave
+	server will force the slaves to sync their maps with the maps
+	on the master server:</para>
 
-	<programlisting>20      *       *       *       *       root   /usr/libexec/ypxfr passwd.byname
+      <programlisting>20      *       *       *       *       root   /usr/libexec/ypxfr passwd.byname
 21      *       *       *       *       root   /usr/libexec/ypxfr passwd.byuid</programlisting>
 
-	<para>These entries are not
-	  mandatory because the master server automatically attempts
-	  to push any map changes to its slaves.  However, since
-	  clients may depend upon the slave server to provide correct
-	  password information, it is recommended to force frequent
-	  password map updates.  This is especially important on busy
-	  networks where map updates might not always complete.</para>
+      <para>These entries are not mandatory because the master server
+	automatically attempts to push any map changes to its slaves.
+	However, since clients may depend upon the slave server to
+	provide correct password information, it is recommended to
+	force frequent password map updates.  This is especially
+	important on busy networks where map updates might not always
+	complete.</para>
 
-	<para>To finish the configuration, run
-	  <command>/etc/netstart</command> on the slave server in
-	  order to start the <acronym>NIS</acronym>
-	  services.</para>
-      </sect2>
+      <para>To finish the configuration, run
+	<command>/etc/netstart</command> on the slave server in order
+	to start the <acronym>NIS</acronym> services.</para>
+    </sect2>
 
-      <sect2>
-	<title>Setting Up an <acronym>NIS</acronym> Client</title>
+    <sect2>
+      <title>Setting Up an <acronym>NIS</acronym> Client</title>
 
-	<para>An <acronym>NIS</acronym> client binds to an
-	  <acronym>NIS</acronym> server using &man.ypbind.8;.  This
-	  daemon broadcasts RPC requests on the local network.  These
-	  requests specify the domain name configured on the client.
-	  If an <acronym>NIS</acronym> server in the same domain
-	  receives one of the broadcasts, it will respond to
-	  <application>ypbind</application>, which will record the
-	  server's address.  If there are several servers available,
-	  the client will use the address of the first server to
-	  respond and will direct all of its <acronym>NIS</acronym>
-	  requests to that server.  The client will automatically
-	  <application>ping</application> the server on a regular
-	  basis to make sure it is still available.  If it fails to
-	  receive a reply within a reasonable amount of time,
-	  <application>ypbind</application> will mark the domain as
-	  unbound and begin broadcasting again in the hopes of
-	  locating another server.</para>
+      <para>An <acronym>NIS</acronym> client binds to an
+	<acronym>NIS</acronym> server using &man.ypbind.8;.  This
+	daemon broadcasts RPC requests on the local network.  These
+	requests specify the domain name configured on the client.  If
+	an <acronym>NIS</acronym> server in the same domain receives
+	one of the broadcasts, it will respond to
+	<application>ypbind</application>, which will record the
+	server's address.  If there are several servers available,
+	the client will use the address of the first server to respond
+	and will direct all of its <acronym>NIS</acronym> requests to
+	that server.  The client will automatically
+	<application>ping</application> the server on a regular basis
+	to make sure it is still available.  If it fails to receive a
+	reply within a reasonable amount of time,
+	<application>ypbind</application> will mark the domain as
+	unbound and begin broadcasting again in the hopes of locating
+	another server.</para>
 
-	<indexterm><primary>NIS</primary>
-	  <secondary>client configuration</secondary>
-	</indexterm>
+      <indexterm><primary>NIS</primary>
+	<secondary>client configuration</secondary>
+      </indexterm>
 
-	<para>To configure a &os; machine to be an
-	  <acronym>NIS</acronym> client:</para>
+      <para>To configure a &os; machine to be an
+	<acronym>NIS</acronym> client:</para>
 
-	<procedure>
-	  <step>
-	    <para>Edit <filename>/etc/rc.conf</filename> and add the
-	      following lines in order to set the
-	      <acronym>NIS</acronym> domain name and start
-	      &man.ypbind.8; during network startup:</para>
+      <procedure>
+	<step>
+	  <para>Edit <filename>/etc/rc.conf</filename> and add the
+	    following lines in order to set the
+	    <acronym>NIS</acronym> domain name and start
+	    &man.ypbind.8; during network startup:</para>
 
-	    <programlisting>nisdomainname="test-domain"
+	  <programlisting>nisdomainname="test-domain"
 nis_client_enable="YES"</programlisting>
-	    </step>
+	</step>
 
-	    <step>
-	      <para>To import all possible password entries from the
-		<acronym>NIS</acronym> server, use
-		<command>vipw</command> to remove all user accounts
-		except one from
-		<filename>/etc/master.passwd</filename>.  When
-		removing the accounts, keep in mind that at least one
-		local account should remain and this account should be
-		a member of <systemitem
-		  class="groupname">wheel</systemitem>.  If there is
-		a problem with <acronym>NIS</acronym>, this local
-		account can be used to log in remotely, become the
-		superuser, and fix the problem.  Before saving the
-		edits, add the following line to the end of the
-		file:</para>
+	<step>
+	  <para>To import all possible password entries from the
+	    <acronym>NIS</acronym> server, use
+	    <command>vipw</command> to remove all user accounts
+	    except one from <filename>/etc/master.passwd</filename>.
+	    When removing the accounts, keep in mind that at least one
+	    local account should remain and this account should be a
+	    member of <systemitem
+	      class="groupname">wheel</systemitem>.  If there is a
+	    problem with <acronym>NIS</acronym>, this local account
+	    can be used to log in remotely, become the superuser, and
+	    fix the problem.  Before saving the edits, add the
+	    following line to the end of the file:</para>
 
-	      <programlisting>+:::::::::</programlisting>
+	  <programlisting>+:::::::::</programlisting>
 
-	      <para>This line configures the client to provide
-		anyone with a valid account in the
-		<acronym>NIS</acronym> server's password maps an
-		account on the client.  There are many ways to
-		configure the <acronym>NIS</acronym> client by
-		modifying this line.  One method is described in
-		<xref linkend="network-netgroups"/>.  For more
-		detailed reading, refer to the book
-		<literal>Managing NFS and NIS</literal>, published
-		by O'Reilly Media.</para>
-	    </step>
+	  <para>This line configures the client to provide anyone with
+	    a valid account in the <acronym>NIS</acronym> server's
+	    password maps an account on the client.  There are many
+	    ways to configure the <acronym>NIS</acronym> client by
+	    modifying this line.  One method is described in <xref
+	      linkend="network-netgroups"/>.  For more detailed
+	    reading, refer to the book
+	    <literal>Managing NFS and NIS</literal>, published by
+	    O'Reilly Media.</para>
+	</step>
 
-	    <step>
-	      <para>To import all possible group entries from the
-		<acronym>NIS</acronym> server, add this line to
-		<filename>/etc/group</filename>:</para>
+	<step>
+	  <para>To import all possible group entries from the
+	    <acronym>NIS</acronym> server, add this line to
+	    <filename>/etc/group</filename>:</para>
 
-	      <programlisting>+:*::</programlisting>
-	    </step>
-	  </procedure>
+	  <programlisting>+:*::</programlisting>
+	</step>
+      </procedure>
 
-	  <para>To start the <acronym>NIS</acronym> client
-	    immediately, execute the following commands as the
-	    superuser:</para>
+      <para>To start the <acronym>NIS</acronym> client immediately,
+	execute the following commands as the superuser:</para>
 
-	  <screen>&prompt.root; <userinput>/etc/netstart</userinput>
+      <screen>&prompt.root; <userinput>/etc/netstart</userinput>
 &prompt.root; <userinput>service ypbind start</userinput></screen>
 
       <para>After completing these steps, running
@@ -1744,10 +1677,10 @@ nis_client_enable="YES"</programlisting>
 	  logins.</para>
 
 	<para>To prevent specified users from logging on to a system,
-	  even if they are present in the
-	  <acronym>NIS</acronym> database, use <command>vipw</command>
-	  to add <literal>-username</literal> with the correct number
-	  of colons towards the end of
+	  even if they are present in the <acronym>NIS</acronym>
+	  database, use <command>vipw</command> to add
+	  <literal>-<replaceable>username</replaceable></literal> with
+	  the correct number of colons towards the end of
 	  <filename>/etc/master.passwd</filename> on the client,
 	  where <replaceable>username</replaceable> is the username of
 	  a user to bar from logging in.  The line with the blocked
@@ -1965,7 +1898,7 @@ INTERNS (,able,test-domain)     (,baker,test-domain)</programlisting>
       <indexterm><primary>netgroups</primary></indexterm>
       <para>Netgroup names longer than 8 characters should not be
 	The names are case sensitive and using capital letters
-	letters for netgroup names is an easy way to distinguish
+	for netgroup names is an easy way to distinguish
 	between user, machine and netgroup names.</para>
 
       <para>Some non-&os; <acronym>NIS</acronym> clients cannot
@@ -2024,7 +1957,7 @@ ellington&prompt.user; <userinput>ypcat -k netgroup.byuser</userinput></screen>
 	<literal>~</literal> function of the shell and all routines
 	which convert between user names and numerical user IDs.  In
 	other words,
-	<command>cd ~user</command> will
+	<command>cd ~<replaceable>user</replaceable></command> will
 	not work, <command>ls -l</command> will show the numerical ID
 	instead of the username, and <command>find . -user joe
 	  -print</command> will fail with the message
@@ -2044,7 +1977,7 @@ ellington&prompt.user; <userinput>ypcat -k netgroup.byuser</userinput></screen>
 	<literal>+@IT_EMP:::::::::</literal>.  Otherwise, all user
 	accounts imported from <acronym>NIS</acronym> will have
 	<filename>/sbin/nologin</filename> as their login
-	shell and noone will be able to login to the system.</para>
+	shell and no one will be able to login to the system.</para>
 
       <para>To configure the less important servers, replace the old
 	<literal>+:::::::::</literal> on the servers with these
@@ -2195,67 +2128,69 @@ TWO       (,hotel,test-domain)
   </sect1>
 
   <sect1 xml:id="network-ldap">
-    <!--
-    <sect1info>
+    <info>
+    <title>Lightweight Directory Access Protocol
+      (<acronym>LDAP</acronym>)</title>
+
       <authorgroup>
 	<author>
+	<personname>
 	  <firstname>Tom</firstname>
 	  <surname>Rhodes</surname>
+	</personname>
 	  <contrib>Written by </contrib>
 	</author>
       </authorgroup>
-    </sect1info>
-    -->
-    <title>&os; and <acronym>LDAP</acronym></title>
+    </info>
 
     <indexterm><primary>LDAP</primary></indexterm>
 
-    <para><acronym>LDAP</acronym>, the Lightweight Directory Access
-      Protocol, is an application layer protocol used to access,
-      modify, and authenticate (bind) using a distributed directory
-      information service.  Think of it as a phone or record book
-      which stores several levels of hierarchical, homogeneous
-      information.  It is often used in networks where users often
-      need access to several levels of internal information utilizing
-      a single account.  For example, email authentication, pulling
+    <para>The Lightweight Directory Access Protocol
+      (<acronym>LDAP</acronym>) is an application layer protocol used
+      to access, modify, and authenticate objects using a distributed
+      directory information service.  Think of it as a phone or record
+      book which stores several levels of hierarchical, homogeneous
+      information.  It is used in Active Directory and
+      <application>OpenLDAP</application> networks and allows users to
+      access to several levels of internal information utilizing a
+      single account.  For example, email authentication, pulling
       employee contact information, and internal website
-      authentication might all make use of a single user in the
-      <acronym>LDAP</acronym> server's record base.</para>
+      authentication might all make use of a single user account in
+      the <acronym>LDAP</acronym> server's record base.</para>
 
-    <para>This section will not provide a history or the
-      implementation details of the protocol.  These sections were
-      authored to get an <acronym>LDAP</acronym> server and/or client
-      configured both quickly and securely; however, any information
-      base requires planning and this is no exception.</para>
-
-    <para>Planning should include what type of information will be
-      stored, what that information will be used for, whom should
-      have access to said information, and how to secure this
-      information from prying eyes.</para>
+    <para>This section provides a quick start guide for configuring an
+      <acronym>LDAP</acronym> server on a &os; system.  It assumes
+      that the administrator already has a design plan which includes
+      the type of information to store, what that information will be
+      used for, which users should have access to that information,
+      and how to secure this information from unauthorized
+      access.</para>
 
     <sect2>
       <title><acronym>LDAP</acronym> Terminology and Structure</title>
 
-      <para>Before continuing, several parts of
-	<acronym>LDAP</acronym> must be explained to prevent
-	confusion.  And confusion with this configuration is
-	relatively simple.  To begin, all directory entries consist of
-	a group of <emphasis>attributes</emphasis>.  Each of these
-	attribute sets contain a name, a unique identifier known as a
-	<acronym>DN</acronym> or distinguished name normally built
-	from several other attributes such as the
-	<acronym>RDN</acronym>.  The <acronym>RDN</acronym> or
-	relative distinguished name, is a more common name for the
-	attribute.  Like directories have absolute and relative paths,
-	consider a <acronym>DN</acronym> as an absolute path and the
-	<acronym>RDN</acronym> as the relative path.</para>
+      <para><acronym>LDAP</acronym> uses several terms which should be
+	understood before starting the configuration.  All directory
+	entries consist of a group of
+	<firstterm>attributes</firstterm>.  Each of these attribute
+	sets contains a unique identifier known as a
+	<firstterm>Distinguished Name</firstterm>
+	(<acronym>DN</acronym>) which is normally built from several
+	other attributes such as the common or
+	<firstterm>Relative Distinguished Name</firstterm>
+	(<acronym>RDN</acronym>).  Similar to how directories have
+	absolute and relative paths, consider a <acronym>DN</acronym>
+	as an absolute path and the <acronym>RDN</acronym> as the
+	relative path.</para>
 
-      <para>As an example, an entry might look like the
-	following:</para>
+      <para>An example <acronym>LDAP</acronym> entry looks like the
+	following.  This example searches for the entry for the
+	specified user account (<literal>uid</literal>),
+	organizational unit (<literal>ou</literal>), and organization
+	(<literal>o</literal>):</para>
 
-      <screen>&prompt.user; ldapsearch -xb "uid=trhodes,ou=users,o=example.com"</screen>
-
-      <programlisting># extended LDIF
+      <screen>&prompt.user; <userinput>ldapsearch -xb "uid=<replaceable>trhodes</replaceable>,ou=<replaceable>users</replaceable>,o=<replaceable>example.com</replaceable>"</userinput>
+# extended LDIF
 #
 # LDAPv3
 # base &lt;uid=trhodes,ou=users,o=example.com&gt; with scope subtree
@@ -2268,166 +2203,153 @@ dn: uid=trhodes,ou=users,o=example.com
 mail: trhodes@example.com
 cn: Tom Rhodes
 uid: trhodes
-telephoneNumber: (xxx) xxx-xxxx
+telephoneNumber: (123) 456-7890
 
 # search result
 search: 2
 result: 0 Success
 
 # numResponses: 2
-# numEntries: 1</programlisting>
+# numEntries: 1</screen>
 
-      <para>In this example, it is very obvious what the various
-	attributes are; however, the <acronym>cn</acronym> attribute
-	should be noticed.  This is the <acronym>RDN</acronym>
-	discussed previously.  In addition, there is a unique user id
-	provided here.  It is common practice to have specific uid or
-	uuids for entries to ease in any future migration.</para>
+      <para>This example entry shows the values for the
+	<literal>dn</literal>, <literal>mail</literal>,
+	<literal>cn</literal>, <literal>uid</literal>, and
+	<literal>telephoneNumber</literal> attributes.  The
+	<acronym>cn</acronym> attribute is the
+	<acronym>RDN</acronym>.</para>
+
+      <para>More information about <acronym>LDAP</acronym> and its
+	terminology can be found at <uri
+	  xlink:href="http://www.openldap.org/doc/admin24/intro.html">http://www.openldap.org/doc/admin24/intro.html</uri>.</para>
     </sect2>
 
-    <sect2>
+    <sect2 xml:id="ldap-config">
       <title>Configuring an <acronym>LDAP</acronym> Server</title>
 
       <indexterm><primary>LDAP Server</primary></indexterm>
 
-      <para>To configure &os; to act as an <acronym>LDAP</acronym>
-	server, the OpenLDAP port needs installed.  This may be
-	accomplished using the <command>pkg_add</command> command
-	or by installing the
-	<package role="port">net/openldap24-server</package>
-	port.  Building the port is recommended as the administrator
-	may select a great deal of options at this time and disable
-	some options.  In most cases, the defaults will be fine;
-	however, this is the time to enable SQL support if
-	needed.</para>
+      <para>&os; does not provide a built-in <acronym>LDAP</acronym>
+	server.  Begin the configuration by installing the <package
+	  role="port">net/openldap24-server</package> package or port.
+	Since the port has many configurable options, it is
+	recommended that the default options are reviewed to see if
+	the package is sufficient, and to instead compile the port if
+	any options should be changed.  In most cases, the defaults
+	are fine.  However, if SQL support is needed, this option must
+	be enabled and the port compiled using the instructions in
+	<xref linkend="ports-using"/>.</para>
 
-      <para>A few directories will be required from this point on,
-	at minimal, a data directory and a directory to store the
-	certificates in.  Create them both with the following
-	commands:</para>
+      <para>Next, create the directories to hold the data and to store
+	the certificates:</para>
 
-      <screen>&prompt.root; <userinput>mkdir /var/db/openldap-data</userinput></screen>
-
-      <screen>&prompt.root; <userinput>mkdir /usr/local/etc/openldap/private</userinput></screen>
+      <screen>&prompt.root; <userinput>mkdir /var/db/openldap-data</userinput>
+&prompt.root; <userinput>mkdir /usr/local/etc/openldap/private</userinput></screen>
 
       <para>Copy over the database configuration file:</para>
 
       <screen>&prompt.root; <userinput>cp /usr/local/etc/openldap/DB_CONFIG.example /var/db/openldap-data/DB_CONFIG</userinput></screen>
 
-      <para>The next phase is to configure the <acronym>SSL</acronym>
-	certificates.  While creating certificates is discussed in
-	the <link linkend="openssl">OpenSSL</link> section in this
-	book, a certificate authority is needed so a different method
-	will be used.  It is recommended that this section be reviewed
-	prior to configuring to ensure correct information is entered
-	during the certificate creation process below.</para>
+      <para>The next phase is to configure the certificate authority.
+	The following commands must be executed from
+	<filename>/usr/local/etc/openldap/private</filename>.  This is
+	important as the file permissions need to be restrictive and
+	users should not have access to these files.  To create the
+	certificate authority, start with this command and follow the
+	prompts:</para>
 
-      <para>The following commands must be executed in the
-	<filename>/usr/local/etc/openldap/private</filename>
-	directory.  This is important as the file permissions will
-	need to be restrictive and users should not have access to
-	these files directly.  To create the certificates, issues the
-	following commands.</para>
+      <screen>&prompt.root; <userinput>openssl req -days <replaceable>365</replaceable> -nodes -new -x509 -keyout ca.key -out ../ca.crt</userinput></screen>
 
-      <screen>&prompt.root; <userinput>openssl req -days 365 -nodes -new -x509 -keyout ca.key -out ../ca.crt</userinput></screen>
-
-      <para>The entries for these may be completely generic
+      <para>The entries for the prompts may be generic
 	<emphasis>except</emphasis> for the
-	<emphasis>Common Name</emphasis> entry.  This entry must have
-	something different than the system hostname.  If the entry
-	is the hostname, it would be like the hostname is attempting
-	to verify hostname.  In cases with a self signed certificate
-	like this example, just prefix the hostname with
-	<acronym>CA</acronym> for certificate authority.</para>
+	<literal>Common Name</literal>.  This entry must be
+	<emphasis>different</emphasis> than the system hostname.  If
+	this will be a self signed certificate, prefix the hostname
+	with <literal>CA</literal> for certificate authority.</para>
 
       <para>The next task is to create a certificate signing request
-	and a private key.  To do this, issue the following
-	commands:</para>
+	and a private key.  Input this command and follow the
+	prompts:</para>
 
-      <screen>&prompt.root; <userinput>openssl req -days 365 -nodes -new -keyout server.key -out server.csr</userinput></screen>
+      <screen>&prompt.root; <userinput>openssl req -days <replaceable>365</replaceable> -nodes -new -keyout server.key -out server.csr</userinput></screen>
 
       <para>During the certificate generation process, be sure to
-	correctly set the common name attribute.  After this has
-	been completed, the key will need signed:</para>
+	correctly set the <literal>Common Name</literal> attribute.
+	Once complete, sign the key:</para>
 
-      <screen>&prompt.root; <userinput>openssl x509 -req -days 365 -in server.csr -out ../server.crt -CA ../ca.crt -CAkey ca.key -CAcreateserial</userinput></screen>
+      <screen>&prompt.root; <userinput>openssl x509 -req -days <replaceable>365</replaceable> -in server.csr -out ../server.crt -CA ../ca.crt -CAkey ca.key -CAcreateserial</userinput></screen>
 
-      <para>The final part of the certificate generation process
-	is to generate and sign the client certificates:</para>
+      <para>The final part of the certificate generation process is to
+	generate and sign the client certificates:</para>
 
-      <screen>&prompt.root; <userinput>openssl req -days 365 -nodes -new -keyout client.key -out client.csr</userinput></screen>
+      <screen>&prompt.root; <userinput>openssl req -days <replaceable>365</replaceable> -nodes -new -keyout client.key -out client.csr</userinput>
+&prompt.root; <userinput>openssl x509 -req -days 3650 -in client.csr -out ../client.crt -CA ../ca.crt -CAkey ca.key</userinput></screen>
 
-      <screen>&prompt.root; <userinput>openssl x509 -req -days 3650 -in client.csr -out ../client.crt -CA ../ca.crt -CAkey ca.key</userinput></screen>
-
-      <para>Remember, again, to respect the common name attribute.
-	This is a common cause for confusion during the first attempt
-	to configure <acronym>LDAP</acronym>.  In addition, ensure
-	that a total of eight (8) new files have been generated
-	through the proceeding commands.  If so, the next step is to
-	edit <filename>/usr/local/etc/openldap/slapd.conf</filename>
-	and add the following options:</para>
+      <para>Remember to use the same <literal>Common Name</literal>
+	attribute when prompted.  When finished, ensure that a total
+	of eight (8) new files have been generated through the
+	proceeding commands.  If so, the next step is to edit
+	<filename>/usr/local/etc/openldap/slapd.conf</filename> and
+	add the following options:</para>
 
       <programlisting>TLSCipherSuite HIGH:MEDIUM:+SSLv3
 TLSCertificateFile /usr/local/etc/openldap/server.crt
 TLSCertificateKeyFile /usr/local/etc/openldap/private/server.key
 TLSCACertificateFile /usr/local/etc/openldap/ca.crt</programlisting>
 
-      <para>In addition, edit
-	<filename>/usr/local/etc/openldap/ldap.conf</filename> and
-	add the following lines:</para>
+      <para>Then, edit
+	<filename>/usr/local/etc/openldap/ldap.conf</filename> and add
+	the following lines:</para>
 
       <programlisting>TLS_CACERT /usr/local/etc/openldap/ca.crt
 TLS_CIPHER_SUITE HIGH:MEDIUM:+SSLv3</programlisting>
 
-      <para>While editing these this file, set the
-	<option>BASE</option> to the desired values, and uncomment all
-	three of the <option>URI</option>, <option>SIZELIMIT</option>
-	and <option>TIMELIMIT</option> options.  In addition, set the
-	<option>URI</option> to contain <option>ldap://</option> and
-	<option>ldaps://</option>.</para>
-
-      <para>The resulting file should look similar to the following
-	shown here:</para>
+      <para>While editing this file, uncomment the following entries
+	and set them to the desired values: <option>BASE</option>,
+	<option>URI</option>, <option>SIZELIMIT</option> and
+	<option>TIMELIMIT</option>.  Set the <option>URI</option> to
+	contain <option>ldap://</option> and
+	<option>ldaps://</option>.  Then, add two entries pointing to
+	the certificate authority.  When finished, the entries should
+	look similar to the following:</para>
 
       <programlisting>BASE    dc=example,dc=com
 URI     ldap:// ldaps://
 
 SIZELIMIT       12
 TIMELIMIT       15
-#DEREF          never
 
 TLS_CACERT /usr/local/etc/openldap/ca.crt
 TLS_CIPHER_SUITE HIGH:MEDIUM:+SSLv3</programlisting>
 
-      <para>A password for the server will need to be created as the
-	default is extremely poor as is normal in this industry.  To
-	do this, issue the following command, sending the output to
-	<filename>slapd.conf</filename>:</para>
+      <para>The default password for the server should then be
+	changed:</para>
 
       <screen>&prompt.root; <userinput>slappasswd -h "{SHA}" &gt;&gt; /usr/local/etc/openldap/slapd.conf</userinput></screen>
 
-      <para>There will be a prompt for entering the password and,
-	if the process does not fail, a password hash will be added
-	to the end of <filename>slapd.conf</filename>.
-	<command>slappasswd</command> understands several hashing
-	formats, refer to its manual page for more information.</para>
+      <para>This command will prompt for the password and, if the
+	process does not fail, a password hash will be added to the
+	end of <filename>slapd.conf</filename>.  Several hashing
+	formats are supported.  Refer to the manual page for
+	<command>slappasswd</command> for more information.</para>
 
-      <para>Edit
+      <para>Next, edit
 	<filename>/usr/local/etc/openldap/slapd.conf</filename> and
 	add the following lines:</para>
 
       <programlisting>password-hash {sha}
 allow bind_v2</programlisting>
 
-      <para>In addition, the <option>suffix</option> in this file must
-	be updated to match the <option>BASE</option> from the
-	previous configuration.  The <option>rootdn</option> option
-	should also be set.  A good recommendation is something like
+      <para>The <option>suffix</option> in this file must be updated
+	to match the <option>BASE</option> used in
+	<filename>/usr/local/etc/openldap/ldap.conf</filename> and
+	<option>rootdn</option> should also be set.  A recommended
+	value for <option>rootdn</option> is something like
 	<option>cn=Manager</option>.  Before saving this file, place
-	the <option>rootpw</option> option in front of the password
-	output from the <command>slappasswd</command> and delete the
-	old <option>rootpw</option> option above.  The end result
-	should look similar to this:</para>
+	the <option>rootpw</option> in front of the password output
+	from <command>slappasswd</command> and delete the old
+	<option>rootpw</option>.  The end result should
+	look similar to this:</para>
 
       <programlisting>TLSCipherSuite HIGH:MEDIUM:+SSLv3
 TLSCertificateFile /usr/local/etc/openldap/server.crt
@@ -2436,28 +2358,22 @@ TLSCACertificateFile /usr/local/etc/openldap/ca.crt
 rootpw  {SHA}W6ph5Mm5Pz8GgiULbPgzG37mj9g=</programlisting>
 
       <para>Finally, enable the <application>OpenLDAP</application>
-	service in <filename>rc.conf</filename>.  At this time,
-	setting up a <acronym>URI</acronym> and providing the group
-	and user to run as may be useful.  Edit
-	<filename>/etc/rc.conf</filename> and add the following
-	lines:</para>
+	service in <filename>/etc/rc.conf</filename> and set the
+	<acronym>URI</acronym>:</para>
 
       <programlisting>slapd_enable="YES"
 slapd_flags="-4 -h ldaps:///"</programlisting>
 
-      <para>At this point the server should be ready to be brought
-	up and tested.  To perform this task, issue the following
-	command:</para>
+      <para>At this point the server can be started and tested:</para>
 
       <screen>&prompt.root; <userinput>service slapd start</userinput></screen>
 
-      <para>If everything was configured correctly, a search of the
+      <para>If everything is configured correctly, a search of the
 	directory should show a successful connection with a single
 	response as in this example:</para>
 
-      <screen>&prompt.root; <userinput>ldapsearch -Z</userinput></screen>
-
-      <programlisting># extended LDIF
+      <screen>&prompt.root; <userinput>ldapsearch -Z</userinput>
+# extended LDIF
 #
 # LDAPv3
 # base &lt;dc=example,dc=com&gt; (default) with scope subtree
@@ -2469,55 +2385,47 @@ slapd_flags="-4 -h ldaps:///"</programlisting>
 search: 3
 result: 32 No such object
 
-# numResponses: 1</programlisting>
-
-      <para>Considering the service should now be responding, as it
-	is above, the directory may be populated using the
-	<command>ldapadd</command> command.  In this example, there
-	is a file containing a list of users to be added to this
-	particular directory.  First, create a file to be imported
-	with the following dataset:</para>
-
-      <programlisting>dn: dc=example,dc=com
-objectclass: dcObject
-objectclass: organization
-o: Example
-dc: Example
-
-dn: cn=Manager,dc=example,dc=com
-objectclass: organizationalRole
-cn: Manager</programlisting>
+# numResponses: 1</screen>
 
       <note>
-	<para>To debug any of the following, stop the
-	  <command>slapd</command> service using the
-	  <command>service</command> command and start it using with
-	  debugging options.  To accomplish this, issue the following
-	  command:</para>
+	<para>If the command fails and the configuration looks
+	  correct, stop the <command>slapd</command> service and
+	  restart it with debugging options:</para>
 
-	<screen>&prompt.root; <userinput>/usr/local/libexec/slapd -d -1</userinput></screen>
+	<screen>&prompt.root; <userinput>service slapd stop</userinput>
+&prompt.root; <userinput>/usr/local/libexec/slapd -d -1</userinput></screen>
       </note>
 
-      <para>To import this datafile, issue the following command,
-	assuming the file is <filename>import.ldif</filename>:</para>
+      <para>Once the service is responding, the directory can be
+	populated using <command>ldapadd</command>.  In this example,
+	a file containing this list of users is first created.  Each
+	user should use the following format:</para>
 
-      <screen>&prompt.root; <userinput>ldapadd -Z -D "cn=Manager,dc=example,dc=com" -W -f import.ldif</userinput></screen>
+      <programlisting>dn: dc=<replaceable>example</replaceable>,dc=<replaceable>com</replaceable>
+objectclass: dcObject
+objectclass: organization
+o: <replaceable>Example</replaceable>
+dc: <replaceable>Example</replaceable>
 
-      <para>There will be a request for the password specified
-	earlier, and the output should look like this:</para>
+dn: cn=<replaceable>Manager</replaceable>,dc=<replaceable>example</replaceable>,dc=<replaceable>com</replaceable>
+objectclass: organizationalRole
+cn: <replaceable>Manager</replaceable></programlisting>
 
-      <screen>Enter LDAP Password:
+      <para>To import this file, specify the file name.  The following
+	command will prompt for the password specified earlier and the
+	output should look something like this:</para>
+
+      <screen>&prompt.root; <userinput>ldapadd -Z -D "cn=<replaceable>Manager</replaceable>,dc=<replaceable>example</replaceable>,dc=<replaceable>com</replaceable>" -W -f <replaceable>import.ldif</replaceable></userinput>
+Enter LDAP Password:
 adding new entry "dc=example,dc=com"
 
 adding new entry "cn=Manager,dc=example,dc=com"</screen>
 
       <para>Verify the data was added by issuing a search on the
-	server using <command>ldapsearch</command>.  In this case
-	the output should look like this:</para>
+	server using <command>ldapsearch</command>:</para>
 
-      <screen>&prompt.user; <userinput>ldapsearch -Z</userinput></screen>
-
-      <screen># extended LDIF
+      <screen>&prompt.user; <userinput>ldapsearch -Z</userinput>
+# extended LDIF
 #
 # LDAPv3
 # base &lt;dc=example,dc=com&gt; (default) with scope subtree
@@ -2544,10 +2452,8 @@ result: 0 Success
 # numResponses: 3
 # numEntries: 2</screen>
 
-      <para>It is of course advisable to read about the structure of
-	<acronym>LDAP</acronym> directories and the various manual
-	pages mentioned in this section.  At this point, the server
-	should be configured and functioning properly.</para>
+      <para>At this point, the server should be configured and
+	functioning properly.</para>
     </sect2>
   </sect1>
 
@@ -2707,7 +2613,7 @@ result: 0 Success
 	</listitem>
 
 	<listitem>
-	  <para><filename>/var/db/dhclient.leases.interface</filename></para>
+	  <para><filename>/var/db/dhclient.leases.<replaceable>interface</replaceable></filename></para>
 
 	  <para>The <acronym>DHCP</acronym> client keeps a database of
 	    valid leases in this file, which is written as a log and
@@ -2772,158 +2678,151 @@ host fantasia {
   fixed-address fantasia.fugue.com;<co xml:id="fixed-address"/>
 }</programlisting>
 
-	<calloutlist>
-	  <callout arearefs="domain-name">
-	    <para>This option specifies the default search domain that
-	      will be provided to clients.  Refer to
-	      &man.resolv.conf.5; for more information.</para>
-	  </callout>
+      <calloutlist>
+	<callout arearefs="domain-name">
+	  <para>This option specifies the default search domain that
+	    will be provided to clients.  Refer to
+	    &man.resolv.conf.5; for more information.</para>
+	</callout>
 
-	  <callout arearefs="domain-name-servers">
-	    <para>This option specifies a comma separated list of
-	      <acronym>DNS</acronym> servers that the client should
-	      use.  They can be listed by their Fully Qualified Domain
-	      Names (<acronym>FQDN</acronym>), as seen in the example,
-	      or by their <acronym>IP</acronym> addresses.</para>
-	  </callout>
+	<callout arearefs="domain-name-servers">
+	  <para>This option specifies a comma separated list of
+	    <acronym>DNS</acronym> servers that the client should use.
+	    They can be listed by their Fully Qualified Domain Names
+	    (<acronym>FQDN</acronym>), as seen in the example, or by
+	    their <acronym>IP</acronym> addresses.</para>
+	</callout>
 
-	  <callout arearefs="subnet-mask">
-	    <para>The subnet mask that will be provided to
-	      clients.</para>
-	  </callout>
+	<callout arearefs="subnet-mask">
+	  <para>The subnet mask that will be provided to
+	    clients.</para>
+	</callout>
 
-	  <callout arearefs="default-lease-time">
-	    <para>The default lease expiry time in seconds.  A client
-	      can be configured to override this value.  </para>
-	  </callout>
+	<callout arearefs="default-lease-time">
+	  <para>The default lease expiry time in seconds.  A client
+	    can be configured to override this value.  </para>
+	</callout>
 
-	  <callout arearefs="max-lease-time">
-	    <para>The maximum allowed length of time, in seconds, for
-	      a lease.  Should a client request a longer lease, a
-	      lease will still be issued, but it will only be valid
-	      for <literal>max-lease-time</literal>.</para>
-	  </callout>
+	<callout arearefs="max-lease-time">
+	  <para>The maximum allowed length of time, in seconds, for a
+	    lease.  Should a client request a longer lease, a lease
+	    will still be issued, but it will only be valid for
+	    <literal>max-lease-time</literal>.</para>
+	</callout>
 
-	  <callout arearefs="ddns-update-style">
-	    <para>The default of <option>none</option> disables
-	      dynamic DNS updates.  Changing this to
-	      <option>interim</option> configures the
-	      <acronym>DHCP</acronym> server to update a
-	      <acronym>DNS</acronym> server whenever it hands out a
-	      lease so that the <acronym>DNS</acronym> server knows
-	      which <acronym>IP</acronym> addresses are associated
-	      with which computers in the network.  Do not change the
-	      default setting unless the <acronym>DNS</acronym> server
-	      has  been configured to support dynamic
-	      <acronym>DNS</acronym>.</para>
-	  </callout>
+	<callout arearefs="ddns-update-style">
+	  <para>The default of <option>none</option> disables dynamic
+	    DNS updates.  Changing this to <option>interim</option>
+	    configures the <acronym>DHCP</acronym> server to update a
+	    <acronym>DNS</acronym> server whenever it hands out a
+	    lease so that the <acronym>DNS</acronym> server knows
+	    which <acronym>IP</acronym> addresses are associated with
+	    which computers in the network.  Do not change the default
+	    setting unless the <acronym>DNS</acronym> server has  been
+	    configured to support dynamic
+	    <acronym>DNS</acronym>.</para>
+	</callout>
 
-	  <callout arearefs="range">
-	    <para>This line creates a pool of available
-	      <acronym>IP</acronym> addresses which are reserved for
-	      allocation to <acronym>DHCP</acronym> clients.  The
-	      range of addresses must be valid for the network or
-	      subnet specified in the previous line.</para>
-	  </callout>
+	<callout arearefs="range">
+	  <para>This line creates a pool of available
+	    <acronym>IP</acronym> addresses which are reserved for
+	    allocation to <acronym>DHCP</acronym> clients.  The range
+	    of addresses must be valid for the network or subnet
+	    specified in the previous line.</para>
+	</callout>
 
-	  <callout arearefs="routers">
-	    <para>Declares the default gateway that is valid for the
-	      network or subnet specified before the opening
-	      <literal>{</literal> bracket.</para>
-	  </callout>
+	<callout arearefs="routers">
+	  <para>Declares the default gateway that is valid for the
+	    network or subnet specified before the opening
+	    <literal>{</literal> bracket.</para>
+	</callout>
 
-	  <callout arearefs="hardware">
-	    <para>Specifies the hardware <acronym>MAC</acronym>
-	      address of a client so that the
-	      <acronym>DHCP</acronym> server can recognize the client
-	      when it makes a request.</para>
-	  </callout>
+	<callout arearefs="hardware">
+	  <para>Specifies the hardware <acronym>MAC</acronym> address
+	    of a client so that the <acronym>DHCP</acronym> server can
+	    recognize the client when it makes a request.</para>
+	</callout>
 
-	  <callout arearefs="fixed-address">
-	    <para>Specifies that this host should always be given the
-	      same <acronym>IP</acronym> address.  Using the hostname
-	      is correct, since the <acronym>DHCP</acronym> server
-	      will resolve the hostname before returning the lease
-	      information.</para>
-	  </callout>
-	</calloutlist>
+	<callout arearefs="fixed-address">
+	  <para>Specifies that this host should always be given the
+	    same <acronym>IP</acronym> address.  Using the hostname is
+	    correct, since the <acronym>DHCP</acronym> server will
+	    resolve the hostname before returning the lease
+	    information.</para>
+	</callout>
+      </calloutlist>
 
-	<para>This configuration file supports many more options.
-	  Refer  to dhcpd.conf(5), installed with the server, for
-	  details and examples.</para>
+      <para>This configuration file supports many more options.  Refer
+	to dhcpd.conf(5), installed with the server, for details and
+	examples.</para>
 
-	<para>Once the configuration of
-	  <filename>dhcpd.conf</filename> is complete, enable the
-	  <acronym>DHCP</acronym> server in
-	  <filename>/etc/rc.conf</filename>:</para>
+      <para>Once the configuration of <filename>dhcpd.conf</filename>
+	is complete, enable the <acronym>DHCP</acronym> server in
+	<filename>/etc/rc.conf</filename>:</para>
 
-	<programlisting>dhcpd_enable="YES"
+      <programlisting>dhcpd_enable="YES"
 dhcpd_ifaces="dc0"</programlisting>
 
-	<para>Replace the <literal>dc0</literal> with
-	  the interface (or interfaces, separated by whitespace)
-	  that the <acronym>DHCP</acronym> server should listen on for
-	  <acronym>DHCP</acronym> client requests.</para>
+      <para>Replace the <literal>dc0</literal> with the interface (or
+	interfaces, separated by whitespace) that the
+	<acronym>DHCP</acronym> server should listen on for
+	<acronym>DHCP</acronym> client requests.</para>
 
-	<para>Start the server by issuing
-	  the following command:</para>
+      <para>Start the server by issuing the following command:</para>
 
-	<screen>&prompt.root; <userinput>service isc-dhcpd start</userinput></screen>
+      <screen>&prompt.root; <userinput>service isc-dhcpd start</userinput></screen>
 
-	<para>Any future changes to the configuration of the server
-	  will require the <application>dhcpd</application> service to
-	  be stopped and then started using &man.service.8;.</para>
+      <para>Any future changes to the configuration of the server will
+	require the <application>dhcpd</application> service to be
+	stopped and then started using &man.service.8;.</para>
 
-	<para>The <acronym>DHCP</acronym> server uses the following
-	  files.  Note that the manual pages are installed with the
-	  server software.</para>
+      <para>The <acronym>DHCP</acronym> server uses the following
+	files.  Note that the manual pages are installed with the
+	server software.</para>
 
-	<indexterm>
-	  <primary><acronym>DHCP</acronym></primary>
-	  <secondary>configuration files</secondary>
-	</indexterm>
-	<itemizedlist>
-	  <listitem>
-	    <para><filename>/usr/local/sbin/dhcpd</filename></para>
+      <indexterm>
+	<primary><acronym>DHCP</acronym></primary>
+	<secondary>configuration files</secondary>
+      </indexterm>
+      <itemizedlist>
+	<listitem>
+	  <para><filename>/usr/local/sbin/dhcpd</filename></para>
 
-	    <para>More
-	      information about the
-	      <application>dhcpd</application> server can be found in
-	      dhcpd(8).</para>
-	  </listitem>
+	  <para>More information about the
+	    <application>dhcpd</application> server can be found in
+	    dhcpd(8).</para>
+	</listitem>
 
-	  <listitem>
-	    <para><filename>/usr/local/etc/dhcpd.conf</filename></para>
+	<listitem>
+	  <para><filename>/usr/local/etc/dhcpd.conf</filename></para>
 
-	    <para>The server configuration file needs to contain all
-	      the information that should be provided to clients,
-	      along with information regarding the operation of the
-	      server.  This configuration file is described in
-	      dhcpd.conf(5).</para>
-	  </listitem>
+	  <para>The server configuration file needs to contain all the
+	    information that should be provided to clients, along with
+	    information regarding the operation of the server.  This
+	    configuration file is described in dhcpd.conf(5).</para>
+	</listitem>
 
-	  <listitem>
-	    <para><filename>/var/db/dhcpd.leases</filename></para>
+	<listitem>
+	  <para><filename>/var/db/dhcpd.leases</filename></para>
 
-	    <para>The <acronym>DHCP</acronym> server keeps a database
-	      of leases it has issued in this file, which is written
-	      as a log.  Refer to dhcpd.leases(5), which gives a
-	      slightly longer description.</para>
-	  </listitem>
+	  <para>The <acronym>DHCP</acronym> server keeps a database of
+	    leases it has issued in this file, which is written as a
+	    log.  Refer to dhcpd.leases(5), which gives a slightly
+	    longer description.</para>
+	</listitem>
 
-	  <listitem>
-	    <para><filename>/usr/local/sbin/dhcrelay</filename></para>
+	<listitem>
+	  <para><filename>/usr/local/sbin/dhcrelay</filename></para>
 
-	    <para>This daemon is used in advanced environments where
-	      one <acronym>DHCP</acronym> server forwards a request
-	      from a client to another <acronym>DHCP</acronym> server
-	      on a separate network.  If this functionality is
-	      required, install the
-	      <package>net/isc-dhcp42-relay</package> package or port.
-	      The installation includes dhcrelay(8) which provides
-	      more detail.</para>
-	  </listitem>
-	</itemizedlist>
+	  <para>This daemon is used in advanced environments where one
+	    <acronym>DHCP</acronym> server forwards a request from a
+	    client to another <acronym>DHCP</acronym> server on a
+	    separate network.  If this functionality is required,
+	    install the <package>net/isc-dhcp42-relay</package>
+	    package or port.  The installation includes dhcrelay(8)
+	    which provides more detail.</para>
+	</listitem>
+      </itemizedlist>
     </sect2>
   </sect1>
 
@@ -2951,32 +2850,41 @@ dhcpd_ifaces="dc0"</programlisting>
     -->
     <title>Domain Name System (<acronym>DNS</acronym>)</title>
 
-    <indexterm><primary>BIND</primary></indexterm>
+    <indexterm><primary>DNS</primary></indexterm>
 
     <para>Domain Name System (<acronym>DNS</acronym>) is the protocol
       through which domain names are mapped to <acronym>IP</acronym>
-      addresses, and vice versa.  By default, &os; installs the
-      Berkeley Internet Name Domain (<acronym>BIND</acronym>), which
-      is the most common implementation of the <acronym>DNS</acronym>
-      protocol.  The &os; version provides enhanced security features,
-      a new file system layout, and automated &man.chroot.8;
-      configuration.  BIND is maintained by the <link
-	xlink:href="https://www.isc.org/">isc.org</link>.  It is not
-      necessary to run a name server to perform <acronym>DNS</acronym>
-      lookups on a system.</para>
+      addresses, and vice versa.  <acronym>DNS</acronym> is
+      coordinated across the Internet through a somewhat complex
+      system of authoritative root, Top Level Domain
+      (<acronym>TLD</acronym>), and other smaller-scale name servers,
+      which host and cache individual domain information.  It is not
+      necessary to run a name server to perform
+      <acronym>DNS</acronym> lookups on a system.</para>
 
-    <indexterm><primary>DNS</primary></indexterm>
-    <para><acronym>DNS</acronym> is coordinated across the Internet
-      through a somewhat complex system of authoritative root, Top
-      Level Domain (<acronym>TLD</acronym>), and other smaller-scale
-      name servers, which host and cache individual domain
-      information.  Table 28.4 describes some of the terms associated
-      with <acronym>DNS</acronym>:</para>
+    <indexterm><primary>BIND</primary></indexterm>
+
+    <para>In &os; 10, the Berkeley Internet Name Domain
+      (<acronym>BIND</acronym>) has been removed from the base system
+      and replaced with Unbound.  Unbound as configured in the &os;
+      Base is a local caching resolver.  <acronym>BIND</acronym> is
+      still available from The Ports Collection as <package
+      role="port">dns/bind99</package> or <package
+      role="port">dns/bind98</package>.  In &os; 9 and lower,
+      <acronym>BIND</acronym> is included in &os; Base.  The &os;
+      version provides enhanced security features, a new file system
+      layout, and automated &man.chroot.8; configuration.
+      <acronym>BIND</acronym> is maintained by the <link
+	xlink:href="https://www.isc.org/">Internet Systems
+	Consortium</link>.</para>
 
     <indexterm><primary>resolver</primary></indexterm>
     <indexterm><primary>reverse
       <acronym>DNS</acronym></primary></indexterm>
     <indexterm><primary>root zone</primary></indexterm>
+
+    <para>The following table describes some of the terms associated
+      with <acronym>DNS</acronym>:</para>
 
     <table frame="none" pgwide="1">
       <title><acronym>DNS</acronym> Terminology</title>
@@ -3061,8 +2969,8 @@ dhcpd_ifaces="dc0"</programlisting>
 
       <listitem>
 	<para><systemitem
-	    class="fqdomainname">example.org.</systemitem> is a
-	  zone under the <systemitem>org.</systemitem>
+	    class="fqdomainname">example.org.</systemitem> is a zone
+	  under the <systemitem>org.</systemitem>
 	  <acronym>TLD</acronym>.</para>
       </listitem>
 
@@ -3140,7 +3048,82 @@ dhcpd_ifaces="dc0"</programlisting>
     </sect2>
 
     <sect2>
-      <title>How It Works</title>
+      <title><acronym>DNS</acronym> Server Configuration in &os; 10.0
+	and Later</title>
+
+      <para>In &os; 10.0, <application>BIND</application> has been
+	replaced with <application>Unbound</application>.
+	<application>Unbound</application> is a validating caching
+	resolver only.  If an authoritative server is needed, many are
+	available from the Ports Collection.</para>
+
+      <para><application>Unbound</application> is provided in the &os;
+	base system.  By default, it will provide
+	<acronym>DNS</acronym> resolution to the local machine only.
+	While the base system package can be configured to provide
+	resolution services beyond the local machine, it is
+	recommended that such requirements be addressed by installing
+	<application>Unbound</application> from the &os; Ports
+	Collection.</para>
+
+      <para>To enable <application>Unbound</application>, add the
+	following to <filename>/etc/rc.conf</filename>:</para>
+
+      <programlisting>local_unbound_enable="YES"</programlisting>
+
+      <para>Any existing nameservers in
+	<filename>/etc/resolv.conf</filename> will be configured as
+	forwarders in the new <application>Unbound</application>
+	configuration.</para>
+
+      <note>
+	<para>If any of the listed nameservers do not support
+	  <acronym>DNSSEC</acronym>, local <acronym>DNS</acronym>
+	  resolution will fail.  Be sure to test each nameserver and
+	  remove any that fail the test.  The following command will
+	  show the trust tree or a failure for a nameserver running on
+	  <systemitem
+	    class="ipaddress">192.168.1.1</systemitem>:</para>
+      </note>
+
+      <screen>&prompt.user; <userinput>drill -S FreeBSD.org @<replaceable>192.168.1.1</replaceable></userinput></screen>
+
+      <para>Once each nameserver is confirmed to support
+	<acronym>DNSSEC</acronym>, start
+	<application>Unbound</application>:</para>
+
+      <screen>&prompt.root; <userinput>service local_unbound onestart</userinput></screen>
+
+      <para>This will take care of updating
+	<filename>/etc/resolv.conf</filename> so that queries for
+	<acronym>DNSSEC</acronym> secured domains will now work.  For
+	example, run the following to validate the FreeBSD.org
+	<acronym>DNSSEC</acronym> trust tree:</para>
+
+      <screen>&prompt.user; <userinput>drill -S FreeBSD.org</userinput>
+;; Number of trusted keys: 1
+;; Chasing: freebsd.org. A
+
+DNSSEC Trust tree:
+freebsd.org. (A)
+|---freebsd.org. (DNSKEY keytag: 36786 alg: 8 flags: 256)
+    |---freebsd.org. (DNSKEY keytag: 32659 alg: 8 flags: 257)
+    |---freebsd.org. (DS keytag: 32659 digest type: 2)
+        |---org. (DNSKEY keytag: 49587 alg: 7 flags: 256)
+            |---org. (DNSKEY keytag: 9795 alg: 7 flags: 257)
+            |---org. (DNSKEY keytag: 21366 alg: 7 flags: 257)
+            |---org. (DS keytag: 21366 digest type: 1)
+            |   |---. (DNSKEY keytag: 40926 alg: 8 flags: 256)
+            |       |---. (DNSKEY keytag: 19036 alg: 8 flags: 257)
+            |---org. (DS keytag: 21366 digest type: 2)
+                |---. (DNSKEY keytag: 40926 alg: 8 flags: 256)
+                    |---. (DNSKEY keytag: 19036 alg: 8 flags: 257)
+;; Chase successful</screen>
+    </sect2>
+
+    <sect2>
+      <title>DNS Server Configuration in &os;
+	9.<replaceable>X</replaceable> and Earlier</title>
 
       <para>In &os;, the BIND daemon is called
 	<application>named</application>.</para>
@@ -3188,9 +3171,8 @@ dhcpd_ifaces="dc0"</programlisting>
 	directory.  These files contain the <acronym>DNS</acronym>
 	information that will be given out by the name server in
 	response to queries.</para>
-    </sect2>
 
-    <sect2>
+    <sect3>
       <title>Starting BIND</title>
 
       <indexterm>
@@ -3220,14 +3202,14 @@ dhcpd_ifaces="dc0"</programlisting>
 	<filename>/etc/namedb/named.conf</filename> that are beyond
 	the scope of this document.  Other startup options
 	for <application>named</application> on &os; can be found in
-	the <literal>named_*</literal>
+	the <literal>named_<replaceable>*</replaceable></literal>
 	flags in <filename>/etc/defaults/rc.conf</filename> and in
 	&man.rc.conf.5;.  The
 	<xref linkend="configtuning-rcd"/> section is also a good
 	read.</para>
-    </sect2>
+    </sect3>
 
-    <sect2>
+    <sect3>
       <title>Configuration Files</title>
 
       <indexterm>
@@ -3242,7 +3224,7 @@ dhcpd_ifaces="dc0"</programlisting>
 	needed is a simple resolver.  This is where most of the
 	configuration will be performed.</para>
 
-      <sect3>
+      <sect4>
 	<title><filename>/etc/namedb/named.conf</filename></title>
 
 	<programlisting>// &dollar;FreeBSD&dollar;
@@ -3589,9 +3571,9 @@ zone "1.168.192.in-addr.arpa" {
 	  dies or is unreachable, the slave name server will have the
 	  transferred zone information and will be able to serve
 	  it.</para>
-      </sect3>
+      </sect4>
 
-      <sect3>
+      <sect4>
 	<title>Zone Files</title>
 
 	<indexterm>
@@ -3637,7 +3619,7 @@ www             IN      CNAME   example.org.</programlisting>
 	  an exact hostname, whereas everything without a trailing
 	  <quote>.</quote> is relative to the origin.  For example,
 	  <literal>ns1</literal> is translated into
-	  <literal>ns1.example.org.</literal></para>
+	  <literal>ns1.<replaceable>example.org.</replaceable></literal></para>
 
 	<para>The format of a zone file follows:</para>
 
@@ -3836,10 +3818,10 @@ mail            IN      A       192.168.1.5</programlisting>
 	<para>It is worth noting that all names on the right side
 	  of a PTR record need to be fully qualified (i.e., end in
 	  a <quote>.</quote>).</para>
-      </sect3>
-    </sect2>
+      </sect4>
+    </sect3>
 
-    <sect2>
+    <sect3>
       <title>Caching Name Server</title>
 
       <indexterm>
@@ -3850,9 +3832,9 @@ mail            IN      A       192.168.1.5</programlisting>
       <para>A caching name server is a name server whose primary role
 	is to resolve recursive queries.  It simply asks queries of
 	its own, and remembers the answers for later use.</para>
-    </sect2>
+    </sect3>
 
-    <sect2>
+    <sect3>
       <title><acronym role="Domain Name Security
 	  Extensions">DNSSEC</acronym></title>
 
@@ -3902,7 +3884,7 @@ mail            IN      A       192.168.1.5</programlisting>
 	to date.  Where configurations differ between 9.6.2 and 9.7
 	and later, differences will be pointed out.</para>
 
-      <sect3>
+      <sect4>
 	<title>Recursive <acronym>DNS</acronym> Server
 	  Configuration</title>
 
@@ -4032,7 +4014,7 @@ dnssec-validation yes;</programlisting>
 	  will contain the <literal>AD</literal> flag to indicate the
 	  data was authenticated.  Running a query such as</para>
 
-	<screen>&prompt.user; <userinput>dig @resolver +dnssec se ds </userinput></screen>
+	<screen>&prompt.user; <userinput>dig @<replaceable>resolver</replaceable> +dnssec se ds </userinput></screen>
 
 	<para>should return the <acronym>DS</acronym>
 	  <acronym>RR</acronym> for the <literal>.se</literal> zone.
@@ -4046,9 +4028,9 @@ dnssec-validation yes;</programlisting>
 
 	<para>The resolver is now capable of authenticating
 	  <acronym>DNS</acronym> queries.</para>
-      </sect3>
+      </sect4>
 
-      <sect3 xml:id="dns-dnssec-auth">
+      <sect4 xml:id="dns-dnssec-auth">
 	<title>Authoritative <acronym>DNS</acronym> Server
 	  Configuration</title>
 
@@ -4177,9 +4159,9 @@ $include Kexample.com.+005+nnnnn.ZSK.key    ; ZSK</programlisting>
 	    xlink:href="http://www.ietf.org/rfc/rfc4641.txt"><acronym>RFC</acronym>
 	    4641: <acronym>DNSSEC</acronym> Operational
 	    practices</link>.</para>
-      </sect3>
+      </sect4>
 
-      <sect3>
+      <sect4>
 	<title>Automation Using <acronym>BIND</acronym> 9.7 or
 	  Later</title>
 
@@ -4219,10 +4201,10 @@ $include Kexample.com.+005+nnnnn.ZSK.key    ; ZSK</programlisting>
 	  re-signing the zone with the new data added.  For further
 	  details, see <xref linkend="dns-read"/> and the
 	  <acronym>BIND</acronym> documentation.</para>
-      </sect3>
-    </sect2>
+      </sect4>
+    </sect3>
 
-    <sect2>
+    <sect3>
       <title>Security</title>
 
       <para>Although BIND is the most common implementation of
@@ -4247,9 +4229,9 @@ $include Kexample.com.+005+nnnnn.ZSK.key    ; ZSK</programlisting>
 	  having a fresh build of <application>named</application>
 	  may help.</para>
       </tip>
-    </sect2>
+    </sect3>
 
-    <sect2 xml:id="dns-read">
+    <sect3 xml:id="dns-read">
       <title>Further Reading</title>
 
       <para>BIND/<application>named</application> manual pages:
@@ -4337,38 +4319,40 @@ $include Kexample.com.+005+nnnnn.ZSK.key    ; ZSK</programlisting>
 	      Trust Anchors</link></para>
 	</listitem>
       </itemizedlist>
+    </sect3>
     </sect2>
   </sect1>
 
   <sect1 xml:id="network-apache">
-    <!--
-    <sect1info>
+    <info>
+    <title>Apache HTTP Server</title>
+
       <authorgroup>
 	<author>
+	<personname>
 	  <firstname>Murray</firstname>
 	  <surname>Stokely</surname>
+	  </personname>
 	  <contrib>Contributed by </contrib>
 	</author>
       </authorgroup>
-    </sect1info>
-    -->
-    <title>Apache HTTP Server</title>
+    </info>
 
     <indexterm><primary>web servers</primary>
       <secondary>setting up</secondary></indexterm>
     <indexterm><primary>Apache</primary></indexterm>
 
-    <para>The open source <application>Apache HTTP Server
-	</application> is the most widely used web server.  &os; does
-      not install this web server by default, but it can be installed
-      from the <package>www/apache24</package> package or port.</para>
+    <para>The open source
+      <application>Apache HTTP Server</application> is the most widely
+      used web server.  &os; does not install this web server by
+      default, but it can be installed from the
+      <package>www/apache24</package> package or port.</para>
 
     <para>This section summarizes how to configure and start version
       2.<replaceable>x</replaceable> of the <application>Apache HTTP
-	Server</application>, the most widely used version, on &os;.
-      For more detailed information about
-      <application>Apache</application>&nbsp;2.X and its configuration
-      directives, refer to <link
+	Server</application> on &os;.  For more detailed information
+      about <application>Apache</application>&nbsp;2.X and its
+      configuration directives, refer to <link
 	xlink:href="http://httpd.apache.org/">httpd.apache.org</link>.</para>
 
     <sect2>
@@ -4379,10 +4363,11 @@ $include Kexample.com.+005+nnnnn.ZSK.key    ; ZSK</programlisting>
 
       <para>In &os;, the main <application>Apache HTTP
 	  Server</application> configuration file is installed as
-	<filename>/usr/local/etc/apache2x/httpd.conf</filename>.
-	This ASCII text file begins comment lines with the
-	<literal>#</literal>.  The most frequently modified directives
-	are:</para>
+	<filename>/usr/local/etc/apache2<replaceable>x</replaceable>/httpd.conf</filename>,
+	where <replaceable>x</replaceable> represents the version
+	number.  This <acronym>ASCII</acronym> text file begins
+	comment lines with a <literal>#</literal>.  The most
+	frequently modified directives are:</para>
 
       <variablelist>
 	<varlistentry>
@@ -4393,145 +4378,147 @@ $include Kexample.com.+005+nnnnn.ZSK.key    ; ZSK</programlisting>
 	      <application>Apache</application> installation.
 	      Binaries are stored in the <filename>bin</filename> and
 	      <filename>sbin</filename> subdirectories of the server
-	      root, and configuration files are stored in
-	      <filename>etc/apache2x</filename>.</para>
+	      root and configuration files are stored in the <filename
+		class="directory">etc/apache2<replaceable>x</replaceable></filename>
+	      subdirectory.</para>
 	  </listitem>
 	</varlistentry>
 
 	<varlistentry>
-	  <term><literal>ServerAdmin you@your.address</literal></term>
+	  <term><literal>ServerAdmin you@example.com</literal></term>
 
 	  <listitem>
-	    <para>The email address to receive problems with the
-	      server.  This address also appears on some
+	    <para>Change this to the email address to receive problems
+	      with the server.  This address also appears on some
 	      server-generated pages, such as error documents.</para>
 	  </listitem>
 	</varlistentry>
 
 	<varlistentry>
-	  <term><literal>ServerName www.example.com</literal></term>
+	  <term><literal>ServerName
+	      www.example.com:80</literal></term>
 
 	  <listitem>
-	    <para>Allows an administrator to set a host name which is
+	    <para>Allows an administrator to set a hostname which is
 	      sent back to clients for the server.  For example,
 	      <systemitem>www</systemitem> can be used instead of the
-	      actual host name.</para>
+	      actual hostname.  If the system does not have a
+	      registered <acronym>DNS</acronym> name, enter its
+	      <acronym>IP</acronym> address instead.  If the server
+	      will listen on an alternate report, change
+	      <literal>80</literal> to the alternate port
+	      number.</para>
 	  </listitem>
 	</varlistentry>
 
 	<varlistentry>
 	  <term><literal>DocumentRoot
-	    "/usr/local/www/apache2x/data"</literal></term>
+	    "/usr/local/www/apache2<replaceable>x</replaceable>/data"</literal></term>
 
 	  <listitem>
-	    <para>The directory
-	      where documents will be served from.  By default, all
-	      requests are taken from this directory, but symbolic
-	      links and aliases may be used to point to other
-	      locations.</para>
+	    <para>The directory where documents will be served from.
+	      By default, all requests are taken from this directory,
+	      but symbolic links and aliases may be used to point to
+	      other locations.</para>
 	  </listitem>
 	</varlistentry>
       </variablelist>
 
-      <para>It is always a good idea to make backup copies of the
-	<application>Apache</application> configuration file before
-	making changes.  When the configuration of
-	<application>Apache</application>, is complete, save the
-	file and verify the configuration using apachectl(8).
-	Running <command>apachectl configtest</command> should return
-	<literal>Syntax OK</literal>.</para>
+      <para>It is always a good idea to make a backup copy of the
+	default <application>Apache</application> configuration file
+	before making changes.  When the configuration of
+	<application>Apache</application> is complete, save the file
+	and verify the configuration using
+	<command>apachectl</command>.  Running <command>apachectl
+	  configtest</command> should return <literal>Syntax
+	  OK</literal>.</para>
 
       <indexterm><primary>Apache</primary>
 	<secondary>starting or stopping</secondary></indexterm>
-
-      <para>The <package>www/apache24</package> port
-	installs an &man.rc.8; script to aid in starting, stopping,
-	and restarting <application>Apache</application>, which can be
-	found in <filename>/usr/local/etc/rc.d/</filename>.</para>
 
       <para>To launch <application>Apache</application> at system
 	startup, add the following line to
 	<filename>/etc/rc.conf</filename>:</para>
 
-      <programlisting>apache24_enable="YES"</programlisting>
+      <programlisting>apache<replaceable>24</replaceable>_enable="YES"</programlisting>
 
       <para>If <application>Apache</application> should be started
 	with non-default options, the following line may be added to
 	<filename>/etc/rc.conf</filename> to specify the needed
 	flags:</para>
 
-      <programlisting>apache24_flags=""</programlisting>
+      <programlisting>apache<replaceable>24</replaceable>_flags=""</programlisting>
+
+      <para>If <application>apachectl</application> does not report
+	configuration errors, start <command>httpd</command>
+	now:</para>
+
+      <screen>&prompt.root; <userinput>service apache<replaceable>24</replaceable> start</userinput></screen>
+
+      <para>The <command>httpd</command> service can be tested by
+	entering
+	<literal>http://<replaceable>localhost</replaceable></literal>
+	in a web browser, replacing
+	<replaceable>localhost</replaceable> with the fully-qualified
+	domain name of the machine running <command>httpd</command>.
+	The default web page that is displayed is
+	<filename>/usr/local/www/apache<replaceable>24</replaceable>/data/index.html</filename>.</para>
 
       <para>The <application>Apache</application> configuration can be
 	tested for errors after making subsequent configuration
-	changes while <command>httpd</command> is running.  This can
-	be done by the &man.rc.8; script directly, or by the
-	&man.service.8; utility by issuing one of the following
-	commands:</para>
+	changes while <command>httpd</command> is running using the
+	following command:</para>
 
-      <screen>&prompt.root; <userinput>service apache24 configtest</userinput></screen>
+      <screen>&prompt.root; <userinput>service apache<replaceable>24</replaceable> configtest</userinput></screen>
 
       <note>
-	<para>It is important to note that the
+	<para>It is important to note that
 	  <literal>configtest</literal> is not an &man.rc.8; standard,
-	  and should not be expected to work for all &man.rc.8;
-	  startup scripts.</para>
+	  and should not be expected to work for all startup
+	  scripts.</para>
       </note>
-
-      <para>If <application>Apache</application> does not report
-	configuration errors, start <command>httpd</command>
-	with &man.service.8;:</para>
-
-      <screen>&prompt.root; <userinput>service apache24 start</userinput></screen>
-
-      <para>The <command>httpd</command> service can be tested by
-	entering <literal>http://localhost</literal>
-	in a web browser, replacing
-	<replaceable>localhost</replaceable> with the fully-qualified
-	domain name of the machine running <command>httpd</command>,
-	if it is not the local machine.  The default web page that is
-	displayed is
-	<filename>/usr/local/www/apache24/data/index.html</filename>.</para>
     </sect2>
 
     <sect2>
       <title>Virtual Hosting</title>
 
-      <para><application>Apache</application> supports two different
-	types of Virtual Hosting.  The first method is Name-based
-	Virtual Hosting.  Name-based virtual hosting uses the clients
-	HTTP/1.1 headers to figure out the hostname.  This allows many
-	different domains to share the same <acronym>IP</acronym>
-	address.</para>
+      <para>Virtual hosting allows multiple websites to run on one
+	<application>Apache</application> server.  The virtual hosts
+	can be <firstterm>IP-based</firstterm> or
+	<firstterm>name-based</firstterm>.
+	<acronym>IP</acronym>-based virtual hosting uses a different
+	<acronym>IP</acronym> address for each website.  Name-based
+	virtual hosting uses the clients HTTP/1.1 headers to figure
+	out the hostname, which allows the websites to share the same
+	<acronym>IP</acronym> address.</para>
 
       <para>To setup <application>Apache</application> to use
-	Name-based Virtual Hosting add an entry like the following to
-	<filename>httpd.conf</filename>:</para>
-
-      <programlisting>NameVirtualHost *</programlisting>
-
-      <para>If the webserver was named <systemitem
-	  class="fqdomainname">www.domain.tld</systemitem> and
-	a virtual domain for <systemitem
-	  class="fqdomainname">www.someotherdomain.tld</systemitem>
-	then add the following entries to
+	name-based virtual hosting, add a
+	<literal>VirtualHost</literal> block for each website.  For
+	example, for the webserver named <systemitem
+	  class="fqdomainname">www.domain.tld</systemitem> with a
+	virtual domain of <systemitem
+	  class="fqdomainname">www.someotherdomain.tld</systemitem>,
+	add the following entries to
 	<filename>httpd.conf</filename>:</para>
 
       <screen>&lt;VirtualHost *&gt;
-ServerName www.domain.tld
-DocumentRoot /www/domain.tld
+ServerName <replaceable>www.domain.tld</replaceable>
+DocumentRoot <replaceable>/www/domain.tld</replaceable>
 &lt;/VirtualHost&gt;
 
 &lt;VirtualHost *&gt;
-ServerName www.someotherdomain.tld
-DocumentRoot /www/someotherdomain.tld
+ServerName <replaceable>www.someotherdomain.tld</replaceable>
+DocumentRoot <replaceable>/www/someotherdomain.tld</replaceable>
 &lt;/VirtualHost&gt;</screen>
 
-      <para>Replace the addresses with the addresses needed and the
-	path to the documents with what are being used.</para>
+      <para>For each virtual host, replace the values for
+	<literal>ServerName</literal> and
+	<literal>DocumentRoot</literal> with the values to be
+	used.</para>
 
       <para>For more information about setting up virtual hosts,
-	please consult the official <application>Apache</application>
+	consult the official <application>Apache</application>
 	documentation at: <uri
 	  xlink:href="http://httpd.apache.org/docs/vhosts/">http://httpd.apache.org/docs/vhosts/</uri>.</para>
     </sect2>
@@ -4542,14 +4529,24 @@ DocumentRoot /www/someotherdomain.tld
       <indexterm><primary>Apache</primary>
 	<secondary>modules</secondary></indexterm>
 
-      <para>There are many different <application>Apache</application>
-	modules available to add functionality to the basic server.
-	The &os; Ports Collection provides an easy way to install
-	<application>Apache</application> together with some of the
-	more popular add-on modules.</para>
+      <para><application>Apache</application> uses modules to augment
+	the functionality provided by the basic server.  Refer to <uri
+	  xlink:href="http://httpd.apache.org/docs/current/mod/">http://httpd.apache.org/docs/current/mod/</uri>
+	for a complete listing of and the configuration details for
+	the available modules.</para>
+
+      <para>In &os;, some modules can be compiled with the
+	<package>www/apache24</package> port.  Type <command>make
+	  config</command> within
+	<filename>/usr/ports/www/apache24</filename> to see which
+	modules are available and which are enabled by default.  If
+	the module is not compiled with the port, the &os; Ports
+	Collection provides an easy way to install many modules.  This
+	section describes three of the most commonly used
+	modules.</para>
 
       <sect3>
-	<title><application>mod_ssl</application></title>
+	<title><filename>mod_ssl</filename></title>
 
 	<indexterm>
 	  <primary>web servers</primary>
@@ -4558,30 +4555,118 @@ DocumentRoot /www/someotherdomain.tld
 	<indexterm><primary>SSL</primary></indexterm>
 	<indexterm><primary>cryptography</primary></indexterm>
 
-	<para>The <application>mod_ssl</application> module uses the
-	  OpenSSL library to provide strong cryptography via the
-	  Secure Sockets Layer (SSL v2/v3) and Transport Layer
-	  Security (TLS v1) protocols.  This module provides
+	<para>The <filename>mod_ssl</filename> module uses the
+	  <application>OpenSSL</application> library to provide strong
+	  cryptography via the Secure Sockets Layer
+	  (<acronym>SSLv3</acronym>) and Transport Layer Security
+	  (<acronym>TLSv1</acronym>) protocols.  This module provides
 	  everything necessary to request a signed certificate from a
 	  trusted certificate signing authority to run a secure web
 	  server on &os;.</para>
 
-	<para>The <application>mod_ssl</application> module is built
-	  by default, but can be enabled by specifying
-	  <literal>-DWITH_SSL</literal> at compile time.</para>
+	<para>In &os;, <filename>mod_ssl</filename> module is enabled
+	  by default in both the package and the port.  The available
+	  configuration directives are explained at <uri
+	    xlink:href="http://httpd.apache.org/docs/current/mod/mod_ssl.html">http://httpd.apache.org/docs/current/mod/mod_ssl.html</uri>.</para>
       </sect3>
 
       <sect3>
-	<title>Language Bindings</title>
+	<title><filename>mod_perl</filename></title>
 
-	<para>There are Apache modules for most major scripting
-	  languages.  These modules typically make it possible to
-	  write <application>Apache</application> modules entirely in
-	  a scripting language.  They are also often used as a
-	  persistent interpreter embedded into the server that avoids
-	  the overhead of starting an external interpreter and the
-	  startup-time penalty for dynamic websites, as described in
-	  the next section.</para>
+	<indexterm>
+	  <primary>mod_perl</primary>
+	  <secondary>Perl</secondary>
+	</indexterm>
+
+	<para>The
+	  <filename>mod_perl</filename> module makes it possible to
+	  write <application>Apache</application> modules in
+	  <application>Perl</application>.  In addition, the
+	  persistent interpreter embedded in the server avoids the
+	  overhead of starting an external interpreter and the penalty
+	  of <application>Perl</application> start-up time.</para>
+
+	<para>The <filename>mod_perl</filename> can be installed using
+	  the <package>www/mod_perl2</package> package or port.
+	  Documentation for using this module can be found at <uri
+	    xlink:href="http://perl.apache.org/docs/2.0/index.html">http://perl.apache.org/docs/2.0/index.html</uri>.</para>
+      </sect3>
+
+      <sect3>
+	<info>
+	<title><filename>mod_php</filename></title>
+
+	  <authorgroup>
+	    <author>
+	    <personname>
+	      <firstname>Tom</firstname>
+	      <surname>Rhodes</surname>
+	    </personname>
+	      <contrib>Written by </contrib>
+	    </author>
+	  </authorgroup>
+	</info>
+
+	<indexterm>
+	  <primary>mod_php</primary>
+	  <secondary>PHP</secondary>
+	</indexterm>
+
+	<para><firstterm>PHP: Hypertext Preprocessor</firstterm>
+	  (<acronym>PHP</acronym>) is a general-purpose scripting
+	  language that is especially suited for web development.
+	  Capable of being embedded into <acronym>HTML</acronym>, its
+	  syntax draws upon <application>C</application>, &java;, and
+	  <application>Perl</application> with the intention of
+	  allowing web developers to write dynamically generated
+	  webpages quickly.</para>
+
+	<para>To gain support for <acronym>PHP</acronym>5 for the
+	  <application>Apache</application> web server, install the
+	  <package>www/mod_php5</package> package or port.  This will
+	  install and configure the modules required to support
+	  dynamic <acronym>PHP</acronym> applications.  The
+	  installation will automatically add this line to
+	  <filename>/usr/local/etc/apache2<replaceable>4</replaceable>/httpd.conf</filename>:</para>
+
+	<programlisting>LoadModule php5_module        libexec/apache24/libphp5.so</programlisting>
+
+<!--
+I don't think this is still needed
+AddModule mod_php5.c
+    &lt;IfModule mod_php5.c&gt;
+        DirectoryIndex index.php index.html
+    &lt;/IfModule&gt;
+    &lt;IfModule mod_php5.c&gt;
+        AddType application/x-httpd-php .php
+        AddType application/x-httpd-php-source .phps
+    &lt;/IfModule&gt;</programlisting>
+
+    -->
+
+	<para>Then, perform a graceful restart to load the
+	  <acronym>PHP</acronym> module:</para>
+
+	<screen>&prompt.root; <userinput>apachectl graceful</userinput></screen>
+
+	<para>The <acronym>PHP</acronym> support provided by
+	  <package>www/mod_php5</package> is limited.  Additional
+	  support can be installed using the
+	  <package>lang/php5-extensions</package> port which provides
+	  a menu driven interface to the available
+	  <acronym>PHP</acronym> extensions.</para>
+
+	<para>Alternatively, individual extensions can be installed
+	  using the appropriate port.  For instance, to add
+	  <acronym>PHP</acronym> support for the
+	  <application>MySQL</application> database server, install
+	  <filename>databases/php5-mysql</filename>.</para>
+
+	<para>After installing an extension, the
+	  <application>Apache</application> server must be reloaded to
+	  pick up the new configuration changes:</para>
+
+	<screen>&prompt.root; <userinput>apachectl graceful</userinput></screen>
       </sect3>
     </sect2>
 
@@ -4593,15 +4678,11 @@ DocumentRoot /www/someotherdomain.tld
 	<secondary>dynamic</secondary>
       </indexterm>
 
-      <para>In the last decade, more businesses have turned to the
-	Internet in order to enhance their revenue and increase
-	exposure.  This has also increased the need for interactive
-	web content.  While some companies, such as &microsoft;,
-	have introduced solutions into their proprietary products,
-	the open source community answered the call.  Modern options
-	for dynamic web content include Django, Ruby on Rails,
-	<application>mod_perl2</application>, and
-	<application>mod_php</application>.</para>
+      <para>In addition to <application>mod_perl</application> and
+	<application>mod_php</application>, other languages are
+	available for creating dynamic web content.  These include
+	<application>Django</application> and
+	<application>Ruby on Rails</application>.</para>
 
       <sect3>
 	<title>Django</title>
@@ -4609,54 +4690,57 @@ DocumentRoot /www/someotherdomain.tld
 	<indexterm><primary>Python</primary></indexterm>
 	<indexterm><primary>Django</primary></indexterm>
 
-	<para>Django is a BSD licensed framework designed to allow
-	  developers to write high performance, elegant web
-	  applications quickly.  It provides an object-relational
-	  mapper so that data types are developed as Python objects,
-	  and a rich dynamic database-access API is provided for those
-	  objects without the developer ever having to write SQL.  It
-	  also provides an extensible template system so that the
-	  logic of the application is separated from the HTML
+	<para><application>Django</application> is a BSD-licensed
+	  framework designed to allow developers to write high
+	  performance, elegant web applications quickly.  It provides
+	  an object-relational mapper so that data types are developed
+	  as <application>Python</application> objects.  A rich
+	  dynamic database-access <acronym>API</acronym> is provided
+	  for those objects without the developer ever having to write
+	  <acronym>SQL</acronym>.  It also provides an extensible
+	  template system so that the logic of the application is
+	  separated from the <acronym>HTML</acronym>
 	  presentation.</para>
 
-	<para>Django depends on <application>mod_python</application>,
-	  <application>Apache</application>, and an SQL database
-	  engine.  The &os; Port will install all of
-	  these pre-requisites with the appropriate
-	  flags.</para>
+	<para>Django depends on <filename>mod_python</filename>, and
+	  an <acronym>SQL</acronym> database engine.  In &os;, the
+	  <package>www/py-django</package> port automatically installs
+	  <filename>mod_python</filename> and supports the
+	  <application>PostgreSQL</application>,
+	  <application>MySQL</application>, or
+	  <application>SQLite</application> databases, with the
+	  default being <application>SQLite</application>.  To change
+	  the database engine, type <command>make config</command>
+	  within <filename>/usr/ports/www/py-django</filename>, then
+	  install the port.</para>
 
-	<example xml:id="network-www-django-install">
-	  <title>Installing Django with
-	    <application>Apache2</application>,
-	    <application>mod_python3</application>, and
-	    <application>PostgreSQL</application></title>
+	<para>Once <application>Django</application> is installed, the
+	  application will need a project directory along with the
+	  <application>Apache</application> configuration in order to
+	  use the embedded <application>Python</application>
+	  interpreter.  This interpreter is used to call the
+	  application for specific <acronym>URL</acronym>s on the
+	  site.</para>
 
-	  <screen>&prompt.root; <userinput>cd /usr/ports/www/py-django; make all install clean -DWITH_MOD_PYTHON3 -DWITH_POSTGRESQL</userinput></screen>
-	</example>
-
-	<para>Once Django and these pre-requisites are installed,
-	  the application will need a Django project directory along
-	  with the Apache configuration to use the embedded Python
-	  interpreter.  This will be the interpreter to
-	  call the application for specific URLs on the site.</para>
-
-	<example xml:id="network-www-django-apache-config">
-	  <title>Apache Configuration for Django/mod_python</title>
-
-	  <para>A line must be added to the apache
-	    <filename>httpd.conf</filename> file to configure Apache
-	    to pass requests for certain URLs to the web
-	    application:</para>
+	<para>To configure <application>Apache</application> to pass
+	  requests for certain <acronym>URL</acronym>s to the web
+	  application, add the following to
+	  <filename>httpd.conf</filename>, specifying the full path to
+	  the project directory:</para>
 
 	  <screen>&lt;Location "/"&gt;
     SetHandler python-program
-    PythonPath "['/dir/to/the/django/packages/'] + sys.path"
+    PythonPath "['<replaceable>/dir/to/the/django/packages/</replaceable>'] + sys.path"
     PythonHandler django.core.handlers.modpython
     SetEnv DJANGO_SETTINGS_MODULE mysite.settings
     PythonAutoReload On
     PythonDebug On
 &lt;/Location&gt;</screen>
-	</example>
+
+	<para>Refer to <uri
+	    xlink:href="https://docs.djangoproject.com/en/1.6/">https://docs.djangoproject.com/en/1.6/</uri>
+	  for more information on how to use
+	  <application>Django</application>.</para>
       </sect3>
 
       <sect3>
@@ -4664,147 +4748,17 @@ DocumentRoot /www/someotherdomain.tld
 
 	<indexterm><primary>Ruby on Rails</primary></indexterm>
 
-	<para>Ruby on Rails is another open source web framework that
-	  provides a full development stack and is optimized to make
-	  web developers more productive and capable of writing
-	  powerful applications quickly.  It can be installed easily
-	  from the ports system.</para>
+	<para><application>Ruby on Rails</application> is another open
+	  source web framework that provides a full development stack.
+	  It is optimized to make web developers more productive and
+	  capable of writing powerful applications quickly.  On &os;,
+	  it can be installed using the
+	  <package>www/rubygem-rails</package> package or port.</para>
 
-	<screen>&prompt.root; <userinput>cd /usr/ports/www/rubygem-rails; make all install clean</userinput></screen>
-      </sect3>
-
-      <sect3>
-	<title><application>mod_perl2</application></title>
-
-	<indexterm>
-	  <primary>mod_perl2</primary>
-	  <secondary>Perl</secondary>
-	</indexterm>
-
-	<para>The <application>Apache</application>/Perl integration
-	  project brings together the full power of the Perl
-	  programming language and the
-	  <application>Apache HTTP Server</application>.  With the
-	  <application>mod_perl2</application> module it is possible
-	  to write <application>Apache</application> modules entirely
-	  in Perl.  In addition, the persistent interpreter embedded
-	  in the server avoids the overhead of starting an external
-	  interpreter and the penalty of Perl start-up time.</para>
-
-	<para><application>mod_perl2</application> is available in the
-	  <package>www/mod_perl2</package>
-	  port.</para>
-      </sect3>
-
-      <sect3>
-	<!--
-	<sect3info>
-	  <authorgroup>
-	    <author>
-	      <firstname>Tom</firstname>
-	      <surname>Rhodes</surname>
-	      <contrib>Written by </contrib>
-	    </author>
-	  </authorgroup>
-	</sect3info>
-	-->
-	<title><application>mod_php</application></title>
-
-	<indexterm>
-	  <primary>mod_php</primary>
-	  <secondary>PHP</secondary>
-	</indexterm>
-
-	<para><acronym>PHP</acronym>, also known as
-	  <quote>PHP: Hypertext Preprocessor</quote> is a
-	  general-purpose scripting language that is especially suited
-	  for Web development.  Capable of being embedded into
-	  <acronym>HTML</acronym> its syntax draws upon C, &java;, and
-	  Perl with the intention of allowing web developers to write
-	  dynamically generated webpages quickly.</para>
-
-	<para>To gain support for <acronym>PHP</acronym>5 for the
-	  <application>Apache</application> web server, begin by
-	  installing the <package>lang/php5</package>
-	  port.</para>
-
-	<para>If the <package>lang/php5</package>
-	  port is being installed for the first time, available
-	  <literal>OPTIONS</literal> will be displayed automatically.
-	  If a menu is not displayed, i.e., because the
-	  <package>lang/php5</package> port has been installed some
-	  time in the past, it is always possible to bring the
-	  options dialog up again by running:</para>
-
-	<screen>&prompt.root; <userinput>make config</userinput></screen>
-
-	<para>in the port directory.</para>
-
-	<para>In the options dialog, check the
-	  <literal>APACHE</literal> option to build
-	  <application>mod_php5</application> as a loadable module for
-	  the <application>Apache</application> web server.</para>
-
-	<note>
-	  <para>A lot of sites are still using <acronym>PHP</acronym>4
-	    for various reasons (i.e., compatibility issues or already
-	    deployed web applications).  If the
-	    <application>mod_php4</application> is needed instead of
-	    <application>mod_php5</application>, then please use the
-	    <package>lang/php4</package> port.  The
-	    <package>lang/php4</package> port
-	    supports many of the configuration and build-time options
-	    of the <package>lang/php5</package>
-	    port.</para>
-	</note>
-
-	<para>This will install and configure the modules required
-	  to support dynamic <acronym>PHP</acronym> applications.
-	  Check to ensure the following sections have been added to
-	  <filename>/usr/local/etc/apache22/httpd.conf</filename>:</para>
-
-	<programlisting>LoadModule php5_module        libexec/apache/libphp5.so</programlisting>
-
-	<programlisting>AddModule mod_php5.c
-    &lt;IfModule mod_php5.c&gt;
-        DirectoryIndex index.php index.html
-    &lt;/IfModule&gt;
-    &lt;IfModule mod_php5.c&gt;
-        AddType application/x-httpd-php .php
-        AddType application/x-httpd-php-source .phps
-    &lt;/IfModule&gt;</programlisting>
-
-	<para>Once completed, a simple call to the
-	  <command>apachectl</command> command for a graceful
-	  restart is needed to load the <acronym>PHP</acronym>
-	  module:</para>
-
-	<screen>&prompt.root; <userinput>apachectl graceful</userinput></screen>
-
-	<para>For future upgrades of <acronym>PHP</acronym>, the
-	  <command>make config</command> command will not be required;
-	  the selected <literal>OPTIONS</literal> are saved
-	  automatically by the &os; Ports framework.</para>
-
-	<para>The <acronym>PHP</acronym> support in &os; is extremely
-	  modular so the base install is very limited.  It is very
-	  easy to add support using the
-	  <package>lang/php5-extensions</package>
-	  port.  This port provides a menu driven interface to
-	  <acronym>PHP</acronym> extension installation.
-	  Alternatively, individual extensions can be installed using
-	  the appropriate port.</para>
-
-	<para>For instance, to add support for the
-	  <application>MySQL</application> database server to
-	  <acronym>PHP</acronym>5, simply install the port
-	  <filename>databases/php5-mysql</filename>.</para>
-
-	<para>After installing an extension, the
-	  <application>Apache</application> server must be reloaded to
-	  pick up the new configuration changes:</para>
-
-	<screen>&prompt.root; <userinput>apachectl graceful</userinput></screen>
+	<para>Refer to <uri
+	    xlink:href="http://rubyonrails.org/documentation">http://rubyonrails.org/documentation</uri>
+	  for more information on how to use <application>Ruby on
+	    Rails</application>.</para>
       </sect3>
     </sect2>
   </sect1>
@@ -4963,16 +4917,33 @@ DocumentRoot /www/someotherdomain.tld
     </indexterm>
 
     <para><application>Samba</application> is a popular open source
-      software package that provides file and print services for
-      &microsoft.windows; clients.  Such clients can connect to and
-      use &os; filespace as if it was a local disk drive, or
-      &os; printers as if they were local printers.</para>
+      software package that provides file and print services using the
+      <acronym>SMB/CIFS</acronym> protocol.  This protocol is built
+      into &microsoft.windows; systems.  It can be added to
+      non-&microsoft.windows; systems by installing the
+      <application>Samba</application> client libraries.  The protocol
+      allows clients to access shared data and printers.  These shares
+      can be mapped as a local disk drive and shared printers can be
+      used as if they were local printers.</para>
 
-    <para><application>Samba</application> software packages should
-      be included on the &os; installation media.  If they were not
-      installed when first installing &os;, then they may be
-      installed from the <package>net/samba36</package> port or
-      package.</para>
+    <para>On &os;, the <application>Samba</application> client
+      libraries can be installed using the
+      <package>net/samba-libsmbclient</package> port or package.  The
+      client provides the ability for a &os; system to access
+      <acronym>SMB/CIFS</acronym> shares in a &microsoft.windows;
+      network.</para>
+
+    <para>A &os; system can also be configured to act as a
+      <application>Samba</application> server.  This allows the
+      administrator to create <acronym>SMB/CIFS</acronym> shares on
+      the &os; system which can be accessed by clients running
+      &microsoft.windows; or the <application>Samba</application>
+      client libraries.  In order to configure a
+      <application>Samba</application> server on &os;, the
+      <package>net/samba36</package> port or package must first be
+      installed.  The rest of this section provides an overview of how
+      to configure a <application>Samba</application> server on
+      &os;.</para>
 
 <!-- mention LDAP, Active Directory, WinBIND, ACL, Quotas, PAM, .. -->
 
@@ -4986,15 +4957,15 @@ DocumentRoot /www/someotherdomain.tld
 	<filename>/usr/local/etc/smb.conf</filename> and customized
 	before <application>Samba</application> can be used.</para>
 
-      <para>The <filename>smb.conf</filename> file contains runtime
-	configuration information for
-	<application>Samba</application>, such as definitions of the
+      <para>Runtime configuration information for
+	<application>Samba</application> is found in
+	<filename>smb.conf</filename>, such as definitions of the
 	printers and <quote>file system shares</quote> that will
 	be shared with &windows; clients.  The
 	<application>Samba</application> package includes a web based
 	tool called <application>swat</application> which provides a
-	simple way of configuring the <filename>smb.conf</filename>
-	file.</para>
+	simple way for configuring
+	<filename>smb.conf</filename>.</para>
 
       <sect3>
 	<title>Using the Samba Web Administration Tool (SWAT)</title>
@@ -5002,10 +4973,9 @@ DocumentRoot /www/someotherdomain.tld
 	<para>The Samba Web Administration Tool (SWAT) runs as a
 	  daemon from <application>inetd</application>.  Therefore,
 	  <application>inetd</application> must be enabled as shown in
-	  <xref linkend="network-inetd"/>, and the following line in
-	  <filename>/etc/inetd.conf</filename> should be uncommented
-	  before <application>swat</application> can be used to
-	  configure <application>Samba</application>:</para>
+	  <xref linkend="network-inetd"/>.  To enable
+	  <application>swat</application>, uncomment the following
+	  line in <filename>/etc/inetd.conf</filename>:</para>
 
 	<programlisting>swat   stream  tcp     nowait/400      root    /usr/local/sbin/swat    swat</programlisting>
 
@@ -5013,22 +4983,20 @@ DocumentRoot /www/someotherdomain.tld
 	  the <application>inetd</application> configuration must be
 	  reloaded after this configuration file is changed.</para>
 
-	<para>Once <application>swat</application> has been enabled in
-	  <filename>inetd.conf</filename>, a web browser may be used
-	  to connect to <uri
+	<para>Once <application>swat</application> has been enabled,
+	  use a web browser to connect to <uri
 	    xlink:href="http://localhost:901">http://localhost:901</uri>.
-	  At first login, the system <systemitem
-	    class="username">root</systemitem> account must be
-	  used.</para>
+	  At first login, enter the credentials for <systemitem
+	    class="username">root</systemitem>.</para>
 
 <!-- XXX screenshots go here, loader is creating them
      XXXTR: I'll believe it when I see it.  -->
 
-	<para>Once successfully logging on to the main
-	  <application>Samba</application> configuration page, the
-	  system documentation will be available, or configuration may
-	  begin by clicking on the <guimenu>Globals</guimenu> tab.
-	  The <guimenu>Globals</guimenu> section corresponds to the
+	<para>Once logged in, the main
+	  <application>Samba</application> configuration page and the
+	  system documentation will be available.  Begin configuration
+	  by clicking on the <guimenu>Globals</guimenu> tab.  The
+	  <guimenu>Globals</guimenu> section corresponds to the
 	  variables that are set in the <literal>[global]</literal>
 	  section of
 	  <filename>/usr/local/etc/smb.conf</filename>.</para>
@@ -5037,8 +5005,8 @@ DocumentRoot /www/someotherdomain.tld
       <sect3>
 	<title>Global Settings</title>
 
-	<para>Whether <application>swat</application> is being used or
-	  <filename>/usr/local/etc/smb.conf</filename> is being edited
+	<para>Whether <application>swat</application> is used or
+	  <filename>/usr/local/etc/smb.conf</filename> is edited
 	  directly, the first directives encountered when configuring
 	  <application>Samba</application> are:</para>
 
@@ -5047,8 +5015,8 @@ DocumentRoot /www/someotherdomain.tld
 	    <term><literal>workgroup</literal></term>
 
 	    <listitem>
-	      <para>NT Domain-Name or Workgroup-Name for the computers
-		that will be accessing this server.</para>
+	      <para>The domain name or workgroup name for the
+		computers that will be accessing this server.</para>
 	    </listitem>
 	  </varlistentry>
 
@@ -5056,10 +5024,10 @@ DocumentRoot /www/someotherdomain.tld
 	    <term><literal>netbios name</literal></term>
 
 	    <listitem>
-	      <para>This sets the NetBIOS name by which a
-		<application>Samba</application> server is known.
-		By default it is the same as the first component of
-		the host's <acronym>DNS</acronym> name.</para>
+	      <para>The NetBIOS name by which a
+		<application>Samba</application> server is known.  By
+		default it is the same as the first component of the
+		host's <acronym>DNS</acronym> name.</para>
 	    </listitem>
 	  </varlistentry>
 
@@ -5067,8 +5035,8 @@ DocumentRoot /www/someotherdomain.tld
 	    <term><literal>server string</literal></term>
 
 	    <listitem>
-	      <para>This sets the string that will be displayed with
-		the <command>net view</command> command and some other
+	      <para>The string that will be displayed in the output of
+		<command>net view</command> and some other
 		networking tools that seek to display descriptive text
 		about the server.</para>
 	    </listitem>
@@ -5081,8 +5049,8 @@ DocumentRoot /www/someotherdomain.tld
 
 	<para>Two of the most important settings in
 	  <filename>/usr/local/etc/smb.conf</filename> are the
-	  security model chosen, and the backend password format for
-	  client users.  The following directives control these
+	  security model and the backend password format for client
+	  users.  The following directives control these
 	  options:</para>
 
 	<variablelist>
@@ -5090,11 +5058,11 @@ DocumentRoot /www/someotherdomain.tld
 	    <term><literal>security</literal></term>
 
 	    <listitem>
-	      <para>The two most common options here are
+	      <para>The two most common options are
 		<literal>security = share</literal> and
 		<literal>security = user</literal>.  If the clients
 		use usernames that are the same as their usernames on
-		the &os; machine then user level security should be
+		the &os; machine, user level security should be
 		used.  This is the default security policy and it
 		requires clients to first log on before they can
 		access shared resources.</para>
@@ -5126,78 +5094,61 @@ DocumentRoot /www/someotherdomain.tld
 	</variablelist>
 
 	<para>Assuming that the default <literal>smbpasswd</literal>
-	  backend is used, the
-	  <filename>/usr/local/etc/samba/smbpasswd</filename> file
+	  backend is used,
+	  <filename>/usr/local/etc/samba/smbpasswd</filename>
 	  must be created to allow <application>Samba</application> to
-	  authenticate clients.  To provide the &unix; user accounts
-	  access from &windows; clients, use the following
-	  command:</para>
+	  authenticate clients.  To provide &unix; user accounts
+	  access from &windows; clients, use the following command to
+	  add each required user to that file:</para>
 
-	<screen>&prompt.root; <userinput>smbpasswd -a username</userinput></screen>
+	<screen>&prompt.root; <userinput>smbpasswd -a <replaceable>username</replaceable></userinput></screen>
 
 	<note>
 	  <para>The recommended backend is now
-	    <literal>tdbsam</literal>, and the following command
-	    should be used to add user accounts:</para>
+	    <literal>tdbsam</literal>.  If this backend is selected,
+	    use the following command to add user accounts:</para>
 
-	  <screen>&prompt.root; <userinput>pdbedit -a -u username</userinput></screen>
+	  <screen>&prompt.root; <userinput>pdbedit -a -u <replaceable>username</replaceable></userinput></screen>
 	</note>
 
-	<para>Please see the <link
+	<para>This section has only mentioned the most commonly used
+	  settings.  Refer to the <link
 	    xlink:href="http://www.samba.org/samba/docs/man/Samba-HOWTO-Collection/">Official
-	    Samba HOWTO</link> for additional information about
-	  configuration options.  With the basics outlined here, the
-	  minimal required start running
-	  <application>Samba</application> will be explained.  Other
-	  documentation should be consulted in addition to the
-	  information here.</para>
+	    Samba HOWTO</link> for additional information about the
+	  available configuration options.</para>
       </sect3>
     </sect2>
 
     <sect2>
       <title>Starting <application>Samba</application></title>
 
-      <para>The <package>net/samba36</package> port adds a new startup
-	script, which can be used to control
-	<application>Samba</application>.  To enable this script, so
-	that it can be used for example to start, stop or restart
-	<application>Samba</application>, add the following line to
-	the <filename>/etc/rc.conf</filename> file:</para>
+      <para>To enable <application>Samba</application> at boot time,
+	add the following line to
+	<filename>/etc/rc.conf</filename>:</para>
 
       <programlisting>samba_enable="YES"</programlisting>
 
-      <para>Or, for fine grain control:</para>
+      <para>Alternately, its services can be started
+	separately:</para>
 
       <programlisting>nmbd_enable="YES"</programlisting>
 
       <programlisting>smbd_enable="YES"</programlisting>
 
-      <note>
-	<para>This will also configure
-	  <application>Samba</application> to automatically start at
-	  system boot time.</para>
-      </note>
-
-      <para>It is possible then to start
-	<application>Samba</application> at any time by typing:</para>
+      <para>To start <application>Samba</application> now:</para>
 
       <screen>&prompt.root; <userinput>service samba start</userinput>
 Starting SAMBA: removing stale tdbs :
 Starting nmbd.
 Starting smbd.</screen>
 
-      <para>Please refer to <xref linkend="configtuning-rcd"/> for
-	more information about using rc scripts.</para>
-
-      <para><application>Samba</application> actually consists of
-	three separate daemons.  Notice that both the
-	<application>nmbd</application> and
-	<application>smbd</application> daemons are started by the
-	<filename>samba</filename> script.  If winbind,
-	name resolution services were enabled in
-	<filename>smb.conf</filename>,
-	the <application>winbindd</application> daemon will be
-	started as well.</para>
+      <para><application>Samba</application> consists of three
+	separate daemons.  Both the <application>nmbd</application>
+	and <application>smbd</application> daemons are started by
+	<varname>samba_enable</varname>.  If winbind name resolution
+	services are enabled in <filename>smb.conf</filename>, the
+	<application>winbindd</application> daemon is started as
+	well.</para>
 
       <para><application>Samba</application> may be stopped at any
 	time by typing:</para>
@@ -5207,8 +5158,8 @@ Starting smbd.</screen>
       <para><application>Samba</application> is a complex software
 	suite with functionality that allows broad integration with
 	&microsoft.windows; networks.  For more information about
-	functionality beyond the basic installation described here,
-	please see <uri
+	functionality beyond the basic configuration described here,
+	refer to <uri
 	  xlink:href="http://www.samba.org">http://www.samba.org</uri>.</para>
     </sect2>
   </sect1>
@@ -5325,13 +5276,13 @@ driftfile /var/db/ntp.drift</programlisting>
 
       <programlisting>restrict default ignore</programlisting>
 
-	<note>
-	  <para>This will also prevent access from other
-	    <acronym>NTP</acronym> servers.  If there is a need to
-	    synchronize with an external <acronym>NTP</acronym>
-	    server, allow only that specific server.  Refer to
-	    &man.ntp.conf.5; for more information.</para>
-	</note>
+      <note>
+	<para>This will also prevent access from other
+	  <acronym>NTP</acronym> servers.  If there is a need to
+	  synchronize with an external <acronym>NTP</acronym> server,
+	  allow only that specific server.  Refer to &man.ntp.conf.5;
+	  for more information.</para>
+      </note>
 
       <para>To allow machines within the network to synchronize their
 	clocks with the server, but ensure they are not allowed to
@@ -5394,254 +5345,6 @@ driftfile /var/db/ntp.drift</programlisting>
     </sect2>
   </sect1>
 
-  <sect1 xml:id="network-syslogd">
-    <!--
-    <sect1info>
-      <authorgroup>
-	<author>
-	  <firstname>Tom</firstname>
-	  <surname>Rhodes</surname>
-	  <contrib>Contributed by </contrib>
-	</author>
-      </authorgroup>
-    </sect1info>
-          -->
-
-    <title>Remote Host Logging with <command>syslogd</command></title>
-
-    <para>Interacting with system logs is a crucial aspect of both
-      security and system administration.  Monitoring the log files of
-      multiple hosts can become unwieldy as the number of systems
-      increases.  Configuring centralized logging can reduce some of
-      the administrative burden of log file administration.</para>
-
-    <para>Centralized log file aggregation, merging, and rotation can
-      be configured using &os; native tools, such as &man.syslogd.8;
-      and &man.newsyslog.8;.  This section demonstrates an example
-      configuration, where host <systemitem>A</systemitem>, named
-      <systemitem
-	class="fqdomainname">logserv.example.com</systemitem>, will
-      collect logging information for the local network.  Host
-      <systemitem>B</systemitem>, named <systemitem
-	class="fqdomainname">logclient.example.com</systemitem>, will
-      be configured to pass logging information to the logging
-      server.</para>
-
-    <sect2>
-      <title>Log Server Configuration</title>
-
-      <para>A log server is a system that has been configured to
-	accept logging information from other hosts.  Before
-	configuring a log server, check the following:</para>
-
-      <itemizedlist>
-	<listitem>
-	  <para>If there is a firewall between the logging server and
-	    any logging clients, ensure that the firewall ruleset
-	    allows <acronym>UDP</acronym> port 514 for both the
-	    clients and the server.</para>
-	</listitem>
-
-	<listitem>
-	  <para>The logging server and all client  machines must have
-	    forward and reverse entries in the local
-	    <acronym>DNS</acronym>.  If the network does not have a
-	    <acronym>DNS</acronym> server, create entries in each
-	    system's <filename>/etc/hosts</filename>.  Proper name
-	    resolution is required so that log entries are not
-	    rejected by the logging server.</para>
-	</listitem>
-      </itemizedlist>
-
-      <para>On the log server, edit
-	<filename>/etc/syslog.conf</filename> to specify the name of
-	the client to receive log entries from, the logging facility
-	to be used, and the name of the log to store the host's log
-	entries.  This example adds the hostname of
-	<systemitem>B</systemitem>, logs all facilities, and stores
-	the log entries in
-	<filename>/var/log/logclient.log</filename>.</para>
-
-      <example>
-	<title>Sample Log Server Configuration</title>
-
-	<programlisting>+logclient.example.com
-*.*     /var/log/logclient.log</programlisting>
-      </example>
-
-      <para>When adding multiple log clients, add a similar two-line
-	entry for each client.  More information about the available
-	facilities may be found in &man.syslog.conf.5;.</para>
-
-      <para>Next, configure <filename>/etc/rc.conf</filename>:</para>
-
-      <programlisting>syslogd_enable="YES"
-syslogd_flags="-a logclient.example.com -v -v"</programlisting>
-
-      <para>The first entry starts <application>syslogd</application>
-	at system boot.  The second entry allows log entries from the
-	specified client.  The <option>-v -v</option> increases the
-	verbosity of logged messages.  This is useful for tweaking
-	facilities as administrators are able to see what type of
-	messages are being logged under each facility.</para>
-
-      <para>Multiple <option>-a</option> options may be specified to
-	allow logging from multiple clients.  <acronym>IP</acronym>
-	addresses and whole netblocks may also be specified.  Refer to
-	&man.syslogd.8; for a full list of possible options.</para>
-
-      <para>Finally, create the log file:</para>
-
-      <screen>&prompt.root; <userinput>touch /var/log/logclient.log</userinput></screen>
-
-      <para>At this point, <application>syslogd</application> should
-	be restarted and verified:</para>
-
-      <screen>&prompt.root; <userinput>service syslogd restart</userinput>
-&prompt.root; <userinput>pgrep syslog</userinput></screen>
-
-      <para>If a <acronym>PID</acronym> is returned, the server
-	restarted successfully, and client configuration can begin.
-	If the server did not restart, consult
-	<filename>/var/log/messages</filename> for the error.</para>
-    </sect2>
-
-    <sect2>
-      <title>Log Client Configuration</title>
-
-      <para>A logging client sends log entries to a logging server on
-	the network.  The client also keeps a local copy of its own
-	logs.</para>
-
-      <para>Once a logging server has been configured, edit
-	<filename>/etc/rc.conf</filename> on the logging
-	client:</para>
-
-      <programlisting>syslogd_enable="YES"
-syslogd_flags="-s -v -v"</programlisting>
-
-      <para>The first entry enables <application>syslogd</application>
-	on boot up.  The second entry prevents logs from being
-	accepted by this client from other hosts (<option>-s</option>)
-	and increases the verbosity of logged messages.</para>
-
-      <para>Next, define the logging server in the client's
-	<filename>/etc/syslog.conf</filename>.  In this example, all
-	logged facilities are sent to a remote system, denoted by the
-	<literal>@</literal> symbol, with the specified
-	hostname:</para>
-
-      <programlisting>*.*		@logserv.example.com</programlisting>
-
-      <para>After saving the edit, restart
-	<application>syslogd</application> for the changes to take
-	effect:</para>
-
-      <screen>&prompt.root; <userinput>service syslogd restart</userinput></screen>
-
-      <para>To test that log messages are being sent across the
-	network, use &man.logger.1; on the client to send a message to
-	<application>syslogd</application>:</para>
-
-      <screen>&prompt.root; <userinput>logger "Test message from logclient"</userinput></screen>
-
-      <para>This message should now exist both in
-	<filename>/var/log/messages</filename> on the client and
-	<filename>/var/log/logclient.log</filename> on the log
-	server.</para>
-    </sect2>
-
-    <sect2>
-      <title>Debugging Log Servers</title>
-
-      <para>If no messages are being received on the log server, the
-	cause is most likely a network connectivity issue, a hostname
-	resolution issue, or a typo in a configuration file.  To
-	isolate the cause, ensure that both the logging server and the
-	logging client are able to <command>ping</command> each other
-	using the hostname specified in their
-	<filename>/etc/rc.conf</filename>.  If this fails, check the
-	network cabling, the firewall ruleset, and the hostname
-	entries in the <acronym>DNS</acronym> server or
-	<filename>/etc/hosts</filename> on both the logging server and
-	clients.  Repeat until the <command>ping</command> is
-	successful from both hosts.</para>
-
-      <para>If the <command>ping</command> succeeds on both hosts but
-	log messages are still not being received, temporarily
-	increase logging verbosity to narrow down the configuration
-	issue.  In the following example,
-	<filename>/var/log/logclient.log</filename> on the logging
-	server is empty and <filename>/var/log/messages</filename> on
-	the logging client does not indicate a reason for the failure.
-	To increase debugging output, edit the
-	<literal>syslogd_flags</literal> entry on the logging server
-	and issue a restart:</para>
-
-      <programlisting>syslogd_flags="-d -a logclien.example.com -v -v"</programlisting>
-
-      <screen>&prompt.root; <userinput>service syslogd restart</userinput></screen>
-
-      <para>Debugging data similar to the following will flash on the
-	console immediately after the restart:</para>
-
-      <screen>logmsg: pri 56, flags 4, from logserv.example.com, msg syslogd: restart
-syslogd: restarted
-logmsg: pri 6, flags 4, from logserv.example.com, msg syslogd: kernel boot file is /boot/kernel/kernel
-Logging to FILE /var/log/messages
-syslogd: kernel boot file is /boot/kernel/kernel
-cvthname(192.168.1.10)
-validate: dgram from IP 192.168.1.10, port 514, name logclient.example.com;
-rejected in rule 0 due to name mismatch.</screen>
-
-      <para>In this example, the log messages are being rejected due
-	to a typo which results in a hostname mismatch.  The client's
-	hostname should be <literal>logclient</literal>, not
-	<literal>logclien</literal>.  Fix the typo, issue a restart,
-	and verify the results:</para>
-
-      <screen>&prompt.root; <userinput>service syslogd restart</userinput>
-logmsg: pri 56, flags 4, from logserv.example.com, msg syslogd: restart
-syslogd: restarted
-logmsg: pri 6, flags 4, from logserv.example.com, msg syslogd: kernel boot file is /boot/kernel/kernel
-syslogd: kernel boot file is /boot/kernel/kernel
-logmsg: pri 166, flags 17, from logserv.example.com,
-msg Dec 10 20:55:02 &lt;syslog.err&gt; logserv.example.com syslogd: exiting on signal 2
-cvthname(192.168.1.10)
-validate: dgram from IP 192.168.1.10, port 514, name logclient.example.com;
-accepted in rule 0.
-logmsg: pri 15, flags 0, from logclient.example.com, msg Dec 11 02:01:28 trhodes: Test message 2
-Logging to FILE /var/log/logclient.log
-Logging to FILE /var/log/messages</screen>
-
-      <para>At this point, the messages are being properly received
-	and placed in the correct file.</para>
-    </sect2>
-
-    <sect2>
-      <title>Security Considerations</title>
-
-      <para>As with any network service, security requirements should
-	be considered before implementing a logging server.  Log files
-	may contain sensitive data about services enabled on the local
-	host, user accounts, and configuration data.  Network data
-	sent from the client to the server will not be encrypted or
-	password protected.  If a need for encryption exists, consider
-	using <package>security/stunnel</package>, which will transmit
-	the logging data over an encrypted tunnel.</para>
-
-      <para>Local security is also an issue.  Log files are not
-	encrypted during use or after log rotation.  Local users may
-	access log files to gain additional insight into system
-	configuration.  Setting proper permissions on log files is
-	critical.  The built-in log rotator, &man.newsyslog.8;,
-	supports setting permissions on newly created and rotated log
-	files.  Setting log files to mode <literal>600</literal>
-	should prevent unwanted access by local users.  Refer to
-	&man.newsyslog.conf.5; for additional information.</para>
-    </sect2>
-  </sect1>
-
   <sect1 xml:id="network-iscsi">
     <!--
     <sect1info>
@@ -5657,45 +5360,56 @@ Logging to FILE /var/log/messages</screen>
     <title><acronym>iSCSI</acronym> Initiator and Target
       Configuration</title>
 
-    <para><acronym>iSCSI</acronym> is a way to share storage, to make
-      disk space at one machine (the server, in iSCSI nomenclature
-      known as the <emphasis>target</emphasis>) available to others
-      (clients, called <emphasis>initiators</emphasis> in
-      <acronym>iSCSI</acronym>).  The main difference when compared to
-      <acronym>NFS</acronym> is that <acronym>NFS</acronym> works at a
-      filesystem level, while <acronym>iSCSI</acronym> works at the
-      block device level.  To initiators, remote disks served via
-      <acronym>iSCSI</acronym> are just like physical disks.  Their
-      device nodes appear in <filename>/dev/</filename>, and must be
-      separately mounted.</para>
+    <para><acronym>iSCSI</acronym> is a way to share storage over a
+      network.  Unlike <acronym>NFS</acronym>, which works at the file
+      system level, <acronym>iSCSI</acronym> works at the block device
+      level.</para>
+
+    <para>In <acronym>iSCSI</acronym> terminology, the system that
+      shares the storage is known as the <emphasis>target</emphasis>.
+      The storage can be a physical disk, or an area representing
+      multiple disks or a portion of a physical disk.  For example, if
+      the disk(s) are formatted with <acronym>ZFS</acronym>, a zvol
+      can be created to use as the <acronym>iSCSI</acronym>
+      storage.</para>
+
+    <para>The clients which access the <acronym>iSCSI</acronym>
+      storage are called <emphasis>initiators</emphasis>.  To
+      initiators, the storage available through
+      <acronym>iSCSI</acronym> appears as a raw, unformatted disk
+      known as a <acronym>LUN</acronym>.  Device nodes for the disk
+      appear in <filename>/dev/</filename> and the device must be
+      separately formatted and mounted.</para>
+
+    <para>Beginning with 10.0-RELEASE, &os; provides a native,
+      kernel-based <acronym>iSCSI</acronym> target and initiator.
+      This section describes how to configure a &os; system as a
+      target or an initiator.</para>
 
     <sect2 xml:id="network-iscsi-target">
-      <title><acronym>iSCSI</acronym> Target</title>
+      <title>Configuring an <acronym>iSCSI</acronym> Target</title>
 
-      <para>Note: the native <acronym>iSCSI</acronym> target is
-	supported starting with &os; 10.0-RELEASE.  To use
-	<acronym>iSCSI</acronym> in older versions of &os;, install a
-	userspace target from the Ports Collection, such as
-	<package>net/istgt</package>.  This chapter only describes the
-	native target.</para>
+      <note>
+	<para>The native <acronym>iSCSI</acronym> target is supported
+	  starting with &os; 10.0-RELEASE.  To use
+	  <acronym>iSCSI</acronym> in older versions of &os;, install
+	  a userspace target from the Ports Collection, such as
+	  <package>net/istgt</package>.  This chapter only describes
+	  the native target.</para>
+      </note>
 
-      <sect3>
-	<title>Basic Operation</title>
+      <para>To configure an <acronym>iSCSI</acronym> target, create
+	the <filename>/etc/ctl.conf</filename> configuration file, add
+	a line to <filename>/etc/rc.conf</filename> to make sure the
+	&man.ctld.8; daemon is automatically started at boot, and then
+	start the daemon.</para>
 
-	<para>Configuring an <acronym>iSCSI</acronym> target is
-	  straightforward: create the
-	  <filename>/etc/ctl.conf</filename> configuration file, add
-	  an appropriate line to <filename>/etc/rc.conf</filename> to
-	  make sure the <link
-	    xlink:href="http://www.freebsd.org/cgi/man.cgi?query=ctld&amp;sektion=8&amp;manpath=FreeBSD+10-current">ctld(8)</link>
-	  daemon is automatically started at boot, and then start the
-	  daemon.</para>
+      <para>The following is an example of a simple
+	<filename>/etc/ctl.conf</filename> configuration file.  Refer
+	to &man.ctl.conf.5; for a more complete description of this
+	file's available options.</para>
 
-	<para>A simple <link
-	    xlink:href="http://www.freebsd.org/cgi/man.cgi?query=ctl.conf&amp;sektion=5&amp;manpath=FreeBSD+10-current">ctl.conf(5)</link>
-	  configuration file looks like this:</para>
-
-	<programlisting>portal-group pg0 {
+      <programlisting>portal-group pg0 {
 	discovery-auth-group no-authentication
 	listen 0.0.0.0
 	listen [::]
@@ -5711,97 +5425,79 @@ target iqn.2012-06.com.example:target0 {
 	}
 }</programlisting>
 
-	<para>The first entry defines the <literal>pg0</literal>
-	  portal group.  Portal groups define network addresses the
-	  <link
-	    xlink:href="http://www.freebsd.org/cgi/man.cgi?query=ctld&amp;sektion=8&amp;manpath=FreeBSD+10-current">ctld(8)</link>
-	  daemon will listen on.  <literal>discovery-auth-group
-	  no-authentication</literal> means that every initiator is
-	  allowed to perform <acronym>iSCSI</acronym> SendTargets
-	  discovery without any authentication.  The following two
-	  lines make <link
-	    xlink:href="http://www.freebsd.org/cgi/man.cgi?query=ctld&amp;sektion=8&amp;manpath=FreeBSD+10-current">ctld(8)</link>
-	  listen on all <acronym>IPv4</acronym>
-	  (<literal>listen 0.0.0.0</literal>) and
-	  <acronym>IPv6</acronym> (<literal>listen [::]</literal>)
-	  addresses on the default port (3260).  It is not necessary
-	  to define a new portal group; there is a default one, called
-	  <literal>default</literal>.  The difference between
-	  <literal>default</literal> and <literal>pg0</literal> above
-	  is that with <literal>default</literal>, the
-	  <acronym>iSCSI</acronym> SendTargets discovery is always
-	  denied, while with <literal>pg0</literal> it is always
-	  allowed.</para>
+      <para>The first entry defines the <literal>pg0</literal> portal
+	group.  Portal groups define which network addresses the
+	&man.ctld.8; daemon will listen on.  The
+	<literal>discovery-auth-group no-authentication</literal>
+	entry indicates that any initiator is allowed to perform
+	<acronym>iSCSI</acronym> target discovery without
+	authentication.  Lines three and four configure &man.ctld.8;
+	to listen on all <acronym>IPv4</acronym>
+	(<literal>listen 0.0.0.0</literal>) and
+	<acronym>IPv6</acronym> (<literal>listen [::]</literal>)
+	addresses on the default port of 3260.</para>
 
-	<para>The second entry defines a single
-	  <emphasis>target</emphasis>.  <quote>Target</quote> has two
-	  meanings: it is a machine serving <acronym>iSCSI</acronym>,
-	  but also a named group of <acronym>LUNs</acronym>.  In this
-	  example, we use the latter meaning.
-	  <literal>iqn.2012-06.com.example:target0</literal> is the
-	  target name.  For testing purposes it can be left as is;
-	  otherwise, <literal>com.example</literal> should be changed
-	  to the real domain name, reversed; the
-	  <literal>2012-06</literal> is the year and month of
-	  acquiring control of that domain name, and
-	  <literal>target0</literal> can be pretty much whatever.  Any
-	  number of targets can be defined in the configuration
-	  file.</para>
+      <para>It is not necessary to define a portal group as there is a
+	built-in portal group called <literal>default</literal>.  In
+	this case, the difference between <literal>default</literal>
+	and <literal>pg0</literal> is that with
+	<literal>default</literal>, target discovery is always denied,
+	while with <literal>pg0</literal>, it is always
+	allowed.</para>
 
-	<para><literal>auth-group no-authentication</literal> allows
-	  all initiators to connect to this target.
-	  <literal>portal-group pg0</literal> makes the target
-	  reachable through the <literal>pg0</literal> portal
-	  group.</para>
+      <para>The second entry defines a single target.  Target has two
+	possible meanings: a machine serving <acronym>iSCSI</acronym>
+	or a named group of <acronym>LUNs</acronym>.  This example
+	uses the latter meaning, where
+	<literal>iqn.2012-06.com.example:target0</literal> is the
+	target name.  This target name is suitable for testing
+	purposes.  For actual use, change
+	<literal>com.example</literal> to the real domain name,
+	reversed.  The <literal>2012-06</literal> represents the year
+	and month of acquiring control of that domain name, and
+	<literal>target0</literal> can be any value.  Any number of
+	targets can be defined in this configuration file.</para>
 
-	<para>After that come <acronym>LUNs</acronym>.  To the
-	  initiator, each <acronym>LUN</acronym> will be visible as a
-	  separate disk device, like <filename>/dev/da0</filename>,
-	  <filename>/dev/da1</filename> and so on.  Multiple
-	  <acronym>LUNs</acronym> can be defined for each target.
-	  <acronym>LUNs</acronym> are identified by numbers;
-	  <acronym>LUN</acronym> 0 is mandatory.  The first line of
-	  <acronym>LUN</acronym> configuration
-	  (<literal>path /data/target0-0</literal>) defines the full
-	  path to a file or ZVOL backing the <acronym>LUN</acronym>.
-	  The file must exist before starting <link
-	    xlink:href="http://www.freebsd.org/cgi/man.cgi?query=ctld&amp;sektion=8&amp;manpath=FreeBSD+10-current">ctld(8)</link>.
-	  The second line is optional and specifies the size.</para>
+      <para>The <literal>auth-group no-authentication</literal> line
+	allows all initiators to connect to the specified target and
+	<literal>portal-group pg0</literal> makes the target reachable
+	through the <literal>pg0</literal> portal group.</para>
 
-	<para>To make sure <link
-	    xlink:href="http://www.freebsd.org/cgi/man.cgi?query=ctld&amp;sektion=8&amp;manpath=FreeBSD+10-current">ctld(8)</link>
-	  daemon is started at boot, add this line to
-	  <filename>/etc/rc.conf</filename>:</para>
+      <para>The next section defines the <acronym>LUN</acronym>.  To
+	the initiator, each <acronym>LUN</acronym> will be visible as
+	a separate disk device.  Multiple <acronym>LUNs</acronym> can
+	be defined for each target.  Each <acronym>LUN</acronym> is
+	identified by a number, where <acronym>LUN</acronym> 0 is
+	mandatory.  The <literal>path /data/target0-0</literal> line
+	defines the full path to a file or zvol backing the
+	<acronym>LUN</acronym>.  That path must exist before starting
+	&man.ctld.8;.  The second line is optional and specifies the
+	size of the <acronym>LUN</acronym>.</para>
 
-	<programlisting>ctld_enable="YES"</programlisting>
+      <para>Next, to make sure the &man.ctld.8; daemon is started at
+	boot, add this line to
+	<filename>/etc/rc.conf</filename>:</para>
 
-	<para>On a new server being configured as
-	  <acronym>iSCSI</acronym> target, <link
-	    xlink:href="http://www.freebsd.org/cgi/man.cgi?query=ctld&amp;sektion=8&amp;manpath=FreeBSD+10-current">ctld(8)</link>
-	  can be started by running this command as <systemitem
-	    class="username">root</systemitem>:</para>
+      <programlisting>ctld_enable="YES"</programlisting>
 
-	<screen>&prompt.root; <userinput>service ctld start</userinput></screen>
+      <para>To start &man.ctld.8; now, run this command:</para>
 
-	<para>The <link
-	    xlink:href="http://www.freebsd.org/cgi/man.cgi?query=ctld&amp;sektion=8&amp;manpath=FreeBSD+10-current">ctld(8)</link>
-	  daemon reads <link
-	    xlink:href="http://www.freebsd.org/cgi/man.cgi?query=ctl.conf&amp;sektion=5&amp;manpath=FreeBSD+10-current">ctl.conf(5)</link>
-	  file when started.  To make configuration changes take
-	  effect immediately, force <link
-	    xlink:href="http://www.freebsd.org/cgi/man.cgi?query=ctld&amp;sektion=8&amp;manpath=FreeBSD+10-current">ctld(8)</link>
-	  to reread it:</para>
+      <screen>&prompt.root; <userinput>service ctld start</userinput></screen>
 
-	<screen>&prompt.root; <userinput>service ctld reload</userinput></screen>
-      </sect3>
+      <para>As the &man.ctld.8; daemon is started, it reads
+	<filename>/etc/ctl.conf</filename>.  If this file is edited
+	after the daemon starts, use this command so that the changes
+	take effect immediately:</para>
+
+      <screen>&prompt.root; <userinput>service ctld reload</userinput></screen>
 
       <sect3>
 	<title>Authentication</title>
 
-	<para>The example above is inherently insecure: it uses no
-	  authentication whatsoever, granting anyone full access to
-	  all targets.  To require username and password to access
-	  targets, modify the configuration:</para>
+	<para>The previous example is inherently insecure as it uses
+	  no authentication, granting anyone full access to all
+	  targets.  To require a username and password to access
+	  targets, modify the configuration as follows:</para>
 
 	<programlisting>auth-group ag0 {
 	chap username1 secretsecret
@@ -5826,15 +5522,17 @@ target iqn.2012-06.com.example:target0 {
 	<para>The <literal>auth-group</literal> section defines
 	  username and password pairs.  An initiator trying to connect
 	  to <literal>iqn.2012-06.com.example:target0</literal> must
-	  specify either of those.  The SendTargets discovery is still
-	  permitted without any kind of authentication; to change it,
-	  set <literal>discovery-auth-group</literal> to something
-	  else.</para>
+	  first specify a defined username and secret.  However,
+	  target discovery is still permitted without authentication.
+	  To require target discovery authentication, set
+	  <literal>discovery-auth-group</literal> to a defined
+	  <literal>auth-group</literal> name instead of
+	  <literal>no-authentication</literal>.</para>
 
-	<para>A common case for <acronym>iSCSI</acronym> is to have a
-	  single exported target for every initiator.  As a shorthand
-	  for the syntax above, the username and password can be
-	  specified directly in the target entry:</para>
+	<para>It is common to define a single exported target for
+	  every initiator.  As a shorthand for the syntax above, the
+	  username and password can be specified directly in the
+	  target entry:</para>
 
 	<programlisting>target iqn.2012-06.com.example:target0 {
 	portal-group pg0
@@ -5849,87 +5547,80 @@ target iqn.2012-06.com.example:target0 {
     </sect2>
 
     <sect2 xml:id="network-iscsi-initiator">
-      <title><acronym>iSCSI</acronym> Initiator</title>
+      <title>Configuring an <acronym>iSCSI</acronym> Initiator</title>
 
       <note>
-	<para>The current <acronym>iSCSI</acronym> initiator is
-	  supported starting with &os; 10.0-RELEASE.  To use the
-	  <acronym>iSCSI</acronym> initiator available in older
-	  versions, refer to <link
-	    xlink:href="http://www.freebsd.org/cgi/man.cgi?query=iscontrol&amp;sektion=8&amp;manpath=FreeBSD+10-current">iscontrol(8)</link>.
-	  This chapter only applies to the new initiator.</para>
+	<para>The <acronym>iSCSI</acronym> initiator described in this
+	  section is supported starting with &os; 10.0-RELEASE.  To
+	  use the <acronym>iSCSI</acronym> initiator available in
+	  older versions, refer to &man.iscontrol.8;.</para>
       </note>
 
-      <para>The <acronym>iSCSI</acronym> initiator requires the <link
-	  xlink:href="http://www.freebsd.org/cgi/man.cgi?query=iscsid&amp;sektion=8&amp;manpath=FreeBSD+10-current">iscsid(8)</link>
-	daemon to run.  It does not use a configuration file.  To
-	start it automatically at boot, add this line to
-	<filename>/etc/rc.conf</filename>:</para>
+      <para>The <acronym>iSCSI</acronym> initiator requires that the
+	&man.iscsid.8; daemon is running.  This daemon does not use a
+	configuration file.  To start it automatically at boot, add
+	this line to <filename>/etc/rc.conf</filename>:</para>
 
       <programlisting>iscsid_enable="YES"</programlisting>
 
-      <para>On a new machine being configured as an
-	<acronym>iSCSI</acronym> initiator, <link
-	  xlink:href="http://www.freebsd.org/cgi/man.cgi?query=iscsid&amp;sektion=8&amp;manpath=FreeBSD+10-current">iscsid(8)</link>
-	can be started by running this command as <systemitem
-	  class="username">root</systemitem>:</para>
+      <para>To start &man.iscsid.8; now, run this command:</para>
 
       <screen>&prompt.root; <userinput>service iscsid start</userinput></screen>
 
       <para>Connecting to a target can be done with or without an
-	<link
-	  xlink:href="http://www.freebsd.org/cgi/man.cgi?query=iscsi.conf&amp;sektion=5&amp;manpath=FreeBSD+10-current">iscsi.conf(8)</link>
-	configuration file.</para>
+	<filename>/etc/iscsi.conf</filename> configuration file.  This
+	section demonstrates both types of connections.</para>
 
       <sect3>
 	<title>Connecting to a Target Without a Configuration
 	  File</title>
 
-	<para>To make the initiator connect to a single target, run
-	  this command as <systemitem
-	    class="username">root</systemitem>:</para>
+	<para>To connect an initiator to a single target, specify the
+	  <acronym>IP</acronym> address of the portal and the name of
+	  the target:</para>
 
-	<screen>&prompt.root; <userinput>iscsictl -A -p 10.10.10.10 -t iqn.2012-06.com.example:target0</userinput></screen>
+	<screen>&prompt.root; <userinput>iscsictl -A -p <replaceable>10.10.10.10</replaceable> -t <replaceable>iqn.2012-06.com.example:target0</replaceable></userinput></screen>
 
-	<para>To verify if the connection succeeded, run it without
-	  arguments.  The output should look like this:</para>
+	<para>To verify if the connection succeeded, run
+	  <command>iscsictl</command> without any arguments.  The
+	  output should look similar to this:</para>
 
 	<programlisting>Target name                                     Target portal   State
 iqn.2012-06.com.example:target0                 10.10.10.10     Connected: da0</programlisting>
 
-	<para>This shows that the <acronym>iSCSI</acronym> session was
-	  successfully established, with <filename>/dev/da0</filename>
-	  representing the attached <acronym>LUN</acronym>.  If the
+	<para>In this example, the <acronym>iSCSI</acronym> session
+	  was successfully established, with
+	  <filename>/dev/da0</filename> representing the attached
+	  <acronym>LUN</acronym>.  If the
 	  <literal>iqn.2012-06.com.example:target0</literal> target
 	  exports more than one <acronym>LUN</acronym>, multiple
-	  device nodes will be shown in the <link
-	    xlink:href="http://www.freebsd.org/cgi/man.cgi?query=iscsictl&amp;sektion=8&amp;manpath=FreeBSD+10-current">iscictl(8)</link>
+	  device nodes will be shown in that section of the
 	  output:</para>
 
 	<screen>Connected: da0 da1 da2.</screen>
 
-	<para>Any errors are reported in the system logs, and also
-	  visible in the <link
-	    xlink:href="http://www.freebsd.org/cgi/man.cgi?query=iscsictl&amp;sektion=8&amp;manpath=FreeBSD+10-current">iscictl(8)</link>
-	  output.  For example, this usually means the <link
-	    xlink:href="http://www.freebsd.org/cgi/man.cgi?query=iscsid&amp;sektion=8&amp;manpath=FreeBSD+10-current">iscsid(8)</link>
-	  daemon is not running:</para>
+	<para>Any errors will be reported in the output, as well as
+	  the system logs.  For example, this message usually means
+	  that the &man.iscsid.8; daemon is not running:</para>
 
 	<programlisting>Target name                                     Target portal   State
 iqn.2012-06.com.example:target0                 10.10.10.10     Waiting for iscsid(8)</programlisting>
 
-	<para>The following suggests a network-level problem, such as
-	  a wrong <acronym>IP</acronym> address or port:</para>
+	<para>The following message suggests a networking problem,
+	  such as a wrong <acronym>IP</acronym> address or
+	  port:</para>
 
 	<programlisting>Target name                                     Target portal   State
 iqn.2012-06.com.example:target0                 10.10.10.11     Connection refused</programlisting>
 
-	<para>This means the specified target name was wrong:</para>
+	<para>This message means that the specified target name is
+	  wrong:</para>
 
 	<programlisting>Target name                                     Target portal   State
 iqn.2012-06.com.example:atrget0                 10.10.10.10     Not found</programlisting>
 
-	<para>This means the target requires authentication:</para>
+	<para>This message means that the target requires
+	  authentication:</para>
 
 	<programlisting>Target name                                     Target portal   State
 iqn.2012-06.com.example:target0                 10.10.10.10     Authentication failed</programlisting>
@@ -5937,11 +5628,11 @@ iqn.2012-06.com.example:target0                 10.10.10.10     Authentication f
 	<para>To specify a <acronym>CHAP</acronym> username and
 	  secret, use this syntax:</para>
 
-	<screen>&prompt.root; <userinput>iscsictl -A -p 10.10.10.10 -t iqn.2012-06.com.example:target0 -u user -s secretsecret</userinput></screen>
+	<screen>&prompt.root; <userinput>iscsictl -A -p <replaceable>10.10.10.10</replaceable> -t <replaceable>iqn.2012-06.com.example:target0</replaceable> -u <replaceable>user</replaceable> -s <replaceable>secretsecret</replaceable></userinput></screen>
       </sect3>
 
       <sect3>
-	<title>Connecting to a Target With a Configuration
+	<title>Connecting to a Target with a Configuration
 	  File</title>
 
 	<para>To connect using a configuration file, create
@@ -5956,20 +5647,23 @@ iqn.2012-06.com.example:target0                 10.10.10.10     Authentication f
 	chapSecret      = secretsecret
 }</programlisting>
 
-	<para><literal>t0</literal> specifies a nickname for the
-	  configuration file section, used at the initiator side to
-	  specify which configuration to use.  The following lines
-	  specify various parameters used during connection.  Target
-	  address and name are mandatory, others are optional.  In
-	  this example, <acronym>CHAP</acronym> username and secret
-	  are shown.</para>
+	<para>The <literal>t0</literal> specifies a nickname for the
+	  configuration file section.  It will be used by the
+	  initiator to specify which configuration to use.  The other
+	  lines specify the parameters to use during connection.  The
+	  <literal>TargetAddress</literal> and
+	  <literal>TargetName</literal> are mandatory, whereas the
+	  other options are optional.  In this example, the
+	  <acronym>CHAP</acronym> username and secret are
+	  shown.</para>
 
-	<para>To connect to the target defined above, use:</para>
+	<para>To connect to the defined target, specify the
+	  nickname:</para>
 
-	<screen>&prompt.root; <userinput>iscsictl -An t0</userinput></screen>
+	<screen>&prompt.root; <userinput>iscsictl -An <replaceable>t0</replaceable></userinput></screen>
 
-	<para>To connect to all targets defined in the configuration
-	  file, use:</para>
+	<para>Alternately, to connect to all targets defined in the
+	  configuration file, use:</para>
 
 	<screen>&prompt.root; <userinput>iscsictl -Aa</userinput></screen>
 

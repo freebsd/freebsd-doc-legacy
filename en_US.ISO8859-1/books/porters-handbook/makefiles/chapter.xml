@@ -49,20 +49,28 @@
       names the port, describes its version number, and lists it in
       the correct category.</para>
 
-    <sect2>
+    <sect2 xml:id="makefile-portname">
       <title><varname>PORTNAME</varname> and
 	<varname>PORTVERSION</varname></title>
 
       <para>You should set <varname>PORTNAME</varname> to the base
 	name of your port, and <varname>PORTVERSION</varname> to the
 	version number of the port.</para>
+
+      <warning>
+	<para>Package name should be unique among all of the ports
+	  tree, check that there is not already a port with the same
+	  <varname>PORTNAME</varname> and if there is add one of <link
+	    linkend="porting-pkgnameprefix-suffix"><varname>PKGNAMEPREFIX</varname>
+	    or <varname>PKGNAMESUFFIX</varname></link>.</para>
+      </warning>
     </sect2>
 
     <sect2 xml:id="makefile-naming-revepoch">
       <title><varname>PORTREVISION</varname> and
 	<varname>PORTEPOCH</varname></title>
 
-      <sect3>
+      <sect3 xml:id="makefile-portrevision">
 	<title><varname>PORTREVISION</varname></title>
 
 	<para>The <varname>PORTREVISION</varname> variable is a
@@ -168,7 +176,7 @@
 	  <varname>PORTREVISION</varname> should be bumped.</para>
       </sect3>
 
-      <sect3>
+      <sect3 xml:id="makefile-portepoch">
 	<title><varname>PORTEPOCH</varname></title>
 
 	<para>From time to time a software vendor or &os; porter will
@@ -233,7 +241,7 @@
 	  still a numerically greater value.</para>
       </sect3>
 
-      <sect3>
+      <sect3 xml:id="makefile-portrevision-example">
 	<title>Example of <varname>PORTREVISION</varname> and
 	  <varname>PORTEPOCH</varname> Usage</title>
 
@@ -302,7 +310,7 @@ PORTEPOCH=	1</programlisting>
       </sect3>
     </sect2>
 
-    <sect2>
+    <sect2 xml:id="porting-pkgnameprefix-suffix">
       <title><varname>PKGNAMEPREFIX</varname> and
 	<varname>PKGNAMESUFFIX</varname></title>
 
@@ -327,117 +335,146 @@ PORTEPOCH=	1</programlisting>
     <sect2 xml:id="porting-pkgname">
       <title>Package Naming Conventions</title>
 
-      <para>The following are the conventions you should follow in
-	naming your packages.  This is to have our package directory
+      <para>These are the conventions to follow when
+	naming packages.  This is to make the package directory
 	easy to scan, as there are already thousands of packages and
 	users are going to turn away if they hurt their eyes!</para>
 
-      <para>The package name should look like
-	<filename>language_region-name-compiled.specifics-version.numbers</filename>.</para>
+      <para>Package names take the form of
+	<filename><replaceable>language_region-name-compiled.specifics-version.numbers</replaceable></filename>.</para>
 
       <para>The package name is defined as
 	<literal>${PKGNAMEPREFIX}${PORTNAME}${PKGNAMESUFFIX}-${PORTVERSION}</literal>.
 	Make sure to set the variables to conform to that
 	format.</para>
 
-      <orderedlist>
-	<listitem>
-	  <para>&os; strives to support the native language of its
-	    users.  The <replaceable>language-</replaceable> part
-	    should be a two letter abbreviation of the natural
-	    language defined by ISO-639 if the port is specific to a
-	    certain language.  Examples are <literal>ja</literal> for
-	    Japanese, <literal>ru</literal> for Russian,
-	    <literal>vi</literal> for Vietnamese,
-	    <literal>zh</literal> for Chinese, <literal>ko</literal>
-	    for Korean and <literal>de</literal> for German.</para>
+      <variablelist xml:id="porting-pkgname-format">
+	<varlistentry xml:id="porting-pkgname-language">
+	  <term><filename><replaceable>language_region-</replaceable></filename></term>
 
-	  <para>If the port is specific to a certain region within the
-	    language area, add the two letter country code as well.
-	    Examples are <literal>en_US</literal> for US English and
-	    <literal>fr_CH</literal> for Swiss French.</para>
+	  <listitem>
+	    <para>&os; strives to support the native language of its
+	      users.  The <replaceable>language-</replaceable> part is
+	      a two letter abbreviation of the natural language
+	      defined by ISO-639 when the port is specific to a
+	      certain language.  Examples are <literal>ja</literal>
+	      for Japanese, <literal>ru</literal> for Russian,
+	      <literal>vi</literal> for Vietnamese,
+	      <literal>zh</literal> for Chinese, <literal>ko</literal>
+	      for Korean and <literal>de</literal> for German.</para>
 
-	  <para>The <replaceable>language-</replaceable> part should
-	    be set in the <varname>PKGNAMEPREFIX</varname>
-	    variable.</para>
-	</listitem>
+	    <para>If the port is specific to a certain region within
+	      the language area, add the two letter country code as
+	      well.  Examples are <literal>en_US</literal> for US
+	      English and <literal>fr_CH</literal> for Swiss
+	      French.</para>
 
-	<listitem>
-	  <para>The first letter of the <filename>name</filename> part
-	    should be lowercase.  (The rest of the name may contain
-	    capital letters, so use your own discretion when you are
-	    converting a software name that has some capital letters
-	    in it.) There is a tradition of naming
-	    <literal>Perl 5</literal> modules by prepending
-	    <literal>p5-</literal> and converting the double-colon
-	    separator to a hyphen; for example, the
-	    <literal>Data::Dumper</literal> module becomes
-	    <literal>p5-Data-Dumper</literal>.</para>
-	</listitem>
+	    <para>The <replaceable>language-</replaceable> part is
+	      set in the <varname>PKGNAMEPREFIX</varname>
+	      variable.</para>
+	  </listitem>
+	</varlistentry>
 
-	<listitem>
-	  <para>Make sure that the port's name and version are clearly
-	    separated and placed into the <varname>PORTNAME</varname>
-	    and <varname>PORTVERSION</varname> variables.  The only
-	    reason for <varname>PORTNAME</varname> to contain a
-	    version part is if the upstream distribution is really
-	    named that way, as in the
-	    <filename>textproc/libxml2</filename> or
-	    <filename>japanese/kinput2-freewnn</filename> ports.
-	    Otherwise, the <varname>PORTNAME</varname> should not
-	    contain any version-specific information.  It is quite
-	    normal for several ports to have the same
-	    <varname>PORTNAME</varname>, as the
-	    <filename>www/apache*</filename> ports do; in that case,
-	    different versions (and different index entries) are
-	    distinguished by the <varname>PKGNAMEPREFIX</varname> and
-	    <varname>PKGNAMESUFFIX</varname> values.</para>
-	</listitem>
+	<varlistentry xml:id="porting-pkgname-name">
+	  <term><filename><replaceable>name</replaceable></filename></term>
 
-	<listitem>
-	  <para>If the port can be built with different
-	    <link linkend="makefile-masterdir">hardcoded
-	      defaults</link> (usually part of the directory name in a
-	    family of ports), the
-	    <replaceable>-compiled.specifics</replaceable> part should
-	    state the compiled-in defaults (the hyphen is optional).
-	    Examples are paper size and font units.</para>
+	  <listitem>
+	    <para>The first letter of the <filename>name</filename>
+	      part should be lowercase.  (The rest of the name may
+	      contain capital letters, so use your own discretion when
+	      converting a software name that has some capital letters
+	      in it.) There is a tradition of naming
+	      <literal>Perl 5</literal> modules by prepending
+	      <literal>p5-</literal> and converting the double-colon
+	      separator to a hyphen.  For example, the
+	      <literal>Data::Dumper</literal> module becomes
+	      <literal>p5-Data-Dumper</literal>.</para>
 
-	  <para>The <replaceable>-compiled.specifics</replaceable>
-	    part should be set in the <varname>PKGNAMESUFFIX</varname>
-	    variable.</para>
-	</listitem>
+	    <para>Make sure that the port's name and version are
+	      clearly separated and placed into the
+	      <varname>PORTNAME</varname> and
+	      <varname>PORTVERSION</varname> variables.  The only
+	      reason for <varname>PORTNAME</varname> to contain a
+	      version part is if the upstream distribution is really
+	      named that way, as in the
+	      <filename>textproc/libxml2</filename> or
+	      <filename>japanese/kinput2-freewnn</filename> ports.
+	      Otherwise, the <varname>PORTNAME</varname> should not
+	      contain any version-specific information.  It is quite
+	      normal for several ports to have the same
+	      <varname>PORTNAME</varname>, as the
+	      <filename>www/apache*</filename> ports do; in that case,
+	      different versions (and different index entries) are
+	      distinguished by the <varname>PKGNAMEPREFIX</varname>
+	      and <varname>PKGNAMESUFFIX</varname> values.</para>
+	  </listitem>
+	</varlistentry>
 
-	<listitem>
-	  <para>The version string should follow a dash
-	    (<literal>-</literal>) and be a period-separated list of
-	    integers and single lowercase alphabetics.  In particular,
-	    it is not permissible to have another dash inside the
-	    version string.  The only exception is the string
-	    <literal>pl</literal> (meaning <quote>patchlevel</quote>),
-	    which can be used <emphasis>only</emphasis> when there are
-	    no major and minor version numbers in the software.  If
-	    the software version has strings like
-	    <quote>alpha</quote>, <quote>beta</quote>,
-	    <quote>rc</quote>, or <quote>pre</quote>, take the first
-	    letter and put it immediately after a period.  If the
-	    version string continues after those names, the numbers
-	    should follow the single alphabet without an extra period
-	    between them.</para>
+	<varlistentry xml:id="porting-pkgname-compiled-specifics">
+	  <term><filename><replaceable>-compiled.specifics</replaceable></filename></term>
 
-	  <para>The idea is to make it easier to sort ports by looking
-	    at the version string.  In particular, make sure version
-	    number components are always delimited by a period, and if
-	    the date is part of the string, use the
-	    <literal>0.0.yyyy.mm.dd</literal> format, not
-	    <literal>dd.mm.yyyy</literal> or the non-Y2K compliant
-	    <literal>yy.mm.dd</literal> format.  It is important to
-	    prefix the version with <literal>0.0.</literal> in case a
-	    release with an actual version number is made, which would
-	    of course be numerically less than
-	    <literal>yyyy</literal>.</para>
-	</listitem>
-      </orderedlist>
+	  <listitem>
+	    <para>If the port can be built with different <link
+		linkend="makefile-masterdir">hardcoded defaults</link>
+	      (usually part of the directory name in a family of
+	      ports), the
+	      <replaceable>-compiled.specifics</replaceable> part
+	      should state the compiled-in defaults (the hyphen is
+	      optional).  Examples are paper size and font
+	      units.</para>
+
+	    <para>The <replaceable>-compiled.specifics</replaceable>
+	      part is set in the <varname>PKGNAMESUFFIX</varname>
+	      variable.</para>
+	  </listitem>
+	</varlistentry>
+
+	<varlistentry xml:id="porting-pkgname-version-numbers">
+	  <term><filename><replaceable>-version.numbers</replaceable></filename></term>
+
+	  <listitem>
+	    <para>The version string follows a dash
+	      (<literal>-</literal>) and is a period-separated list of
+	      integers and single lowercase alphabetics.  In
+	      particular, it is not permissible to have another dash
+	      inside the version string.  The only exception is the
+	      string <literal>pl</literal> (meaning
+	      <quote>patchlevel</quote>), which can be used
+	      <emphasis>only</emphasis> when there are no major and
+	      minor version numbers in the software.  If the software
+	      version has strings like <quote>alpha</quote>,
+	      <quote>beta</quote>, <quote>rc</quote>, or
+	      <quote>pre</quote>, take the first letter and put it
+	      immediately after a period.  If the version string
+	      continues after those names, the numbers should follow
+	      the single alphabet without an extra period between
+	      them.</para>
+
+	    <para>The idea is to make it easier to sort ports by
+	      looking at the version string.  In particular, make sure
+	      version number components are always delimited by a
+	      period, and if the date is part of the string, use the
+	      <literal>0.0.<replaceable>yyyy</replaceable>.<replaceable>mm</replaceable>.<replaceable>dd</replaceable></literal>
+	      format, not
+	      <literal><replaceable>dd</replaceable>.<replaceable>mm</replaceable>.<replaceable>yyyy</replaceable></literal>
+	      or the non-Y2K compliant
+	      <literal><replaceable>yy</replaceable>.<replaceable>mm</replaceable>.<replaceable>dd</replaceable></literal>
+	      format.  It is important to prefix the version with
+	      <literal>0.0.</literal> in case a release with an actual
+	      version number is made, which would of course be
+	      numerically less than
+	      <literal><replaceable>yyyy</replaceable></literal>.</para>
+	  </listitem>
+	</varlistentry>
+      </variablelist>
+
+      <warning>
+	<para>Package name must be unique among all of the ports
+	  tree, check that there is not already a port with the same
+	  <varname>PORTNAME</varname> and if there is add one of <link
+	    linkend="porting-pkgnameprefix-suffix"><varname>PKGNAMEPREFIX</varname>
+	    or <varname>PKGNAMESUFFIX</varname></link>.</para>
+      </warning>
 
       <para>Here are some (real) examples on how to convert the name
 	as called by the software authors to a suitable package
@@ -579,14 +616,15 @@ PORTEPOCH=	1</programlisting>
 	string to <literal>1.0</literal> (like the
 	<literal>piewm</literal> example above).  Otherwise, ask the
 	original author or use the date string
-	(<literal>0.0.yyyy.mm.dd</literal>) as the version.</para>
+	(<literal>0.0.<replaceable>yyyy</replaceable>.<replaceable>mm</replaceable>.<replaceable>dd</replaceable></literal>)
+	as the version.</para>
     </sect2>
   </sect1>
 
   <sect1 xml:id="makefile-categories">
     <title>Categorization</title>
 
-    <sect2>
+    <sect2 xml:id="makefile-categories-definition">
       <title><varname>CATEGORIES</varname></title>
 
       <para>When a package is created, it is put under
@@ -1464,17 +1502,19 @@ PORTEPOCH=	1</programlisting>
       describes the files that must be downloaded in order to build
       the port, and where they can be downloaded from.</para>
 
-    <sect2>
+    <sect2 xml:id="makefile-distversion">
       <title><varname>DISTVERSION/DISTNAME</varname></title>
 
       <para><varname>DISTNAME</varname> is the name of the port as
 	called by the authors of the software.
 	<varname>DISTNAME</varname> defaults to
-	<literal>${PORTNAME}-${PORTVERSION}</literal>, so override it
+	<literal>${PORTNAME}-${DISTVERSIONPREFIX}${DISTVERSION}${DISTVERSIONSUFFIX}</literal>,
+	and <varname>DISTVERSION</varname> defaults to
+	<literal>${PORTVERSION}</literal> so override it
 	only if necessary.  <varname>DISTNAME</varname> is only used
 	in two places.  First, the distribution file list
 	(<varname>DISTFILES</varname>) defaults to
-	<varname>${DISTNAME}</varname><varname>${EXTRACT_SUFX}</varname>.
+	<literal>${DISTNAME}</literal><literal>${EXTRACT_SUFX}</literal>.
 	Second, the distribution file is expected to extract into a
 	subdirectory named <varname>WRKSRC</varname>, which defaults
 	to <filename>work/${DISTNAME}</filename>.</para>
@@ -1483,9 +1523,25 @@ PORTEPOCH=	1</programlisting>
 	<literal>${PORTNAME}-${PORTVERSION}</literal>-scheme can be
 	handled automatically by setting
 	<varname>DISTVERSION</varname>.
-	<varname>PORTVERSION</varname> and <varname>DISTNAME</varname>
-	will be derived automatically, but can of course be
-	overridden.  The following table lists some examples:</para>
+	<varname>PORTVERSION</varname> will be derived from it
+	automatically.</para>
+
+      <note>
+	<para>Only one of <varname>PORTVERSION</varname> and
+	  <varname>DISTVERSION</varname> can be set at a time.  If you
+	  set <varname>DISTVERSION</varname> and the derived
+	  <varname>PORTVERSION</varname> is not right, do not use
+	  <varname>DISTVERSION</varname>, set
+	  <varname>PORTVERSION</varname> to the right value and set
+	  <varname>DISTNAME</varname> with <varname>PORTNAME</varname>
+	  with either some computation of
+	  <varname>PORTVERSION</varname> or the verbatim upstream
+	  version.</para>
+      </note>
+
+      <para>The following table lists some examples of
+	<varname>DISTVERSION</varname> and the derived
+	<varname>PORTVERSION</varname>:</para>
 
       <informaltable frame="none" pgwide="0">
 	<tgroup cols="2">
@@ -1525,9 +1581,9 @@ PORTEPOCH=	1</programlisting>
 	  <varname>PKGNAMESUFFIX</varname> do not affect
 	  <varname>DISTNAME</varname>.  Also note that if
 	  <varname>WRKSRC</varname> is equal to
-	  <filename>work/${PORTNAME}-${PORTVERSION}</filename> while
+	  <filename>work/${DISTNAME}</filename> while
 	  the original source archive is named something other than
-	  <varname>${PORTNAME}-${PORTVERSION}${EXTRACT_SUFX}</varname>,
+	  <literal>${PORTNAME}-${PORTVERSION}${EXTRACT_SUFX}</literal>,
 	  you should probably leave <varname>DISTNAME</varname>
 	  alone&mdash; you are better off defining
 	  <varname>DISTFILES</varname> than having to set both
@@ -1536,7 +1592,7 @@ PORTEPOCH=	1</programlisting>
       </note>
     </sect2>
 
-    <sect2>
+    <sect2 xml:id="makefile-master_sites">
       <title><varname>MASTER_SITES</varname></title>
 
       <para>Record the directory part of the FTP/HTTP-URL pointing at
@@ -1558,22 +1614,20 @@ PORTEPOCH=	1</programlisting>
       <para>If the original tarball is part of one of the popular
 	archives such as SourceForge, GNU, or Perl CPAN, you may be
 	able refer to those sites in an easy compact form using
-	<varname>MASTER_SITE_<replaceable>*</replaceable></varname>
-	(e.g., <varname>MASTER_SITE_SOURCEFORGE</varname>,
-	<varname>MASTER_SITE_GNU</varname> and
-	<varname>MASTER_SITE_PERL_CPAN</varname>).  Simply set
-	<varname>MASTER_SITES</varname> to one of these variables and
-	<varname>MASTER_SITE_SUBDIR</varname> to the path within the
-	archive.  Here is an example:</para>
+	predefined macros (e.g., <literal>SF</literal>,
+	<literal>GNU</literal> or <literal>CPAN</literal>).  Simply
+	set <varname>MASTER_SITES</varname> to one of these values.
+	Here is an example:</para>
+
+      <programlisting>MASTER_SITES=	GNU/make</programlisting>
+
+      <para>Or you can use the older expanded format, though there
+	really are no reason to do so:</para>
 
       <programlisting>MASTER_SITES=		${MASTER_SITE_GNU}
 MASTER_SITE_SUBDIR=	make</programlisting>
 
-      <para>Or you can use a condensed format:</para>
-
-      <programlisting>MASTER_SITES=	GNU/make</programlisting>
-
-      <para>These variables are defined in
+      <para>These values and variables are defined in
 	<filename>/usr/ports/Mk/bsd.sites.mk</filename>.  There are
 	new entries added all the time, so make sure to check the
 	latest version of this file before submitting a port.</para>
@@ -1595,7 +1649,7 @@ MASTER_SITE_SUBDIR=	make</programlisting>
       <programlisting>MASTER_SITES=	SF
 MASTER_SITE_SUBDIR=	stardict/WyabdcRealPeopleTTS/${PORTVERSION}</programlisting>
 
-      <table frame="none">
+      <table frame="none" xml:id="makefile-master_sites-popular">
 	<title>Popular Magic <varname>MASTER_SITES</varname>
 	  Macros</title>
 
@@ -1610,74 +1664,212 @@ MASTER_SITE_SUBDIR=	stardict/WyabdcRealPeopleTTS/${PORTVERSION}</programlisting>
 	  <tbody>
 	    <row>
 	      <entry><varname>APACHE_JAKARTA</varname></entry>
-	      <entry><varname>/dist/jakarta/${PORTNAME:S,-,,/,}/source</varname></entry>
+	      <entry><literal>/dist/jakarta/${PORTNAME:S,-,,/,}/source</literal></entry>
 	    </row>
 
 	    <row>
 	      <entry><varname>BERLIOS</varname></entry>
-	      <entry><varname>/${PORTNAME:L}</varname></entry>
+	      <entry><literal>/${PORTNAME:L}</literal></entry>
 	    </row>
 
 	    <row>
 	      <entry><varname>CHEESESHOP</varname></entry>
-	      <entry><varname>/packages/source/source/${DISTNAME:C/(.).*/\1/}/${DISTNAME:C/(.*)-[0-9].*/\1/}</varname></entry>
+	      <entry><literal>/packages/source/source/${DISTNAME:C/(.).*/\1/}/${DISTNAME:C/(.*)-[0-9].*/\1/}</literal></entry>
 	    </row>
 
 	    <row>
 	      <entry><varname>DEBIAN</varname></entry>
-	      <entry><varname>/debian/pool/main/${PORTNAME:C/^((lib)?.).*$/\1/}/${PORTNAME}</varname></entry>
+	      <entry><literal>/debian/pool/main/${PORTNAME:C/^((lib)?.).*$/\1/}/${PORTNAME}</literal></entry>
 	    </row>
 
 	    <row>
 	      <entry><varname>GCC</varname></entry>
-	      <entry><varname>/pub/gcc/releases/${DISTNAME}</varname></entry>
+	      <entry><literal>/pub/gcc/releases/${DISTNAME}</literal></entry>
+	    </row>
+
+	    <row>
+	      <entry><varname>GH</varname></entry>
+	      <entry><literal>/${GH_ACCOUNT}/${GH_PROJECT}/legacy.tar.gz/${GH_TAGNAME}?dummy=/</literal></entry>
+	    </row>
+
+	    <row>
+	      <entry><varname>GHC</varname></entry>
+	      <entry><literal>/downloads/${GH_ACCOUNT}/${GH_PROJECT}/</literal></entry>
 	    </row>
 
 	    <row>
 	      <entry><varname>GNOME</varname></entry>
-	      <entry><varname>/pub/GNOME/sources/${PORTNAME}/${PORTVERSION:C/^([0-9]+\.[0-9]+).*/\1/}</varname></entry>
+	      <entry><literal>/pub/GNOME/sources/${PORTNAME}/${PORTVERSION:C/^([0-9]+\.[0-9]+).*/\1/}</literal></entry>
 	    </row>
 
 	    <row>
 	      <entry><varname>GNU</varname></entry>
-	      <entry><varname>/gnu/${PORTNAME}</varname></entry>
+	      <entry><literal>/gnu/${PORTNAME}</literal></entry>
+	    </row>
+
+	    <row>
+	      <entry><varname>HORDE</varname></entry>
+	      <entry><literal>/pub/${PORTNAME}</literal></entry>
+	    </row>
+
+	    <row>
+	      <entry><varname>LOGILAB</varname></entry>
+	      <entry><literal>/pub/${PORTNAME}</literal></entry>
+	    </row>
+
+	    <row>
+	      <entry><varname>MATE</varname></entry>
+	      <entry><literal>/releases/${PORTVERSION:C/^([0-9]+\.[0-9]+).*/\1/}</literal></entry>
 	    </row>
 
 	    <row>
 	      <entry><varname>MOZDEV</varname></entry>
-	      <entry><varname>/pub/mozdev/${PORTNAME:L}</varname></entry>
+	      <entry><literal>/pub/mozdev/${PORTNAME:L}</literal></entry>
 	    </row>
 
 	    <row>
-	      <entry><varname>PERL_CPAN</varname></entry>
-	      <entry><varname>/pub/CPAN/modules/by-module/${PORTNAME:C/-.*//}</varname></entry>
+	      <entry><varname>CPAN</varname></entry>
+	      <entry><literal>/pub/CPAN/modules/by-module/${PORTNAME:C/-.*//}</literal></entry>
 	    </row>
 
 	    <row>
 	      <entry><varname>PYTHON</varname></entry>
-	      <entry><varname>/ftp/python/${PYTHON_PORTVERSION:C/rc[0-9]//}</varname></entry>
+	      <entry><literal>/ftp/python/${PYTHON_PORTVERSION:C/rc[0-9]//}</literal></entry>
 	    </row>
 
 	    <row>
 	      <entry><varname>RUBYFORGE</varname></entry>
-	      <entry><varname>/${PORTNAME:L}</varname></entry>
+	      <entry><literal>/${PORTNAME:L}</literal></entry>
 	    </row>
 
 	    <row>
 	      <entry><varname>SAVANNAH</varname></entry>
-	      <entry><varname>/${PORTNAME:L}</varname></entry>
+	      <entry><literal>/${PORTNAME:L}</literal></entry>
 	    </row>
 
 	    <row>
 	      <entry><varname>SF</varname></entry>
-	      <entry><varname>/project/${PORTNAME:L}/${PORTNAME:L}/${PORTVERSION}</varname></entry>
+	      <entry><literal>/project/${PORTNAME:L}/${PORTNAME:L}/${PORTVERSION}</literal></entry>
 	    </row>
 	  </tbody>
 	</tgroup>
       </table>
+
+      <sect3 xml:id="makefile-master_sites-github">
+	<title><varname>USE_GITHUB</varname></title>
+
+	<para>If the distribution file comes from a specific commit or
+	  tag on <link xlink:href="https://github.com">GitHub</link>
+	  for which there is no officially released file, there is an
+	  easy way to set the right <varname>DISTNAME</varname> and
+	  <varname>MASTER_SITES</varname> automatically.  These
+	  variables are available:</para>
+
+	<table xml:id="makefile-master_sites-github-description">
+	  <title><varname>USE_GITHUB</varname> Description</title>
+
+	  <tgroup cols="4">
+	    <thead>
+	      <row>
+		<entry>Variable</entry>
+		<entry>Description</entry>
+		<entry>Default</entry>
+		<entry>Mandatory</entry>
+	      </row>
+	    </thead>
+
+	    <tbody>
+	      <row>
+		<entry><varname>GH_ACCOUNT</varname></entry>
+		<entry>Account name of the GitHub user hosting the
+		  project</entry>
+		<entry>none</entry>
+		<entry>Mandatory</entry>
+	      </row>
+
+	      <row>
+		<entry><varname>GH_PROJECT</varname></entry>
+		<entry>Name of the project on GitHub</entry>
+		<entry><literal>${PORTNAME}</literal></entry>
+	      </row>
+
+
+	      <row>
+		<entry><varname>GH_TAGNAME</varname></entry>
+		<entry>Name of the tag to download (2.0.1, hash, ...)
+		  Using the name of a branch here is incorrect.  It is
+		  possible to do
+		  <literal>GH_TAGNAME=${GH_COMMIT}</literal> to do a
+		  snapshot</entry>
+		<entry><literal>${DISTVERSION}</literal></entry>
+	      </row>
+
+	      <row>
+		<entry><varname>GH_COMMIT</varname></entry>
+		<entry>first 7 digits of the commit that generated
+		  <varname>GH_TAGNAME</varname> (see
+		  <link
+		    xlink:href="http://www.freebsd.org/cgi/man.cgi?query=git-describe&amp;sektion=1&amp;manpath=FreeBSD+Ports">git-describe(1)</link>)</entry>
+		<entry>none</entry>
+		<entry>Mandatory</entry>
+	      </row>
+	    </tbody>
+	  </tgroup>
+	</table>
+
+	<example xml:id="makefile-master_sites-github-ex1">
+	  <title>Simple Use of <varname>USE_GITHUB</varname></title>
+
+	  <para>While trying to make a port for version
+	    <literal>1.2.7</literal> of <application>pkg</application>
+	    from the &os; user on github, at <link
+	      xlink:href="https://github.com/freebsd/pkg"/>, The
+	    <filename>Makefile</filename> would end up looking like
+	    this (slightly stripped for the example):</para>
+
+	  <programlisting>PORTNAME=	pkg
+PORTVERSION=	1.2.7
+
+USE_GITHUB=	yes
+GH_ACCOUNT=	freebsd
+GH_COMMIT=	f53e577</programlisting>
+
+	  <para>It will automatically have
+	    <varname>MASTER_SITES</varname> set to <literal>GH
+	      GHC</literal> and <varname>WRKSRC</varname> to
+	    <literal>${WRKDIR}/freebsd-pkg-f53e577</literal>.</para>
+	</example>
+
+	<example xml:id="makefile-master_sites-github-ex2">
+	  <title>More Complete Use of
+	    <varname>USE_GITHUB</varname></title>
+
+	  <para>While trying to make a port for the bleeding edge
+	    version of <application>pkg</application> from the &os;
+	    user on github, at <link
+	      xlink:href="https://github.com/freebsd/pkg"/>, The
+	    <filename>Makefile</filename> would end up looking like
+	    this (slightly stripped for the example):</para>
+
+	  <programlisting>PORTNAME=	pkg-devel
+PORTVERSION=	1.3.0.a.20140411
+
+USE_GITHUB=	yes
+GH_ACCOUNT=	freebsd
+GH_PROJECT=	pkg
+GH_TAGNAME=	${GH_COMMIT}
+GH_COMMIT=	6dbb17b</programlisting>
+
+	  <para>It will automatically have
+	    <varname>MASTER_SITES</varname> set to <literal>GH
+	      GHC</literal> and <varname>WRKSRC</varname> to
+	    <literal>${WRKDIR}/freebsd-pkg-6dbb17b</literal>.</para>
+	</example>
+
+      </sect3>
     </sect2>
 
-    <sect2>
+    <sect2 xml:id="makefile-extract_sufx">
       <title><varname>EXTRACT_SUFX</varname></title>
 
       <para>If you have one distribution file, and it uses an odd
@@ -1685,18 +1877,19 @@ MASTER_SITE_SUBDIR=	stardict/WyabdcRealPeopleTTS/${PORTVERSION}</programlisting>
 	<varname>EXTRACT_SUFX</varname>.</para>
 
       <para>For example, if the distribution file was named
-	<filename>foo.tgz</filename> instead of the more normal
+	<filename>foo.tar.gzip</filename> instead of the more normal
 	<filename>foo.tar.gz</filename>, you would write:</para>
 
       <programlisting>DISTNAME=	foo
-EXTRACT_SUFX=	.tgz</programlisting>
+EXTRACT_SUFX=	.tar.gzip</programlisting>
 
-      <para>The <varname>USE_BZIP2</varname>,
-	<varname>USE_XZ</varname> and <varname>USE_ZIP</varname>
-	variables automatically set <varname>EXTRACT_SUFX</varname> to
-	<literal>.tar.bz2</literal>, <literal>.tar.xz</literal> or
-	<literal>.zip</literal> as necessary.  If neither of these are
-	set then <varname>EXTRACT_SUFX</varname> defaults to
+      <para>The
+	<literal>USES=tar[:<replaceable>xxx</replaceable>]</literal>,
+	<literal>USES=lha</literal> or <literal>USES=zip</literal>
+	automatically set <varname>EXTRACT_SUFX</varname> to the most
+	common archives extensions as necessary, see <xref
+	  linkend="uses-values"/> for more details.  If neither of
+	these are set then <varname>EXTRACT_SUFX</varname> defaults to
 	<literal>.tar.gz</literal>.</para>
 
       <note>
@@ -1706,7 +1899,7 @@ EXTRACT_SUFX=	.tgz</programlisting>
       </note>
     </sect2>
 
-    <sect2>
+    <sect2 xml:id="makefile-distfiles-definition">
       <title><varname>DISTFILES</varname></title>
 
       <para>Sometimes the names of the files to be downloaded have no
@@ -1726,7 +1919,7 @@ EXTRACT_SUFX=	.tgz</programlisting>
 	<literal>${DISTNAME}${EXTRACT_SUFX}</literal>.</para>
     </sect2>
 
-    <sect2>
+    <sect2 xml:id="makefile-extract_only">
       <title><varname>EXTRACT_ONLY</varname></title>
 
       <para>If only some of the <varname>DISTFILES</varname> must be
@@ -1764,7 +1957,8 @@ EXTRACT_ONLY=	source.tar.gz</programlisting>
 
       <para>Do not worry if the patches are compressed; they will be
 	decompressed automatically if the filenames end with
-	<filename>.gz</filename> or <filename>.Z</filename>.</para>
+	<filename>.Z</filename>, <filename>.gz</filename>,
+	<filename>.bz2</filename> or <filename>.xz</filename>.</para>
 
       <para>If the patch is distributed with some other files, such as
 	documentation, in a <command>gzip</command>ped tarball, you
@@ -1778,6 +1972,20 @@ EXTRACT_ONLY=	source.tar.gz</programlisting>
 	<emphasis>not</emphasis> copy patch files into the
 	<varname>PATCHDIR</varname> directory&mdash;that directory may
 	not be writable.</para>
+
+      <tip>
+	<para>If there are multiple patches and they need mixed values
+	  for the strip parameter, it can be added alongside the patch
+	  name in <varname>PATCHFILES</varname>, e.g:</para>
+
+	<programlisting>PATCHFILES=	patch1 patch2:-p1</programlisting>
+
+	<para>This does not conflict with <link
+	    linkend="porting-master-sites-n">the master site grouping
+	    feature</link>, the following also works:</para>
+
+	<programlisting>PATCHFILES=	patch2:-p1:source2</programlisting>
+      </tip>
 
       <note>
 	<para>The tarball will have been extracted alongside the
@@ -1844,7 +2052,7 @@ EXTRACT_ONLY=	source.tar.gz</programlisting>
 	&os; implementation of this idea.  We improved a bit on
 	OpenBSD's concept.</para>
 
-      <sect3>
+      <sect3 xml:id="porting-master-sites-n-simplified">
 	<title>Simplified Information</title>
 
 	<para>This section tells you how to quickly prepare fine
@@ -1913,7 +2121,7 @@ DISTFILES=	source1.tar.gz:source1 \
 	</example>
       </sect3>
 
-      <sect3>
+      <sect3 xml:id="ports-master-sites-n-detailed">
 	<title>Detailed Information</title>
 
 	<para>Okay, so the previous section example did not reflect
@@ -1924,8 +2132,9 @@ DISTFILES=	source1.tar.gz:source1 \
 
 	<orderedlist>
 	  <listitem>
-	    <para>Elements can be postfixed with <literal>:n</literal>
-	      where <replaceable>n</replaceable> is
+	    <para>Elements can be postfixed with
+	      <literal>:<replaceable>n</replaceable></literal> where
+	      <replaceable>n</replaceable> is
 	      <literal>[^:,]+</literal>, i.e.,
 	      <replaceable>n</replaceable> could conceptually be any
 	      alphanumeric string but we will limit it to
@@ -2031,8 +2240,9 @@ DISTFILES=	source1.tar.gz:source1 \
 		  be terminated with the forward slash
 		  <literal>/</literal> character.  If any elements
 		  belong to any groups, the group postfix
-		  <literal>:n</literal> must come right after the
-		  terminator <literal>/</literal>.  The
+		  <literal>:<replaceable>n</replaceable></literal>
+		  must come right after the terminator
+		  <literal>/</literal>.  The
 		  <literal>MASTER_SITES:n</literal> mechanism relies
 		  on the existence of the terminator
 		  <literal>/</literal> to avoid confusing elements
@@ -2291,13 +2501,15 @@ DISTFILES=	something.tar.gz:sourceforge</programlisting>
 	  </listitem>
 
 	  <listitem>
-	    <para>How do I use this with <varname>PATCH*</varname>
+	    <para>How do I use this with
+	      <varname>PATCH<replaceable>*</replaceable></varname>
 	      variables?</para>
 
 	    <para>All examples were done with
-	      <varname>MASTER*</varname> variables but they work
-	      exactly the same for <varname>PATCH*</varname> ones as
-	      can be seen in <xref
+	      <varname>MASTER<replaceable>*</replaceable></varname>
+	      variables but they work exactly the same for
+	      <varname>PATCH<replaceable>*</replaceable></varname>
+	      ones as can be seen in <xref
 		linkend="ports-master-sites-n-example-detailed-use-patch-sites"/>.</para>
 
 	    <example
@@ -2314,7 +2526,7 @@ PATCHFILES=	patch1:test</programlisting>
 	</orderedlist>
       </sect3>
 
-      <sect3>
+      <sect3 xml:id="port-master-sites-n-what-changed">
 	<title>What Does Change for Ports?  What Does Not?</title>
 
 	<orderedlist numeration="lowerroman">
@@ -2322,9 +2534,9 @@ PATCHFILES=	patch1:test</programlisting>
 	    <para>All current ports remain the same.  The
 	      <literal>MASTER_SITES:n</literal> feature code is only
 	      activated if there are elements postfixed with
-	      <literal>:n</literal> like elements according to the
-	      aforementioned syntax rules, especially as shown in
-	      item <xref
+	      <literal>:<replaceable>n</replaceable></literal> like
+	      elements according to the aforementioned syntax rules,
+	      especially as shown in item <xref
 		linkend="porting-master-sites-n-group-semantics"/>.</para>
 	  </listitem>
 
@@ -2435,7 +2647,7 @@ PATCHFILES=	patch1:test</programlisting>
       </sect3>
     </sect2>
 
-    <sect2>
+    <sect2 xml:id="makefile-dist_subdir">
       <title><varname>DIST_SUBDIR</varname></title>
 
       <para>Do not let your port clutter
@@ -2466,7 +2678,7 @@ PATCHFILES=	patch1:test</programlisting>
       </note>
     </sect2>
 
-    <sect2>
+    <sect2 xml:id="makefile-always_keep_distfiles">
       <title><varname>ALWAYS_KEEP_DISTFILES</varname></title>
 
       <para>If your port uses binary distfiles and has a license that
@@ -2627,7 +2839,7 @@ ALWAYS_KEEP_DISTFILES=	yes
 	<para>When specific versions or specific major and minor
 	  revisions of a distfile should be checked.  For example, if
 	  only version <replaceable>0.6.4</replaceable> should be
-	  monitored because newer versions have compatablity issues
+	  monitored because newer versions have compatibility issues
 	  with &os;, add:</para>
 
 	<programlisting>PORTSCOUT=	limit:^0\.6\.4</programlisting>
@@ -2657,7 +2869,7 @@ ALWAYS_KEEP_DISTFILES=	yes
       also some pre-supported dependency variables for common cases,
       plus a few more to control the behavior of dependencies.</para>
 
-    <sect2>
+    <sect2 xml:id="makefile-lib_depends">
       <title><varname>LIB_DEPENDS</varname></title>
 
       <para>This variable specifies the shared libraries this port
@@ -2684,12 +2896,12 @@ ALWAYS_KEEP_DISTFILES=	yes
 	system.</para>
     </sect2>
 
-    <sect2>
+    <sect2 xml:id="makefile-run_depends">
       <title><varname>RUN_DEPENDS</varname></title>
 
       <para>This variable specifies executables or files this port
 	depends on during run-time.  It is a list of
-	<replaceable>path</replaceable>:<replaceable>dir</replaceable><optional>:target</optional>
+	<replaceable>path</replaceable>:<replaceable>dir</replaceable><optional>:<replaceable>target</replaceable></optional>
 	tuples where <replaceable>path</replaceable> is the name of
 	the executable or file, <replaceable>dir</replaceable> is the
 	directory in which to find it in case it is not available, and
@@ -2765,13 +2977,13 @@ ALWAYS_KEEP_DISTFILES=	yes
       <programlisting>RUN_DEPENDS:=	${BUILD_DEPENDS}</programlisting>
     </sect2>
 
-    <sect2>
+    <sect2 xml:id="makefile-build_depends">
       <title><varname>BUILD_DEPENDS</varname></title>
 
       <para>This variable specifies executables or files this port
 	requires to build.  Like <varname>RUN_DEPENDS</varname>, it
 	is a list of
-	<replaceable>path</replaceable>:<replaceable>dir</replaceable><optional>:target</optional>
+	<replaceable>path</replaceable>:<replaceable>dir</replaceable><optional>:<replaceable>target</replaceable></optional>
 	tuples.  For example,</para>
 
       <programlisting>BUILD_DEPENDS=	unzip:${PORTSDIR}/archivers/unzip</programlisting>
@@ -2790,12 +3002,12 @@ ALWAYS_KEEP_DISTFILES=	yes
       </note>
     </sect2>
 
-    <sect2>
+    <sect2 xml:id="makefile-fetch_depends">
       <title><varname>FETCH_DEPENDS</varname></title>
 
       <para>This variable specifies executables or files this port
 	requires to fetch.  Like the previous two, it is a list of
-	<replaceable>path</replaceable>:<replaceable>dir</replaceable><optional>:target</optional>
+	<replaceable>path</replaceable>:<replaceable>dir</replaceable><optional>:<replaceable>target</replaceable></optional>
 	tuples.  For example,</para>
 
       <programlisting>FETCH_DEPENDS=	ncftp2:${PORTSDIR}/net/ncftp2</programlisting>
@@ -2811,12 +3023,12 @@ ALWAYS_KEEP_DISTFILES=	yes
 	the same as <varname>DEPENDS_TARGET</varname>.</para>
     </sect2>
 
-    <sect2>
+    <sect2 xml:id="makefile-extract_depends">
       <title><varname>EXTRACT_DEPENDS</varname></title>
 
       <para>This variable specifies executables or files this port
 	requires for extraction.  Like the previous, it is a list of
-	<replaceable>path</replaceable>:<replaceable>dir</replaceable><optional>:target</optional>
+	<replaceable>path</replaceable>:<replaceable>dir</replaceable><optional>:<replaceable>target</replaceable></optional>
 	tuples.  For example,</para>
 
       <programlisting>EXTRACT_DEPENDS=	unzip:${PORTSDIR}/archivers/unzip</programlisting>
@@ -2833,19 +3045,20 @@ ALWAYS_KEEP_DISTFILES=	yes
 
       <note>
 	<para>Use this variable only if the extraction does not
-	  already work (the default assumes <command>gzip</command>)
-	  and cannot be made to work using <varname>USE_ZIP</varname>
-	  or <varname>USE_BZIP2</varname> described in
-	  <xref linkend="use-vars"/>.</para>
+	  already work (the default assumes <command>tar</command>)
+	  and cannot be made to work using
+	  <literal>USES=tar</literal>, <literal>USES=lha</literal> or
+	  <literal>USES=zip</literal> described in <xref
+	    linkend="uses-values"/>.</para>
       </note>
     </sect2>
 
-    <sect2>
+    <sect2 xml:id="makefile-patch_depends">
       <title><varname>PATCH_DEPENDS</varname></title>
 
       <para>This variable specifies executables or files this port
 	requires to patch.  Like the previous, it is a list of
-	<replaceable>path</replaceable>:<replaceable>dir</replaceable><optional>:target</optional>
+	<replaceable>path</replaceable>:<replaceable>dir</replaceable><optional>:<replaceable>target</replaceable></optional>
 	tuples.  For example,</para>
 
       <programlisting>PATCH_DEPENDS=	${NONEXISTENT}:${PORTSDIR}/java/jfc:extract</programlisting>
@@ -2904,7 +3117,7 @@ ALWAYS_KEEP_DISTFILES=	yes
 	  <literal>lang/gccXY</literal> itself!</para>
       </note>
 
-      <table frame="none">
+      <table frame="none" xml:id="use-vars-table">
 	<title>The
 	  <varname>USE_<replaceable>*</replaceable></varname>
 	  Variables</title>
@@ -2918,18 +3131,6 @@ ALWAYS_KEEP_DISTFILES=	yes
 	  </thead>
 
 	  <tbody>
-	    <row>
-	      <entry><varname>USE_BZIP2</varname></entry>
-	      <entry>The port's tarballs are compressed with
-		<command>bzip2</command>.</entry>
-	    </row>
-
-	    <row>
-	      <entry><varname>USE_ZIP</varname></entry>
-	      <entry>The port's tarballs are compressed with
-		<command>zip</command>.</entry>
-	    </row>
-
 	    <row>
 	      <entry><varname>USE_GCC</varname></entry>
 	      <entry>The port requires GCC (<command>gcc</command> or
@@ -2981,13 +3182,13 @@ ALWAYS_KEEP_DISTFILES=	yes
 	<application>Xfce</application>.</para>
     </sect2>
 
-    <sect2>
+    <sect2 xml:id="makefile-version-dependency">
       <title>Minimal Version of a Dependency</title>
 
       <para>A minimal version of a dependency can be specified in any
-	<varname>*_DEPENDS</varname> variable except
-	<varname>LIB_DEPENDS</varname> using the following
-	syntax:</para>
+	<varname><replaceable>*</replaceable>_DEPENDS</varname>
+	variable except <varname>LIB_DEPENDS</varname> using the
+	following syntax:</para>
 
       <programlisting>p5-Spiffy&gt;=0.26:${PORTSDIR}/devel/p5-Spiffy</programlisting>
 
@@ -2997,7 +3198,7 @@ ALWAYS_KEEP_DISTFILES=	yes
 	p5-Spiffy-0.26 or newer is installed on the machine.</para>
     </sect2>
 
-    <sect2>
+    <sect2 xml:id="makefile-note-on-dependencies">
       <title>Notes on Dependencies</title>
 
       <para>As mentioned above, the default target to call when a
@@ -3007,7 +3208,8 @@ ALWAYS_KEEP_DISTFILES=	yes
 	never defined in a port's <filename>Makefile</filename>.  If
 	your port needs a special way to handle a dependency, use the
 	<literal>:target</literal> part of the
-	<varname>*_DEPENDS</varname> variables instead of redefining
+	<varname><replaceable>*</replaceable>_DEPENDS</varname>
+	variables instead of redefining
 	<varname>DEPENDS_TARGET</varname>.</para>
 
       <para>When you type <command>make clean</command>, its
@@ -3019,7 +3221,7 @@ ALWAYS_KEEP_DISTFILES=	yes
 	KDE, GNOME or Mozilla.</para>
 
       <para>To depend on another port unconditionally, use the
-	variable <varname>${NONEXISTENT}</varname> as the first field
+	variable <literal>${NONEXISTENT}</literal> as the first field
 	of <varname>BUILD_DEPENDS</varname> or
 	<varname>RUN_DEPENDS</varname>.  Use this only when you need
 	to get the source of the other port.  You can often save
@@ -3032,7 +3234,7 @@ ALWAYS_KEEP_DISTFILES=	yes
 	and extract it.</para>
     </sect2>
 
-    <sect2>
+    <sect2 xml:id="makefile-circular-dependencies">
       <title>Circular Dependencies Are Fatal</title>
 
       <important>
@@ -3052,7 +3254,7 @@ ALWAYS_KEEP_DISTFILES=	yes
 	a lot of grief in the process.</para>
     </sect2>
 
-    <sect2>
+    <sect2 xml:id="makefile-automatic-dependencies">
       <title>Problems Caused by Automatic Dependencies</title>
 
       <para>Dependencies must be declared either explicitly or by
@@ -3062,7 +3264,7 @@ ALWAYS_KEEP_DISTFILES=	yes
 	indexing, which causes problems for port and package
 	management.</para>
 
-      <example>
+      <example xml:id="makefile-automatic-dependencies-bad">
 	<title>Wrong Declaration of an Optional Dependency</title>
 
 	<programlisting>.include &lt;bsd.port.pre.mk&gt;
@@ -3082,17 +3284,13 @@ LIB_DEPENDS=	libbar.so:${PORTSDIR}/foo/bar
 	determine their need for dependencies based on the existence
 	of other files.</para>
 
-      <example>
+      <example xml:id="makefile-automatic-dependencies-good">
 	<title>Correct Declaration of an Optional Dependency</title>
 
 	<programlisting>OPTIONS_DEFINE=	BAR
-BAR_DESC=	Bar support
+BAR_DESC=	Calling cellphones via bar
 
-.include &lt;bsd.port.options.mk&gt;
-
-.if ${PORT_OPTIONS:MBAR}
-LIB_DEPENDS=	libbar.so:${PORTSDIR}/foo/bar
-.endif</programlisting>
+BAR_LIB_DEPENDS=	libbar.so:${PORTSDIR}/foo/bar</programlisting>
       </example>
 
       <para>Testing option variables is the correct method.  It will
@@ -3249,94 +3447,10 @@ MASTERDIR=	${.CURDIR}/../xdvi300
       options properly will make users happy, and effectively provide
       two or more ports for the price of one.</para>
 
-    <sect2>
-      <title>Knobs</title>
-
-      <sect3>
-	<title><varname>WITH_<replaceable>*</replaceable></varname>
-	  and
-	  <varname>WITHOUT_<replaceable>*</replaceable></varname></title>
-
-	<para>These variables are designed to be set by the system
-	  administrator.  There are many that are standardized in the
-	  <link
-	    xlink:href="http://svnweb.FreeBSD.org/ports/head/KNOBS?view=markup"><filename>ports/KNOBS</filename></link>
-	  file.</para>
-
-	<para>When creating a port, do not make knob names specific to
-	  a given application.  For example in Avahi port, use
-	  <varname>WITHOUT_MDNS</varname> instead of
-	  <varname>WITHOUT_AVAHI_MDNS</varname>.</para>
-
-	<note>
-	  <para>You should not assume that a
-	    <varname>WITH_<replaceable>*</replaceable></varname>
-	    necessarily has a corresponding
-	    <varname>WITHOUT_<replaceable>*</replaceable></varname>
-	    variable and vice versa.  In general, the default is
-	    simply assumed.</para>
-	</note>
-
-	<note>
-	  <para>Unless otherwise specified, these variables are only
-	    tested for being set or not set, rather than being set to
-	    a specific value such as <literal>YES</literal> or
-	    <literal>NO</literal>.</para>
-	</note>
-
-	<table frame="none">
-	  <title>Common
-	    <varname>WITH_<replaceable>*</replaceable></varname> and
-	    <varname>WITHOUT_<replaceable>*</replaceable></varname>
-	    Variables</title>
-
-	  <tgroup cols="2">
-	    <thead>
-	      <row>
-		<entry>Variable</entry>
-		<entry>Means</entry>
-	      </row>
-	    </thead>
-
-	    <tbody>
-	      <row>
-		<entry><varname>WITH_OPENSSL_BASE</varname></entry>
-		<entry>Use the version of OpenSSL in the base
-		  system.</entry>
-	      </row>
-
-	      <row>
-		<entry><varname>WITH_OPENSSL_PORT</varname></entry>
-		<entry>Installs the version of OpenSSL from
-		  <package role="port">security/openssl</package>,
-		  even if the base is up to date.</entry>
-	      </row>
-	    </tbody>
-	  </tgroup>
-	</table>
-      </sect3>
-
-      <sect3>
-	<title>Knob Naming</title>
-
-	<para>Porters should use like-named knobs, both for the
-	  benefit of end-users and to help keep the number of knob
-	  names down.  A list of popular knob names can be found in
-	  the <link
-	    xlink:href="http://svnweb.FreeBSD.org/ports/head/KNOBS?view=markup"><filename>KNOBS</filename></link>
-	  file.</para>
-
-	<para>Knob names should reflect what the knob is and does.
-	  When a port has a lib-prefix in the
-	  <varname>PORTNAME</varname> the lib-prefix should be
-	  dropped in knob naming.</para>
-      </sect3>
-    </sect2>
-
-    <sect2>
+    <sect2 xml:id="makefile-options-options">
       <title><varname>OPTIONS</varname></title>
 
-      <sect3>
+      <sect3 xml:id="makefile-options-background">
 	<title>Background</title>
 
 	<para>The <varname>OPTIONS_*</varname> variables give the
@@ -3366,7 +3480,7 @@ MASTERDIR=	${.CURDIR}/../xdvi300
 	  to remove the saved configuration.</para>
       </sect3>
 
-      <sect3>
+      <sect3 xml:id="makefile-options-syntax">
 	<title>Syntax</title>
 
 	<para><varname>OPTIONS_DEFINE</varname> contains a list of
@@ -3385,16 +3499,16 @@ OPT4_DESC=	Describe OPT4
 OPT5_DESC=	Describe OPT5
 OPT6_DESC=	Describe OPT6</programlisting>
 
-	<tip>
-	  <para><filename>ports/Mk/bsd.options.desc.mk</filename>
+	<para><filename>ports/Mk/bsd.options.desc.mk</filename>
 	    has descriptions for many common
-	    <varname>OPTIONS</varname>; there is usually no need to
-	    override these.</para>
-	</tip>
+	    <varname>OPTIONS</varname>.  While often useful, they
+	    should be overriden if the description is insufficient
+	    for the port.</para>
 
 	<tip>
 	  <para>When describing options, view it from the
-	    perspective of the user: <quote>What does it do?</quote>
+	    perspective of the user: <quote>What functionality does it
+	    change?</quote>
 	    and <quote>Why would I want to enable this?</quote>
 	    Do not just repeat the name.  For example, describing the
 	    <literal>NLS</literal> option as
@@ -3404,6 +3518,11 @@ OPT6_DESC=	Describe OPT6</programlisting>
 	      via gettext utilities</quote> is much more
 	    helpful.</para>
 	</tip>
+
+	<note>
+	  <para>Option names should always be in all uppercase.  They
+	    should not use mixed case or lowercase.</para>
+	</note>
 
 	<para><varname>OPTIONS</varname> can be grouped as radio
 	  choices, where only one choice from each group is
@@ -3457,22 +3576,14 @@ OPTIONS_GROUP_GG1=	OPT9 OPT10</programlisting>
 	  <title>Simple Use of <varname>OPTIONS</varname></title>
 
 	  <programlisting>OPTIONS_DEFINE=	FOO BAR
-FOO_DESC=	Enable option foo
-BAR_DESC=	Support feature bar
+FOO_DESC=	Option foo support
+BAR_DESC=	Feature bar support
 
 OPTIONS_DEFAULT=FOO
 
-.include &lt;bsd.port.options.mk&gt;
-
-.if ${PORT_OPTIONS:MFOO}
-CONFIGURE_ARGS+=--with-foo
-.else
-CONFIGURE_ARGS+=--without-foo
-.endif
-
-.if ${PORT_OPTIONS:MBAR}
-RUN_DEPENDS+=	bar:${PORTSDIR}/bar/bar
-.endif
+# Will add --with-foo / --without-foo
+FOO_CONFIGURE_WITH=	foo
+BAR_RUN_DEPENDS=	bar:${PORTSDIR}/bar/bar
 
 .include &lt;bsd.port.mk&gt;</programlisting>
 	</example>
@@ -3484,6 +3595,12 @@ RUN_DEPENDS+=	bar:${PORTSDIR}/bar/bar
 	  <programlisting>.if ! ${PORT_OPTIONS:MEXAMPLES}
 CONFIGURE_ARGS+=--without-examples
 .endif</programlisting>
+
+	  <para>Though, you should use the following so that the
+	    configure knob is really enabled and disabled when the
+	    option is.</para>
+	  <programlisting># Will add --with-examples / --without-examples
+EXAMPLES_CONFIGURE_WITH=	examples</programlisting>
 	</example>
 
 	<example xml:id="ports-options-practical-use">
@@ -3507,22 +3624,14 @@ SSL_DESC=		Build with OpenSSL support
 
 OPTIONS_DEFAULT=	PGSQL LDAP SSL
 
-.include &lt;bsd.port.options.mk&gt;
+PGSQL_USE=	pgsql=yes
+# Will add --enable-postgres / --disable-postgres
+PGSQL_CONFIGURE_ENABLE=	postgres
 
-.if ${PORT_OPTIONS:MPGSQL}
-USE_PGSQL=		yes
-CONFIGURE_ARGS+=	--with-postgres
-.else
-CONFIGURE_ARGS+=	--without-postgres
-.endif
+ICU_LIB_DEPENDS=	libicuuc.so:${PORTSDIR}/devel/icu
 
-.if ${PORT_OPTIONS:MICU}
-LIB_DEPENDS+=	libicuuc.so:${PORTSDIR}/devel/icu
-.endif
-
-.if ! ${PORT_OPTIONS:MEXAMPLES}
-CONFIGURE_ARGS+=	--without-examples
-.endif
+# Will add --with-examples / --without-examples
+EXAMPLES_CONFIGURE_WITH=	examples
 
 # Check other OPTIONS
 
@@ -3530,7 +3639,7 @@ CONFIGURE_ARGS+=	--without-examples
 	</example>
       </sect3>
 
-      <sect3>
+      <sect3 xml:id="makefile-options-default">
 	<title>Default Options</title>
 
 	<para>The following options are always on by default.</para>
@@ -3559,14 +3668,14 @@ CONFIGURE_ARGS+=	--without-examples
 
 	<note>
 	  <para>There is no need to add these to
-	    <varname>OPTIONS_DEFAULT</varname>.  To have them show up
-	    in the options selection dialog, however, they must be
-	    added to <varname>OPTIONS_DEFINE</varname>.</para>
+	    <varname>OPTIONS_DEFAULT</varname>.  To have them active,
+	    and show up in the options selection dialog, however, they
+	    must be added to <varname>OPTIONS_DEFINE</varname>.</para>
 	</note>
       </sect3>
     </sect2>
 
-    <sect2>
+    <sect2 xml:id="makefile-options-auto-activation">
       <title>Feature Auto-Activation</title>
 
       <para>When using a GNU configure script, keep an eye on which
@@ -3576,7 +3685,7 @@ CONFIGURE_ARGS+=	--without-examples
 	<literal>--disable-xxx</literal> in
 	<varname>CONFIGURE_ARGS</varname>.</para>
 
-      <example>
+      <example xml:id="makefile-options-auto-activation-bad">
 	<title>Wrong Handling of an Option</title>
 
 	<programlisting>.if ${PORT_OPTIONS:MFOO}
@@ -3595,21 +3704,13 @@ CONFIGURE_ARGS+=	--enable-foo
 	system does not protest (no dependency on libfoo was recorded)
 	but the application breaks.</para>
 
-      <example>
+      <example xml:id="makefile-options-auto-activation-good">
 	<title>Correct Handling of an Option</title>
 
-	<programlisting>.if ${PORT_OPTIONS:MFOO}
-LIB_DEPENDS+=		libfoo.so:${PORTSDIR}/devel/foo
-CONFIGURE_ARGS+=	--enable-foo
-.else
-CONFIGURE_ARGS+=	--disable-foo
-.endif</programlisting>
+	<programlisting>FOO_LIB_DEPENDS=		libfoo.so:${PORTSDIR}/devel/foo
+# Will add --enable-foo / --disable-foo
+FOO_CONFIGURE_ENABLE=	foo</programlisting>
       </example>
-
-      <para>In the second example, the library libfoo is explicitly
-	disabled.  The configure script does not enable related
-	features in the application, despite library's presence in the
-	system.</para>
 
       <note>
 	<para>Under some circumstances, the shorthand conditional
@@ -3624,44 +3725,96 @@ CONFIGURE_ARGS+=	--disable-foo
       </note>
     </sect2>
 
-    <sect2>
+    <sect2 xml:id="options-helpers">
       <title>Options Helpers</title>
 
       <para>There are some macros to help simplify conditional values
 	which differ based on the options set.</para>
 
-      <para>If <varname>OPTIONS_SUB</varname> is set to
-	<literal>yes</literal> then each of the options added to
-	<varname>OPTIONS_DEFINE</varname> will be added to
-	<varname>PLIST_SUB</varname>, for example:</para>
+      <sect3 xml:id="options_sub">
+	<title><varname>OPTIONS_SUB</varname></title>
 
-      <programlisting>OPTIONS_DEFINE=	OPT1
+	<para>If <varname>OPTIONS_SUB</varname> is set to
+	  <literal>yes</literal> then each of the options added to
+	  <varname>OPTIONS_DEFINE</varname> will be added to
+	  <varname>PLIST_SUB</varname> and
+	  <varname>SUB_LIST</varname>, for example:</para>
+
+	<programlisting>OPTIONS_DEFINE=	OPT1
 OPTIONS_SUB=	yes</programlisting>
 
-      <para> is equivalent to:</para>
+	<para> is equivalent to:</para>
 
-      <programlisting>OPTIONS_DEFINE=	OPT1
+	<programlisting>OPTIONS_DEFINE=	OPT1
 
 .include &lt;bsd.port.options.mk&gt;
 
 .if ${PORT_OPTIONS:MOPT1}
-PLIST_SUB+=	OPT1=""
+PLIST_SUB+=	OPT1="" NO_OPT1="@comment "
+SUB_LIST+=	OPT1="" NO_OPT1="@comment "
 .else
-PLIST_SUB+=	OPT1="@comment "
+PLIST_SUB+=	OPT1="@comment " NO_OPT1=""
+SUB_LIST+=	OPT1="@comment " NO_OPT1=""
 .endif</programlisting>
 
-      <para>If <varname>X_CONFIGURE_ENABLE</varname> is set then
-	<literal>--enable-${X_CONFIGURE_ENABLE}</literal> or
-	<literal>--disable-${X_CONFIGURE_ENABLE}</literal> will be
-	added to <varname>CONFIGURE_ARGS</varname> depending on the
-	value of the option<varname>X</varname>, for example:</para>
+	<note>
+	  <para>The value of <varname>OPTIONS_SUB</varname> is
+	    ignored.  Setting it to any value will add
+	    <varname>PLIST_SUB</varname> and
+	    <varname>SUB_LIST</varname> entries for
+	    <emphasis>all</emphasis> options.</para>
+	</note>
+      </sect3>
 
-      <programlisting>OPTIONS_DEFINE=	OPT1
+      <sect3 xml:id="options-use">
+	<title><varname><replaceable>OPT</replaceable>_USE</varname></title>
+
+	<para>For each
+	  <literal><replaceable>key</replaceable>=<replaceable>value</replaceable></literal>
+	  pair in
+	  <varname><replaceable>OPT</replaceable>_USE</varname> the
+	  corresponding
+	  <varname>USE_<replaceable>KEY</replaceable></varname>
+	  variable will be set to <replaceable>value</replaceable>.
+	  If <replaceable>value</replaceable> has spaces in it,
+	  replace them with commas, they will be changed back to spaces
+	  during processing.  For example:</para>
+
+	<programlisting>OPTIONS_DEFINE=	OPT1
+OPT1_USE=	mysql=yes xorg=x11,xextproto,xext,xrandr</programlisting>
+
+	<para>is equivalent to:</para>
+
+	<programlisting>OPTIONS_DEFINE=	OPT1
+
+.include &lt;bsd.port.options.mk&gt;
+
+.if ${PORT_OPTIONS:MOPT1}
+USE_MYSQL=	yes
+USE_XORG=	x11 xextproto xext xrandr
+.endif</programlisting>
+      </sect3>
+
+      <sect3 xml:id="options-configure_enable">
+	<title><varname><replaceable>OPT</replaceable>_CONFIGURE_ENABLE</varname></title>
+
+	<para>If
+	  <varname><replaceable>OPT</replaceable>_CONFIGURE_ENABLE</varname>
+	  is set then
+	  <literal>--enable-${<replaceable>OPT</replaceable>_CONFIGURE_ENABLE}</literal>
+	  or
+	  <literal>--disable-${<replaceable>OPT</replaceable>_CONFIGURE_ENABLE}</literal>
+	  will be added to <varname>CONFIGURE_ARGS</varname> depending
+	  on the value of the option
+	  <literal><replaceable>OPT</replaceable></literal>, for
+	  example:</para>
+
+	<programlisting>OPTIONS_DEFINE=	OPT1
 OPT1_CONFIGURE_ENABLE=	test</programlisting>
 
-      <para>is equivalent to:</para>
+	<para>is equivalent to:</para>
 
-      <programlisting>OPTIONS_DEFINE=	OPT1
+	<programlisting>OPTIONS_DEFINE=	OPT1
 
 .include &lt;bsd.port.options.mk&gt;
 
@@ -3670,19 +3823,28 @@ CONFIGURE_ARGS+=	--enable-test
 .else
 CONFIGURE_ARGS+=	--disable-test
 .endif</programlisting>
+      </sect3>
 
-      <para>If <varname>X_CONFIGURE_WITH</varname> is set then
-	<literal>--with-${X_CONFIGURE_WITH}</literal> or
-	<literal>--without-${X_CONFIGURE_WITH}</literal> will be added
-	to <varname>CONFIGURE_ARGS</varname> depending on the status
-	of the option <varname>X</varname>, for example:</para>
+      <sect3 xml:id="options-configure_with">
+	<title><varname><replaceable>OPT</replaceable>_CONFIGURE_WITH</varname></title>
 
-      <programlisting>OPTIONS_DEFINE=	OPT1
+	<para>If
+	  <varname><replaceable>OPT</replaceable>_CONFIGURE_WITH</varname>
+	  is set then
+	  <literal>--with-${<replaceable>OPT</replaceable>_CONFIGURE_WITH}</literal>
+	  or
+	  <literal>--without-${<replaceable>OPT</replaceable>_CONFIGURE_WITH}</literal>
+	  will be added to <varname>CONFIGURE_ARGS</varname> depending
+	  on the status of the option
+	  <literal><replaceable>OPT</replaceable></literal>, for
+	  example:</para>
+
+	<programlisting>OPTIONS_DEFINE=	OPT1
 OPT1_CONFIGURE_WITH=	test</programlisting>
 
-      <para>is equivalent to:</para>
+	<para>is equivalent to:</para>
 
-      <programlisting>OPTIONS_DEFINE=	OPT1
+	<programlisting>OPTIONS_DEFINE=	OPT1
 
 .include &lt;bsd.port.options.mk&gt;
 
@@ -3691,167 +3853,332 @@ CONFIGURE_ARGS+=	--with-test
 .else
 CONFIGURE_ARGS+=	--without-test
 .endif</programlisting>
+      </sect3>
 
-      <para>If <varname>X_CONFIGURE_ON</varname> is set then its
-	value will be appended to <varname>CONFIGURE_ARGS</varname>
-	depending on the status of the option <varname>X</varname>,
-	for example:</para>
+      <sect3 xml:id="options-configure_on">
+	<title><varname><replaceable>OPT</replaceable>_CONFIGURE_ON</varname></title>
 
-      <programlisting>OPTIONS_DEFINE=	OPT1
+	<para>If
+	  <varname><replaceable>OPT</replaceable>_CONFIGURE_ON</varname>
+	  is set then its value will be appended to
+	  <varname>CONFIGURE_ARGS</varname> depending on the status of
+	  the option
+	  <literal><replaceable>OPT</replaceable></literal>, for
+	  example:</para>
+
+	<programlisting>OPTIONS_DEFINE=	OPT1
 OPT1_CONFIGURE_ON=	--add-test</programlisting>
 
-      <para>is equivalent to:</para>
+	<para>is equivalent to:</para>
 
-      <programlisting>OPTIONS_DEFINE=	OPT1
+	<programlisting>OPTIONS_DEFINE=	OPT1
 
 .include &lt;bsd.port.options.mk&gt;
 
 .if ${PORT_OPTIONS:MOPT1}
 CONFIGURE_ARGS+=	--add-test
 .endif</programlisting>
+      </sect3>
 
-      <para>If <varname>X_CONFIGURE_OFF</varname> is set then its
-	value will be appended to <varname>CONFIGURE_ARGS</varname>
-	depending on the status of the option <varname>X</varname>,
-	for example:</para>
+      <sect3 xml:id="options-configure_off">
+	<title><varname><replaceable>OPT</replaceable>_CONFIGURE_OFF</varname></title>
 
-      <programlisting>OPTIONS_DEFINE=	OPT1
+	<para>If
+	  <varname><replaceable>OPT</replaceable>_CONFIGURE_OFF</varname>
+	  is set then its value will be appended to
+	  <varname>CONFIGURE_ARGS</varname> depending on the status of
+	  the option
+	  <literal><replaceable>OPT</replaceable></literal>, for
+	  example:</para>
+
+	<programlisting>OPTIONS_DEFINE=	OPT1
 OPT1_CONFIGURE_OFF=	--no-test</programlisting>
 
-      <para>is equivalent to:</para>
+	<para>is equivalent to:</para>
 
-      <programlisting>OPTIONS_DEFINE=	OPT1
+	<programlisting>OPTIONS_DEFINE=	OPT1
 
 .include &lt;bsd.port.options.mk&gt;
 
 .if ! ${PORT_OPTIONS:MOPT1}
 CONFIGURE_ARGS+=	--no-test
 .endif</programlisting>
+      </sect3>
 
-      <para>If <varname>X_CMAKE_ON</varname> is set then its value
-	will be appended to <varname>CMAKE_ARGS</varname> depending on
-	the status of the option <varname>X</varname>, for
-	example:</para>
+      <sect3 xml:id="options-cmake_on">
+	<title><varname><replaceable>OPT</replaceable>_CMAKE_ON</varname></title>
 
-      <programlisting>OPTIONS_DEFINE=	OPT1
+	<para>If
+	  <varname><replaceable>OPT</replaceable>_CMAKE_ON</varname>
+	  is set then its value will be appended to
+	  <varname>CMAKE_ARGS</varname> depending on the status of the
+	  option <literal><replaceable>OPT</replaceable></literal>,
+	  for example:</para>
+
+	<programlisting>OPTIONS_DEFINE=	OPT1
 OPT1_CMAKE_ON=	-DTEST:BOOL=true</programlisting>
 
-      <para>is equivalent to:</para>
+	<para>is equivalent to:</para>
 
-      <programlisting>OPTIONS_DEFINE=	OPT1
+	<programlisting>OPTIONS_DEFINE=	OPT1
 
 .include &lt;bsd.port.options.mk&gt;
 
 .if ${PORT_OPTIONS:MOPT1}
 CMAKE_ARGS+=	-DTEST:BOOL=true
 .endif</programlisting>
+      </sect3>
 
-      <para>If <varname>X_CMAKE_OFF</varname> is set then its value
-	will be appended to <varname>CMAKE_ARGS</varname> depending on
-	the status of the option <varname>X</varname>, for
-	example:</para>
+      <sect3 xml:id="options-cmake_off">
+	<title><varname><replaceable>OPT</replaceable>_CMAKE_OFF</varname></title>
 
-      <programlisting>OPTIONS_DEFINE=	OPT1
+	<para>If
+	  <varname><replaceable>OPT</replaceable>_CMAKE_OFF</varname>
+	  is set then its value will be appended to
+	  <varname>CMAKE_ARGS</varname> depending on the status of the
+	  option <literal><replaceable>OPT</replaceable></literal>,
+	  for example:</para>
+
+	<programlisting>OPTIONS_DEFINE=	OPT1
 OPT1_CMAKE_OFF=	-DTEST:BOOL=false</programlisting>
 
-      <para>is equivalent to:</para>
+	<para>is equivalent to:</para>
 
-      <programlisting>OPTIONS_DEFINE=	OPT1
+	<programlisting>OPTIONS_DEFINE=	OPT1
 
 .include &lt;bsd.port.options.mk&gt;
 
 .if ! ${PORT_OPTIONS:MOPT1}
 CMAKE_ARGS+=	-DTEST:BOOL=false
 .endif</programlisting>
+      </sect3>
 
-      <para>For any of the following variables:</para>
+      <sect3 xml:id="options-dependencies">
+	<title>Dependencies</title>
 
-      <itemizedlist>
-	<listitem>
-	  <para><varname>ALL_TARGET</varname></para>
-	</listitem>
+	<para>For any of the following dependency type:</para>
 
-	<listitem>
-	  <para><varname>CATEGORIES</varname></para>
-	</listitem>
+	<itemizedlist>
+	  <listitem>
+	    <para><varname>PKG_DEPENDS</varname></para>
+	  </listitem>
 
-	<listitem>
-	  <para><varname>CFLAGS</varname></para>
-	</listitem>
+	  <listitem>
+	    <para><varname>EXTRACT_DEPENDS</varname></para>
+	  </listitem>
 
-	<listitem>
-	  <para><varname>CPPFLAGS</varname></para>
-	</listitem>
+	  <listitem>
+	    <para><varname>PATCH_DEPENDS</varname></para>
+	  </listitem>
 
-	<listitem>
-	  <para><varname>CXXFLAGS</varname></para>
-	</listitem>
+	  <listitem>
+	    <para><varname>FETCH_DEPENDS</varname></para>
+	  </listitem>
 
-	<listitem>
-	  <para><varname>CONFIGURE_ENV</varname></para>
-	</listitem>
+	  <listitem>
+	    <para><varname>BUILD_DEPENDS</varname></para>
+	  </listitem>
 
-	<listitem>
-	  <para><varname>DISTFILES</varname></para>
-	</listitem>
+	  <listitem>
+	    <para><varname>LIB_DEPENDS</varname></para>
+	  </listitem>
 
-	<listitem>
-	  <para><varname>EXTRA_PATCHES</varname></para>
-	</listitem>
+	  <listitem>
+	    <para><varname>RUN_DEPENDS</varname></para>
+	  </listitem>
+	</itemizedlist>
 
-	<listitem>
-	  <para><varname>INSTALL_TARGET</varname></para>
-	</listitem>
+	<sect4>
+	  <title><varname><replaceable>OPT</replaceable>_<replaceable>ABOVEVARIABLE</replaceable></varname></title>
 
-	<listitem>
-	  <para><varname>LDFLAGS</varname></para>
-	</listitem>
+	  <para>If
+	    <varname><replaceable>OPT</replaceable>_<replaceable>ABOVEVARIABLE</replaceable></varname>
+	    is defined then its value will be appended to
+	    <literal><replaceable>ABOVEVARIABLE</replaceable></literal>
+	    depending on the status of the option
+	    <literal><replaceable>OPT</replaceable></literal>, for
+	    example:</para>
 
-	<listitem>
-	  <para><varname>MAKE_ARGS</varname></para>
-	</listitem>
+	  <programlisting>OPTIONS_DEFINE=	OPT1
+OPT1_LIB_DEPENDS=	liba.so:${PORTSDIR}/devel/a</programlisting>
 
-	<listitem>
-	  <para><varname>MAKE_ENV</varname></para>
-	</listitem>
+	  <para>is equivalent to:</para>
 
-	<listitem>
-	  <para><varname>PATCH_SITES</varname></para>
-	</listitem>
+	  <programlisting>OPTIONS_DEFINE=	OPT1
 
-	<listitem>
-	  <para><varname>PATCHFILES</varname></para>
-	</listitem>
+.include &lt;bsd.port.options.mk&gt;
 
-	<listitem>
-	  <para><varname>PLIST_FILES</varname></para>
-	</listitem>
+.if ${PORT_OPTIONS:MOPT1}
+LIB_DEPENDS+=	liba.so:${PORTSDIR}/devel/a
+.endif</programlisting>
 
-	<listitem>
-	  <para><varname>PLIST_DIRS</varname></para>
-	</listitem>
+	</sect4>
 
-	<listitem>
-	  <para><varname>PLIST_DIRSTRY</varname></para>
-	</listitem>
+	<sect4>
+	  <title><varname><replaceable>OPT</replaceable>_<replaceable>ABOVEVARIABLE</replaceable>_OFF</varname></title>
 
-	<listitem>
-	  <para><varname>USES</varname></para>
-	</listitem>
-      </itemizedlist>
+	  <para>If
+	    <varname><replaceable>OPT</replaceable>_<replaceable>ABOVEVARIABLE</replaceable>_OFF</varname>
+	    is set then a dependency of type
+	    <literal><replaceable>ABOVEVARIABLE</replaceable></literal>
+	    will be added when option
+	    <literal><replaceable>OPT</replaceable></literal> is not
+	    selected.  For example:</para>
 
-      <para>If <varname>X_ABOVEVARIABLE</varname> is defined then
-	its value will be appended to
-	<varname>ABOVEVARIABLE</varname> depending on the status of
-	the option <varname>X</varname>, for example:</para>
+	  <programlisting>OPTIONS_DEFINE=	OPT1
+OPT1_LIB_DEPENDS_OFF= liba.so:${PORTSDIR}/devel/a</programlisting>
 
-      <programlisting>OPTIONS_DEFINE=	OPT1
+	  <para>is equivalent to:</para>
+
+	  <programlisting>OPTIONS_DEFINE= OPT1
+
+.include &lt;bsd.port.options.mk&gt;
+
+. if ! ${PORT_OPTIONS:MOPT1}
+LIB_DEPENDS+=	liba.so:${PORTSDIR}/devel/a
+.endif</programlisting>
+	</sect4>
+      </sect3>
+
+      <sect3 xml:id="options-variables">
+	<title>Generic Variables Replacement</title>
+
+	<para>For any of the following variables:</para>
+
+	<itemizedlist>
+	  <listitem>
+	    <para><varname>ALL_TARGET</varname></para>
+	  </listitem>
+
+	  <listitem>
+	    <para><varname>CATEGORIES</varname></para>
+	  </listitem>
+
+	  <listitem>
+	    <para><varname>CFLAGS</varname></para>
+	  </listitem>
+
+	  <listitem>
+	    <para><varname>CPPFLAGS</varname></para>
+	  </listitem>
+
+	  <listitem>
+	    <para><varname>CXXFLAGS</varname></para>
+	  </listitem>
+
+	  <listitem>
+	    <para><varname>CONFIGURE_ENV</varname></para>
+	  </listitem>
+
+	  <listitem>
+	    <para><varname>CONFLICTS</varname></para>
+	  </listitem>
+
+	  <listitem>
+	    <para><varname>CONFLICTS_BUILD</varname></para>
+	  </listitem>
+
+	  <listitem>
+	    <para><varname>CONFLICTS_INSTALL</varname></para>
+	  </listitem>
+
+	  <listitem>
+	    <para><varname>DISTFILES</varname></para>
+	  </listitem>
+
+	  <listitem>
+	    <para><varname>EXTRA_PATCHES</varname></para>
+	  </listitem>
+
+	  <listitem>
+	    <para><varname>INSTALL_TARGET</varname></para>
+	  </listitem>
+
+	  <listitem>
+	    <para><varname>LDFLAGS</varname></para>
+	  </listitem>
+
+	  <listitem>
+	    <para><varname>MAKE_ARGS</varname></para>
+	  </listitem>
+
+	  <listitem>
+	    <para><varname>MAKE_ENV</varname></para>
+	  </listitem>
+
+	  <listitem>
+	    <para><varname>PATCH_SITES</varname></para>
+	  </listitem>
+
+	  <listitem>
+	    <para><varname>PATCHFILES</varname></para>
+	  </listitem>
+
+	  <listitem>
+	    <para><varname>PLIST_FILES</varname></para>
+	  </listitem>
+
+	  <listitem>
+	    <para><varname>PLIST_DIRS</varname></para>
+	  </listitem>
+
+	  <listitem>
+	    <para><varname>PLIST_DIRSTRY</varname></para>
+	  </listitem>
+
+	  <listitem>
+	    <para><varname>USES</varname></para>
+	  </listitem>
+	</itemizedlist>
+
+	<warning>
+	  <para>Some of these variables, at least
+	    <varname>ALL_TARGET</varname> and
+	    <varname>INSTALL_TARGET</varname>, have their default
+	    values set <emphasis>after</emphasis> the options are
+	    processed.</para>
+
+	  <para>With the following lines in the
+	    <filename>Makefile</filename>:</para>
+
+	  <programlisting>ALL_TARGET=	all
+
+DOCS_ALL_TARGET=	doc</programlisting>
+
+	  <para>If the <literal>DOCS</literal> option is enabled,
+	    <varname>ALL_TARGET</varname> will have a final value of
+	    <literal>all doc</literal>; if the option is disabled, it
+	    would have a value of <literal>all</literal>.</para>
+
+	  <para>With only the options helper line in the
+	    <filename>Makefile</filename>:</para>
+
+	  <programlisting>DOCS_ALL_TARGET=	doc</programlisting>
+
+	  <para>If the <literal>DOCS</literal> option is enabled,
+	    <varname>ALL_TARGET</varname> will have a final value of
+	    <literal>doc</literal>; if the option is disabled, it
+	    would have a value of <literal>all</literal>.</para>
+	</warning>
+
+	<sect4>
+	  <title><varname><replaceable>OPT</replaceable>_<replaceable>ABOVEVARIABLE</replaceable></varname></title>
+
+	  <para>If
+	    <varname><replaceable>OPT</replaceable>_<replaceable>ABOVEVARIABLE</replaceable></varname>
+	    is defined then its value will be appended to
+	    <literal><replaceable>ABOVEVARIABLE</replaceable></literal>
+	    depending on the status of the option
+	    <literal><replaceable>OPT</replaceable></literal>, for
+	    example:</para>
+
+	  <programlisting>OPTIONS_DEFINE=	OPT1
 OPT1_USES=	gmake
 OPT1_CFLAGS=	-DTEST</programlisting>
 
-      <para>is equivalent to:</para>
+	<para>is equivalent to:</para>
 
-      <programlisting>OPTIONS_DEFINE=	OPT1
+	<programlisting>OPTIONS_DEFINE=	OPT1
 
 .include &lt;bsd.port.options.mk&gt;
 
@@ -3859,18 +4186,25 @@ OPT1_CFLAGS=	-DTEST</programlisting>
 USES+=		gmake
 CFLAGS+=	-DTEST
 .endif</programlisting>
+	</sect4>
 
-      <para>If <varname>X_ABOVEVARIABLE_OFF</varname> is set then a
-	flag <literal>ABOVEVARIABLE</literal> will be automatically
-	set when option <literal>X</literal> is not selected.  For
-	example:</para>
+	<sect4>
+	  <title><varname><replaceable>OPT</replaceable>_<replaceable>ABOVEVARIABLE</replaceable>_OFF</varname></title>
 
-      <programlisting>OPTIONS_DEFINE=	OPT1
+	  <para>If
+	    <varname><replaceable>OPT</replaceable>_<replaceable>ABOVEVARIABLE</replaceable>_OFF</varname>
+	    is set then a flag
+	    <literal><replaceable>ABOVEVARIABLE</replaceable></literal>
+	    will be automatically set when option
+	    <literal><replaceable>OPT</replaceable></literal> is not
+	    selected.  For example:</para>
+
+	  <programlisting>OPTIONS_DEFINE=	OPT1
 OPT1_USES_OFF=gmake</programlisting>
 
-      <para>is equivalent to:</para>
+	  <para>is equivalent to:</para>
 
-      <programlisting>OPTIONS_DEFINE=	OPT1
+	  <programlisting>OPTIONS_DEFINE=	OPT1
 
 .include &lt;bsd.port.options.mk&gt;
 
@@ -3878,73 +4212,8 @@ OPT1_USES_OFF=gmake</programlisting>
 USES+=	gmake
 .endif</programlisting>
 
-      <para>For any of the following dependency type:</para>
-
-      <itemizedlist>
-	<listitem>
-	  <para><varname>PKG_DEPENDS</varname></para>
-	</listitem>
-
-	<listitem>
-	  <para><varname>EXTRACT_DEPENDS</varname></para>
-	</listitem>
-
-	<listitem>
-	  <para><varname>PATCH_DEPENDS</varname></para>
-	</listitem>
-
-	<listitem>
-	  <para><varname>FETCH_DEPENDS</varname></para>
-	</listitem>
-
-	<listitem>
-	  <para><varname>BUILD_DEPENDS</varname></para>
-	</listitem>
-
-	<listitem>
-	  <para><varname>LIB_DEPENDS</varname></para>
-	</listitem>
-
-	<listitem>
-	  <para><varname>RUN_DEPENDS</varname></para>
-	</listitem>
-      </itemizedlist>
-
-      <para>If <varname>X_ABOVEVARIABLE</varname> is defined then
-	its value will be appended to
-	<varname>ABOVEVARIABLE</varname> depending on the status
-	of the option <varname>X</varname>, for example:</para>
-
-      <programlisting>OPTIONS_DEFINE=	OPT1
-OPT1_LIB_DEPENDS=	liba.so:${PORTSDIR}/devel/a</programlisting>
-
-      <para>is equivalent to:</para>
-
-      <programlisting>OPTIONS_DEFINE=	OPT1
-
-.include &lt;bsd.port.options.mk&gt;
-
-.if ${PORT_OPTIONS:MOPT1}
-LIB_DEPENDS+=	liba.so:${PORTSDIR}/devel/a
-.endif</programlisting>
-
-      <para>If <varname>X_ABOVEVARIABLE_OFF</varname> is set then a
-	dependency of type <literal>ABOVEVARIABLE</literal> will be
-	added when option <literal>X</literal> is not selected.  For
-	example:</para>
-
-      <programlisting>OPTIONS_DEFINE=	OPT1
-OPT1_LIB_DEPENDS_OFF= liba.so:${PORTSDIR}/devel/a</programlisting>
-
-      <para>is equivalent to:</para>
-
-      <programlisting>OPTIONS_DEFINE= OPT1
-
-.include &lt;bsd.port.options.mk&gt;
-
-. if ! ${PORT_OPTIONS:MOPT1}
-LIB_DEPENDS+=	liba.so:${PORTSDIR}/devel/a
-.endif</programlisting>
+	</sect4>
+      </sect3>
     </sect2>
   </sect1>
 
@@ -3967,7 +4236,7 @@ PORTVERSION=	1.0</programlisting>
     <para>There are a number of variables you can override if that is
       not the case.</para>
 
-    <sect2>
+    <sect2 xml:id="makefile-wrksrc">
       <title><varname>WRKSRC</varname></title>
 
       <para>The variable lists the name of the directory that is
@@ -3983,7 +4252,7 @@ PORTVERSION=	1.0</programlisting>
       <programlisting>WRKSRC=	${WRKDIR}/${PORTNAME}</programlisting>
     </sect2>
 
-    <sect2>
+    <sect2 xml:id="makefile-no_wrksubdir">
       <title><varname>NO_WRKSUBDIR</varname></title>
 
       <para>If the port does not extract in to a subdirectory at all
@@ -4013,7 +4282,7 @@ PORTVERSION=	1.0</programlisting>
       those other ports for a few months to cater for users who only
       update once in a while.</para>
 
-    <sect2>
+    <sect2 xml:id="conflicts-conflicts_install">
       <title><varname>CONFLICTS_INSTALL</varname></title>
 
       <para>If your package cannot coexist with other packages
@@ -4030,7 +4299,7 @@ PORTVERSION=	1.0</programlisting>
 	stage and prior to the install stage.</para>
     </sect2>
 
-    <sect2>
+    <sect2 xml:id="conflicts-conflicts_build">
       <title><varname>CONFLICTS_BUILD</varname></title>
 
       <para>If your port cannot be built if a certain port is already
@@ -4043,7 +4312,7 @@ PORTVERSION=	1.0</programlisting>
 	conflicts are not recorded in the resulting package.</para>
     </sect2>
 
-    <sect2>
+    <sect2 xml:id="conflicts-conflicts">
       <title><varname>CONFLICTS</varname></title>
 
       <para>If your port cannot be built if a certain port is already
@@ -4072,16 +4341,16 @@ PORTVERSION=	1.0</programlisting>
 	files in the port's <buildtarget>*-install</buildtarget>
 	targets.  Set ownership directly in
 	<filename>pkg-plist</filename> with the corresponding entries,
-	such as <literal>@owner owner</literal> and
-	<literal>@group group</literal>.  These operators work until
-	being overridden, or until the end of
-	<filename>pkg-plist</filename>, so do not forget to reset them
-	after they are no longer needed.  The default ownership is
-	<literal>root:wheel</literal>.</para>
+	such as
+	<literal>@owner <replaceable>owner</replaceable></literal> and
+	<literal>@group <replaceable>group</replaceable></literal>.
+	These operators work until being overridden, or until the end
+	of <filename>pkg-plist</filename>, so do not forget to reset
+	them after they are no longer needed.  The default ownership
+	is <literal>root:wheel</literal>.</para>
 
       <itemizedlist>
 	<listitem>
-
 	  <para><varname>INSTALL_PROGRAM</varname> is a command to
 	    install binary executables.</para>
 	</listitem>
@@ -4092,8 +4361,8 @@ PORTVERSION=	1.0</programlisting>
 	</listitem>
 
 	<listitem>
-	  <para><varname>INSTALL_LIB</varname> is a command to
-	    install shared libraries.</para>
+	  <para><varname>INSTALL_LIB</varname> is a command to install
+	    shared libraries (but not static libraries).</para>
 	</listitem>
 
 	<listitem>
@@ -4106,7 +4375,7 @@ PORTVERSION=	1.0</programlisting>
 
 	<listitem>
 	  <para><varname>INSTALL_DATA</varname> is a command to
-	    install sharable data.</para>
+	    install sharable data, including static libraries.</para>
 	</listitem>
 
 	<listitem>
@@ -4118,6 +4387,13 @@ PORTVERSION=	1.0</programlisting>
 
       <para>These are basically the <command>install</command>
 	command with all the appropriate flags.</para>
+
+      <note>
+	<para>Do not use <varname>INSTALL_LIB</varname> to install
+	  static libraries, because stripping them render them
+	  useless.  Use <varname>INSTALL_DATA</varname>
+	  instead.</para>
+      </note>
     </sect2>
 
     <sect2 xml:id="install-strip">
@@ -4133,7 +4409,7 @@ PORTVERSION=	1.0</programlisting>
       <para>If you need to strip a file, but wish to use neither
 	<varname>INSTALL_PROGRAM</varname> nor
 	<varname>INSTALL_LIB</varname> macros,
-	<varname>${STRIP_CMD}</varname> will strip your program or
+	<literal>${STRIP_CMD}</literal> will strip your program or
 	shared library.  This is typically done within the
 	<buildtarget>post-install</buildtarget> target.  For
 	example:</para>

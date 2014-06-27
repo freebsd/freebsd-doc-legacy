@@ -38,6 +38,29 @@
       *BSD User Group.</description>
   </event>
 
+  <event id="bhyvecon-2014">
+    <name>bhyvecon 2014</name>
+    <url>http://bhyvecon.org/</url>
+    <startdate>
+      <year>2014</year>
+      <month>3</month>
+      <day>12</day>
+    </startdate>
+    <enddate>
+      <year>2014</year>
+      <month>3</month>
+      <day>12</day>
+    </enddate>
+    <location>
+      <country code="JP">Japan</country>
+      <city>Tokyo</city>
+      <site>SAKURA Internet Research Center</site>
+    </location>
+    <description>See the bhyve hypervisor in action and ask a core bhyve
+      developer your technical questions.
+    </description>
+  </event>
+
   <event id="asiabsdcon-2014">
     <name>AsiaBSDCon 2014</name>
     <url>http://2014.asiabsdcon.org/</url>
@@ -94,5 +117,63 @@
       from commercial vendors.  Features tracks on System
       Administration, Security, Hacking and Embedded.  Followed
       immediately by PGCon at the same location.</description>
+  </event>
+
+  <event id="bsdcam-2014">
+    <name>BSDCam 2014</name>
+    <url>http://bsdcam.cl.cam.ac.uk/</url>
+    <startdate>
+      <year>2014</year>
+      <month>7</month>
+      <day>9</day>
+    </startdate>
+    <enddate>
+      <year>2014</year>
+      <month>7</month>
+      <day>12</day>
+    </enddate>
+    <location>
+      <country code="GB">United Kingdom</country>
+      <city>Cambridge</city>
+      <site>University of Cambridge</site>
+    </location>
+    <description>The Cambridge FreeBSD Developers Summit is an annual
+      invite-only event focused on bringing together developers and
+      vendors to discuss and build the future of the FreeBSD project.
+      This years topics will include the desired feature set of
+      FreeBSD&nbsp;11, implementing the new release strategy for the
+      9 and 10 branches, packaging the base system, and building the
+      infrastructure and tools to attract more embedded vendors to
+      FreeBSD.</description>
+  </event>
+
+  <event id="eurobsdcon-2014">
+    <name>EuroBSDCon 2014</name>
+    <url>http://2014.eurobsdcon.org/</url>
+    <startdate>
+      <year>2014</year>
+      <month>9</month>
+      <day>25</day>
+    </startdate>
+    <enddate>
+      <year>2014</year>
+      <month>9</month>
+      <day>28</day>
+    </enddate>
+    <location>
+      <country code="BG">Bulgaria</country>
+      <city>Sofia</city>
+      <site>InterExpo Congress Center</site>
+    </location>
+    <description>EuroBSDcon is the premier European conference on the
+      open source BSD operating systems attracting about 250 highly
+      skilled engineering professionals, software developers, computer
+      science students and professors, and users from all over Europe
+      and other parts of the world.  The goal of EuroBSDcon is to
+      exchange knowledge about the BSD operating systems, facilitate
+      coordination and cooperation among users and developers.  The
+      dates for EuroBSDCon 2014 in Sofia have been set to September
+      25-26th for tutorials and September 27-28th for the main
+      conference.</description>
   </event>
 </events>
